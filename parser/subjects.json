@@ -1,0 +1,7263 @@
+[
+  {
+    "id": 5,
+    "name": "Английский язык",
+    "short_name": "Англ. яз.",
+    "url": "https://46vitebsk.schools.by/subject/5",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 88026,
+        "name": "3 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88026"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 883485,
+        "name": "Абесадзе Светлана Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/883485"
+      },
+      {
+        "id": 1294693,
+        "name": "Ветренникова Александра Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1294693"
+      },
+      {
+        "id": 801275,
+        "name": "Головешко Наталья Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/801275"
+      },
+      {
+        "id": 2658163,
+        "name": "Горбач Анна Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/2658163"
+      },
+      {
+        "id": 3326175,
+        "name": "Дятковская Юлия Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/3326175"
+      },
+      {
+        "id": 1101727,
+        "name": "Елисеенко Светлана Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1101727"
+      },
+      {
+        "id": 2109862,
+        "name": "Жаголкина Александра Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/2109862"
+      },
+      {
+        "id": 802188,
+        "name": "Ильчук Кристина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/802188"
+      },
+      {
+        "id": 2002749,
+        "name": "Коробач Екатерина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/2002749"
+      },
+      {
+        "id": 3390351,
+        "name": "Котловская Анастасия Юрьевна",
+        "url": "https://46vitebsk.schools.by/teacher/3390351"
+      },
+      {
+        "id": 1187613,
+        "name": "Лобачева Любовь Валентиновна",
+        "url": "https://46vitebsk.schools.by/teacher/1187613"
+      },
+      {
+        "id": 1109748,
+        "name": "Матвеев Александр Владимирович",
+        "url": "https://46vitebsk.schools.by/teacher/1109748"
+      },
+      {
+        "id": 883484,
+        "name": "Мороз Светлана Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/883484"
+      },
+      {
+        "id": 1118045,
+        "name": "Морозова Елена Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1118045"
+      },
+      {
+        "id": 802189,
+        "name": "Нехуженко Татьяна Юрьевна",
+        "url": "https://46vitebsk.schools.by/teacher/802189"
+      },
+      {
+        "id": 802187,
+        "name": "Остапчук Ольга Тимофеевна",
+        "url": "https://46vitebsk.schools.by/teacher/802187"
+      },
+      {
+        "id": 3440826,
+        "name": "Палубец Мария Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/3440826"
+      },
+      {
+        "id": 1020052,
+        "name": "Пашкевич Ирина Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1020052"
+      },
+      {
+        "id": 801392,
+        "name": "Свирская Екатерина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/801392"
+      },
+      {
+        "id": 883481,
+        "name": "Тарапата Светлана Олеговна",
+        "url": "https://46vitebsk.schools.by/teacher/883481"
+      },
+      {
+        "id": 1585120,
+        "name": "Цыбульская Ольга Валентиновна",
+        "url": "https://46vitebsk.schools.by/teacher/1585120"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Астрономия",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/15",
+    "classes": [
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1164802,
+        "name": "Киравницина Инна Иосифовна",
+        "url": "https://46vitebsk.schools.by/teacher/1164802"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Белорусская литература",
+    "short_name": "Бел. лит.",
+    "url": "https://46vitebsk.schools.by/subject/2",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 88026,
+        "name": "3 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88026"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1179752,
+        "name": "Аксёнова Антонина Антоновна",
+        "url": "https://46vitebsk.schools.by/teacher/1179752"
+      },
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1323555,
+        "name": "Вакарева Марина Витальевна",
+        "url": "https://46vitebsk.schools.by/teacher/1323555"
+      },
+      {
+        "id": 1174477,
+        "name": "Голубева Ольга Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/1174477"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 795015,
+        "name": "Испенькова Вера Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/795015"
+      },
+      {
+        "id": 1101724,
+        "name": "Костюкевич Алена Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/1101724"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1170753,
+        "name": "Кублицкая Татьяна Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/1170753"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 3550888,
+        "name": "Ледник Ирина Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/3550888"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 901589,
+        "name": "Савченко Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/901589"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      },
+      {
+        "id": 894326,
+        "name": "Чикун Галина Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/894326"
+      },
+      {
+        "id": 1172236,
+        "name": "Шиенок Наталья Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1172236"
+      },
+      {
+        "id": 1188328,
+        "name": "Ширко Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188328"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Белорусский язык",
+    "short_name": "Бел. яз.",
+    "url": "https://46vitebsk.schools.by/subject/1",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1179752,
+        "name": "Аксёнова Антонина Антоновна",
+        "url": "https://46vitebsk.schools.by/teacher/1179752"
+      },
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1174477,
+        "name": "Голубева Ольга Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/1174477"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 795015,
+        "name": "Испенькова Вера Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/795015"
+      },
+      {
+        "id": 1101724,
+        "name": "Костюкевич Алена Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/1101724"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1170753,
+        "name": "Кублицкая Татьяна Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/1170753"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 3550888,
+        "name": "Ледник Ирина Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/3550888"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 901589,
+        "name": "Савченко Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/901589"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      },
+      {
+        "id": 894326,
+        "name": "Чикун Галина Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/894326"
+      },
+      {
+        "id": 1172236,
+        "name": "Шиенок Наталья Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1172236"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Биология",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/13",
+    "classes": [
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1078759,
+        "name": "Быкова Лариса Григорьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1078759"
+      },
+      {
+        "id": 3590208,
+        "name": "Карполенко Ксения Олеговна",
+        "url": "https://46vitebsk.schools.by/teacher/3590208"
+      },
+      {
+        "id": 1188024,
+        "name": "Малахова Владислава Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1188024"
+      },
+      {
+        "id": 801375,
+        "name": "Солдатова Анна Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/801375"
+      },
+      {
+        "id": 3156766,
+        "name": "Стефановская Арина Игоревна",
+        "url": "https://46vitebsk.schools.by/teacher/3156766"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Введение в школьную жизнь",
+    "short_name": "Введ. в шк. жизнь",
+    "url": "https://46vitebsk.schools.by/subject/35",
+    "classes": [
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1194362,
+        "name": "Козел Тамара Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1194362"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      }
+    ]
+  },
+  {
+    "id": 10789,
+    "name": "Великая Отечественная война (IX класс)",
+    "short_name": "IX класс) (ВОв",
+    "url": "https://46vitebsk.schools.by/subject/10789",
+    "classes": [
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1188259,
+        "name": "Черняева Алеся Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188259"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Всемирная История",
+    "short_name": "Всемир. ист.",
+    "url": "https://46vitebsk.schools.by/subject/9",
+    "classes": [
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1402652,
+        "name": "Барановская Валерия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1402652"
+      },
+      {
+        "id": 2402755,
+        "name": "Ганзиенко Елена Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/2402755"
+      },
+      {
+        "id": 1020051,
+        "name": "Майоров Дмитрий Анатольевич",
+        "url": "https://46vitebsk.schools.by/teacher/1020051"
+      },
+      {
+        "id": 1118045,
+        "name": "Морозова Елена Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1118045"
+      },
+      {
+        "id": 3250307,
+        "name": "Мурадова Анастасия Руслановна",
+        "url": "https://46vitebsk.schools.by/teacher/3250307"
+      },
+      {
+        "id": 801391,
+        "name": "Рябова Наталья Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/801391"
+      },
+      {
+        "id": 1188259,
+        "name": "Черняева Алеся Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188259"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "География",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/12",
+    "classes": [
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 2915973,
+        "name": "Петрова Оксана Геннадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2915973"
+      },
+      {
+        "id": 1845242,
+        "name": "Самарина Марина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1845242"
+      },
+      {
+        "id": 1170755,
+        "name": "Саникович Жанна Петровна",
+        "url": "https://46vitebsk.schools.by/teacher/1170755"
+      }
+    ]
+  },
+  {
+    "id": 6737,
+    "name": "ГПД",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/6737",
+    "classes": [],
+    "teachers": []
+  },
+  {
+    "id": 26,
+    "name": "Допризывная и медицинская подготовка",
+    "short_name": "ДП/МП",
+    "url": "https://46vitebsk.schools.by/subject/26",
+    "classes": [],
+    "teachers": []
+  },
+  {
+    "id": 17,
+    "name": "Изобразительное искусство",
+    "short_name": "ИЗО",
+    "url": "https://46vitebsk.schools.by/subject/17",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1323555,
+        "name": "Вакарева Марина Витальевна",
+        "url": "https://46vitebsk.schools.by/teacher/1323555"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 1203559,
+        "name": "Дубовик Лариса Юрьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1203559"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 1194362,
+        "name": "Козел Тамара Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1194362"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1254342,
+        "name": "Лукашевич Валентина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1254342"
+      },
+      {
+        "id": 1280133,
+        "name": "Махлова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1280133"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 1243972,
+        "name": "Салманова Алеся Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1243972"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 1606795,
+        "name": "Трунова Екатерина Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1606795"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      },
+      {
+        "id": 2965977,
+        "name": "Шальц Римма Акмуратовна",
+        "url": "https://46vitebsk.schools.by/teacher/2965977"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Информатика",
+    "short_name": "Информ.",
+    "url": "https://46vitebsk.schools.by/subject/7",
+    "classes": [
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 795014,
+        "name": "Испеньков Андрей Николаевич",
+        "url": "https://46vitebsk.schools.by/teacher/795014"
+      },
+      {
+        "id": 801374,
+        "name": "Любоза Александр Александрович",
+        "url": "https://46vitebsk.schools.by/teacher/801374"
+      },
+      {
+        "id": 801373,
+        "name": "Малистова Елена Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/801373"
+      },
+      {
+        "id": 2737389,
+        "name": "Спиридонова Наталья Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/2737389"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Информационный час",
+    "short_name": "Информ. час",
+    "url": "https://46vitebsk.schools.by/subject/34",
+    "classes": [
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 883485,
+        "name": "Абесадзе Светлана Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/883485"
+      },
+      {
+        "id": 1179752,
+        "name": "Аксёнова Антонина Антоновна",
+        "url": "https://46vitebsk.schools.by/teacher/1179752"
+      },
+      {
+        "id": 1169150,
+        "name": "Андреева Елена Эдуардовна",
+        "url": "https://46vitebsk.schools.by/teacher/1169150"
+      },
+      {
+        "id": 2918019,
+        "name": "Базыко Яна Игоревна",
+        "url": "https://46vitebsk.schools.by/teacher/2918019"
+      },
+      {
+        "id": 1402652,
+        "name": "Барановская Валерия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1402652"
+      },
+      {
+        "id": 801274,
+        "name": "Беднякова Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/801274"
+      },
+      {
+        "id": 883483,
+        "name": "Верлова Инна Генриховна",
+        "url": "https://46vitebsk.schools.by/teacher/883483"
+      },
+      {
+        "id": 2402755,
+        "name": "Ганзиенко Елена Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/2402755"
+      },
+      {
+        "id": 801275,
+        "name": "Головешко Наталья Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/801275"
+      },
+      {
+        "id": 2658163,
+        "name": "Горбач Анна Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/2658163"
+      },
+      {
+        "id": 3407871,
+        "name": "Гурченко Варвара Константиновна",
+        "url": "https://46vitebsk.schools.by/teacher/3407871"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 896737,
+        "name": "Ермакович Жанна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/896737"
+      },
+      {
+        "id": 2109862,
+        "name": "Жаголкина Александра Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/2109862"
+      },
+      {
+        "id": 1190430,
+        "name": "Зайковская Юлия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1190430"
+      },
+      {
+        "id": 802188,
+        "name": "Ильчук Кристина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/802188"
+      },
+      {
+        "id": 3590208,
+        "name": "Карполенко Ксения Олеговна",
+        "url": "https://46vitebsk.schools.by/teacher/3590208"
+      },
+      {
+        "id": 893422,
+        "name": "Кислая Татьяна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/893422"
+      },
+      {
+        "id": 1194362,
+        "name": "Козел Тамара Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1194362"
+      },
+      {
+        "id": 1161048,
+        "name": "Козьякова Татьяна Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/1161048"
+      },
+      {
+        "id": 801384,
+        "name": "Корсак Елена Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/801384"
+      },
+      {
+        "id": 1101724,
+        "name": "Костюкевич Алена Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/1101724"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1170753,
+        "name": "Кублицкая Татьяна Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/1170753"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1164799,
+        "name": "Кучко Наталья Вячеславовна",
+        "url": "https://46vitebsk.schools.by/teacher/1164799"
+      },
+      {
+        "id": 3550888,
+        "name": "Ледник Ирина Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/3550888"
+      },
+      {
+        "id": 1254342,
+        "name": "Лукашевич Валентина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1254342"
+      },
+      {
+        "id": 1020051,
+        "name": "Майоров Дмитрий Анатольевич",
+        "url": "https://46vitebsk.schools.by/teacher/1020051"
+      },
+      {
+        "id": 1188024,
+        "name": "Малахова Владислава Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1188024"
+      },
+      {
+        "id": 3250307,
+        "name": "Мурадова Анастасия Руслановна",
+        "url": "https://46vitebsk.schools.by/teacher/3250307"
+      },
+      {
+        "id": 802189,
+        "name": "Нехуженко Татьяна Юрьевна",
+        "url": "https://46vitebsk.schools.by/teacher/802189"
+      },
+      {
+        "id": 1020052,
+        "name": "Пашкевич Ирина Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1020052"
+      },
+      {
+        "id": 2915973,
+        "name": "Петрова Оксана Геннадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2915973"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 901589,
+        "name": "Савченко Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/901589"
+      },
+      {
+        "id": 1845242,
+        "name": "Самарина Марина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1845242"
+      },
+      {
+        "id": 801392,
+        "name": "Свирская Екатерина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/801392"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 1188259,
+        "name": "Черняева Алеся Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188259"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      },
+      {
+        "id": 2965977,
+        "name": "Шальц Римма Акмуратовна",
+        "url": "https://46vitebsk.schools.by/teacher/2965977"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Искусство. Отечественная и мировая художественная культура",
+    "short_name": "Искусство",
+    "url": "https://46vitebsk.schools.by/subject/27",
+    "classes": [
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1402652,
+        "name": "Барановская Валерия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1402652"
+      },
+      {
+        "id": 3647860,
+        "name": "Жуков Никита Сергеевич",
+        "url": "https://46vitebsk.schools.by/teacher/3647860"
+      },
+      {
+        "id": 1161048,
+        "name": "Козьякова Татьяна Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/1161048"
+      },
+      {
+        "id": 3676753,
+        "name": "Костючкова Инна Станиславовна",
+        "url": "https://46vitebsk.schools.by/teacher/3676753"
+      },
+      {
+        "id": 3250307,
+        "name": "Мурадова Анастасия Руслановна",
+        "url": "https://46vitebsk.schools.by/teacher/3250307"
+      },
+      {
+        "id": 801391,
+        "name": "Рябова Наталья Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/801391"
+      },
+      {
+        "id": 1845242,
+        "name": "Самарина Марина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1845242"
+      },
+      {
+        "id": 2965977,
+        "name": "Шальц Римма Акмуратовна",
+        "url": "https://46vitebsk.schools.by/teacher/2965977"
+      }
+    ]
+  },
+  {
+    "id": 6221,
+    "name": "Испанский язык",
+    "short_name": "Исп. яз.",
+    "url": "https://46vitebsk.schools.by/subject/6221",
+    "classes": [],
+    "teachers": []
+  },
+  {
+    "id": 9447,
+    "name": "История",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/9447",
+    "classes": [
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 2402755,
+        "name": "Ганзиенко Елена Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/2402755"
+      },
+      {
+        "id": 1020051,
+        "name": "Майоров Дмитрий Анатольевич",
+        "url": "https://46vitebsk.schools.by/teacher/1020051"
+      },
+      {
+        "id": 3250307,
+        "name": "Мурадова Анастасия Руслановна",
+        "url": "https://46vitebsk.schools.by/teacher/3250307"
+      },
+      {
+        "id": 801391,
+        "name": "Рябова Наталья Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/801391"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "История Беларуси",
+    "short_name": "Ист. Бел.",
+    "url": "https://46vitebsk.schools.by/subject/8",
+    "classes": [
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1402652,
+        "name": "Барановская Валерия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1402652"
+      },
+      {
+        "id": 2402755,
+        "name": "Ганзиенко Елена Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/2402755"
+      },
+      {
+        "id": 1118045,
+        "name": "Морозова Елена Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1118045"
+      },
+      {
+        "id": 3250307,
+        "name": "Мурадова Анастасия Руслановна",
+        "url": "https://46vitebsk.schools.by/teacher/3250307"
+      },
+      {
+        "id": 801391,
+        "name": "Рябова Наталья Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/801391"
+      },
+      {
+        "id": 1188259,
+        "name": "Черняева Алеся Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188259"
+      }
+    ]
+  },
+  {
+    "id": 11443,
+    "name": "История Беларуси в контексте всемирной истории",
+    "short_name": "Ист. Бел. в кон. всем. ист.",
+    "url": "https://46vitebsk.schools.by/subject/11443",
+    "classes": [
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1020051,
+        "name": "Майоров Дмитрий Анатольевич",
+        "url": "https://46vitebsk.schools.by/teacher/1020051"
+      },
+      {
+        "id": 1188259,
+        "name": "Черняева Алеся Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188259"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Классный час",
+    "short_name": "Кл. час",
+    "url": "https://46vitebsk.schools.by/subject/33",
+    "classes": [
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 883485,
+        "name": "Абесадзе Светлана Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/883485"
+      },
+      {
+        "id": 1179752,
+        "name": "Аксёнова Антонина Антоновна",
+        "url": "https://46vitebsk.schools.by/teacher/1179752"
+      },
+      {
+        "id": 1169150,
+        "name": "Андреева Елена Эдуардовна",
+        "url": "https://46vitebsk.schools.by/teacher/1169150"
+      },
+      {
+        "id": 2918019,
+        "name": "Базыко Яна Игоревна",
+        "url": "https://46vitebsk.schools.by/teacher/2918019"
+      },
+      {
+        "id": 1402652,
+        "name": "Барановская Валерия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1402652"
+      },
+      {
+        "id": 801274,
+        "name": "Беднякова Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/801274"
+      },
+      {
+        "id": 1020992,
+        "name": "Величко Жанна Иосифовна",
+        "url": "https://46vitebsk.schools.by/teacher/1020992"
+      },
+      {
+        "id": 883483,
+        "name": "Верлова Инна Генриховна",
+        "url": "https://46vitebsk.schools.by/teacher/883483"
+      },
+      {
+        "id": 2402755,
+        "name": "Ганзиенко Елена Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/2402755"
+      },
+      {
+        "id": 801275,
+        "name": "Головешко Наталья Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/801275"
+      },
+      {
+        "id": 2658163,
+        "name": "Горбач Анна Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/2658163"
+      },
+      {
+        "id": 3407871,
+        "name": "Гурченко Варвара Константиновна",
+        "url": "https://46vitebsk.schools.by/teacher/3407871"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 3085372,
+        "name": "Ермакович Жанна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/3085372"
+      },
+      {
+        "id": 2109862,
+        "name": "Жаголкина Александра Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/2109862"
+      },
+      {
+        "id": 1190430,
+        "name": "Зайковская Юлия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1190430"
+      },
+      {
+        "id": 802188,
+        "name": "Ильчук Кристина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/802188"
+      },
+      {
+        "id": 3590208,
+        "name": "Карполенко Ксения Олеговна",
+        "url": "https://46vitebsk.schools.by/teacher/3590208"
+      },
+      {
+        "id": 893422,
+        "name": "Кислая Татьяна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/893422"
+      },
+      {
+        "id": 1194362,
+        "name": "Козел Тамара Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1194362"
+      },
+      {
+        "id": 1161048,
+        "name": "Козьякова Татьяна Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/1161048"
+      },
+      {
+        "id": 1101724,
+        "name": "Костюкевич Алена Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/1101724"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1170753,
+        "name": "Кублицкая Татьяна Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/1170753"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1164799,
+        "name": "Кучко Наталья Вячеславовна",
+        "url": "https://46vitebsk.schools.by/teacher/1164799"
+      },
+      {
+        "id": 3550888,
+        "name": "Ледник Ирина Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/3550888"
+      },
+      {
+        "id": 1020051,
+        "name": "Майоров Дмитрий Анатольевич",
+        "url": "https://46vitebsk.schools.by/teacher/1020051"
+      },
+      {
+        "id": 1188024,
+        "name": "Малахова Владислава Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1188024"
+      },
+      {
+        "id": 3250307,
+        "name": "Мурадова Анастасия Руслановна",
+        "url": "https://46vitebsk.schools.by/teacher/3250307"
+      },
+      {
+        "id": 802189,
+        "name": "Нехуженко Татьяна Юрьевна",
+        "url": "https://46vitebsk.schools.by/teacher/802189"
+      },
+      {
+        "id": 1020052,
+        "name": "Пашкевич Ирина Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1020052"
+      },
+      {
+        "id": 2915973,
+        "name": "Петрова Оксана Геннадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2915973"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 901589,
+        "name": "Савченко Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/901589"
+      },
+      {
+        "id": 1845242,
+        "name": "Самарина Марина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1845242"
+      },
+      {
+        "id": 801392,
+        "name": "Свирская Екатерина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/801392"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 801375,
+        "name": "Солдатова Анна Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/801375"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 1188259,
+        "name": "Черняева Алеся Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188259"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      },
+      {
+        "id": 2965977,
+        "name": "Шальц Римма Акмуратовна",
+        "url": "https://46vitebsk.schools.by/teacher/2965977"
+      }
+    ]
+  },
+  {
+    "id": 3065,
+    "name": "Кружки",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/3065",
+    "classes": [
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Математика",
+    "short_name": "Матем.",
+    "url": "https://46vitebsk.schools.by/subject/6",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1169150,
+        "name": "Андреева Елена Эдуардовна",
+        "url": "https://46vitebsk.schools.by/teacher/1169150"
+      },
+      {
+        "id": 2918019,
+        "name": "Базыко Яна Игоревна",
+        "url": "https://46vitebsk.schools.by/teacher/2918019"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1323555,
+        "name": "Вакарева Марина Витальевна",
+        "url": "https://46vitebsk.schools.by/teacher/1323555"
+      },
+      {
+        "id": 883483,
+        "name": "Верлова Инна Генриховна",
+        "url": "https://46vitebsk.schools.by/teacher/883483"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 893422,
+        "name": "Кислая Татьяна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/893422"
+      },
+      {
+        "id": 1165442,
+        "name": "Конофальская Елена Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1165442"
+      },
+      {
+        "id": 1172801,
+        "name": "Кореневская Татьяна Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/1172801"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 3156887,
+        "name": "Мурашко Татьяна Семёновна",
+        "url": "https://46vitebsk.schools.by/teacher/3156887"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 1164800,
+        "name": "Хандопкина Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1164800"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      },
+      {
+        "id": 3439924,
+        "name": "Шедько Ростислав Васильевич",
+        "url": "https://46vitebsk.schools.by/teacher/3439924"
+      },
+      {
+        "id": 1170693,
+        "name": "Шенделова Инна Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/1170693"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Мировая художественная культура",
+    "short_name": "МХК",
+    "url": "https://46vitebsk.schools.by/subject/19",
+    "classes": [
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1402652,
+        "name": "Барановская Валерия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1402652"
+      },
+      {
+        "id": 1161048,
+        "name": "Козьякова Татьяна Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/1161048"
+      },
+      {
+        "id": 801391,
+        "name": "Рябова Наталья Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/801391"
+      },
+      {
+        "id": 2965977,
+        "name": "Шальц Римма Акмуратовна",
+        "url": "https://46vitebsk.schools.by/teacher/2965977"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Музыка",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/18",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1184350,
+        "name": "Бородина Вера Петровна",
+        "url": "https://46vitebsk.schools.by/teacher/1184350"
+      },
+      {
+        "id": 2965977,
+        "name": "Шальц Римма Акмуратовна",
+        "url": "https://46vitebsk.schools.by/teacher/2965977"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Немецкий язык",
+    "short_name": "Нем. яз.",
+    "url": "https://46vitebsk.schools.by/subject/23",
+    "classes": [],
+    "teachers": []
+  },
+  {
+    "id": 30,
+    "name": "Обществоведение",
+    "short_name": "Обществов.",
+    "url": "https://46vitebsk.schools.by/subject/30",
+    "classes": [
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1118045,
+        "name": "Морозова Елена Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1118045"
+      },
+      {
+        "id": 1188259,
+        "name": "Черняева Алеся Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1188259"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Основы безопасности жизнедеятельности",
+    "short_name": "ОБЖ",
+    "url": "https://46vitebsk.schools.by/subject/22",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1323555,
+        "name": "Вакарева Марина Витальевна",
+        "url": "https://46vitebsk.schools.by/teacher/1323555"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 3042873,
+        "name": "Долгий Иван Анатольевич",
+        "url": "https://46vitebsk.schools.by/teacher/3042873"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 1194362,
+        "name": "Козел Тамара Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1194362"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1254342,
+        "name": "Лукашевич Валентина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1254342"
+      },
+      {
+        "id": 1280133,
+        "name": "Махлова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1280133"
+      },
+      {
+        "id": 3156887,
+        "name": "Мурашко Татьяна Семёновна",
+        "url": "https://46vitebsk.schools.by/teacher/3156887"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 1845242,
+        "name": "Самарина Марина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1845242"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 3676754,
+        "name": "Титова Марина Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/3676754"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      },
+      {
+        "id": 2965977,
+        "name": "Шальц Римма Акмуратовна",
+        "url": "https://46vitebsk.schools.by/teacher/2965977"
+      }
+    ]
+  },
+  {
+    "id": 3066,
+    "name": "Питание",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/3066",
+    "classes": [
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 3407871,
+        "name": "Гурченко Варвара Константиновна",
+        "url": "https://46vitebsk.schools.by/teacher/3407871"
+      },
+      {
+        "id": 896737,
+        "name": "Ермакович Жанна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/896737"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Риторика",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/31",
+    "classes": [],
+    "teachers": []
+  },
+  {
+    "id": 4,
+    "name": "Русская литература",
+    "short_name": "Рус. лит.",
+    "url": "https://46vitebsk.schools.by/subject/4",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1170657,
+        "name": "Батура Алеся Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1170657"
+      },
+      {
+        "id": 801274,
+        "name": "Беднякова Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/801274"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1323555,
+        "name": "Вакарева Марина Витальевна",
+        "url": "https://46vitebsk.schools.by/teacher/1323555"
+      },
+      {
+        "id": 1020992,
+        "name": "Величко Жанна Иосифовна",
+        "url": "https://46vitebsk.schools.by/teacher/1020992"
+      },
+      {
+        "id": 3407871,
+        "name": "Гурченко Варвара Константиновна",
+        "url": "https://46vitebsk.schools.by/teacher/3407871"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 3085372,
+        "name": "Ермакович Жанна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/3085372"
+      },
+      {
+        "id": 896737,
+        "name": "Ермакович Жанна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/896737"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 1190430,
+        "name": "Зайковская Юлия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1190430"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1164799,
+        "name": "Кучко Наталья Вячеславовна",
+        "url": "https://46vitebsk.schools.by/teacher/1164799"
+      },
+      {
+        "id": 1458093,
+        "name": "Макаренко Наталья Геннадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1458093"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 894193,
+        "name": "Тугаринова Марина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/894193"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Русский язык",
+    "short_name": "Рус. яз.",
+    "url": "https://46vitebsk.schools.by/subject/3",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1170657,
+        "name": "Батура Алеся Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1170657"
+      },
+      {
+        "id": 801274,
+        "name": "Беднякова Светлана Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/801274"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1323555,
+        "name": "Вакарева Марина Витальевна",
+        "url": "https://46vitebsk.schools.by/teacher/1323555"
+      },
+      {
+        "id": 1020992,
+        "name": "Величко Жанна Иосифовна",
+        "url": "https://46vitebsk.schools.by/teacher/1020992"
+      },
+      {
+        "id": 3407871,
+        "name": "Гурченко Варвара Константиновна",
+        "url": "https://46vitebsk.schools.by/teacher/3407871"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 3085372,
+        "name": "Ермакович Жанна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/3085372"
+      },
+      {
+        "id": 896737,
+        "name": "Ермакович Жанна Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/896737"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 1190430,
+        "name": "Зайковская Юлия Сергеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1190430"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1164799,
+        "name": "Кучко Наталья Вячеславовна",
+        "url": "https://46vitebsk.schools.by/teacher/1164799"
+      },
+      {
+        "id": 1458093,
+        "name": "Макаренко Наталья Геннадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1458093"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 894193,
+        "name": "Тугаринова Марина Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/894193"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "name": "С/П",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/32",
+    "classes": [
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Трудовое обучение",
+    "short_name": "Труд. обуч.",
+    "url": "https://46vitebsk.schools.by/subject/21",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1323555,
+        "name": "Вакарева Марина Витальевна",
+        "url": "https://46vitebsk.schools.by/teacher/1323555"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 3590198,
+        "name": "Денисенко Сергей Викторович",
+        "url": "https://46vitebsk.schools.by/teacher/3590198"
+      },
+      {
+        "id": 1203559,
+        "name": "Дубовик Лариса Юрьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1203559"
+      },
+      {
+        "id": 801378,
+        "name": "Дубовик Людмила Георгиевна",
+        "url": "https://46vitebsk.schools.by/teacher/801378"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 1194362,
+        "name": "Козел Тамара Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1194362"
+      },
+      {
+        "id": 3290667,
+        "name": "Козлов Сергей Александрович",
+        "url": "https://46vitebsk.schools.by/teacher/3290667"
+      },
+      {
+        "id": 1161048,
+        "name": "Козьякова Татьяна Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/1161048"
+      },
+      {
+        "id": 2773607,
+        "name": "Копцева Татьяна Павловна",
+        "url": "https://46vitebsk.schools.by/teacher/2773607"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1280133,
+        "name": "Махлова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1280133"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 801389,
+        "name": "Осипук Леонид Аркадьевич",
+        "url": "https://46vitebsk.schools.by/teacher/801389"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 1243972,
+        "name": "Салманова Алеся Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1243972"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Физика",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/14",
+    "classes": [
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1164802,
+        "name": "Киравницина Инна Иосифовна",
+        "url": "https://46vitebsk.schools.by/teacher/1164802"
+      },
+      {
+        "id": 2737389,
+        "name": "Спиридонова Наталья Викторовна",
+        "url": "https://46vitebsk.schools.by/teacher/2737389"
+      },
+      {
+        "id": 801259,
+        "name": "Старовойтова Татьяна Геннадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/801259"
+      },
+      {
+        "id": 801376,
+        "name": "Ткачева Анна Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/801376"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Физическая культура и здоровье",
+    "short_name": "Физ. к. и зд.",
+    "url": "https://46vitebsk.schools.by/subject/20",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 75879,
+        "name": "6 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/75879"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75914,
+        "name": "6 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/75914"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 75916,
+        "name": "6 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/75916"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1191149,
+        "name": "Бурехина Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1191149"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 2737400,
+        "name": "Зелинская Ксения Евгеньевна",
+        "url": "https://46vitebsk.schools.by/teacher/2737400"
+      },
+      {
+        "id": 2737398,
+        "name": "Иванов Владислав Олегович",
+        "url": "https://46vitebsk.schools.by/teacher/2737398"
+      },
+      {
+        "id": 902821,
+        "name": "Концова Наталья Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/902821"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1280133,
+        "name": "Махлова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1280133"
+      },
+      {
+        "id": 3647829,
+        "name": "Подлужный Никита Сергеевич",
+        "url": "https://46vitebsk.schools.by/teacher/3647829"
+      },
+      {
+        "id": 3439923,
+        "name": "Скрабневская Мария Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/3439923"
+      },
+      {
+        "id": 1170774,
+        "name": "Стальмаков Сергей Олегович",
+        "url": "https://46vitebsk.schools.by/teacher/1170774"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Французский язык",
+    "short_name": "Фр. яз.",
+    "url": "https://46vitebsk.schools.by/subject/24",
+    "classes": [],
+    "teachers": []
+  },
+  {
+    "id": 16,
+    "name": "Химия",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/16",
+    "classes": [
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 69515,
+        "name": "7 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/69515"
+      },
+      {
+        "id": 72769,
+        "name": "7 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/72769"
+      },
+      {
+        "id": 72142,
+        "name": "7 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/72142"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 72770,
+        "name": "7 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72770"
+      },
+      {
+        "id": 72771,
+        "name": "7 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/72771"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 49324,
+        "name": "8 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/49324"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 49222,
+        "name": "8 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/49222"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40613,
+        "name": "9 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/40613"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 41278,
+        "name": "9 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/41278"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 40801,
+        "name": "9 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/40801"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      },
+      {
+        "id": 83985,
+        "name": "11 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/83985"
+      },
+      {
+        "id": 83986,
+        "name": "11 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/83986"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 801377,
+        "name": "Журомская Ольга Леонидовна",
+        "url": "https://46vitebsk.schools.by/teacher/801377"
+      },
+      {
+        "id": 3590208,
+        "name": "Карполенко Ксения Олеговна",
+        "url": "https://46vitebsk.schools.by/teacher/3590208"
+      },
+      {
+        "id": 3156766,
+        "name": "Стефановская Арина Игоревна",
+        "url": "https://46vitebsk.schools.by/teacher/3156766"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Час здоровья и спорта",
+    "short_name": "ЧЗС",
+    "url": "https://46vitebsk.schools.by/subject/28",
+    "classes": [
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 75877,
+        "name": "6 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/75877"
+      },
+      {
+        "id": 75878,
+        "name": "6 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/75878"
+      },
+      {
+        "id": 68329,
+        "name": "6 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/68329"
+      },
+      {
+        "id": 75915,
+        "name": "6 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/75915"
+      },
+      {
+        "id": 69510,
+        "name": "7 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/69510"
+      },
+      {
+        "id": 72732,
+        "name": "7 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/72732"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 66758,
+        "name": "8 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/66758"
+      },
+      {
+        "id": 48586,
+        "name": "8 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/48586"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      },
+      {
+        "id": 67247,
+        "name": "8 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/67247"
+      },
+      {
+        "id": 66755,
+        "name": "8 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/66755"
+      },
+      {
+        "id": 40614,
+        "name": "9 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/40614"
+      },
+      {
+        "id": 40770,
+        "name": "9 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/40770"
+      },
+      {
+        "id": 42146,
+        "name": "9 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/42146"
+      },
+      {
+        "id": 47673,
+        "name": "9 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/47673"
+      },
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1191149,
+        "name": "Бурехина Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1191149"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 2737400,
+        "name": "Зелинская Ксения Евгеньевна",
+        "url": "https://46vitebsk.schools.by/teacher/2737400"
+      },
+      {
+        "id": 2737398,
+        "name": "Иванов Владислав Олегович",
+        "url": "https://46vitebsk.schools.by/teacher/2737398"
+      },
+      {
+        "id": 902821,
+        "name": "Концова Наталья Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/902821"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1280133,
+        "name": "Махлова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1280133"
+      },
+      {
+        "id": 3647829,
+        "name": "Подлужный Никита Сергеевич",
+        "url": "https://46vitebsk.schools.by/teacher/3647829"
+      },
+      {
+        "id": 1243972,
+        "name": "Салманова Алеся Александровна",
+        "url": "https://46vitebsk.schools.by/teacher/1243972"
+      },
+      {
+        "id": 3439923,
+        "name": "Скрабневская Мария Васильевна",
+        "url": "https://46vitebsk.schools.by/teacher/3439923"
+      },
+      {
+        "id": 1170774,
+        "name": "Стальмаков Сергей Олегович",
+        "url": "https://46vitebsk.schools.by/teacher/1170774"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Человек и Мир",
+    "short_name": "Чел. и Мир",
+    "url": "https://46vitebsk.schools.by/subject/11",
+    "classes": [
+      {
+        "id": 87258,
+        "name": "3 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/87258"
+      },
+      {
+        "id": 87493,
+        "name": "3 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/87493"
+      },
+      {
+        "id": 88027,
+        "name": "3 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/88027"
+      },
+      {
+        "id": 88029,
+        "name": "3 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/88029"
+      },
+      {
+        "id": 88030,
+        "name": "3 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/88030"
+      },
+      {
+        "id": 87624,
+        "name": "3 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/87624"
+      },
+      {
+        "id": 76197,
+        "name": "4 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/76197"
+      },
+      {
+        "id": 76198,
+        "name": "4 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/76198"
+      },
+      {
+        "id": 76200,
+        "name": "4 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/76200"
+      },
+      {
+        "id": 76201,
+        "name": "4 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/76201"
+      },
+      {
+        "id": 76202,
+        "name": "4 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/76202"
+      },
+      {
+        "id": 76205,
+        "name": "4 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/76205"
+      },
+      {
+        "id": 76206,
+        "name": "4 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/76206"
+      },
+      {
+        "id": 76208,
+        "name": "4 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/76208"
+      },
+      {
+        "id": 73641,
+        "name": "5 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/73641"
+      },
+      {
+        "id": 72768,
+        "name": "5 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/72768"
+      },
+      {
+        "id": 73642,
+        "name": "5 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/73642"
+      },
+      {
+        "id": 73644,
+        "name": "5 \"Г\"",
+        "url": "https://46vitebsk.schools.by/class/73644"
+      },
+      {
+        "id": 73643,
+        "name": "5 \"Д\"",
+        "url": "https://46vitebsk.schools.by/class/73643"
+      },
+      {
+        "id": 72630,
+        "name": "5 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/72630"
+      },
+      {
+        "id": 73645,
+        "name": "5 \"Ж\"",
+        "url": "https://46vitebsk.schools.by/class/73645"
+      },
+      {
+        "id": 73549,
+        "name": "5 \"З\"",
+        "url": "https://46vitebsk.schools.by/class/73549"
+      },
+      {
+        "id": 73646,
+        "name": "5 \"И\"",
+        "url": "https://46vitebsk.schools.by/class/73646"
+      },
+      {
+        "id": 75875,
+        "name": "6 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/75875"
+      },
+      {
+        "id": 47961,
+        "name": "8 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/47961"
+      },
+      {
+        "id": 66545,
+        "name": "8 \"Е\"",
+        "url": "https://46vitebsk.schools.by/class/66545"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 1251084,
+        "name": "Андреева Елена Матвеевна",
+        "url": "https://46vitebsk.schools.by/teacher/1251084"
+      },
+      {
+        "id": 1179724,
+        "name": "Быстрова Татьяна Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/1179724"
+      },
+      {
+        "id": 1248809,
+        "name": "Давыдько Инна Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1248809"
+      },
+      {
+        "id": 2694022,
+        "name": "Ефимчик Елена Валерьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2694022"
+      },
+      {
+        "id": 1251340,
+        "name": "Крученкова-Зиновьева Светлана Фёдоровна",
+        "url": "https://46vitebsk.schools.by/teacher/1251340"
+      },
+      {
+        "id": 1280518,
+        "name": "Кудря Наталья Валерьяновна",
+        "url": "https://46vitebsk.schools.by/teacher/1280518"
+      },
+      {
+        "id": 1241512,
+        "name": "Новодворская Юлия Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/1241512"
+      },
+      {
+        "id": 2915973,
+        "name": "Петрова Оксана Геннадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/2915973"
+      },
+      {
+        "id": 1429184,
+        "name": "Пыльская Наталья Анатольевна",
+        "url": "https://46vitebsk.schools.by/teacher/1429184"
+      },
+      {
+        "id": 1252903,
+        "name": "Ревяко Елена Аркадьевна",
+        "url": "https://46vitebsk.schools.by/teacher/1252903"
+      },
+      {
+        "id": 1845242,
+        "name": "Самарина Марина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1845242"
+      },
+      {
+        "id": 1241646,
+        "name": "Семёнова Ирина Ивановна",
+        "url": "https://46vitebsk.schools.by/teacher/1241646"
+      },
+      {
+        "id": 1203627,
+        "name": "Смолова Ирина Владимировна",
+        "url": "https://46vitebsk.schools.by/teacher/1203627"
+      },
+      {
+        "id": 3339871,
+        "name": "Сушкова Елизавета Андреевна",
+        "url": "https://46vitebsk.schools.by/teacher/3339871"
+      },
+      {
+        "id": 3156854,
+        "name": "Чибикова Татьяна Николаевна",
+        "url": "https://46vitebsk.schools.by/teacher/3156854"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Человек. Общество. Государство",
+    "short_name": "ЧОГ",
+    "url": "https://46vitebsk.schools.by/subject/10",
+    "classes": [],
+    "teachers": []
+  },
+  {
+    "id": 25,
+    "name": "Черчение",
+    "short_name": null,
+    "url": "https://46vitebsk.schools.by/subject/25",
+    "classes": [
+      {
+        "id": 88905,
+        "name": "10 \"Б\"",
+        "url": "https://46vitebsk.schools.by/class/88905"
+      },
+      {
+        "id": 88901,
+        "name": "10 \"В\"",
+        "url": "https://46vitebsk.schools.by/class/88901"
+      },
+      {
+        "id": 83250,
+        "name": "11 \"А\"",
+        "url": "https://46vitebsk.schools.by/class/83250"
+      }
+    ],
+    "teachers": [
+      {
+        "id": 3077723,
+        "name": "Федотова Галина Михайловна",
+        "url": "https://46vitebsk.schools.by/teacher/3077723"
+      }
+    ]
+  }
+]

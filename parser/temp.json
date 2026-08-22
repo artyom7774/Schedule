@@ -1,0 +1,8115 @@
+{
+  "3 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Тарапата Светлана Олеговна",
+      "teacher_id": 883481,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": null
+    }
+  ],
+  "3 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Елисеенко Светлана Николаевна",
+      "teacher_id": 1101727,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Величко Жанна Иосифовна",
+      "teacher_id": 1020992,
+      "hours_per_week": null
+    }
+  ],
+  "3 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Нехуженко Татьяна Юрьевна",
+      "teacher_id": 802189,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    }
+  ],
+  "3 \"Г\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Дятковская Юлия Владимировна",
+      "teacher_id": 3326175,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Кислая Татьяна Анатольевна",
+      "teacher_id": 893422,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    }
+  ],
+  "3 \"Е\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Котловская Анастасия Юрьевна",
+      "teacher_id": 3390351,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    }
+  ],
+  "3 \"Ж\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Козел Тамара Ивановна",
+      "teacher_id": 1194362,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    }
+  ],
+  "3 \"З\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Остапчук Ольга Тимофеевна",
+      "teacher_id": 802187,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Андреева Елена Эдуардовна",
+      "teacher_id": 1169150,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Свирская Екатерина Александровна",
+      "teacher_id": 801392,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Введение в школьную жизнь",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Скрабневская Мария Васильевна",
+      "teacher_id": 3439923,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Жаголкина Александра Анатольевна",
+      "teacher_id": 2109862,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Введение в школьную жизнь",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Кислая Татьяна Анатольевна",
+      "teacher_id": 893422,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Иванов Владислав Олегович",
+      "teacher_id": 2737398,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Мороз Светлана Сергеевна",
+      "teacher_id": 883484,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Зелинская Ксения Евгеньевна",
+      "teacher_id": 2737400,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"Г\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Пашкевич Ирина Сергеевна",
+      "teacher_id": 1020052,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Нехуженко Татьяна Юрьевна",
+      "teacher_id": 802189,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Бурехина Татьяна Михайловна",
+      "teacher_id": 1191149,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"Д\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Лобачева Любовь Валентиновна",
+      "teacher_id": 1187613,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"Е\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Ветренникова Александра Сергеевна",
+      "teacher_id": 1294693,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Верлова Инна Генриховна",
+      "teacher_id": 883483,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Абесадзе Светлана Валерьевна",
+      "teacher_id": 883485,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Кружки",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "С/П",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Концова Наталья Владимировна",
+      "teacher_id": 902821,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"Ж\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Матвеев Александр Владимирович",
+      "teacher_id": 1109748,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Ледник Ирина Леонидовна",
+      "teacher_id": 3550888,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Салманова Алеся Александровна",
+      "teacher_id": 1243972,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    }
+  ],
+  "4 \"З\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Головешко Наталья Александровна",
+      "teacher_id": 801275,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Кублицкая Татьяна Леонидовна",
+      "teacher_id": 1170753,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Иванов Владислав Олегович",
+      "teacher_id": 2737398,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    }
+  ],
+  "5 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Палубец Мария Александровна",
+      "teacher_id": 3440826,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Аксёнова Антонина Антоновна",
+      "teacher_id": 1179752,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Козел Тамара Ивановна",
+      "teacher_id": 1194362,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Абесадзе Светлана Валерьевна",
+      "teacher_id": 883485,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Горбач Анна Александровна",
+      "teacher_id": 2658163,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кислая Татьяна Анатольевна",
+      "teacher_id": 893422,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Козел Тамара Ивановна",
+      "teacher_id": 1194362,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Козлов Сергей Александрович",
+      "teacher_id": 3290667,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Скрабневская Мария Васильевна",
+      "teacher_id": 3439923,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Ильчук Кристина Александровна",
+      "teacher_id": 802188,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Костюкевич Алена Васильевна",
+      "teacher_id": 1101724,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Голубева Ольга Васильевна",
+      "teacher_id": 1174477,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Ледник Ирина Леонидовна",
+      "teacher_id": 3550888,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Величко Жанна Иосифовна",
+      "teacher_id": 1020992,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Коробач Екатерина Александровна",
+      "teacher_id": 2002749,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Костюкевич Алена Васильевна",
+      "teacher_id": 1101724,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кореневская Татьяна Леонидовна",
+      "teacher_id": 1172801,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Зелинская Ксения Евгеньевна",
+      "teacher_id": 2737400,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"Г\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Абесадзе Светлана Валерьевна",
+      "teacher_id": 883485,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Испенькова Вера Викторовна",
+      "teacher_id": 795015,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Беднякова Светлана Владимировна",
+      "teacher_id": 801274,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Скрабневская Мария Васильевна",
+      "teacher_id": 3439923,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Бурехина Татьяна Михайловна",
+      "teacher_id": 1191149,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"Д\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Горбач Анна Александровна",
+      "teacher_id": 2658163,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Шедько Ростислав Васильевич",
+      "teacher_id": 3439924,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Мировая художественная культура",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Иванов Владислав Олегович",
+      "teacher_id": 2737398,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"Е\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Цыбульская Ольга Валентиновна",
+      "teacher_id": 1585120,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ширко Татьяна Михайловна",
+      "teacher_id": 1188328,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Жуков Никита Сергеевич",
+      "teacher_id": 3647860,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Тугаринова Марина Александровна",
+      "teacher_id": 894193,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Зелинская Ксения Евгеньевна",
+      "teacher_id": 2737400,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"Ж\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Тарапата Светлана Олеговна",
+      "teacher_id": 883481,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Шиенок Наталья Николаевна",
+      "teacher_id": 1172236,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Андреева Елена Эдуардовна",
+      "teacher_id": 1169150,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Мировая художественная культура",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Бурехина Татьяна Михайловна",
+      "teacher_id": 1191149,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Концова Наталья Владимировна",
+      "teacher_id": 902821,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"З\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Елисеенко Светлана Николаевна",
+      "teacher_id": 1101727,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ледник Ирина Леонидовна",
+      "teacher_id": 3550888,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Пашкевич Ирина Сергеевна",
+      "teacher_id": 1020052,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Жаголкина Александра Анатольевна",
+      "teacher_id": 2109862,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Хандопкина Наталья Анатольевна",
+      "teacher_id": 1164800,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Мурашко Татьяна Семёновна",
+      "teacher_id": 3156887,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Салманова Алеся Александровна",
+      "teacher_id": 1243972,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "5 \"И\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Нехуженко Татьяна Юрьевна",
+      "teacher_id": 802189,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Костючкова Инна Станиславовна",
+      "teacher_id": 3676753,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Базыко Яна Игоревна",
+      "teacher_id": 2918019,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Концова Наталья Владимировна",
+      "teacher_id": 902821,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "6 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Дятковская Юлия Владимировна",
+      "teacher_id": 3326175,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Трунова Екатерина Сергеевна",
+      "teacher_id": 1606795,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Тугаринова Марина Александровна",
+      "teacher_id": 894193,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Дубовик Лариса Юрьевна",
+      "teacher_id": 1203559,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        0,
+        0
+      ]
+    }
+  ],
+  "6 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Котловская Анастасия Юрьевна",
+      "teacher_id": 3390351,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Костюкевич Алена Васильевна",
+      "teacher_id": 1101724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Головешко Наталья Александровна",
+      "teacher_id": 801275,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    }
+  ],
+  "6 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Кублицкая Татьяна Леонидовна",
+      "teacher_id": 1170753,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Беднякова Светлана Владимировна",
+      "teacher_id": 801274,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Музыка",
+      "teacher": "Бородина Вера Петровна",
+      "teacher_id": 1184350,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Денисенко Сергей Викторович",
+      "teacher_id": 3590198,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": null
+    }
+  ],
+  "6 \"Г\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Остапчук Ольга Тимофеевна",
+      "teacher_id": 802187,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Савченко Светлана Владимировна",
+      "teacher_id": 901589,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Корсак Елена Викторовна",
+      "teacher_id": 801384,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Шенделова Инна Викторовна",
+      "teacher_id": 1170693,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Беднякова Светлана Владимировна",
+      "teacher_id": 801274,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    }
+  ],
+  "6 \"Д\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Свирская Екатерина Александровна",
+      "teacher_id": 801392,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Аксёнова Антонина Антоновна",
+      "teacher_id": 1179752,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Быкова Лариса Григорьевна",
+      "teacher_id": 1078759,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Величко Жанна Иосифовна",
+      "teacher_id": 1020992,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Конофальская Елена Николаевна",
+      "teacher_id": 1165442,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Долгий Иван Анатольевич",
+      "teacher_id": 3042873,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Осипук Леонид Аркадьевич",
+      "teacher_id": 801389,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": null
+    }
+  ],
+  "6 \"Е\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Жаголкина Александра Анатольевна",
+      "teacher_id": 2109862,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Чикун Галина Валерьевна",
+      "teacher_id": 894326,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Базыко Яна Игоревна",
+      "teacher_id": 2918019,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Жуков Никита Сергеевич",
+      "teacher_id": 3647860,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 3085372,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 3085372,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Скрабневская Мария Васильевна",
+      "teacher_id": 3439923,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    }
+  ],
+  "6 \"Ж\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Мороз Светлана Сергеевна",
+      "teacher_id": 883484,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Савченко Светлана Владимировна",
+      "teacher_id": 901589,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Аксёнова Антонина Антоновна",
+      "teacher_id": 1179752,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Мировая художественная культура",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Питание",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Иванов Владислав Олегович",
+      "teacher_id": 2737398,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": null
+    }
+  ],
+  "6 \"З\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Пашкевич Ирина Сергеевна",
+      "teacher_id": 1020052,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Ильчук Кристина Александровна",
+      "teacher_id": 802188,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Верлова Инна Генриховна",
+      "teacher_id": 883483,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Зелинская Ксения Евгеньевна",
+      "teacher_id": 2737400,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    }
+  ],
+  "7 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Лобачева Любовь Валентиновна",
+      "teacher_id": 1187613,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Голубева Ольга Васильевна",
+      "teacher_id": 1174477,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Кублицкая Татьяна Леонидовна",
+      "teacher_id": 1170753,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Андреева Елена Эдуардовна",
+      "teacher_id": 1169150,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Костючкова Инна Станиславовна",
+      "teacher_id": 3676753,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Мировая художественная культура",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Бурехина Татьяна Михайловна",
+      "teacher_id": 1191149,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": null
+    }
+  ],
+  "7 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Ветренникова Александра Сергеевна",
+      "teacher_id": 1294693,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Быкова Лариса Григорьевна",
+      "teacher_id": 1078759,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Савченко Светлана Владимировна",
+      "teacher_id": 901589,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Козел Тамара Ивановна",
+      "teacher_id": 1194362,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Ткачева Анна Леонидовна",
+      "teacher_id": 801376,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "7 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Матвеев Александр Владимирович",
+      "teacher_id": 1109748,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Шиенок Наталья Николаевна",
+      "teacher_id": 1172236,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Мурашко Татьяна Семёновна",
+      "teacher_id": 3156887,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Копцева Татьяна Павловна",
+      "teacher_id": 2773607,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Старовойтова Татьяна Геннадьевна",
+      "teacher_id": 801259,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Концова Наталья Владимировна",
+      "teacher_id": 902821,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "7 \"Г\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Головешко Наталья Александровна",
+      "teacher_id": 801275,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Величко Жанна Иосифовна",
+      "teacher_id": 1020992,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "7 \"Д\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Палубец Мария Александровна",
+      "teacher_id": 3440826,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Испенькова Вера Викторовна",
+      "teacher_id": 795015,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Изобразительное искусство",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Свирская Екатерина Александровна",
+      "teacher_id": 801392,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": null
+    }
+  ],
+  "7 \"Е\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Ильчук Кристина Александровна",
+      "teacher_id": 802188,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Чикун Галина Валерьевна",
+      "teacher_id": 894326,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Жуков Никита Сергеевич",
+      "teacher_id": 3647860,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 3085372,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Дубовик Людмила Георгиевна",
+      "teacher_id": 801378,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Ткачева Анна Леонидовна",
+      "teacher_id": 801376,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "7 \"Ж\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Коробач Екатерина Александровна",
+      "teacher_id": 2002749,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ледник Ирина Леонидовна",
+      "teacher_id": 3550888,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Голубева Ольга Васильевна",
+      "teacher_id": 1174477,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Быкова Лариса Григорьевна",
+      "teacher_id": 1078759,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Костюкевич Алена Васильевна",
+      "teacher_id": 1101724,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Старовойтова Татьяна Геннадьевна",
+      "teacher_id": 801259,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "8 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Абесадзе Светлана Валерьевна",
+      "teacher_id": 883485,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Аксёнова Антонина Антоновна",
+      "teacher_id": 1179752,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кислая Татьяна Анатольевна",
+      "teacher_id": 893422,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Козлов Сергей Александрович",
+      "teacher_id": 3290667,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Салманова Алеся Александровна",
+      "teacher_id": 1243972,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        0,
+        0
+      ]
+    }
+  ],
+  "8 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Горбач Анна Александровна",
+      "teacher_id": 2658163,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Костюкевич Алена Васильевна",
+      "teacher_id": 1101724,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Костючкова Инна Станиславовна",
+      "teacher_id": 3676753,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Величко Жанна Иосифовна",
+      "teacher_id": 1020992,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Скрабневская Мария Васильевна",
+      "teacher_id": 3439923,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    }
+  ],
+  "8 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Цыбульская Ольга Валентиновна",
+      "teacher_id": 1585120,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кореневская Татьяна Леонидовна",
+      "teacher_id": 1172801,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Ткачева Анна Леонидовна",
+      "teacher_id": 801376,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Иванов Владислав Олегович",
+      "teacher_id": 2737398,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Иванов Владислав Олегович",
+      "teacher_id": 2737398,
+      "hours_per_week": null
+    }
+  ],
+  "8 \"Г\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Тарапата Светлана Олеговна",
+      "teacher_id": 883481,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Испенькова Вера Викторовна",
+      "teacher_id": 795015,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Лукашевич Валентина Владимировна",
+      "teacher_id": 1254342,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Беднякова Светлана Владимировна",
+      "teacher_id": 801274,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Старовойтова Татьяна Геннадьевна",
+      "teacher_id": 801259,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Зелинская Ксения Евгеньевна",
+      "teacher_id": 2737400,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Скрабневская Мария Васильевна",
+      "teacher_id": 3439923,
+      "hours_per_week": null
+    }
+  ],
+  "8 \"Д\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Елисеенко Светлана Николаевна",
+      "teacher_id": 1101727,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Шиенок Наталья Николаевна",
+      "teacher_id": 1172236,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Быкова Лариса Григорьевна",
+      "teacher_id": 1078759,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Свирская Екатерина Александровна",
+      "teacher_id": 801392,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Шедько Ростислав Васильевич",
+      "teacher_id": 3439924,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Бурехина Татьяна Михайловна",
+      "teacher_id": 1191149,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    }
+  ],
+  "8 \"Е\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Нехуженко Татьяна Юрьевна",
+      "teacher_id": 802189,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ширко Татьяна Михайловна",
+      "teacher_id": 1188328,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ледник Ирина Леонидовна",
+      "teacher_id": 3550888,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Савченко Светлана Владимировна",
+      "teacher_id": 901589,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Основы безопасности жизнедеятельности",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Тугаринова Марина Александровна",
+      "teacher_id": 894193,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Зелинская Ксения Евгеньевна",
+      "teacher_id": 2737400,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Человек и Мир",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        0,
+        0
+      ]
+    }
+  ],
+  "8 \"Ж\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Дятковская Юлия Владимировна",
+      "teacher_id": 3326175,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Чибикова Татьяна Николаевна",
+      "teacher_id": 3156854,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Жуков Никита Сергеевич",
+      "teacher_id": 3647860,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Беднякова Светлана Владимировна",
+      "teacher_id": 801274,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Андреева Елена Эдуардовна",
+      "teacher_id": 1169150,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Батура Алеся Александровна",
+      "teacher_id": 1170657,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Ткачева Анна Леонидовна",
+      "teacher_id": 801376,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Концова Наталья Владимировна",
+      "teacher_id": 902821,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Бурехина Татьяна Михайловна",
+      "teacher_id": 1191149,
+      "hours_per_week": null
+    }
+  ],
+  "8 \"З\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Котловская Анастасия Юрьевна",
+      "teacher_id": 3390351,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Ильчук Кристина Александровна",
+      "teacher_id": 802188,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Шальц Римма Акмуратовна",
+      "teacher_id": 2965977,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Хандопкина Наталья Анатольевна",
+      "teacher_id": 1164800,
+      "hours_per_week": [
+        5,
+        5
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Салманова Алеся Александровна",
+      "teacher_id": 1243972,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Старовойтова Татьяна Геннадьевна",
+      "teacher_id": 801259,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Концова Наталья Владимировна",
+      "teacher_id": 902821,
+      "hours_per_week": null
+    }
+  ],
+  "9 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Костюкевич Алена Васильевна",
+      "teacher_id": 1101724,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Великая Отечественная война (IX класс)",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Головешко Наталья Александровна",
+      "teacher_id": 801275,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Базыко Яна Игоревна",
+      "teacher_id": 2918019,
+      "hours_per_week": [
+        4,
+        5
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        3,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": null
+    }
+  ],
+  "9 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Остапчук Ольга Тимофеевна",
+      "teacher_id": 802187,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Быкова Лариса Григорьевна",
+      "teacher_id": 1078759,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Костючкова Инна Станиславовна",
+      "teacher_id": 3676753,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Базыко Яна Игоревна",
+      "teacher_id": 2918019,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        4,
+        5
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Тугаринова Марина Александровна",
+      "teacher_id": 894193,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Дубовик Лариса Юрьевна",
+      "teacher_id": 1203559,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        3,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    }
+  ],
+  "9 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Свирская Екатерина Александровна",
+      "teacher_id": 801392,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Великая Отечественная война (IX класс)",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Горбач Анна Александровна",
+      "teacher_id": 2658163,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        4,
+        5
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Ткачева Анна Леонидовна",
+      "teacher_id": 801376,
+      "hours_per_week": [
+        3,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": null
+    }
+  ],
+  "9 \"Г\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Жаголкина Александра Анатольевна",
+      "teacher_id": 2109862,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Кублицкая Татьяна Леонидовна",
+      "teacher_id": 1170753,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Аксёнова Антонина Антоновна",
+      "teacher_id": 1179752,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Великая Отечественная война (IX класс)",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Козел Тамара Ивановна",
+      "teacher_id": 1194362,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        4,
+        5
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Вакарева Марина Витальевна",
+      "teacher_id": 1323555,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Денисенко Сергей Викторович",
+      "teacher_id": 3590198,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Старовойтова Татьяна Геннадьевна",
+      "teacher_id": 801259,
+      "hours_per_week": [
+        3,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    }
+  ],
+  "9 \"Д\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Мороз Светлана Сергеевна",
+      "teacher_id": 883484,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Савченко Светлана Владимировна",
+      "teacher_id": 901589,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Чикун Галина Валерьевна",
+      "teacher_id": 894326,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Великая Отечественная война (IX класс)",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Барановская Валерия Сергеевна",
+      "teacher_id": 1402652,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Шенделова Инна Викторовна",
+      "teacher_id": 1170693,
+      "hours_per_week": [
+        4,
+        5
+      ]
+    },
+    {
+      "subject": "Мировая художественная культура",
+      "teacher": "Козьякова Татьяна Викторовна",
+      "teacher_id": 1161048,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Беднякова Светлана Владимировна",
+      "teacher_id": 801274,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        3,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Скрабневская Мария Васильевна",
+      "teacher_id": 3439923,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": null
+    }
+  ],
+  "9 \"Е\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Пашкевич Ирина Сергеевна",
+      "teacher_id": 1020052,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Савченко Светлана Владимировна",
+      "teacher_id": 901589,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Великая Отечественная война (IX класс)",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Мурадова Анастасия Руслановна",
+      "teacher_id": 3250307,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Кублицкая Татьяна Леонидовна",
+      "teacher_id": 1170753,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Конофальская Елена Николаевна",
+      "teacher_id": 1165442,
+      "hours_per_week": [
+        4,
+        5
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Питание",
+      "teacher": "Гурченко Варвара Константиновна",
+      "teacher_id": 3407871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Макаренко Наталья Геннадьевна",
+      "teacher_id": 1458093,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Крученкова-Зиновьева Светлана Фёдоровна",
+      "teacher_id": 1251340,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Осипук Леонид Аркадьевич",
+      "teacher_id": 801389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        3,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Иванов Владислав Олегович",
+      "teacher_id": 2737398,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": null
+    }
+  ],
+  "9 \"Ж\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Лобачева Любовь Валентиновна",
+      "teacher_id": 1187613,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Быкова Лариса Григорьевна",
+      "teacher_id": 1078759,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        1,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Нехуженко Татьяна Юрьевна",
+      "teacher_id": 802189,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Искусство. Отечественная и мировая художественная культура",
+      "teacher": "Жуков Никита Сергеевич",
+      "teacher_id": 3647860,
+      "hours_per_week": [
+        1,
+        0
+      ]
+    },
+    {
+      "subject": "История Беларуси",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Верлова Инна Генриховна",
+      "teacher_id": 883483,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        4,
+        5
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 3085372,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Трудовое обучение",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Ткачева Анна Леонидовна",
+      "teacher_id": 801376,
+      "hours_per_week": [
+        3,
+        2
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Зелинская Ксения Евгеньевна",
+      "teacher_id": 2737400,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    }
+  ],
+  "10 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Ветренникова Александра Сергеевна",
+      "teacher_id": 1294693,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Андреева Елена Матвеевна",
+      "teacher_id": 1251084,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Кублицкая Татьяна Леонидовна",
+      "teacher_id": 1170753,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": null
+    },
+    {
+      "subject": "История Беларуси в контексте всемирной истории",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Аксёнова Антонина Антоновна",
+      "teacher_id": 1179752,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        4,
+        4
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Зайковская Юлия Сергеевна",
+      "teacher_id": 1190430,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Старовойтова Татьяна Геннадьевна",
+      "teacher_id": 801259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Бурехина Татьяна Михайловна",
+      "teacher_id": 1191149,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Час здоровья и спорта",
+      "teacher": "Стальмаков Сергей Олегович",
+      "teacher_id": 1170774,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Черчение",
+      "teacher": "Федотова Галина Михайловна",
+      "teacher_id": 3077723,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "10 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Матвеев Александр Владимирович",
+      "teacher_id": 1109748,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Солдатова Анна Валерьевна",
+      "teacher_id": 801375,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Всемирная История",
+      "teacher": "Рябова Наталья Леонидовна",
+      "teacher_id": 801391,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Любоза Александр Александрович",
+      "teacher_id": 801374,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси в контексте всемирной истории",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Верлова Инна Генриховна",
+      "teacher_id": 883483,
+      "hours_per_week": [
+        4,
+        4
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ермакович Жанна Анатольевна",
+      "teacher_id": 896737,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Быстрова Татьяна Михайловна",
+      "teacher_id": 1179724,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Черчение",
+      "teacher": "Федотова Галина Михайловна",
+      "teacher_id": 3077723,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    }
+  ],
+  "11 \"А\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Головешко Наталья Александровна",
+      "teacher_id": 801275,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Астрономия",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Голубева Ольга Васильевна",
+      "teacher_id": 1174477,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Сушкова Елизавета Андреевна",
+      "teacher_id": 3339871,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Малахова Владислава Сергеевна",
+      "teacher_id": 1188024,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Самарина Марина Владимировна",
+      "teacher_id": 1845242,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Испеньков Андрей Николаевич",
+      "teacher_id": 795014,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси в контексте всемирной истории",
+      "teacher": "Майоров Дмитрий Анатольевич",
+      "teacher_id": 1020051,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Пыльская Наталья Анатольевна",
+      "teacher_id": 1429184,
+      "hours_per_week": [
+        4,
+        4
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ефимчик Елена Валерьевна",
+      "teacher_id": 2694022,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Концова Наталья Владимировна",
+      "teacher_id": 902821,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Журомская Ольга Леонидовна",
+      "teacher_id": 801377,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Черчение",
+      "teacher": "Федотова Галина Михайловна",
+      "teacher_id": 3077723,
+      "hours_per_week": null
+    }
+  ],
+  "11 \"Б\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Палубец Мария Александровна",
+      "teacher_id": 3440826,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Астрономия",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Давыдько Инна Владимировна",
+      "teacher_id": 1248809,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Смолова Ирина Владимировна",
+      "teacher_id": 1203627,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Саникович Жанна Петровна",
+      "teacher_id": 1170755,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Спиридонова Наталья Викторовна",
+      "teacher_id": 2737389,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информационный час",
+      "teacher": "Жаголкина Александра Анатольевна",
+      "teacher_id": 2109862,
+      "hours_per_week": null
+    },
+    {
+      "subject": "История",
+      "teacher": "Ганзиенко Елена Владимировна",
+      "teacher_id": 2402755,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Классный час",
+      "teacher": "Пашкевич Ирина Сергеевна",
+      "teacher_id": 1020052,
+      "hours_per_week": null
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Новодворская Юлия Николаевна",
+      "teacher_id": 1241512,
+      "hours_per_week": [
+        4,
+        4
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Морозова Елена Александровна",
+      "teacher_id": 1118045,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Семёнова Ирина Ивановна",
+      "teacher_id": 1241646,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Кучко Наталья Вячеславовна",
+      "teacher_id": 1164799,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Ткачева Анна Леонидовна",
+      "teacher_id": 801376,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Махлова Ирина Владимировна",
+      "teacher_id": 1280133,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Карполенко Ксения Олеговна",
+      "teacher_id": 3590208,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    }
+  ],
+  "11 \"В\"": [
+    {
+      "subject": "Английский язык",
+      "teacher": "Ильчук Кристина Александровна",
+      "teacher_id": 802188,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Астрономия",
+      "teacher": "Киравницина Инна Иосифовна",
+      "teacher_id": 1164802,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусская литература",
+      "teacher": "Шиенок Наталья Николаевна",
+      "teacher_id": 1172236,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Белорусский язык",
+      "teacher": "Испенькова Вера Викторовна",
+      "teacher_id": 795015,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Биология",
+      "teacher": "Быкова Лариса Григорьевна",
+      "teacher_id": 1078759,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "География",
+      "teacher": "Петрова Оксана Геннадьевна",
+      "teacher_id": 2915973,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Информатика",
+      "teacher": "Малистова Елена Анатольевна",
+      "teacher_id": 801373,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "История Беларуси в контексте всемирной истории",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        2,
+        2
+      ]
+    },
+    {
+      "subject": "Математика",
+      "teacher": "Мурашко Татьяна Семёновна",
+      "teacher_id": 3156887,
+      "hours_per_week": [
+        4,
+        4
+      ]
+    },
+    {
+      "subject": "Обществоведение",
+      "teacher": "Черняева Алеся Михайловна",
+      "teacher_id": 1188259,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русская литература",
+      "teacher": "Ревяко Елена Аркадьевна",
+      "teacher_id": 1252903,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Русский язык",
+      "teacher": "Кудря Наталья Валерьяновна",
+      "teacher_id": 1280518,
+      "hours_per_week": [
+        1,
+        1
+      ]
+    },
+    {
+      "subject": "Физика",
+      "teacher": "Старовойтова Татьяна Геннадьевна",
+      "teacher_id": 801259,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    },
+    {
+      "subject": "Физическая культура и здоровье",
+      "teacher": "Подлужный Никита Сергеевич",
+      "teacher_id": 3647829,
+      "hours_per_week": [
+        3,
+        3
+      ]
+    },
+    {
+      "subject": "Химия",
+      "teacher": "Стефановская Арина Игоревна",
+      "teacher_id": 3156766,
+      "hours_per_week": [
+        2,
+        1
+      ]
+    }
+  ]
+}
