@@ -329,7 +329,7 @@ int main(){
 
     int equal = 0;
 
-    for (int iter = 0; iter < 1e7; iter++) {
+    for (int iter = 0; iter < 1e5; iter++) {
         temperature *= 0.999998;
 
         int cls = randint(0, classes.size() - 1);
