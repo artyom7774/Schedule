@@ -9,6 +9,8 @@ main = {
 
 }
 
+subjects = set()
+
 for key, value in data.items():
     main[key] = [
 
@@ -20,6 +22,8 @@ for key, value in data.items():
             "teacher": element["teacher"],
             "hours": element["hours_per_week"][0] if element["hours_per_week"] else None
         })
+
+        subjects.add(element["subject"])
 
 if not os.path.exists("data"):
     os.mkdir("data")
@@ -39,6 +43,9 @@ for value in v.values():
 
 with open("data/teachers.json", "w+", encoding="utf-8") as file:
     json.dump(out, file, indent=4, ensure_ascii=False)
+
+with open("data/subjects.json", "w+", encoding="utf-8") as file:
+    json.dump(list(subjects), file, indent=4, ensure_ascii=False)
 
 with open("data/classes.json", "w+", encoding="utf-8") as file:
     json.dump([element for element in list(data.keys()) if element[0] not in ("3", "4")], file, indent=4, ensure_ascii=False)

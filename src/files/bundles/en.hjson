@@ -1,0 +1,24 @@
+"menu.start.label_name": "Schedule"
+"menu.start.button_create_project": "Create project"
+"menu.start.button_open_project": "Open project"
+"menu.start.button_exit": "Exit"
+
+"menu.main.tab.settings": "Settings"
+"menu.main.tab.teachers": "Teachers"
+"menu.main.tab.lessons": "Lessons"
+
+"menu.main.tab.settings.working_days_per_week": "Working days per week:"
+"menu.main.tab.settings.max_lesson_count_per_day": "Max lesson count per day:"
+"menu.main.tab.settings.subject": "Subject"
+"menu.main.tab.settings.hard": "Hard"
+
+"dialog.create_project.title": "Create project"
+"dialog.create_project.label": "Project name:"
+"dialog.create_project.allow": "Create"
+
+"dialog.open_project.title": "Open project"
+"dialog.open_project.label": "Project name:"
+"dialog.open_project.allow": "Open"
+
+"log.text.impossible_project_name": "Impossible project name"
+"log.text.project_name_already_exists": "Project name already exists"

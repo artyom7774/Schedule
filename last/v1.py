@@ -300,7 +300,7 @@ for value in classes.values():
 print(cnt)
 
 if args.view == 1:
-    from display import *
+    from display_python import *
 
     for cls in answers:
         root = tk.Tk()
