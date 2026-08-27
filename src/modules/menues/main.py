@@ -35,6 +35,28 @@ class Tab1(QWidget):
         self.settingsLessonsEdit.setFont(FONT)
         self.settingsLessonsEdit.show()
 
+        self.settingsClassesCountLabel = QLabel(translate("menu.main.tab.settings.classes_count"), parent=self)
+        self.settingsClassesCountLabel.setFont(FONT)
+        self.settingsClassesCountLabel.show()
+
+        self.settingsClassesCountEdit = QLineEdit(parent=self)
+        self.settingsClassesCountEdit.setText(str(window.settings["classes_count"]))
+        self.settingsClassesCountEdit.editingFinished.connect(lambda: save(window, "classes_count", self.settingsClassesCountEdit))
+        self.settingsClassesCountEdit.setFont(FONT)
+        self.settingsClassesCountEdit.show()
+
+        self.settingsShiftsCountLabel = QLabel(translate("menu.main.tab.settings.number_of_shifts"), parent=self)
+        self.settingsShiftsCountLabel.setFont(FONT)
+        self.settingsShiftsCountLabel.show()
+
+        self.settingsShiftsCountEdit = QLineEdit(parent=self)
+        self.settingsShiftsCountEdit.setText(str(window.settings["number_of_shifts"]))
+        self.settingsShiftsCountEdit.editingFinished.connect(lambda: save(window, "number_of_shifts", self.settingsShiftsCountEdit))
+        self.settingsShiftsCountEdit.setFont(FONT)
+        self.settingsShiftsCountEdit.show()
+
+        # параметр кол-ва номеров классов
+
         self.subjectsTable = QTableWidget(len(window.settings["subjects"]) + 1, 2, parent=self)
 
         idx = 0
@@ -64,8 +86,8 @@ class Tab3(QWidget):
 
 
 def save(window, parameter, object, another: typing.Any = None):
-    if parameter in ("working_days_per_week", "max_lesson_count_per_day"):
-        text: str = object.text()
+    if parameter in ("working_days_per_week", "max_lesson_count_per_day", "classes_count", "number_of_shifts"):
+        text = object.text()
 
         try:
             int(text)
@@ -126,6 +148,10 @@ def resize(window) -> None:
     tab.settingsDaysEdit.setGeometry(20 + x(15), 10, x(33) - x(15) - 30, 30)
     tab.settingsLessonsLabel.setGeometry(10, 50, x(15), 30)
     tab.settingsLessonsEdit.setGeometry(20 + x(15), 50, x(33) - x(15) - 30, 30)
+    tab.settingsClassesCountLabel.setGeometry(10, 90, x(15), 30)
+    tab.settingsClassesCountEdit.setGeometry(20 + x(15), 90, x(33) - x(15) - 30, 30)
+    tab.settingsShiftsCountLabel.setGeometry(10, 130, x(15), 30)
+    tab.settingsShiftsCountEdit.setGeometry(20 + x(15), 130, x(33) - x(15) - 30, 30)
 
     tab.subjectsTable.setGeometry(x(33), 0, x(34), y(100))
 

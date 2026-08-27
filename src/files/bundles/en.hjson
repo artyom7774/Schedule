@@ -9,6 +9,8 @@
 
 "menu.main.tab.settings.working_days_per_week": "Working days per week:"
 "menu.main.tab.settings.max_lesson_count_per_day": "Max lesson count per day:"
+"menu.main.tab.settings.classes_count": "Classes count:"
+"menu.main.tab.settings.number_of_shifts": "Number of shifts:"
 "menu.main.tab.settings.subject": "Subject"
 "menu.main.tab.settings.hard": "Hard"
 

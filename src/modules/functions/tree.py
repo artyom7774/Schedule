@@ -47,20 +47,14 @@ def initProject(window, project):
     if not os.path.exists(f"{path}/data"):
         os.mkdir(f"{path}/data")
 
-    names = {"classes.json", "hards.json", "lessons.json", "main.json", "subjects.json", "teachers.json"}
-
-    for name in names:
-        if not os.path.exists(f"{path}/data/{name}"):
-            with open(f"{path}/data/{name}", "w", encoding="UTF-8") as file:
-                file.write("{}")
-
     parameters = {
-        "working_days_per_week": 1,
-        "max_lesson_count_per_day": 1,
+        "working_days_per_week": 5,
+        "max_lesson_count_per_day": 8,
+        "classes_count": 11,
+        "number_of_shifts": 2,
         "subjects": {},
-        "classes_count": {
-            "count": 0,
-            "classes": [
+        "classes": {
+            "count": [
 
             ]
         }
