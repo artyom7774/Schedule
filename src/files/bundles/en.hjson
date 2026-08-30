@@ -4,19 +4,34 @@
 "menu.start.button_exit": "Exit"
 
 "menu.main.tab.settings": "Settings"
+"menu.main.tab.classes": "Classes"
 "menu.main.tab.teachers": "Teachers"
+"menu.main.tab.AI": "AI"
 "menu.main.tab.lessons": "Lessons"
 
 "menu.main.tab.settings.working_days_per_week": "Working days per week:"
 "menu.main.tab.settings.max_lesson_count_per_day": "Max lesson count per day:"
 "menu.main.tab.settings.classes_count": "Classes count:"
+"menu.main.tab.settings.subjects_count": "Subjects count:"
 "menu.main.tab.settings.number_of_shifts": "Number of shifts:"
 "menu.main.tab.settings.subject": "Subject"
 "menu.main.tab.settings.hard": "Hard"
 
+"menu.main.tab.teachers.add_teacher": "Add teacher"
+
+"menu.main.tab.AI.write_your_request_and_press_enter": "Write your request and press enter..."
+"menu.main.tab.AI.ai_first_message": "Hi! I can help with importing any data into this project. Feel free to ask me any questions."
+"menu.main.tab.AI.you": "You"
+"menu.main.tab.AI.ai": "AI"
+"menu.main.tab.AI.error": "Error"
+
 "dialog.create_project.title": "Create project"
 "dialog.create_project.label": "Project name:"
 "dialog.create_project.allow": "Create"
+
+"dialog.add_teacher.title": "Add teacher"
+"dialog.add_teacher.label": "Teacher name:"
+"dialog.add_teacher.allow": "Add"
 
 "dialog.open_project.title": "Open project"
 "dialog.open_project.label": "Project name:"
@@ -24,3 +39,13 @@
 
 "log.text.impossible_project_name": "Impossible project name"
 "log.text.project_name_already_exists": "Project name already exists"
+"log.text.teacher_name_is_empty": "Teacher name is empty"
+"log.text.teacher_name_already_exists": "Teacher name already exists"
+
+"day.0": "Monday"
+"day.1": "Tuesday"
+"day.2": "Wednesday"
+"day.3": "Thursday"
+"day.4": "Friday"
+"day.5": "Saturday"
+"day.6": "Sunday"

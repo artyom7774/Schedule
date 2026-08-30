@@ -1,5 +1,3 @@
-from PyQt5.QtWidgets import QApplication
-
 from src.variables import *
 
 import json
@@ -51,12 +49,24 @@ def initProject(window, project):
         "working_days_per_week": 5,
         "max_lesson_count_per_day": 8,
         "classes_count": 11,
+        "subjects_count": 20,
         "number_of_shifts": 2,
-        "subjects": {},
+        "subjects": [
+
+        ],
         "classes": {
             "count": [
 
-            ]
+            ],
+            "shift": [
+
+            ],
+            "lessons": {
+
+            }
+        },
+        "teachers": {
+
         }
     }
 

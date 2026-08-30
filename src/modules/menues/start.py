@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt, QSize
 
 from src.modules.functions.tree import createProject, openProject
 from src.modules import dialogs
+
 from src.variables import *
 
 import os
