@@ -1,16 +1,16 @@
 from PyQt5.QtWidgets import QTextEdit
-from PyQt5.QtGui import QTextCursor
+from PyQt5.QtGui import QTextCursor, QTextBlockFormat
 
 from src.variables import *
 
 
 class ChatAITextEdit(QTextEdit):
-    history = []
-
     def __init__(self, window, parent):
         super().__init__(parent)
 
         self.window = window
+        self.last = None
+        self.history = []
 
         if len(self.history) == 0:
             self.answer(translate("menu.main.tab.AI.ai_first_message"))
@@ -20,11 +20,25 @@ class ChatAITextEdit(QTextEdit):
         return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
 
     def print(self, role, text, color):
-        self.moveCursor(QTextCursor.End)
+        cursor = self.textCursor()
+        cursor.movePosition(QTextCursor.End)
 
-        self.append(f'<p><b style="color:{color};">{role}:</b> {self.escape(text)}</p>')
+        margin = 0 if role == self.last else 12
 
+        block = QTextBlockFormat()
+        block.setTopMargin(margin)
+
+        if not self.document().isEmpty():
+            cursor.insertBlock(block)
+
+        else:
+            cursor.setBlockFormat(block)
+
+        cursor.insertHtml(f'<b style="color:{color};">{role}:</b> {self.escape(text)}')
+
+        self.setTextCursor(cursor)
         self.moveCursor(QTextCursor.End)
+        self.last = role
 
     def send(self, text):
         if not text:

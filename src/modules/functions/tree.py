@@ -45,6 +45,12 @@ def initProject(window, project):
     if not os.path.exists(f"{path}/data"):
         os.mkdir(f"{path}/data")
 
+    if not os.path.exists(f"{path}/requests"):
+        os.mkdir(f"{path}/requests")
+
+    if not os.path.exists(f"{path}/backups"):
+        os.mkdir(f"{path}/backups")
+
     parameters = {
         "working_days_per_week": 5,
         "max_lesson_count_per_day": 8,

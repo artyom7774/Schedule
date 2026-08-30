@@ -1,13 +1,16 @@
-from PyQt5.QtWidgets import QApplication, QScrollArea, QVBoxLayout, QTextEdit, QTabWidget, QSlider, QWidget, QComboBox, QListWidget, QTableWidget, QPushButton, QHeaderView, QLabel, QLineEdit, QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QScrollArea, QMenu, QAction, QFileDialog, QVBoxLayout, QTextEdit, QTabWidget, QSlider, QWidget, QComboBox, QListWidget, QTableWidget, QPushButton, QHeaderView, QLabel, QLineEdit, QTableWidgetItem
+from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QColor
 
 from src.modules.widgets import MultiTableWidget, ButtonGridWidget, ChatAITextEdit
+from src.modules.ai import sendChatRequestWithFile, decoder as decodeAIMessage
 
 from src.modules import dialogs
 
 from src.variables import *
 
+import datetime
+import shutil
 import typing
 import json
 
@@ -367,6 +370,9 @@ class TabTeachers(QWidget):
         self.teachersList.itemClicked.connect(lambda: self.teachersListItemClicked())
         self.teachersList.addItems([teacher for teacher in window.settings["teachers"].keys()])
 
+        self.teachersList.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.teachersList.customContextMenuRequested.connect(lambda pos: self.showContextMenu(pos))
+
         teachers = list(window.settings["teachers"].keys())
         select = window.objects.get("teachers_selected")
 
@@ -396,6 +402,9 @@ class TabTeachers(QWidget):
 
         if self.teacher is None:
             return
+
+        self.window.settings["teachers"][self.teacher].setdefault("subjects", [])
+        self.window.settings["teachers"][self.teacher].setdefault("free", [])
 
         self.teachersScroll = QScrollArea(parent=self)
         self.teachersScroll.show()
@@ -466,6 +475,42 @@ class TabTeachers(QWidget):
 
         if 0 <= self.window.objects.get("shift_selected", -1) < self.window.settings["number_of_shifts"]:
             self.teacherFree.setCurrentIndex(self.window.objects.get("shift_selected"))
+
+    def showContextMenu(self, pos):
+        item = self.teachersList.itemAt(pos)
+
+        if item is None:
+            return
+
+        menu = QMenu(self)
+
+        delete = QAction(translate("menu.main.tab.teachers.delete"), self)
+        delete.triggered.connect(lambda: self.teacherFreeDeleteElement(item))
+
+        menu.addAction(delete)
+
+        menu.exec_(self.teachersList.mapToGlobal(pos))
+
+    def teacherFreeDeleteElement(self, item):
+        pos = self.teachersList.row(item)
+        teachers = list(self.window.settings["teachers"].keys())
+
+        if pos < 0 or pos >= len(teachers):
+            return
+
+        remove = teachers[pos]
+        self.window.settings["teachers"].pop(remove)
+
+        if self.window.objects.get("teachers_selected") == remove:
+            self.window.objects.pop("teachers_selected", None)
+            self.window.objects.pop("shift_selected", None)
+
+        self.window.objects.pop("teachers_scroll", None)
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        init(self.window)
 
     def teacherFreeTabBarClicked(self, idx):
         self.window.objects["shift_selected"] = idx
@@ -558,29 +603,166 @@ class TabTeachers(QWidget):
         init(self.window)
 
 
+class AIWorker(QObject):
+    finished = pyqtSignal(str, str)
+    error = pyqtSignal(str)
+
+    def __init__(self, prompt, path):
+        super().__init__()
+
+        self.prompt = prompt
+        self.path = path
+
+    def run(self):
+        try:
+            text, status = sendChatRequestWithFile(self.prompt, self.path)
+            self.finished.emit(text, status)
+
+        except Exception as e:
+            self.error.emit(str(e))
+
+
 class TabAILoad(QWidget):
+    chatTextEdit = None
+    path = None
+
     def __init__(self, window):
         super().__init__()
 
         self.window = window
 
-        self.chat = ChatAITextEdit(self.window, parent=self)
-        self.chat.setReadOnly(True)
-        self.chat.setFont(FONT)
-        self.chat.show()
+        self.thread = None
+        self.worker = None
 
-        self.message = QLineEdit(parent=self)
-        self.message.returnPressed.connect(lambda: self.messageLineEditReturnPressed())
-        self.message.setPlaceholderText(translate("menu.main.tab.AI.write_your_request_and_press_enter"))
-        self.message.setFont(FONT)
-        self.message.show()
+        if TabAILoad.chatTextEdit is None:
+            TabAILoad.chatTextEdit = ChatAITextEdit(self.window, parent=self)
+
+        else:
+            TabAILoad.chatTextEdit.setParent(self)
+
+        self.chatTextEdit = TabAILoad.chatTextEdit
+
+        self.chatTextEdit.setReadOnly(True)
+        self.chatTextEdit.setFont(FONT)
+        self.chatTextEdit.show()
+
+        self.messageLineEdit = QLineEdit(parent=self)
+        self.messageLineEdit.returnPressed.connect(lambda: self.messageLineEditReturnPressed())
+        self.messageLineEdit.setPlaceholderText(translate("menu.main.tab.AI.write_your_request_and_press_enter"))
+        self.messageLineEdit.setFont(FONT)
+        self.messageLineEdit.show()
+
+        self.sendPushButton = QPushButton(parent=self)
+        self.sendPushButton.setText(translate("menu.main.tab.AI.send"))
+        self.sendPushButton.clicked.connect(lambda: self.messageLineEditReturnPressed())
+        self.sendPushButton.setFont(FONT)
+        self.sendPushButton.show()
+
+        self.loadPushButton = QPushButton(parent=self)
+        self.loadPushButton.setText(translate("menu.main.tab.AI.choose_file") if self.path is None else self.path)
+        self.loadPushButton.clicked.connect(lambda: self.loadPushButtonClicked())
+        self.loadPushButton.setFont(FONT)
+        self.loadPushButton.show()
+
+        self.removePushButton = QPushButton(parent=self)
+        self.removePushButton.setText(translate("menu.main.tab.AI.remove_file"))
+        self.removePushButton.clicked.connect(lambda: self.removePushButtonClicked())
+        self.removePushButton.setFont(FONT)
+        self.removePushButton.show()
+
+    def removePushButtonClicked(self):
+        self.loadPushButton.setText(translate("menu.main.tab.AI.choose_file"))
+        self.path = None
+
+    def loadPushButtonClicked(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Choose file", "", "All files (*)")
+
+        if not path:
+            return
+
+        self.path = path
+        self.loadPushButton.setText(path)
 
     def messageLineEditReturnPressed(self):
-        print("->", self.message.text())
+        if self.messageLineEdit.text() == "" and self.path is None:
+            return
 
-        self.chat.send(self.message.text())
+        self.messageLineEdit.setEnabled(False)
+        self.loadPushButton.setEnabled(False)
 
-        self.message.setText("")
+        name = "$FILE$"
+        path = None
+
+        if self.path is not None:
+            name = f"requests/request.{self.path[self.path.rfind('.') + 1:]}"
+            path = f"{PATH_TO_FOLDER}/projects/{self.window.project}/{name}"
+
+            shutil.copyfile(self.path, path)
+
+        prompt = open("src/files/prompts/loader.txt", "r", encoding="utf-8").read()
+
+        prompt = prompt.replace("$FILE$", name)
+        prompt = prompt.replace("$HISTORY$", str(self.chatTextEdit.history))
+        prompt = prompt.replace("$MESSAGE$", self.messageLineEdit.text())
+        prompt = prompt.replace("$PATH_TO_FOLDER$", PATH_TO_FOLDER)
+        prompt = prompt.replace("$PROJECT$", self.window.project)
+
+        self.chatTextEdit.send(self.messageLineEdit.text() + f" ({self.path})" if self.path is not None else "")
+        self.messageLineEdit.setText("")
+
+        self.thread = QThread()
+
+        self.worker = AIWorker(prompt, path)
+        self.worker.moveToThread(self.thread)
+
+        self.thread.started.connect(self.worker.run)
+
+        self.worker.finished.connect(self.finish)
+        self.worker.finished.connect(self.thread.quit)
+        self.worker.finished.connect(self.worker.deleteLater)
+
+        self.worker.error.connect(self.error)
+        self.worker.error.connect(self.thread.quit)
+        self.worker.error.connect(self.worker.deleteLater)
+
+        self.thread.finished.connect(self.thread.deleteLater)
+
+        self.thread.start()
+
+    def error(self, error):
+        self.messageLineEdit.setEnabled(True)
+        self.loadPushButton.setEnabled(True)
+
+        self.chatTextEdit.error(error)
+
+    def finish(self, text, status):
+        status, message = decodeAIMessage(self.window, text, self.chatTextEdit)
+
+        self.messageLineEdit.setEnabled(True)
+        self.loadPushButton.setEnabled(True)
+
+        if status:
+            self.chatTextEdit.error(message)
+
+            return
+
+        date = str(datetime.datetime.now()).replace(":", "-")
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/backups/{date}.json", "w", encoding="UTF-8") as file:
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json"):
+            return
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json", "r", encoding="UTF-8") as file:
+            self.window.settings = json.load(file)
+
+        os.remove(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json")
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        init(self.window)
 
 
 class Tab3(QWidget):
@@ -719,5 +901,8 @@ def resize(window) -> None:
 
     tab = window.objects["tabs"].widget(4)
 
-    tab.chat.setGeometry(x(20), 0, x(60), y(100) - 30)
-    tab.message.setGeometry(x(20), y(100) - 30 + 1, x(60), 28)
+    tab.chatTextEdit.setGeometry(x(0), 0, x(100), y(100) - 60)
+    tab.messageLineEdit.setGeometry(x(0), y(100) - 60 + 1, x(80), 28)
+    tab.sendPushButton.setGeometry(x(80) + 2, y(100) - 60 + 1, x(20) - 2, 28)
+    tab.loadPushButton.setGeometry(x(0) + 1, y(100) - 30 + 1, x(80) - 1, 28)
+    tab.removePushButton.setGeometry(x(80) + 2, y(100) - 30 + 1, x(20) - 2, 28)

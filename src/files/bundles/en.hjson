@@ -18,12 +18,16 @@
 "menu.main.tab.settings.hard": "Hard"
 
 "menu.main.tab.teachers.add_teacher": "Add teacher"
+"menu.main.tab.teachers.delete": "Delete"
 
 "menu.main.tab.AI.write_your_request_and_press_enter": "Write your request and press enter..."
 "menu.main.tab.AI.ai_first_message": "Hi! I can help with importing any data into this project. Feel free to ask me any questions."
 "menu.main.tab.AI.you": "You"
 "menu.main.tab.AI.ai": "AI"
 "menu.main.tab.AI.error": "Error"
+"menu.main.tab.AI.send": "Send"
+"menu.main.tab.AI.choose_file": "Choose file"
+"menu.main.tab.AI.remove_file": "Remove file"
 
 "dialog.create_project.title": "Create project"
 "dialog.create_project.label": "Project name:"
