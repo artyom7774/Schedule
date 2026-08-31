@@ -1,0 +1,7 @@
+{
+    "equalLessons": 5,
+    "notEqualsLessonsCountOnDay": 25,
+    "lessonsEmptySlots": 200,
+    "daysByHard": 2,
+    "teacherFreeTime": 5
+}

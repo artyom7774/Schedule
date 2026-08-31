@@ -7,7 +7,7 @@
 "menu.main.tab.classes": "Classes"
 "menu.main.tab.teachers": "Teachers"
 "menu.main.tab.AI": "AI"
-"menu.main.tab.lessons": "Lessons"
+"menu.main.tab.run": "Run"
 
 "menu.main.tab.settings.working_days_per_week": "Working days per week:"
 "menu.main.tab.settings.max_lesson_count_per_day": "Max lesson count per day:"
@@ -28,6 +28,8 @@
 "menu.main.tab.AI.send": "Send"
 "menu.main.tab.AI.choose_file": "Choose file"
 "menu.main.tab.AI.remove_file": "Remove file"
+
+"menu.main.tab.run.run": "Run"
 
 "dialog.create_project.title": "Create project"
 "dialog.create_project.label": "Project name:"

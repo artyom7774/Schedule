@@ -49,6 +49,15 @@ class Window(QMainWindow):
         QTableWidget {
             background-color: #202124;
         }
+        
+        QToolTip {
+            background-color: #2b2b2b;
+            color: #ffffff;
+            border: 1px solid #555555;
+            padding-right: -3px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
         """
 
         qdarktheme.setup_theme(theme="dark", additional_qss=STYLE)

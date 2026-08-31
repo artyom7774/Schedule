@@ -1,18 +1,33 @@
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLineEdit
+from PyQt5.QtCore import Qt
 
 
 class MultiTableWidget(QTableWidget):
     def __init__(self, rows, cols, parent=None):
         super().__init__(rows, cols, parent)
 
+        self.blockSignals(True)
+
         for r in range(rows):
             for c in range(cols):
                 self.setItem(r, c, QTableWidgetItem("0"))
+
+        self.blockSignals(False)
 
         self.itemChanged.connect(self.changed)
 
         self.updating = False
         self.editor = False
+
+    def setHeaderLabelsWithTooltip(self, labels):
+        self.setHorizontalHeaderLabels(labels)
+
+        for col, text in enumerate(labels):
+            header = self.horizontalHeaderItem(col)
+
+            if header is not None:
+                header.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                header.setToolTip(text)
 
     def closeEditor(self, editor, hint):
         item = self.currentItem()

@@ -44,14 +44,14 @@ class ChatAITextEdit(QTextEdit):
         if not text:
             return
 
-        self.print(translate("menu.main.tab.AI.you"), text, "#1a73e8")
+        self.print(translate("menu.main.tab.AI.you"), text, "#5c5dc9")
 
         self.history.append({"role": "user", "content": text})
 
     def answer(self, answer):
-        self.print(translate("menu.main.tab.AI.ai"), answer, "#188038")
+        self.print(translate("menu.main.tab.AI.ai"), answer, "#4fc255")
 
         self.history.append({"role": "assistant", "content": answer})
 
     def error(self, error):
-        self.print(translate("menu.main.tab.AI.error"), error, "#d93025")
+        self.print(translate("menu.main.tab.AI.error"), error, "#d9534f")

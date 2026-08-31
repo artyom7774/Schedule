@@ -4,7 +4,7 @@ import sys
 import os
 
 URL = "https://ge3.pythonanywhere.com/"
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3.7-flash"
 
 if os.name == "nt":
     try:
@@ -20,7 +20,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 
 def sendChatRequestWithFile(message: str, file_path: str = None):
-    poll_interval = 1.5
+    interval = 1.5
     timeout = 300
 
     data = {
@@ -29,12 +29,12 @@ def sendChatRequestWithFile(message: str, file_path: str = None):
     }
 
     files = None
-    file_handle = None
+    handle = None
 
     try:
         if file_path and os.path.isfile(file_path):
-            file_handle = open(file_path, "rb")
-            files = {"file": (os.path.basename(file_path), file_handle)}
+            handle = open(file_path, "rb")
+            files = {"file": (os.path.basename(file_path), handle)}
 
         response = requests.post(
             f"{URL}/chat-ai-file",
@@ -45,8 +45,8 @@ def sendChatRequestWithFile(message: str, file_path: str = None):
         response.raise_for_status()
 
     finally:
-        if file_handle:
-            file_handle.close()
+        if handle:
+            handle.close()
 
     result = response.json()
 
@@ -58,20 +58,20 @@ def sendChatRequestWithFile(message: str, file_path: str = None):
         if time.time() - start_time > timeout:
             raise Exception("timeout")
 
-        status_resp = requests.get(f"{URL}/ai/status/{ids}", timeout=30)
-        status_resp.raise_for_status()
-        status_data = status_resp.json()
+        now = requests.get(f"{URL}/ai/status/{ids}", timeout=30)
+        now.raise_for_status()
+        sdata = now.json()
 
-        status = status_data.get("status")
+        status = sdata.get("status")
 
         if status == "completed":
-            return status_data.get("response", ""), status
+            return sdata.get("response", ""), status
 
         elif status == "error":
-            raise Exception(f"{status_data.get('error')}")
+            raise Exception(f"{sdata.get('error')}")
 
         elif status == "processing":
-            time.sleep(poll_interval)
+            time.sleep(interval)
 
         else:
-            raise Exception(f"{status_data}")
+            raise Exception(f"{sdata}")
