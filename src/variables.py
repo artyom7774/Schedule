@@ -12,6 +12,15 @@ CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "
 SIZE = {}
 PLUS = 64 + 8 - 1
 
+TAB_SETTINGS    = 0
+TAB_CLASSES     = 1
+TAB_TEACHERS    = 2
+TAB_AI          = 4
+TAB_CONSTANTS   = 6
+TAB_RUN         = 8
+TAB_VIEW        = 10
+TAB_EXPORT      = 12
+
 
 def getAppDataDir():
     if os.name == "nt":
