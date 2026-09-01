@@ -7,7 +7,10 @@
 "menu.main.tab.classes": "Classes"
 "menu.main.tab.teachers": "Teachers"
 "menu.main.tab.AI": "AI"
+"menu.main.tab.constants": "Constants"
 "menu.main.tab.run": "Run"
+"menu.main.tab.view": "View"
+"menu.main.tab.export": "Export"
 
 "menu.main.tab.settings.working_days_per_week": "Working days per week:"
 "menu.main.tab.settings.max_lesson_count_per_day": "Max lesson count per day:"
@@ -30,6 +33,11 @@
 "menu.main.tab.AI.remove_file": "Remove file"
 
 "menu.main.tab.run.run": "Run"
+"menu.main.tab.run.time_passed": "Time passed"
+
+"menu.main.tab.view.classes": "Classes"
+"menu.main.tab.view.teachers": "Teachers"
+"menu.main.tab.view.schedule_not_created": "Schedule not created"
 
 "dialog.create_project.title": "Create project"
 "dialog.create_project.label": "Project name:"
@@ -47,6 +55,12 @@
 "log.text.project_name_already_exists": "Project name already exists"
 "log.text.teacher_name_is_empty": "Teacher name is empty"
 "log.text.teacher_name_already_exists": "Teacher name already exists"
+
+"weights.equalLessons": "Equal lessons"
+"weights.notEqualsLessonsCountOnDay": "Not equals lessons count on day"
+"weights.lessonsEmptySlots": "Lessons empty slots"
+"weights.daysByHard": "Days by hard"
+"weights.teacherFreeTime": "Teacher free time"
 
 "day.0": "Monday"
 "day.1": "Tuesday"

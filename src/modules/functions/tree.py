@@ -1,5 +1,6 @@
 from src.variables import *
 
+import shutil
 import json
 import os
 
@@ -50,6 +51,9 @@ def initProject(window, project):
 
     if not os.path.exists(f"{path}/backups"):
         os.mkdir(f"{path}/backups")
+
+    if not os.path.exists(f"{path}/weights.json"):
+        shutil.copy(f"src/files/weights.json", f"{path}/weights.json")
 
     parameters = {
         "working_days_per_week": 5,

@@ -4,7 +4,7 @@ from src.modules.translate import translate
 
 import os
 
-NAME = "Schdule Maker 1"
+NAME = "Schedule Maker 1"
 
 CLASSES_ALPHABET = "-АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ"
 CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "#929396", "#A9AAAD", "#C0C0C0"]
@@ -23,7 +23,7 @@ def getAppDataDir():
     return base
 
 
-PATH_TO_FOLDER = f"{getAppDataDir()}/Schdule-Maker-1"
+PATH_TO_FOLDER = f"{getAppDataDir()}/Schedule-Maker-1"
 
 if not os.path.exists(PATH_TO_FOLDER):
     os.mkdir(PATH_TO_FOLDER)
@@ -50,6 +50,9 @@ BIG_FONT.setPointSize(30)
 
 FONT = QFont("Verdana")
 FONT.setPixelSize(16)
+
+ANOTHER_FONT = QFont("Courier New")
+ANOTHER_FONT.setPixelSize(16)
 
 LITTLE_FONT = QFont("Verdana")
 LITTLE_FONT.setPixelSize(14)

@@ -129,6 +129,10 @@ public:
             lessons[cls] = json::array();
 
             for (auto& [subject, count] : settings["classes"]["lessons"][cls].items()) {
+                if (count == 0) {
+                    continue;
+                }
+
                 vector<string> temp;
 
                 for (string& teacher : teachers) {
@@ -405,7 +409,7 @@ public:
                     continue;
                 }
 
-                value += end - start - cnt + 1 + max(0, 4 - cnt);
+                value += pow(end - start - cnt + 1, 2) + 3 * max(0, 4 - cnt);
             }
         }
 
@@ -536,9 +540,9 @@ int main(int argc, char** argv) {
 
     teacherAllowed.assign(size, vector<bool>(SLOTS, false));
 
-    for (int t = 0; t < (int)data.teachers.size(); t++) {
-        for (int slot : data.free[t]) {
-            teacherAllowed[t + 1][slot] = true;
+    for (int teacher = 0; teacher < data.teachers.size(); teacher++) {
+        for (int slot : data.free[teacher]) {
+            teacherAllowed[teacher + 1][slot] = true;
         }
     }
 
@@ -553,8 +557,8 @@ int main(int argc, char** argv) {
         for (auto subject : value) {
             vector<int> ids;
 
-            for (auto& tName : subject["teachers"]) {
-                ids.push_back(IDByTeacherName[tName]);
+            for (auto& teacher : subject["teachers"]) {
+                ids.push_back(IDByTeacherName[teacher]);
             }
 
             int subjectID = IDBySubjectName[subject["subject"]];
@@ -569,6 +573,7 @@ int main(int argc, char** argv) {
 
     while (!pending.empty()) {
         int bestIdx = -1;
+
         vector<int> bestCandidates;
 
         for (int idx = 0; idx < (int)pending.size(); idx++) {
@@ -649,8 +654,22 @@ int main(int argc, char** argv) {
         temperature *= 0.9999999;
 
         if (equal == 10000 || (iter + 1) % 1000000 == 0) {
-            cout << "\n" << (equal == 10000 ? "[EQUAL]" : "[PRINT]") << " ";
-            cout << iter + 1 << " " << temperature << " " << total << " " << equal << "\n";
+            ostringstream stream;
+
+            stream << (equal == 10000 ? "[EQUAL]" : "[PRINT]") << " ";
+            stream << iter + 1 << " " << temperature << " " << total << " " << equal;
+
+            string prefix = stream.str();
+
+            cout << prefix;
+
+            int len = prefix.size();
+
+            if (len < 40) {
+                std::cout << string(40 - len, ' ');
+            }
+
+            cout << "| ";
 
             for (auto element : getClassPoint()) {
                 cout << element << " ";
@@ -673,6 +692,7 @@ int main(int argc, char** argv) {
             }
 
             auto& shiftClasses = data.classesByShift[shift];
+
             int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
             int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
 
@@ -877,8 +897,8 @@ int main(int argc, char** argv) {
 
         double after = getClassTotal(cls1) + getClassTotal(cls2);
 
-        for (int t : involvedTeachers) {
-            after += Functions::teacherFreeTime(t);
+        for (int teacher : involvedTeachers) {
+            after += Functions::teacherFreeTime(teacher);
         }
 
         double delta = after - before;

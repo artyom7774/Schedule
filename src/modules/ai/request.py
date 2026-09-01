@@ -4,7 +4,7 @@ import sys
 import os
 
 URL = "https://ge3.pythonanywhere.com/"
-MODEL = "gemini-3.7-flash"
+MODEL = "gemini-3.6-flash"
 
 if os.name == "nt":
     try:

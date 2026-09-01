@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QScrollArea, QMenu, QAction, QFileDialog, QVBoxLayout, QTextEdit, QTabWidget, QSlider, QWidget, QComboBox, QListWidget, QTableWidget, QPushButton, QHeaderView, QLabel, QLineEdit, QTableWidgetItem
-from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal, QProcess, QTextCodec
+from PyQt5.QtWidgets import QScrollArea, QMenu, QAction, QFileDialog, QVBoxLayout, QTextEdit, QTabWidget, QSlider, QWidget, QComboBox, QListWidget, QTableWidget, QPushButton, QHeaderView, QLabel, QLineEdit, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal, QProcess, QTimer
 from PyQt5.QtGui import QColor, QTextCursor
 
 from src.modules.widgets import MultiTableWidget, ButtonGridWidget, ChatAITextEdit
@@ -13,12 +13,16 @@ import datetime
 import shutil
 import typing
 import json
+import time
 
-TAB_SETTINGS = 0
-TAB_CLASSES  = 1
-TAB_TEACHERS = 2
-TAB_AI       = 4
-TAB_RUN      = 6
+TAB_SETTINGS  = 0
+TAB_CLASSES   = 1
+TAB_TEACHERS  = 2
+TAB_AI        = 4
+TAB_CONSTANTS = 6
+TAB_RUN       = 8
+TAB_VIEW      = 10
+TAB_EXPORT    = 12
 
 
 class TabSettings(QWidget):
@@ -138,7 +142,7 @@ class TabSettings(QWidget):
             flag = True
 
         if flag:
-            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
                 json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         self.classesObjects = {}
@@ -251,7 +255,7 @@ class TabSettings(QWidget):
 
             refresh = []
 
-        with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(window.settings, file, indent=4, ensure_ascii=False)
 
         if refresh:
@@ -323,7 +327,7 @@ class TabClasses(QWidget):
 
         self.classesTable.blockSignals(False)
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
 
@@ -376,7 +380,7 @@ class TeacherSubjectWidget(QTableWidget):
         else:
             self.window.settings["teachers"][self.teacher]["subjects"][self.index]["classes"].append(text)
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
         init(self.window, ignore=[TAB_TEACHERS], reverse=True)
@@ -472,7 +476,7 @@ class TabTeachers(QWidget):
             flag = True
 
         if flag:
-            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
                 json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         shifts = ["I", "II", "III"][:self.window.settings["number_of_shifts"] + 1] + list([f"{element}" for element in range(4, self.window.settings["number_of_shifts"] + 1)])
@@ -536,7 +540,7 @@ class TabTeachers(QWidget):
 
         self.window.objects.pop("teachers_scroll", None)
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
         init(self.window, ignore=[TAB_TEACHERS], reverse=True)
@@ -558,7 +562,7 @@ class TabTeachers(QWidget):
 
         self.window.objects["shift_selected"] = shift
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
         init(self.window, ignore=[TAB_TEACHERS], reverse=True)
@@ -578,7 +582,7 @@ class TabTeachers(QWidget):
         self.window.objects["teachers_scroll"] = self.teachersScroll.verticalScrollBar().value()
         self.window.objects["teachers_selected"] = self.teacher
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
         init(self.window, ignore=[TAB_TEACHERS], reverse=True)
@@ -626,7 +630,7 @@ class TabTeachers(QWidget):
 
         self.window.dialog.close()
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
         init(self.window, ignore=[TAB_TEACHERS], reverse=True)
@@ -778,27 +782,35 @@ class TabAI(QWidget):
 
         date = str(datetime.datetime.now()).replace(":", "-")
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/backups/{date}.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/backups/{date}.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json"):
             return
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json", "r", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json", "r", encoding="utf-8") as file:
             self.window.settings = json.load(file)
 
         os.remove(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json")
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="UTF-8") as file:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
         init(self.window, ignore=[TAB_SETTINGS, TAB_CLASSES, TAB_TEACHERS], reverse=True)
 
 
+class TabConstants(QWidget):
+    def __init__(self, window):
+        super().__init__()
+
+        self.window = window
+
+
 class TabRun(QWidget):
     stdTextEdit = None
     process = None
-    
+    time = 0
+
     def __init__(self, window):
         super().__init__()
 
@@ -812,8 +824,18 @@ class TabRun(QWidget):
 
         self.stdTextEdit = TabRun.stdTextEdit
 
+        self.settingsRama = QTableWidget(0, 0, parent=self)
+        self.settingsRama.horizontalHeader().setVisible(False)
+        self.settingsRama.verticalHeader().setVisible(False)
+        self.settingsRama.show()
+
+        self.objects = {}
+        self.weights = {}
+
+        self.settingsInputsInit()
+
         self.stdTextEdit.setReadOnly(True)
-        self.stdTextEdit.setFont(FONT)
+        self.stdTextEdit.setFont(ANOTHER_FONT)
         self.stdTextEdit.show()
 
         self.runPushButton = QPushButton(parent=self)
@@ -822,27 +844,92 @@ class TabRun(QWidget):
         self.runPushButton.setFont(FONT)
         self.runPushButton.show()
 
+        self.number = 0
+        self.timer = None
+
+        self.timeLabel = QLabel(parent=self)
+        self.timeLabel.setFont(FONT)
+        self.timeLabel.show()
+
+    def settingsInputsInit(self):
+        for obj in self.objects.values():
+            obj.deleteLater()
+
+        self.objects = {}
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "r", encoding="utf-8") as file:
+            self.weights = json.load(file)
+
+        for name, value in self.weights.items():
+            self.objects[f"label_{name}"] = QLabel(parent=self)
+            self.objects[f"label_{name}"].setText(translate(f"weights.{name}") + ": ")
+            self.objects[f"label_{name}"].setFont(FONT)
+            self.objects[f"label_{name}"].show()
+
+            self.objects[f"lineedit_{name}"] = QLineEdit(parent=self)
+            self.objects[f"lineedit_{name}"].editingFinished.connect(lambda var = name: self.weightLineEditEditingFinished(var))
+            self.objects[f"lineedit_{name}"].setText(str(value))
+            self.objects[f"lineedit_{name}"].setFont(FONT)
+            self.objects[f"lineedit_{name}"].show()
+
+    def weightLineEditEditingFinished(self, name):
+        value = self.objects[f"lineedit_{name}"].text()
+
+        print(name, value)
+
+        try:
+            int(value)
+
+        except BaseException:
+            self.objects[f"lineedit_{name}"].setText(str(self.weights[name]))
+
+            return
+
+        self.weights[name] = int(value)
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "w", encoding="utf-8") as file:
+            json.dump(self.weights, file, indent=4, ensure_ascii=False)
+
     def runPushButtonClicked(self):
         if self.process and self.process.state() != QProcess.NotRunning:
             return
 
         init(self.window, ignore=[TAB_RUN])
 
+        self.time = time.time()
+        self.number = 0
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.counter)
+        self.timer.start(1000)
+
         self.stdTextEdit.clear()
 
         TabRun.process = QProcess(self)
 
-        codec = QTextCodec.codecForName("utf-8")
         self.process.setProcessChannelMode(QProcess.MergedChannels)
 
         self.process.readyReadStandardOutput.connect(self.stdout)
         self.process.readyReadStandardError.connect(self.stderr)
+
         self.process.finished.connect(self.finish)
 
-        self.process.start("src/modules/solve.exe", ["--weights", "src/files/weights.json", "--input", f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "--output", f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"])
+        self.process.start("src/modules/solve.exe", [
+            "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
+            "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
+            "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
+            "--iterations", f"100000000"
+        ])
+
+        self.runPushButton.setDisabled(True)
 
         if not self.process.waitForStarted(3000):
             raise Exception()
+
+    def counter(self):
+        self.number += 1
+
+        self.timeLabel.setText(translate("menu.main.tab.run.time_passed") + ": " + str(self.number) + " s")
 
     def update(self):
         cursor = self.stdTextEdit.textCursor()
@@ -852,22 +939,25 @@ class TabRun(QWidget):
         self.stdTextEdit.ensureCursorVisible()
 
     def stdout(self):
-        self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardOutput()).decode("utf-8", errors="replace").rstrip())
+        self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardOutput()).decode("utf-8", errors="replace"))
 
         self.update()
 
     def stderr(self):
-        self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardError()).decode("utf-8", errors="replace").rstrip())
+        self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardError()).decode("utf-8", errors="replace"))
 
         self.update()
 
     def finish(self, code, status):
-        ...
+        self.runPushButton.setDisabled(False)
+
+        self.timer.stop()
+
+        self.stdTextEdit.insertPlainText(f"\n=== Process finished with exit code {code} ===\n")
 
         self.update()
 
-    def __del__(self):
-        self.stop()
+        init(self.window, ignore=[TAB_VIEW], reverse=True)
 
     def stop(self):
         if self.process is not None and self.process.state() != QProcess.NotRunning:
@@ -876,6 +966,245 @@ class TabRun(QWidget):
             if not self.process.waitForFinished(1000):
                 self.process.kill()
                 self.process.waitForFinished()
+
+
+class TabView(QWidget):
+    def __init__(self, window):
+        super().__init__()
+
+        self.window = window
+
+        self.classes = []
+
+        for i, cnt in enumerate(self.window.settings["classes"]["count"]):
+            for number in range(cnt):
+                self.classes.append(f"{i + 1} {CLASSES_ALPHABET[number + 1]}")
+
+        self.teachers = list(sorted(window.settings["teachers"].keys()))
+
+        self.answer = None
+
+        answerPath = f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"
+
+        if os.path.exists(answerPath):
+            try:
+                with open(answerPath, "r", encoding="utf-8") as file:
+                    self.answer = json.load(file)
+
+            except BaseException:
+                self.answer = None
+
+        self.modeComboBox = QComboBox(parent=self)
+        self.modeComboBox.addItems([translate("menu.main.tab.view.classes"), translate("menu.main.tab.view.teachers")])
+        self.modeComboBox.setFont(FONT)
+
+        mode = window.objects.get("mode", 0)
+
+        if not (0 <= mode <= 1):
+            mode = 0
+
+        self.modeComboBox.blockSignals(True)
+        
+        self.modeComboBox.setCurrentIndex(mode)
+        
+        self.modeComboBox.blockSignals(False)
+
+        self.modeComboBox.currentIndexChanged.connect(lambda idx: self.modeChanged(idx))
+        self.modeComboBox.show()
+
+        self.items = QListWidget(parent=self)
+        self.items.itemClicked.connect(lambda: self.itemsItemClicked())
+        self.items.setFont(FONT)
+
+        items = self.classes if mode == 0 else self.teachers
+
+        self.items.addItems(items)
+
+        select = window.objects.get("view_selected")
+
+        if select in items:
+            self.items.setCurrentRow(items.index(select))
+
+        elif items:
+            self.items.setCurrentRow(0)
+
+        self.items.show()
+
+        self.selected = self.items.currentItem().text() if self.items.currentItem() is not None else None
+
+        window.objects["view_selected"] = self.selected
+
+        self.info = QLabel(parent=self)
+        self.info.setAlignment(Qt.AlignCenter)
+        self.info.setWordWrap(True)
+        self.info.setFont(FONT)
+
+        self.tabs = QTabWidget(parent=self)
+        self.tabs.tabBar().setFont(FONT)
+        self.tabs.tabBarClicked.connect(lambda idx: self.shiftTabClicked(idx))
+
+        shifts = ["I", "II", "III"][:self.window.settings["number_of_shifts"] + 1] + list([f"{element}" for element in range(4, self.window.settings["number_of_shifts"] + 1)])
+
+        self.tables = {}
+
+        for shift in range(self.window.settings["number_of_shifts"]):
+            table = QTableWidget(self.window.settings["max_lesson_count_per_day"], self.window.settings["working_days_per_week"], parent=self)
+
+            table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+            table.setSelectionMode(QAbstractItemView.NoSelection)
+
+            table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+            table.setVerticalHeaderLabels([f"{i + 1}" for i in range(self.window.settings["max_lesson_count_per_day"])])
+            table.setHorizontalHeaderLabels([f"{translate('day.' + str(i))}" for i in range(self.window.settings["working_days_per_week"])])
+
+            table.setFont(FONT)
+
+            self.tables[shift] = table
+
+            self.tabs.addTab(table, shifts[shift])
+
+        self.tabs.show()
+
+        if self.answer is None:
+            self.tabs.hide()
+
+            self.info.setText(translate("menu.main.tab.view.schedule_not_created"))
+            self.info.show()
+
+            return
+
+        if self.selected is None:
+            self.tabs.hide()
+
+            return
+
+        self.info.hide()
+        self.tabs.show()
+
+        if mode == 0:
+            classShift = self.classShift(self.selected)
+
+            self.fillClassSchedule(self.selected)
+
+            for shift in range(self.window.settings["number_of_shifts"]):
+                self.tabs.setTabEnabled(shift, shift == classShift)
+
+            self.tabs.setCurrentIndex(classShift)
+
+        else:
+            self.fillTeacherSchedule(self.selected)
+
+            for shift in range(self.window.settings["number_of_shifts"]):
+                self.tabs.setTabEnabled(shift, True)
+
+            shift = window.objects.get("view_shift_selected", 0)
+
+            if not (0 <= shift < self.window.settings["number_of_shifts"]):
+                shift = 0
+
+            self.tabs.setCurrentIndex(shift)
+
+    def classShift(self, name: str) -> int:
+        grade = int(name.split(" ")[0]) - 1
+
+        return self.window.settings["classes"]["shift"][grade]
+
+    def modeChanged(self, idx):
+        self.window.objects["mode"] = idx
+        
+        self.window.objects.pop("view_selected", None)
+        self.window.objects.pop("view_shift_selected", None)
+
+        init(self.window, ignore=[TAB_VIEW], reverse=True)
+
+    def itemsItemClicked(self):
+        item = self.items.currentItem()
+        
+        new = item.text() if item is not None else None
+
+        if new == self.selected:
+            return
+
+        self.selected = new
+        self.window.objects["view_selected"] = self.selected
+
+        init(self.window, ignore=[TAB_VIEW], reverse=True)
+
+    def shiftTabClicked(self, idx):
+        self.window.objects["view_shift_selected"] = idx
+
+    def fillClassSchedule(self, cls: str):
+        days = self.window.settings["working_days_per_week"]
+        lessons = self.window.settings["max_lesson_count_per_day"]
+
+        shift = self.classShift(cls)
+        table = self.tables[shift]
+
+        data = self.answer.get(cls, [])
+
+        for day in range(days):
+            for lesson in range(lessons):
+                text = "-"
+                tooltip = ""
+
+                if day < len(data) and lesson < len(data[day]):
+                    cell = data[day][lesson]
+
+                    if cell.get("subject", "#") != "#":
+                        text = cell["subject"]
+                        tooltip = ", ".join(cell.get("teachers", []))
+
+                item = QTableWidgetItem(text)
+                item.setTextAlignment(Qt.AlignCenter)
+                item.setToolTip(tooltip)
+
+                table.setItem(lesson, day, item)
+
+    def fillTeacherSchedule(self, teacher: str):
+        days = self.window.settings["working_days_per_week"]
+        lessons = self.window.settings["max_lesson_count_per_day"]
+
+        for shift in range(self.window.settings["number_of_shifts"]):
+            table = self.tables[shift]
+
+            classesInShift = [cls for cls in self.classes if self.classShift(cls) == shift]
+
+            for day in range(days):
+                for lesson in range(lessons):
+                    tooltip = ""
+                    text = "-"
+
+                    for cls in classesInShift:
+                        data = self.answer.get(cls, [])
+
+                        if day >= len(data) or lesson >= len(data[day]):
+                            continue
+
+                        cell = data[day][lesson]
+
+                        if cell.get("subject", "#") == "#":
+                            continue
+
+                        if teacher in cell.get("teachers", []):
+                            tooltip = f"{cls}: {cell['subject']}"
+                            text = f"{cls}\n{cell['subject']}"
+
+                            break
+
+                    item = QTableWidgetItem(text)
+                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setToolTip(tooltip)
+
+                    table.setItem(lesson, day, item)
+
+
+class TabExport(QWidget):
+    def __init__(self, window):
+        super().__init__()
+
+        self.window = window
 
 
 def init(window, ignore: list = None, reverse: bool = False) -> None:
@@ -904,7 +1233,13 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
         (QWidget, "/"),
         (TabAI, "menu.main.tab.AI"),
         (QWidget, "->"),
-        (TabRun, "menu.main.tab.run")
+        (TabConstants, "menu.main.tab.constants"),
+        (QWidget, "->"),
+        (TabRun, "menu.main.tab.run"),
+        (QWidget, "->"),
+        (TabView, "menu.main.tab.view"),
+        (QWidget, "->"),
+        (TabExport, "menu.main.tab.export")
     ]
 
     index = tabs.currentIndex()
@@ -951,7 +1286,7 @@ def resize(window) -> None:
         if window.objects["tabs"].widget(i) is None:
             return
 
-    tab = window.objects["tabs"].widget(0)
+    tab = window.objects["tabs"].widget(TAB_SETTINGS)
 
     tab.settingsRama.setGeometry(0, 0, x(33), y(100))
     tab.settingsDaysLabel.setGeometry(10, 10, x(15), 30)
@@ -975,17 +1310,17 @@ def resize(window) -> None:
         tab.classesObjects[f"info_{number}"].setGeometry(x(100) - 110, 10 + 50 * number, 60, 30)
         tab.classesObjects[f"shift_{number}"].setGeometry(x(100) - 40, 10 + 50 * number, 30, 30)
 
-    tab = window.objects["tabs"].widget(1)
+    tab = window.objects["tabs"].widget(TAB_CLASSES)
 
     tab.classesTable.setGeometry(0, 0, x(100), y(100))
 
-    tab = window.objects["tabs"].widget(2)
+    tab = window.objects["tabs"].widget(TAB_TEACHERS)
 
     tab.teachersList.setGeometry(0, 0, x(20), y(100) - 30)
-    tab.createTeacherButton.setGeometry(0, y(100) - 30, x(20), 30)
+    tab.createTeacherButton.setGeometry(1, y(100) - 30 + 1, x(20) - 2, 30 - 2)
 
     if tab.teacher is not None:
-        tab.teachersScroll.setGeometry(x(20), y(50), x(80) + 1, y(50) + 2)
+        tab.teachersScroll.setGeometry(x(20), y(50), x(80) + 1, y(50))
         tab.teachersScroll.setWidgetResizable(False)
 
         count = len(window.settings["teachers"][tab.teacher]["subjects"]) + 1
@@ -1008,7 +1343,7 @@ def resize(window) -> None:
     if "teachers_scroll" in window.objects:
         tab.teachersScroll.verticalScrollBar().setValue(window.objects.pop("teachers_scroll", None))
 
-    tab = window.objects["tabs"].widget(4)
+    tab = window.objects["tabs"].widget(TAB_AI)
 
     tab.chatTextEdit.setGeometry(x(0), 0, x(100), y(100) - 60)
     tab.messageLineEdit.setGeometry(x(0), y(100) - 60 + 1, x(80), 28)
@@ -1016,7 +1351,29 @@ def resize(window) -> None:
     tab.loadPushButton.setGeometry(x(0) + 1, y(100) - 30 + 1, x(80) - 1, 28)
     tab.removePushButton.setGeometry(x(80) + 2, y(100) - 30 + 1, x(20) - 2, 28)
 
-    tab = window.objects["tabs"].widget(6)
+    tab = window.objects["tabs"].widget(TAB_CONSTANTS)
 
-    tab.stdTextEdit.setGeometry(0, 0, x(100), y(100) - 30)
-    tab.runPushButton.setGeometry(1, y(100) - 30 + 1, x(30) - 2, 28)
+    tab = window.objects["tabs"].widget(TAB_RUN)
+
+    tab.settingsRama.setGeometry(0, 0, x(33), y(100))
+    tab.stdTextEdit.setGeometry(x(33), 0, x(100 - 33), y(100) - 30)
+    tab.runPushButton.setGeometry(x(33) + 1, y(100) - 30 + 1, x(30) - 2, 28)
+    tab.timeLabel.setGeometry(x(63) + 10, y(100) - 30, x(50), 30)
+
+    idx = 0
+
+    for name, value in tab.weights.items():
+        tab.objects[f"label_{name}"].setGeometry(10, 10 + 40 * idx, x(15), 30)
+        tab.objects[f"lineedit_{name}"].setGeometry(20 + x(15), 10 + 40 * idx, x(33) - x(15) - 30, 30)
+
+        idx += 1
+
+    tab = window.objects["tabs"].widget(TAB_VIEW)
+
+    tab.modeComboBox.setGeometry(1, 1, x(20) - 2, 30 - 4)
+
+    tab.info.setGeometry(x(20) + 1, 0, x(80) - 1, y(100))
+    tab.items.setGeometry(0, 30 - 2, x(20), y(100) - 30 + 2)
+    tab.tabs.setGeometry(x(20) + 1, 0, x(80) - 1, y(100) - 1)
+
+    tab = window.objects["tabs"].widget(TAB_EXPORT)
