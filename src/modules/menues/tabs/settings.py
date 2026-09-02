@@ -196,7 +196,7 @@ class TabSettings(QWidget):
 
             window.settings[parameter] = int(text)
 
-            refresh = [TAB_SETTINGS, TAB_CLASSES, TAB_TEACHERS]
+            refresh = [TAB_SETTINGS, TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS]
 
         elif parameter in ("subjects", ):
             row, col = another
@@ -217,7 +217,7 @@ class TabSettings(QWidget):
 
                 window.settings[parameter][row][col] = int(text)
 
-            refresh = [TAB_CLASSES, TAB_TEACHERS]
+            refresh = [TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS]
 
         elif parameter in ("classes/count", ):
             window.settings["classes"]["count"][another[0]] = another[1]
@@ -225,7 +225,7 @@ class TabSettings(QWidget):
             if window.objects["tabs"].widget(TAB_SETTINGS):
                 window.objects["tabs"].widget(TAB_SETTINGS).initClassCountObject(another[0], False)
 
-            refresh = [TAB_CLASSES, TAB_TEACHERS]
+            refresh = [TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS]
 
         elif parameter in ("classes/shift", ):
             window.settings["classes"]["shift"][another] = (window.settings["classes"]["shift"][another] + 1) % window.settings["number_of_shifts"]

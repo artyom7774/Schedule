@@ -77,6 +77,9 @@ def initProject(window, project):
         },
         "teachers": {
 
+        },
+        "groups": {
+
         }
     }
 

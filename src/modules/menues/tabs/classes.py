@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QHeaderView
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QColor
 
 from src.modules.widgets import MultiTableWidget
@@ -25,7 +25,6 @@ class TabClasses(QWidget):
         self.classesTable.setVerticalHeaderLabels(self.classes)
         self.classesTable.setHorizontalHeaderLabels([element[0] for element in self.window.settings["subjects"]])
         self.classesTable.setHeaderLabelsWithTooltip([element[0] for element in self.window.settings["subjects"]])
-        self.classesTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.classesTable.show()
 
         for i, cls in enumerate(self.classes):

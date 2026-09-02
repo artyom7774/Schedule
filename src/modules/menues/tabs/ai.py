@@ -170,4 +170,4 @@ class TabAI(QWidget):
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, ensure_ascii=False)
 
-        TabAI.init(self.window, ignore=[TAB_SETTINGS, TAB_CLASSES, TAB_TEACHERS], reverse=True)
+        TabAI.init(self.window, ignore=[TAB_SETTINGS, TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS], reverse=True)

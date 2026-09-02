@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLineEdit
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLineEdit, QHeaderView
 from PyQt5.QtCore import Qt
 
 
@@ -8,11 +8,22 @@ class MultiTableWidget(QTableWidget):
 
         self.blockSignals(True)
 
-        for r in range(rows):
-            for c in range(cols):
+        for c in range(cols):
+            for r in range(rows):
                 self.setItem(r, c, QTableWidgetItem("0"))
 
         self.blockSignals(False)
+
+        self.setStyleSheet("""QHeaderView::section { padding-right: 8px; }""")
+
+        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.verticalHeader().setFixedWidth(self.columnWidth(0))
+
+        def sync(index, old, new):
+            if index == 0:
+                self.verticalHeader().setFixedWidth(new)
+
+        self.horizontalHeader().sectionResized.connect(sync)
 
         self.itemChanged.connect(self.changed)
 

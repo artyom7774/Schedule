@@ -17,9 +17,10 @@ TAB_CLASSES     = 1
 TAB_TEACHERS    = 2
 TAB_AI          = 4
 TAB_CONSTANTS   = 6
-TAB_RUN         = 8
-TAB_VIEW        = 10
-TAB_EXPORT      = 12
+TAB_GROUPS      = 7
+TAB_RUN         = 9
+TAB_VIEW        = 11
+TAB_EXPORT      = 13
 
 
 def getAppDataDir():

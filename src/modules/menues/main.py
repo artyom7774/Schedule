@@ -19,7 +19,7 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
     if ignore is None:
         ignore = []
 
-    tabs = [TabSettings, TabClasses, TabTeachers, TabAI, TabConstants, TabRun, TabView, TabExport]
+    tabs = [TabSettings, TabClasses, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabExport]
 
     for tab in tabs:
         tab.resize = Import.resize
@@ -48,6 +48,7 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
         (TabAI, "menu.main.tab.AI"),
         (QWidget, "->"),
         (TabConstants, "menu.main.tab.constants"),
+        (TabGroups, "menu.main.tab.groups"),
         (QWidget, "->"),
         (TabRun, "menu.main.tab.run"),
         (QWidget, "->"),
@@ -157,9 +158,13 @@ def resize(window) -> None:
     if "teachers_scroll" in window.objects:
         tab.teachersScroll.verticalScrollBar().setValue(window.objects.pop("teachers_scroll", None))
 
+    tab = window.objects["tabs"].widget(TAB_GROUPS)
+
+    tab.groupsTable.setGeometry(0, 0, x(100), y(100))
+
     tab = window.objects["tabs"].widget(TAB_AI)
 
-    tab.chatTextEdit.setGeometry(x(0), 0, x(100), y(100) - 60)
+    tab.chatTextEdit.setGeometry(0, 0, x(100), y(100) - 60)
     tab.messageLineEdit.setGeometry(x(0), y(100) - 60 + 1, x(80), 28)
     tab.sendPushButton.setGeometry(x(80) + 2, y(100) - 60 + 1, x(20) - 2, 28)
     tab.loadPushButton.setGeometry(x(0) + 1, y(100) - 30 + 1, x(80) - 1, 28)
