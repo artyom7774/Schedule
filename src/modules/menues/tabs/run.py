@@ -94,7 +94,7 @@ class TabRun(QWidget):
         if self.process and self.process.state() != QProcess.NotRunning:
             return
 
-        TabRun.init(self.window, ignore=[TAB_RUN])
+        TabRun.init(self.window, ignore=[TAB_RUN], reversed=True)
 
         self.time = time.time()
         self.number = 0
