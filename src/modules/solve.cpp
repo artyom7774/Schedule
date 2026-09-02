@@ -15,6 +15,8 @@ int NUMBER_OF_SHIFTS  = 1;
 
 int SLOTS = 0;
 
+const int MAX_GROUP_SUBJECTS = 2;
+
 vector<string> CLASSES_LETTERS = {"-", "А", "Б", "В", "Г", "Д", "Е", "Ж", "З", "И", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Э", "Ю", "Я"};
 
 string input = "settings.json";
@@ -51,15 +53,22 @@ public:
 
     map<string, int> hards;
     vector<string> teachers, classes;
-    
+
     vector<int> shifts;
     vector<int> shiftByClass;
 
     vector<double> hardsById;
     vector<double> capacityDaysByHard;
-    
+
     vector<int> classShiftOffset;
     vector<vector<int>> classesByShift;
+
+    // NEW: subjectID -> множество subjectID, с которыми его можно ставить в один слот
+    map<int, set<int>> groupedWith;
+
+    // NEW: та же информация, но в виде матрицы для O(1)-доступа в горячем цикле SA
+    // (map<set> слишком медленный при миллионах вызовов canPlaceLesson за прогон).
+    vector<vector<char>> groupedMatrix;
 
     Data() {
         ifstream file(input);
@@ -85,6 +94,17 @@ public:
 
         for (auto element : settings["classes"]["shift"]) {
             shifts.push_back(element);
+        }
+
+        // Проверка корректности: индексы смен должны быть в диапазоне [0, NUMBER_OF_SHIFTS)
+        for (int s : shifts) {
+            if (s < 0 || s >= NUMBER_OF_SHIFTS) {
+                throw runtime_error(
+                    "classes.shift содержит значение " + to_string(s) +
+                    ", но number_of_shifts = " + to_string(NUMBER_OF_SHIFTS) +
+                    " (допустимые индексы смены: 0.." + to_string(NUMBER_OF_SHIFTS - 1) + ")"
+                );
+            }
         }
 
         for (int i = 1; i <= settings["classes"]["count"].size(); i++) {
@@ -173,6 +193,45 @@ public:
             IDBySubjectName[subject] = idx + 1;
         }
 
+        // NEW: разбор settings["groups"] — формат ключей такой же, как в Python-редакторе:
+        // "Предмет1-Предмет2": 1 (и симметрично "Предмет2-Предмет1": 1)
+        if (settings.contains("groups")) {
+            set<string> groupKeys;
+
+            for (auto& [key, val] : settings["groups"].items()) {
+                if ((int)val != 0) {
+                    groupKeys.insert(key);
+                }
+            }
+
+            int subjectsCount = settings["subjects"].size();
+
+            for (int i = 0; i < subjectsCount; i++) {
+                for (int j = 0; j < subjectsCount; j++) {
+                    if (i == j) continue;
+
+                    string s1 = settings["subjects"][i][0];
+                    string s2 = settings["subjects"][j][0];
+
+                    if (groupKeys.count(s1 + "-" + s2)) {
+                        groupedWith[i + 1].insert(j + 1);
+                    }
+                }
+            }
+
+            // NEW: строим матрицу из уже собранного groupedWith
+            groupedMatrix.assign(subjectsCount + 1, vector<char>(subjectsCount + 1, 0));
+
+            for (auto& [a, set_] : groupedWith) {
+                for (int b : set_) {
+                    groupedMatrix[a][b] = 1;
+                }
+            }
+
+        } else {
+            groupedMatrix.assign(settings["subjects"].size() + 1, vector<char>(settings["subjects"].size() + 1, 0));
+        }
+
         for (int idx = 0; idx < teachers.size(); idx++) {
             auto teacher = teachers[idx];
 
@@ -247,6 +306,69 @@ inline int slotValue(int row, int slot) {
     return graph[row][slot].empty() ? 0 : graph[row][slot][0].value;
 }
 
+// NEW: набор разных subjectID, стоящих в данном слоте (для класса — обычно 1, но может быть 2, если это "группа").
+// Без выделения памяти в куче (важно: эта функция вызывается миллионы раз за прогон SA),
+// поэтому вместо std::set используется фиксированный массив на MAX_GROUP_SUBJECTS элементов.
+struct SubjectSet {
+    int values[MAX_GROUP_SUBJECTS];
+    int size = 0;
+
+    inline bool contains(int v) const {
+        for (int i = 0; i < size; i++) {
+            if (values[i] == v) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    inline void insert(int v) {
+        if (size < MAX_GROUP_SUBJECTS && !contains(v)) {
+            values[size++] = v;
+        }
+    }
+};
+
+inline SubjectSet slotSubjects(int row, int slot) {
+    SubjectSet result;
+
+    for (edge& e : graph[row][slot]) {
+        result.insert(e.value);
+    }
+
+    return result;
+}
+
+// NEW: можно ли добавить урок предмета subjectID в данный слот класса cls
+// (слот свободен, либо там уже стоит предмет(ы), с которым(и) subjectID разрешено сочетаться по settings["groups"])
+bool canPlaceLesson(int cls, int slot, int subjectID) {
+    if (!occupied(cls, slot)) {
+        return true;
+    }
+
+    SubjectSet existing = slotSubjects(cls, slot);
+
+    if (existing.contains(subjectID)) {
+        return false; // тот же предмет второй раз в этот же слот не кладём
+    }
+
+    if (existing.size >= MAX_GROUP_SUBJECTS) {
+        return false;
+    }
+
+    Data& data = getData();
+
+    // NEW: O(1) проверка по матрице вместо map<set> — важно для горячего цикла SA
+    for (int i = 0; i < existing.size; i++) {
+        if (!data.groupedMatrix[existing.values[i]][subjectID]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 struct Lesson {
     int cls, base, subjectID;
     string className, subjectName;
@@ -268,6 +390,8 @@ struct Weights {
     inline static double lessonsEmptySlots = 200;
     inline static double daysByHard = 2;
     inline static double teacherFreeTime = 5;
+    inline static double groupBonus = 10;
+    inline static double incompleteGroupPosition = 35;
 
     static void init(const json& data) {
         equalLessons = data.value("equalLessons", equalLessons);
@@ -275,6 +399,8 @@ struct Weights {
         lessonsEmptySlots = data.value("lessonsEmptySlots", lessonsEmptySlots);
         daysByHard = data.value("daysByHard", daysByHard);
         teacherFreeTime = data.value("teacherFreeTime", teacherFreeTime);
+        groupBonus = data.value("groupBonus", groupBonus);
+        incompleteGroupPosition = data.value("incompleteGroupPosition", incompleteGroupPosition);
     }
 };
 
@@ -289,15 +415,13 @@ public:
 
         for (int i = base; i < base + MAX_LESSON_IN_DAY; i++) {
             for (int j = i + 1; j < base + MAX_LESSON_IN_DAY; j++) {
-                int vi = slotValue(cls, i);
-                int vj = slotValue(cls, j);
+                SubjectSet si = slotSubjects(cls, i);
+                SubjectSet sj = slotSubjects(cls, j);
 
-                if (vi == 0 || vj == 0) {
-                    continue;
-                }
-
-                if (vi == vj) {
-                    value += 1;
+                for (int k = 0; k < si.size; k++) {
+                    if (sj.contains(si.values[k])) {
+                        value += 1;
+                    }
                 }
             }
         }
@@ -368,7 +492,11 @@ public:
             int base = offset + day * MAX_LESSON_IN_DAY;
 
             for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-                hards[day] += data.hardsById[slotValue(cls, base + lesson)];
+                SubjectSet subjects = slotSubjects(cls, base + lesson);
+
+                for (int k = 0; k < subjects.size; k++) {
+                    hards[day] += data.hardsById[subjects.values[k]];
+                }
             }
 
             hards[day] /= data.capacityDaysByHard[day];
@@ -383,6 +511,61 @@ public:
         }
 
         return Weights::daysByHard * value;
+    }
+
+    static bool functionIsIncompleteGroup(int cls, int slot) {
+        if (!occupied(cls, slot)) {
+            return false;
+        }
+
+        SubjectSet subjects = slotSubjects(cls, slot);
+
+        if (subjects.size != 1) {
+            return false;
+        }
+
+        Data& data = getData();
+        auto it = data.groupedWith.find(subjects.values[0]);
+
+        return it != data.groupedWith.end() && !it->second.empty();
+    }
+
+    static double groupBonus(int cls, int day) {
+        Data& data = getData();
+        int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
+
+        double value = 0;
+
+        for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+            SubjectSet subjects = slotSubjects(cls, base + lesson);
+
+            if (subjects.size == 2) {
+                value += 1;
+            }
+        }
+
+        return -Weights::groupBonus * value;
+    }
+
+    static double incompleteGroupsAtEnd(int cls, int day) {
+        Data& data = getData();
+        int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
+
+        double value = 0;
+
+        for (int i = base; i < base + MAX_LESSON_IN_DAY; i++) {
+            if (!functionIsIncompleteGroup(cls, i)) {
+                continue;
+            }
+
+            for (int j = i + 1; j < base + MAX_LESSON_IN_DAY; j++) {
+                if (occupied(cls, j) && !functionIsIncompleteGroup(cls, j)) {
+                    value += 1;
+                }
+            }
+        }
+
+        return Weights::incompleteGroupPosition * value;
     }
 
     static double teacherFreeTime(int teacher) {
@@ -417,7 +600,7 @@ public:
     }
 };
 
-const int FUNCTIONS_ARGUMENTS_COUNT = 5;
+const int FUNCTIONS_ARGUMENTS_COUNT = 6;
 
 vector<double> getClassPoint(int cls) {
     vector<double> answer(FUNCTIONS_ARGUMENTS_COUNT, 0);
@@ -425,6 +608,8 @@ vector<double> getClassPoint(int cls) {
     for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
         answer[0] += Functions::equalLessons(cls, day);
         answer[2] += Functions::lessonsEmptySlots(cls, day);
+        answer[4] += Functions::groupBonus(cls, day);
+        answer[5] += Functions::incompleteGroupsAtEnd(cls, day);
     }
 
     answer[1] += Functions::notEqualsLessonsCountOnDay(cls);
@@ -487,16 +672,36 @@ json save() {
                 int slot = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY + lesson;
 
                 if (!occupied(cls, slot)) {
-                    answer[name][day].push_back(json{{"subject", "#"}, {"teachers", json::array()}});
+                    answer[name][day].push_back(json{{"subject", "#"}, {"teachers", json::array()}, {"extra", json::array()}});
 
                     continue;
                 }
 
-                answer[name][day].push_back(json{{"subject", subjectNameByID[graph[cls][slot][0].value]}, {"teachers", json::array()}});
+                vector<int> subjectOrder;
+                map<int, vector<string>> teachersBySubject;
 
                 for (edge& e : graph[cls][slot]) {
-                    answer[name][day].back()["teachers"].push_back(teacherNameByID[e.id]);
+                    if (!teachersBySubject.count(e.value)) {
+                        subjectOrder.push_back(e.value);
+                    }
+
+                    teachersBySubject[e.value].push_back(teacherNameByID[e.id]);
                 }
+
+                json entry;
+
+                entry["subject"] = subjectNameByID[subjectOrder[0]];
+                entry["teachers"] = teachersBySubject[subjectOrder[0]];
+                entry["extra"] = json::array();
+
+                for (int i = 1; i < (int)subjectOrder.size(); i++) {
+                    entry["extra"].push_back(json{
+                        {"subject", subjectNameByID[subjectOrder[i]]},
+                        {"teachers", teachersBySubject[subjectOrder[i]]}
+                    });
+                }
+
+                answer[name][day].push_back(entry);
             }
         }
     }
@@ -582,7 +787,7 @@ int main(int argc, char** argv) {
             vector<int> candidates;
 
             for (int slot = item.base; slot < item.base + JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY; slot++) {
-                if (occupied(item.cls, slot)) {
+                if (!canPlaceLesson(item.cls, slot, item.subjectID)) {
                     continue;
                 }
 
@@ -632,7 +837,9 @@ int main(int argc, char** argv) {
             group.push_back(edge(id, item.subjectID));
         }
 
-        graph[item.cls][color] = group;
+        for (edge& e : group) {
+            graph[item.cls][color].push_back(e);
+        }
     }
 
     if (unplaced > 0) {
@@ -684,7 +891,9 @@ int main(int argc, char** argv) {
             equal = 0;
         }
 
-        if (randint(0, 1) == 0) {
+        int type = randint(0, 2);
+
+        if (type == 0) {
             int shift = randint(0, NUMBER_OF_SHIFTS - 1);
 
             if (data.classesByShift[shift].empty()) {
@@ -776,142 +985,286 @@ int main(int argc, char** argv) {
 
             } else {
                 intraSwapper();
+
                 equal += 1;
             }
-
-            continue;
         }
 
-        int shift = randint(0, NUMBER_OF_SHIFTS - 1);
+        if (type == 1) {
+            int shift = randint(0, NUMBER_OF_SHIFTS - 1);
 
-        if (data.classesByShift[shift].size() < 2) {
-            continue;
-        }
-
-        auto& shifts = data.classesByShift[shift];
-
-        int cls1 = shifts[randint(0, shifts.size() - 1)];
-        int cls2 = shifts[randint(0, shifts.size() - 1)];
-
-        if (cls1 == cls2) {
-            continue;
-        }
-
-        int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-
-        int color1 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-        int color2 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-
-        if (color1 == color2) {
-            continue;
-        }
-
-        vector<edge>& group1 = graph[cls1][color1];
-        vector<edge>& group2 = graph[cls2][color2];
-
-        if (group1.empty() && group2.empty()) {
-            continue;
-        }
-
-        if ((group1.empty() || group2.empty()) && randint(1, 3) != 1) {
-            continue;
-        }
-
-        if (occupied(cls1, color2) || occupied(cls2, color1)) {
-            continue;
-        }
-
-        set<int> teachers1, teachers2;
-
-        for (auto& e : group1) {
-            teachers1.insert(e.id);
-        }
-
-        for (auto& e : group2) {
-            teachers2.insert(e.id);
-        }
-
-        bool ok = true;
-
-        for (int t : teachers1) {
-            if (!teacherAllowed[t][color2]) {
-                ok = false;
-
-                break;
+            if (data.classesByShift[shift].size() < 2) {
+                continue;
             }
 
-            if (occupied(t, color2) && !teachers2.count(t)) {
-                ok = false;
+            auto& shifts = data.classesByShift[shift];
 
-                break;
-            }
-        }
+            int cls1 = shifts[randint(0, shifts.size() - 1)];
+            int cls2 = shifts[randint(0, shifts.size() - 1)];
 
-        if (ok == false) {
-            continue;
-        }
-
-        for (int t : teachers2) {
-            if (!teacherAllowed[t][color1]) {
-                ok = false;
-
-                break;
+            if (cls1 == cls2) {
+                continue;
             }
 
-            if (occupied(t, color1) && !teachers1.count(t)) {
-                ok = false;
+            int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
 
-                break;
+            int color1 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+            int color2 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+
+            if (color1 == color2) {
+                continue;
             }
-        }
 
-        if (ok == false) {
-            continue;
-        }
+            vector<edge>& group1 = graph[cls1][color1];
+            vector<edge>& group2 = graph[cls2][color2];
 
-        vector<int> involvedTeachers(teachers1.begin(), teachers1.end());
-
-        for (int t : teachers2) {
-            if (!teachers1.count(t)) {
-                involvedTeachers.push_back(t);
+            if (group1.empty() && group2.empty()) {
+                continue;
             }
-        }
 
-        double before = getClassTotal(cls1) + getClassTotal(cls2);
+            if ((group1.empty() || group2.empty()) && randint(1, 3) != 1) {
+                continue;
+            }
 
-        for (int t : involvedTeachers) {
-            before += Functions::teacherFreeTime(t);
-        }
+            if (occupied(cls1, color2) || occupied(cls2, color1)) {
+                continue;
+            }
 
-        auto swapper = [&]() {
+            set<int> teachers1, teachers2;
+
+            for (auto& e : group1) {
+                teachers1.insert(e.id);
+            }
+
+            for (auto& e : group2) {
+                teachers2.insert(e.id);
+            }
+
+            bool ok = true;
+
+            for (int t : teachers1) {
+                if (!teacherAllowed[t][color2]) {
+                    ok = false;
+
+                    break;
+                }
+
+                if (occupied(t, color2) && !teachers2.count(t)) {
+                    ok = false;
+
+                    break;
+                }
+            }
+
+            if (ok == false) {
+                continue;
+            }
+
+            for (int t : teachers2) {
+                if (!teacherAllowed[t][color1]) {
+                    ok = false;
+
+                    break;
+                }
+
+                if (occupied(t, color1) && !teachers1.count(t)) {
+                    ok = false;
+
+                    break;
+                }
+            }
+
+            if (ok == false) {
+                continue;
+            }
+
+            vector<int> involvedTeachers(teachers1.begin(), teachers1.end());
+
+            for (int t : teachers2) {
+                if (!teachers1.count(t)) {
+                    involvedTeachers.push_back(t);
+                }
+            }
+
+            double before = getClassTotal(cls1) + getClassTotal(cls2);
+
             for (int t : involvedTeachers) {
-                swap(graph[t][color1], graph[t][color2]);
+                before += Functions::teacherFreeTime(t);
             }
 
-            swap(graph[cls1][color1], graph[cls1][color2]);
-            swap(graph[cls2][color1], graph[cls2][color2]);
-        };
+            auto swapper = [&]() {
+                for (int t : involvedTeachers) {
+                    swap(graph[t][color1], graph[t][color2]);
+                }
 
-        count++;
-        swapper();
+                swap(graph[cls1][color1], graph[cls1][color2]);
+                swap(graph[cls2][color1], graph[cls2][color2]);
+            };
 
-        double after = getClassTotal(cls1) + getClassTotal(cls2);
-
-        for (int teacher : involvedTeachers) {
-            after += Functions::teacherFreeTime(teacher);
-        }
-
-        double delta = after - before;
-
-        if (delta < 0 || double(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
-            total = total - before + after;
-
-            equal = 0;
-
-        } else {
+            count++;
             swapper();
 
-            equal += 1;
+            double after = getClassTotal(cls1) + getClassTotal(cls2);
+
+            for (int teacher : involvedTeachers) {
+                after += Functions::teacherFreeTime(teacher);
+            }
+
+            double delta = after - before;
+
+            if (delta < 0 || double(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+                total = total - before + after;
+
+                equal = 0;
+
+            } else {
+                swapper();
+
+                equal += 1;
+            }
+        }
+
+        if (type == 2) {
+            int shift = randint(0, NUMBER_OF_SHIFTS - 1);
+
+            if (data.classesByShift[shift].empty()) {
+                continue;
+            }
+
+            auto& shiftClasses = data.classesByShift[shift];
+            int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
+            int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+            int weekSlots = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+
+            int slotA = off + randint(0, weekSlots - 1);
+
+            if (!occupied(cls, slotA)) {
+                continue;
+            }
+
+            SubjectSet subjectsA = slotSubjects(cls, slotA);
+            int subjectID = subjectsA.values[randint(0, subjectsA.size - 1)];
+
+            vector<int> involvedTeachers;
+
+            for (edge& e : graph[cls][slotA]) {
+                if (e.value == subjectID) {
+                    involvedTeachers.push_back(e.id);
+                }
+            }
+
+            vector<int> groupCandidates, emptyCandidates;
+
+            for (int slot = off; slot < off + weekSlots; slot++) {
+                if (slot == slotA) {
+                    continue;
+                }
+
+                if (!canPlaceLesson(cls, slot, subjectID)) {
+                    continue;
+                }
+
+                bool teachersOk = true;
+
+                for (int t : involvedTeachers) {
+                    if (!teacherAllowed[t][slot] || occupied(t, slot)) {
+                        teachersOk = false;
+                        break;
+                    }
+                }
+
+                if (!teachersOk) {
+                    continue;
+                }
+
+                if (occupied(cls, slot)) {
+                    groupCandidates.push_back(slot);
+                } else {
+                    emptyCandidates.push_back(slot);
+                }
+            }
+
+            int slotB;
+
+            if (!groupCandidates.empty()) {
+                slotB = groupCandidates[randint(0, groupCandidates.size() - 1)];
+
+            } else if (!emptyCandidates.empty()) {
+                slotB = emptyCandidates[randint(0, emptyCandidates.size() - 1)];
+
+            } else {
+                continue;
+            }
+
+            double before = getClassTotal(cls);
+
+            for (int t : involvedTeachers) {
+                before += Functions::teacherFreeTime(t);
+            }
+
+            vector<edge> moving;
+
+            for (auto it = graph[cls][slotA].begin(); it != graph[cls][slotA].end(); ) {
+                if (it->value == subjectID) {
+                    moving.push_back(*it);
+
+                    it = graph[cls][slotA].erase(it);
+
+                } else {
+                    it += 1;
+                }
+            }
+
+            auto applyMove = [&]() {
+                for (edge& e : moving) {
+                    graph[cls][slotB].push_back(edge(e.id, subjectID));
+                    graph[e.id][slotB] = {edge(cls, subjectID)};
+                    graph[e.id][slotA].clear();
+                }
+            };
+
+            auto revertMove = [&]() {
+                for (edge& e : moving) {
+                    vector<edge>& vb = graph[cls][slotB];
+
+                    for (auto it = vb.begin(); it != vb.end(); ++it) {
+                        if (it->id == e.id && it->value == subjectID) {
+                            vb.erase(it);
+                            break;
+                        }
+                    }
+
+                    graph[e.id][slotB].clear();
+                    graph[e.id][slotA] = {edge(cls, subjectID)};
+                }
+
+                for (edge& e : moving) {
+                    graph[cls][slotA].push_back(e);
+                }
+            };
+
+            count += 1;
+
+            applyMove();
+
+            double after = getClassTotal(cls);
+
+            for (int t : involvedTeachers) {
+                after += Functions::teacherFreeTime(t);
+            }
+
+            double delta = after - before;
+
+            if (delta < 0 || double(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+                total = total - before + after;
+
+                equal = 0;
+
+            } else {
+                revertMove();
+
+                equal += 1;
+            }
         }
     }
 

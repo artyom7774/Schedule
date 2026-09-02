@@ -3,5 +3,7 @@
     "notEqualsLessonsCountOnDay": 25,
     "lessonsEmptySlots": 200,
     "daysByHard": 2,
-    "teacherFreeTime": 5
+    "teacherFreeTime": 5,
+    "groupBonus": 10,
+    "incompleteGroupPosition": 35
 }

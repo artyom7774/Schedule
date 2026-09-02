@@ -121,6 +121,13 @@ class TabRun(QWidget):
             "--iterations", f"100000000"
         ])
 
+        print("src/modules/solve.exe", " ".join([
+            "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
+            "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
+            "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
+            "--iterations", f"100000000"
+        ]))
+
         self.runPushButton.setDisabled(True)
 
         if not self.process.waitForStarted(3000):

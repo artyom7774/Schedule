@@ -22,6 +22,8 @@ def decoder(window, output, function):
                 if result.returncode != 0:
                     raise Exception(result.stderr)
 
+                importlib.import_module(name)
+
     match = re.search(r"```(?:python|py)?\s*\n(.*?)```", output, re.DOTALL)
     output = (match.group(1) if match else output).strip().replace("```python", "").replace("```py", "").replace("```", "")
 

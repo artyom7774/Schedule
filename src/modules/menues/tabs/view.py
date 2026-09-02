@@ -173,6 +173,21 @@ class TabView(QWidget):
     def shiftTabClicked(self, idx):
         self.window.objects["view_shift_selected"] = idx
 
+    @staticmethod
+    def entries(cell: dict):
+        if cell.get("subject", "#") == "#":
+            return []
+
+        entries = [(cell["subject"], cell.get("teachers", []))]
+
+        for extra in cell.get("extra", []):
+            if extra.get("subject", "#") == "#":
+                continue
+
+            entries.append((extra["subject"], extra.get("teachers", [])))
+
+        return entries
+
     def fillClassSchedule(self, cls: str):
         days = self.window.settings["working_days_per_week"]
         lessons = self.window.settings["max_lesson_count_per_day"]
@@ -188,11 +203,14 @@ class TabView(QWidget):
                 tooltip = ""
 
                 if day < len(data) and lesson < len(data[day]):
-                    cell = data[day][lesson]
+                    entries = self.entries(data[day][lesson])
 
-                    if cell.get("subject", "#") != "#":
-                        text = cell["subject"]
-                        tooltip = ", ".join(cell.get("teachers", []))
+                    if entries:
+                        text = " / ".join(subject for subject, _ in entries)
+                        tooltip = "\n".join(
+                            f"{subject}: {', '.join(teachers)}" if teachers else subject
+                            for subject, teachers in entries
+                        )
 
                 item = QTableWidgetItem(text)
                 item.setTextAlignment(Qt.AlignCenter)
@@ -220,15 +238,20 @@ class TabView(QWidget):
                         if day >= len(data) or lesson >= len(data[day]):
                             continue
 
-                        cell = data[day][lesson]
+                        entries = self.entries(data[day][lesson])
 
-                        if cell.get("subject", "#") == "#":
-                            continue
+                        found = False
 
-                        if teacher in cell.get("teachers", []):
-                            tooltip = f"{cls}: {cell['subject']}"
-                            text = f"{cls}\n{cell['subject']}"
+                        for subject, teachers in entries:
+                            if teacher in teachers:
+                                tooltip = f"{cls}: {subject}"
+                                text = f"{cls}\n{subject}"
 
+                                found = True
+
+                                break
+
+                        if found:
                             break
 
                     item = QTableWidgetItem(text)

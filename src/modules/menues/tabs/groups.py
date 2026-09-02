@@ -23,7 +23,10 @@ class TabGroups(QWidget):
             for col, subject2 in enumerate(self.subjects):
                 item = QTableWidgetItem()
 
-                if f"{subject1}-{subject2}" in self.window.settings["groups"]:
+                if row == col:
+                    item.setBackground(QColor("#3f4042"))
+
+                elif f"{subject1}-{subject2}" in self.window.settings["groups"]:
                     item.setBackground(QColor("#109012"))
 
                 else:
@@ -63,14 +66,15 @@ class TabGroups(QWidget):
         self.groupsTable.show()
 
     def groupsTableCellClicked(self, row, col):
+        if row == col:
+            return
+
         subject1 = self.subjects[row]
         subject2 = self.subjects[col]
 
         if f"{subject1}-{subject2}" in self.window.settings["groups"]:
             self.window.settings["groups"].pop(f"{subject1}-{subject2}")
-
-            if subject1 != subject2:
-                self.window.settings["groups"].pop(f"{subject2}-{subject1}")
+            self.window.settings["groups"].pop(f"{subject2}-{subject1}")
 
         else:
             self.window.settings["groups"][f"{subject1}-{subject2}"] = 1
