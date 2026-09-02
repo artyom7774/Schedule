@@ -205,13 +205,8 @@ class TabTeachers(QWidget):
         menu.exec_(self.teachersList.mapToGlobal(pos))
 
     def teacherFreeDeleteElement(self, item):
-        pos = self.teachersList.row(item)
-        teachers = list(self.window.settings["teachers"].keys())
+        remove = item.text()
 
-        if pos < 0 or pos >= len(teachers):
-            return
-
-        remove = teachers[pos]
         self.window.settings["teachers"].pop(remove)
 
         if self.window.objects.get("teachers_selected") == remove:
