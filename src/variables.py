@@ -2,7 +2,10 @@ from PyQt5.QtGui import QFont
 
 from src.modules.translate import translate
 
+import faulthandler
 import os
+
+faulthandler.enable()
 
 NAME = "Schedule Maker 1"
 

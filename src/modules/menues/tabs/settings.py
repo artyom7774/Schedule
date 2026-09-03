@@ -68,6 +68,16 @@ class TabSettings(QWidget):
         self.settingsShiftsCountEdit.setFont(FONT)
         self.settingsShiftsCountEdit.show()
 
+        self.settingsShiftCrossingLabel = QLabel(translate("menu.main.tab.settings.shift_crossing"), parent=self)
+        self.settingsShiftCrossingLabel.setFont(FONT)
+        self.settingsShiftCrossingLabel.show()
+
+        self.settingsShiftCrossingEdit = QLineEdit(parent=self)
+        self.settingsShiftCrossingEdit.setText(str(window.settings["shift_crossing"]))
+        self.settingsShiftCrossingEdit.editingFinished.connect(lambda: TabSettings.save(window, "shift_crossing", self.settingsShiftsCountEdit))
+        self.settingsShiftCrossingEdit.setFont(FONT)
+        self.settingsShiftCrossingEdit.show()
+
         flag = False
 
         self.subjectsTable = QTableWidget(window.settings["subjects_count"], 2, parent=self)

@@ -18,6 +18,7 @@
 "menu.main.tab.settings.classes_count": "Classes count:"
 "menu.main.tab.settings.subjects_count": "Subjects count:"
 "menu.main.tab.settings.number_of_shifts": "Number of shifts:"
+"menu.main.tab.settings.shift_crossing": "Shift crossing:"
 "menu.main.tab.settings.subject": "Subject"
 "menu.main.tab.settings.hard": "Hard"
 
@@ -54,6 +55,7 @@
 
 "log.text.impossible_project_name": "Impossible project name"
 "log.text.project_name_already_exists": "Project name already exists"
+"log.text.project_name_must_be_without_spaces": "Project name must be without spaces"
 "log.text.teacher_name_is_empty": "Teacher name is empty"
 "log.text.teacher_name_already_exists": "Teacher name already exists"
 
@@ -62,6 +64,8 @@
 "weights.lessonsEmptySlots": "Lessons empty slots"
 "weights.daysByHard": "Days by hard"
 "weights.teacherFreeTime": "Teacher free time"
+"weights.groupBonus": "Group bonus"
+"weights.incompleteGroupNotEnd": "Incomplete group not end"
 
 "day.0": "Monday"
 "day.1": "Tuesday"

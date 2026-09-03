@@ -22,6 +22,11 @@ def createProject(window):
 
         return
 
+    if name.find(" ") == -1:
+        window.dialog.log.setText(translate("log.text.project_name_must_be_without_spaces"))
+
+        return
+
     os.mkdir(f"{PATH_TO_FOLDER}/projects/{name}")
 
     window.dialog.close()
@@ -61,6 +66,7 @@ def initProject(window, project):
         "classes_count": 11,
         "subjects_count": 20,
         "number_of_shifts": 2,
+        "shift_crossing": 0,
         "subjects": [
 
         ],

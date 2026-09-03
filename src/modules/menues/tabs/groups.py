@@ -38,12 +38,6 @@ class TabGroups(QWidget):
         self.groupsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.groupsTable.verticalHeader().setFixedWidth(self.groupsTable.columnWidth(0))
 
-        def sync(index, old, new):
-            if index == 0:
-                self.groupsTable.verticalHeader().setFixedWidth(new)
-
-        self.groupsTable.horizontalHeader().sectionResized.connect(sync)
-
         for col, text in enumerate(self.subjects):
             header = self.groupsTable.horizontalHeaderItem(col)
             if header is not None:
@@ -54,6 +48,7 @@ class TabGroups(QWidget):
 
         for row, text in enumerate(self.subjects):
             header = self.groupsTable.verticalHeaderItem(row)
+            
             if header is not None:
                 header.setToolTip(text)
 
@@ -71,6 +66,9 @@ class TabGroups(QWidget):
 
         subject1 = self.subjects[row]
         subject2 = self.subjects[col]
+
+        if subject1 == "" or subject2 == "":
+            return
 
         if f"{subject1}-{subject2}" in self.window.settings["groups"]:
             self.window.settings["groups"].pop(f"{subject1}-{subject2}")

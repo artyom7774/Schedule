@@ -19,12 +19,6 @@ class MultiTableWidget(QTableWidget):
         self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.verticalHeader().setFixedWidth(self.columnWidth(0))
 
-        def sync(index, old, new):
-            if index == 0:
-                self.verticalHeader().setFixedWidth(new)
-
-        self.horizontalHeader().sectionResized.connect(sync)
-
         self.itemChanged.connect(self.changed)
 
         self.updating = False

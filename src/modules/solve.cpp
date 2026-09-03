@@ -9,9 +9,10 @@ using namespace std;
 
 using json = nlohmann::json;
 
-int JOB_WEEK_LENGHT   = 5;
-int MAX_LESSON_IN_DAY = 10;
-int NUMBER_OF_SHIFTS  = 1;
+int JOB_WEEK_LENGHT    = 5;
+int MAX_LESSON_IN_DAY  = 8;
+int NUMBER_OF_SHIFTS   = 1;
+int SHIFT_CROSSING     = 0;
 
 int SLOTS = 0;
 
@@ -63,11 +64,7 @@ public:
     vector<int> classShiftOffset;
     vector<vector<int>> classesByShift;
 
-    // NEW: subjectID -> множество subjectID, с которыми его можно ставить в один слот
     map<int, set<int>> groupedWith;
-
-    // NEW: та же информация, но в виде матрицы для O(1)-доступа в горячем цикле SA
-    // (map<set> слишком медленный при миллионах вызовов canPlaceLesson за прогон).
     vector<vector<char>> groupedMatrix;
 
     Data() {
@@ -84,6 +81,7 @@ public:
 
         JOB_WEEK_LENGHT   = settings["working_days_per_week"];
         MAX_LESSON_IN_DAY = settings["max_lesson_count_per_day"];
+        SHIFT_CROSSING = settings["shift_crossing"];
         NUMBER_OF_SHIFTS  = settings["number_of_shifts"];
 
         SLOTS = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY * NUMBER_OF_SHIFTS;
@@ -96,7 +94,6 @@ public:
             shifts.push_back(element);
         }
 
-        // Проверка корректности: индексы смен должны быть в диапазоне [0, NUMBER_OF_SHIFTS)
         for (int s : shifts) {
             if (s < 0 || s >= NUMBER_OF_SHIFTS) {
                 throw runtime_error(
@@ -193,8 +190,6 @@ public:
             IDBySubjectName[subject] = idx + 1;
         }
 
-        // NEW: разбор settings["groups"] — формат ключей такой же, как в Python-редакторе:
-        // "Предмет1-Предмет2": 1 (и симметрично "Предмет2-Предмет1": 1)
         if (settings.contains("groups")) {
             set<string> groupKeys;
 
@@ -219,7 +214,6 @@ public:
                 }
             }
 
-            // NEW: строим матрицу из уже собранного groupedWith
             groupedMatrix.assign(subjectsCount + 1, vector<char>(subjectsCount + 1, 0));
 
             for (auto& [a, set_] : groupedWith) {
@@ -306,9 +300,6 @@ inline int slotValue(int row, int slot) {
     return graph[row][slot].empty() ? 0 : graph[row][slot][0].value;
 }
 
-// NEW: набор разных subjectID, стоящих в данном слоте (для класса — обычно 1, но может быть 2, если это "группа").
-// Без выделения памяти в куче (важно: эта функция вызывается миллионы раз за прогон SA),
-// поэтому вместо std::set используется фиксированный массив на MAX_GROUP_SUBJECTS элементов.
 struct SubjectSet {
     int values[MAX_GROUP_SUBJECTS];
     int size = 0;
@@ -340,8 +331,6 @@ inline SubjectSet slotSubjects(int row, int slot) {
     return result;
 }
 
-// NEW: можно ли добавить урок предмета subjectID в данный слот класса cls
-// (слот свободен, либо там уже стоит предмет(ы), с которым(и) subjectID разрешено сочетаться по settings["groups"])
 bool canPlaceLesson(int cls, int slot, int subjectID) {
     if (!occupied(cls, slot)) {
         return true;
@@ -350,7 +339,7 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
     SubjectSet existing = slotSubjects(cls, slot);
 
     if (existing.contains(subjectID)) {
-        return false; // тот же предмет второй раз в этот же слот не кладём
+        return false;
     }
 
     if (existing.size >= MAX_GROUP_SUBJECTS) {
@@ -359,7 +348,6 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
 
     Data& data = getData();
 
-    // NEW: O(1) проверка по матрице вместо map<set> — важно для горячего цикла SA
     for (int i = 0; i < existing.size; i++) {
         if (!data.groupedMatrix[existing.values[i]][subjectID]) {
             return false;
@@ -391,7 +379,7 @@ struct Weights {
     inline static double daysByHard = 2;
     inline static double teacherFreeTime = 5;
     inline static double groupBonus = 10;
-    inline static double incompleteGroupPosition = 35;
+    inline static double incompleteGroupNotEnd = 35;
 
     static void init(const json& data) {
         equalLessons = data.value("equalLessons", equalLessons);
@@ -400,7 +388,7 @@ struct Weights {
         daysByHard = data.value("daysByHard", daysByHard);
         teacherFreeTime = data.value("teacherFreeTime", teacherFreeTime);
         groupBonus = data.value("groupBonus", groupBonus);
-        incompleteGroupPosition = data.value("incompleteGroupPosition", incompleteGroupPosition);
+        incompleteGroupNotEnd = data.value("incompleteGroupNotEnd", incompleteGroupNotEnd);
     }
 };
 
@@ -565,7 +553,7 @@ public:
             }
         }
 
-        return Weights::incompleteGroupPosition * value;
+        return Weights::incompleteGroupNotEnd * value;
     }
 
     static double teacherFreeTime(int teacher) {
@@ -592,11 +580,25 @@ public:
                     continue;
                 }
 
-                value += pow(end - start - cnt + 1, 2) + 3 * max(0, 4 - cnt);
+                value += Weights::teacherFreeTime * (pow(end - start - cnt + 1, 2) + 3 * max(0, 4 - cnt));
+
+                if (shift == NUMBER_OF_SHIFTS - 1){
+                    continue;
+                }
+
+                /* TODO
+                for (int lesson = MAX_LESSON_IN_DAY; lesson <= MAX_LESSON_IN_DAY - SHIFT_CROSSING; lesson--){
+                    int another = (shift + 1) * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY + (MAX_LESSON_IN_DAY - lesson);
+
+                    if (occupied(teacher, base + lesson) && occupied(teacher, another)){
+                        value += 5 * Weights::lessonsEmptySlots;
+                    }
+                }
+                */
             }
         }
 
-        return Weights::teacherFreeTime * value;
+        return value;
     }
 };
 
@@ -1133,10 +1135,11 @@ int main(int argc, char** argv) {
 
             auto& shiftClasses = data.classesByShift[shift];
             int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
-            int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-            int weekSlots = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
 
-            int slotA = off + randint(0, weekSlots - 1);
+            int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+            int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+
+            int slotA = off + randint(0, week - 1);
 
             if (!occupied(cls, slotA)) {
                 continue;
@@ -1155,7 +1158,7 @@ int main(int argc, char** argv) {
 
             vector<int> groupCandidates, emptyCandidates;
 
-            for (int slot = off; slot < off + weekSlots; slot++) {
+            for (int slot = off; slot < off + week; slot++) {
                 if (slot == slotA) {
                     continue;
                 }
@@ -1179,6 +1182,7 @@ int main(int argc, char** argv) {
 
                 if (occupied(cls, slot)) {
                     groupCandidates.push_back(slot);
+
                 } else {
                     emptyCandidates.push_back(slot);
                 }

@@ -94,7 +94,8 @@ class TabRun(QWidget):
         if self.process and self.process.state() != QProcess.NotRunning:
             return
 
-        TabRun.init(self.window, ignore=[TAB_RUN], reversed=True)
+        for name, value in self.weights.items():
+            self.weightLineEditEditingFinished(name)
 
         self.time = time.time()
         self.number = 0
@@ -105,6 +106,8 @@ class TabRun(QWidget):
 
         self.stdTextEdit.clear()
 
+        self.runPushButton.setDisabled(True)
+
         TabRun.process = QProcess(self)
 
         self.process.setProcessChannelMode(QProcess.MergedChannels)
@@ -114,13 +117,6 @@ class TabRun(QWidget):
 
         self.process.finished.connect(self.finish)
 
-        self.process.start("src/modules/solve.exe", [
-            "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
-            "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
-            "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
-            "--iterations", f"100000000"
-        ])
-
         print("src/modules/solve.exe", " ".join([
             "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
             "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
@@ -128,10 +124,12 @@ class TabRun(QWidget):
             "--iterations", f"100000000"
         ]))
 
-        self.runPushButton.setDisabled(True)
-
-        if not self.process.waitForStarted(3000):
-            raise Exception()
+        self.process.start("src/modules/solve.exe", [
+            "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
+            "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
+            "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
+            "--iterations", f"100000000"
+        ])
 
     def counter(self):
         self.number += 1

@@ -114,6 +114,8 @@ def resize(window) -> None:
     tab.settingsSubjectsCountEdit.setGeometry(20 + x(15), 130, x(33) - x(15) - 30, 30)
     tab.settingsShiftsCountLabel.setGeometry(10, 170, x(15), 30)
     tab.settingsShiftsCountEdit.setGeometry(20 + x(15), 170, x(33) - x(15) - 30, 30)
+    tab.settingsShiftCrossingLabel.setGeometry(10, 210, x(15), 30)
+    tab.settingsShiftCrossingEdit.setGeometry(20 + x(15), 210, x(33) - x(15) - 30, 30)
 
     tab.subjectsTable.setGeometry(x(33), 0, x(34), y(100))
 

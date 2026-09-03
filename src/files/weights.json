@@ -5,5 +5,5 @@
     "daysByHard": 2,
     "teacherFreeTime": 5,
     "groupBonus": 10,
-    "incompleteGroupPosition": 35
+    "incompleteGroupNotEnd": 35
 }

@@ -60,18 +60,19 @@ def sendChatRequestWithFile(message: str, file_path: str = None):
 
         now = requests.get(f"{URL}/ai/status/{ids}", timeout=30)
         now.raise_for_status()
-        sdata = now.json()
 
-        status = sdata.get("status")
+        save = now.json()
+
+        status = save.get("status")
 
         if status == "completed":
-            return sdata.get("response", ""), status
+            return save.get("response", ""), status
 
         elif status == "error":
-            raise Exception(f"{sdata.get('error')}")
+            raise Exception(f"{save.get('error')}")
 
         elif status == "processing":
             time.sleep(interval)
 
         else:
-            raise Exception(f"{sdata}")
+            raise Exception(f"{save}")
