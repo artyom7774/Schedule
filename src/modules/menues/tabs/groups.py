@@ -35,8 +35,11 @@ class TabGroups(QWidget):
                 self.groupsTable.setItem(row, col, item)
 
         self.groupsTable.setHorizontalHeaderLabels(self.subjects)
-        self.groupsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.groupsTable.verticalHeader().setFixedWidth(self.groupsTable.columnWidth(0))
+
+        for col in range(self.groupsTable.columnCount()):
+            self.groupsTable.setColumnWidth(col, 80)
+
+        self.groupsTable.verticalHeader().setFixedWidth(80)
 
         for col, text in enumerate(self.subjects):
             header = self.groupsTable.horizontalHeaderItem(col)

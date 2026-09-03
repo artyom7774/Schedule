@@ -12,12 +12,14 @@ class MultiTableWidget(QTableWidget):
             for r in range(rows):
                 self.setItem(r, c, QTableWidgetItem("0"))
 
+        for col in range(self.columnCount()):
+            self.setColumnWidth(col, 80)
+
+        self.verticalHeader().setFixedWidth(80)
+
         self.blockSignals(False)
 
         self.setStyleSheet("""QHeaderView::section { padding-right: 8px; }""")
-
-        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.verticalHeader().setFixedWidth(self.columnWidth(0))
 
         self.itemChanged.connect(self.changed)
 

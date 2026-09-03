@@ -66,6 +66,7 @@
 "weights.teacherFreeTime": "Teacher free time"
 "weights.groupBonus": "Group bonus"
 "weights.incompleteGroupNotEnd": "Incomplete group not end"
+"weights.lessonShiftCrossing": "Lesson shift crossing"
 
 "day.0": "Monday"
 "day.1": "Tuesday"

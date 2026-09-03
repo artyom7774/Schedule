@@ -22,7 +22,7 @@ def createProject(window):
 
         return
 
-    if name.find(" ") == -1:
+    if name.find(" ") != -1:
         window.dialog.log.setText(translate("log.text.project_name_must_be_without_spaces"))
 
         return
@@ -85,6 +85,9 @@ def initProject(window, project):
 
         },
         "groups": {
+
+        },
+        "constants": {
 
         }
     }

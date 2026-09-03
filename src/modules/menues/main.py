@@ -174,6 +174,9 @@ def resize(window) -> None:
 
     tab = window.objects["tabs"].widget(TAB_CONSTANTS)
 
+    tab.classesList.setGeometry(0, 0, x(20), y(100))
+    tab.table.setGeometry(x(20) + 1, 0, x(80), y(100))
+
     tab = window.objects["tabs"].widget(TAB_RUN)
 
     tab.settingsRama.setGeometry(0, 0, x(33), y(100))
