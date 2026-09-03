@@ -81,8 +81,8 @@ public:
 
         JOB_WEEK_LENGHT   = settings["working_days_per_week"];
         MAX_LESSON_IN_DAY = settings["max_lesson_count_per_day"];
-        SHIFT_CROSSING = settings["shift_crossing"];
         NUMBER_OF_SHIFTS  = settings["number_of_shifts"];
+        SHIFT_CROSSING    = settings["shift_crossing"];
 
         SLOTS = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY * NUMBER_OF_SHIFTS;
 
@@ -380,6 +380,7 @@ struct Weights {
     inline static double teacherFreeTime = 5;
     inline static double groupBonus = 10;
     inline static double incompleteGroupNotEnd = 35;
+    inline static double lessonShiftCrossing = 250;
 
     static void init(const json& data) {
         equalLessons = data.value("equalLessons", equalLessons);
@@ -389,6 +390,7 @@ struct Weights {
         teacherFreeTime = data.value("teacherFreeTime", teacherFreeTime);
         groupBonus = data.value("groupBonus", groupBonus);
         incompleteGroupNotEnd = data.value("incompleteGroupNotEnd", incompleteGroupNotEnd);
+        lessonShiftCrossing = data.value("lessonShiftCrossing", lessonShiftCrossing);
     }
 };
 
@@ -582,19 +584,17 @@ public:
 
                 value += Weights::teacherFreeTime * (pow(end - start - cnt + 1, 2) + 3 * max(0, 4 - cnt));
 
-                if (shift == NUMBER_OF_SHIFTS - 1){
+                if (shift == NUMBER_OF_SHIFTS - 1 || SHIFT_CROSSING <= 0) {
                     continue;
                 }
 
-                /* TODO
-                for (int lesson = MAX_LESSON_IN_DAY; lesson <= MAX_LESSON_IN_DAY - SHIFT_CROSSING; lesson--){
-                    int another = (shift + 1) * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY + (MAX_LESSON_IN_DAY - lesson);
+                int another = (shift + 1) * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
 
-                    if (occupied(teacher, base + lesson) && occupied(teacher, another)){
-                        value += 5 * Weights::lessonsEmptySlots;
+                for (int step = 0; step < SHIFT_CROSSING; step++) {
+                    if (occupied(teacher, base + MAX_LESSON_IN_DAY - SHIFT_CROSSING + step) && occupied(teacher, another + step)) {
+                        value += Weights::lessonShiftCrossing;
                     }
                 }
-                */
             }
         }
 

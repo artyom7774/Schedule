@@ -74,7 +74,7 @@ class TabSettings(QWidget):
 
         self.settingsShiftCrossingEdit = QLineEdit(parent=self)
         self.settingsShiftCrossingEdit.setText(str(window.settings["shift_crossing"]))
-        self.settingsShiftCrossingEdit.editingFinished.connect(lambda: TabSettings.save(window, "shift_crossing", self.settingsShiftsCountEdit))
+        self.settingsShiftCrossingEdit.editingFinished.connect(lambda: TabSettings.save(window, "shift_crossing", self.settingsShiftCrossingEdit))
         self.settingsShiftCrossingEdit.setFont(FONT)
         self.settingsShiftCrossingEdit.show()
 
@@ -193,7 +193,7 @@ class TabSettings(QWidget):
 
         refresh = []
 
-        if parameter in ("working_days_per_week", "max_lesson_count_per_day", "classes_count", "subjects_count", "number_of_shifts"):
+        if parameter in ("working_days_per_week", "max_lesson_count_per_day", "classes_count", "subjects_count", "number_of_shifts", "shift_crossing"):
             text = object.text()
 
             try:
