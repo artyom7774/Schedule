@@ -46,6 +46,11 @@ map<int, string> classNameByID;
 map<string, int> IDByClassName;
 
 
+struct Constant {
+    int cls, slot, subjectID;
+};
+
+
 class Data {
 public:
     json lessons;
@@ -66,6 +71,8 @@ public:
 
     map<int, set<int>> groupedWith;
     vector<vector<char>> groupedMatrix;
+
+    vector<Constant> constants;
 
     Data() {
         ifstream file(input);
@@ -266,7 +273,57 @@ public:
 
         for (int idx = 0; idx < (int)classes.size(); idx++) {
             int cls = teachers.size() + idx + 1;
+            
             classesByShift[shifts[shiftByClass[idx]]].push_back(cls);
+        }
+
+        if (settings.contains("constants") && settings["constants"].is_object()) {
+            for (auto& [cls, items] : settings["constants"].items()) {
+                if (!IDByClassName.count(cls)) {
+                    cout << "[WARNING]: constants: unknown class " << cls << "\n";
+                    continue;
+                }
+
+                if (!items.is_object()) {
+                    continue;
+                }
+
+                for (auto& [key, value] : items.items()) {
+                    int day = -1, lesson = -1;
+
+                    if (sscanf(key.c_str(), "%d-%d", &day, &lesson) != 2) {
+                        cout << "[WARNING]: constants: bad key \"" << key << "\" for " << cls << "\n";
+                        
+                        continue;
+                    }
+
+                    if (day < 0 || day >= JOB_WEEK_LENGHT || lesson < 0 || lesson >= MAX_LESSON_IN_DAY) {
+                        cout << "[WARNING]: constants: key \"" << key << "\" out of range for " << cls << "\n";
+                        
+                        continue;
+                    }
+
+                    if (!value.is_string()) {
+                        continue;
+                    }
+
+                    string subject = value;
+
+                    if (subject.empty() || subject == "-") {
+                        continue;
+                    }
+
+                    if (!IDBySubjectName.count(subject)) {
+                        cout << "[WARNING]: constants: unknown subject \"" << subject << "\" for " << cls << "\n";
+                        
+                        continue;
+                    }
+
+                    int slot = classShiftOffset[IDByClassName[cls]] + day * MAX_LESSON_IN_DAY + lesson;
+
+                    constants.push_back(Constant{IDByClassName[cls], slot, IDBySubjectName[subject]});
+                }
+            }
         }
     }
 };
@@ -321,6 +378,16 @@ struct SubjectSet {
     }
 };
 
+vector<vector<SubjectSet>> locked;
+
+inline bool slotLocked(int cls, int slot) {
+    return locked[cls][slot].size > 0;
+}
+
+inline bool subjectLocked(int cls, int slot, int subjectID) {
+    return locked[cls][slot].contains(subjectID);
+}
+
 inline SubjectSet slotSubjects(int row, int slot) {
     SubjectSet result;
 
@@ -371,6 +438,19 @@ struct Lesson {
         subjectName = subjectName_;
     }
 };
+
+void placeLesson(const Lesson& item, int slot) {
+    vector<edge> group;
+
+    for (int id : item.ids) {
+        graph[id][slot] = {edge(item.cls, item.subjectID)};
+        group.push_back(edge(id, item.subjectID));
+    }
+
+    for (edge& e : group) {
+        graph[item.cls][slot].push_back(e);
+    }
+}
 
 struct Weights {
     inline static double equalLessons = 5;
@@ -747,6 +827,8 @@ int main(int argc, char** argv) {
 
     teacherAllowed.assign(size, vector<bool>(SLOTS, false));
 
+    locked.assign(size, vector<SubjectSet>(SLOTS));
+
     for (int teacher = 0; teacher < data.teachers.size(); teacher++) {
         for (int slot : data.free[teacher]) {
             teacherAllowed[teacher + 1][slot] = true;
@@ -777,6 +859,54 @@ int main(int argc, char** argv) {
     }
 
     int unplaced = 0;
+
+    for (const Constant& c : data.constants) {
+        const string& cls = classNameByID[c.cls];
+        const string& subject = subjectNameByID[c.subjectID];
+
+        int idx = -1;
+
+        for (int i = 0; i < pending.size(); i++) {
+            if (pending[i].cls == c.cls && pending[i].subjectID == c.subjectID) {
+                idx = i;
+                break;
+            }
+        }
+
+        if (idx == -1) {
+            cout << "[WARNING]: constant " << cls << " / " << subject << " skipped, no lesson hours (or no teacher) left for this subject\n";
+
+            continue;
+        }
+
+        Lesson item = pending[idx];
+
+        if (!canPlaceLesson(c.cls, c.slot, c.subjectID)) {
+            cout << "[WARNING]: constant " << cls << " / " << subject << " skipped, slot conflicts with another constant\n";
+
+            continue;
+        }
+
+        bool ok = true;
+
+        for (int id : item.ids) {
+            if (!teacherAllowed[id][c.slot] || occupied(id, c.slot)) {
+                ok = false;
+                break;
+            }
+        }
+
+        if (!ok) {
+            cout << "[WARNING]: constant " << cls << " / " << subject << " skipped: teacher is busy or unavailable at this slot\n";
+            
+            continue;
+        }
+
+        pending.erase(pending.begin() + idx);
+
+        placeLesson(item, c.slot);
+        locked[c.cls][c.slot].insert(c.subjectID);
+    }
 
     while (!pending.empty()) {
         int bestIdx = -1;
@@ -831,17 +961,7 @@ int main(int argc, char** argv) {
 
         int color = bestCandidates[randint(0, bestCandidates.size() - 1)];
 
-        vector<edge> group;
-
-        for (int id : item.ids) {
-            graph[id][color] = {edge(item.cls, item.subjectID)};
-
-            group.push_back(edge(id, item.subjectID));
-        }
-
-        for (edge& e : group) {
-            graph[item.cls][color].push_back(e);
-        }
+        placeLesson(item, color);
     }
 
     if (unplaced > 0) {
@@ -911,6 +1031,10 @@ int main(int argc, char** argv) {
             int slotB = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
 
             if (slotA == slotB) {
+                continue;
+            }
+
+            if (slotLocked(cls, slotA) || slotLocked(cls, slotB)) {
                 continue;
             }
 
@@ -1014,6 +1138,11 @@ int main(int argc, char** argv) {
             int color2 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
 
             if (color1 == color2) {
+                continue;
+            }
+
+            if (slotLocked(cls1, color1) || slotLocked(cls2, color2) ||
+                slotLocked(cls1, color2) || slotLocked(cls2, color1)) {
                 continue;
             }
 
@@ -1148,6 +1277,10 @@ int main(int argc, char** argv) {
             SubjectSet subjectsA = slotSubjects(cls, slotA);
             int subjectID = subjectsA.values[randint(0, subjectsA.size - 1)];
 
+            if (subjectLocked(cls, slotA, subjectID)) {
+                continue;
+            }
+
             vector<int> involvedTeachers;
 
             for (edge& e : graph[cls][slotA]) {
@@ -1223,6 +1356,7 @@ int main(int argc, char** argv) {
                 for (edge& e : moving) {
                     graph[cls][slotB].push_back(edge(e.id, subjectID));
                     graph[e.id][slotB] = {edge(cls, subjectID)};
+
                     graph[e.id][slotA].clear();
                 }
             };
