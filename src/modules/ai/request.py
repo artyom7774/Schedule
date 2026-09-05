@@ -19,7 +19,7 @@ if os.name == "nt":
 sys.stdout.reconfigure(encoding='utf-8')
 
 
-def sendChatRequestWithFile(message: str, file_path: str = None):
+def sendChatRequestWithFiles(message: str, file_paths: list = None):
     interval = 1.5
     timeout = 300
 
@@ -28,24 +28,26 @@ def sendChatRequestWithFile(message: str, file_path: str = None):
         "model": MODEL,
     }
 
-    files = None
-    handle = None
+    files = []
+    handles = []
 
     try:
-        if file_path and os.path.isfile(file_path):
-            handle = open(file_path, "rb")
-            files = {"file": (os.path.basename(file_path), handle)}
+        for path in file_paths or []:
+            if path and os.path.isfile(path):
+                handle = open(path, "rb")
+                handles.append(handle)
+                files.append(("files", (os.path.basename(path), handle)))
 
         response = requests.post(
             f"{URL}/chat-ai-file",
             data=data,
-            files=files,
+            files=files or None,
             timeout=timeout,
         )
         response.raise_for_status()
 
     finally:
-        if handle:
+        for handle in handles:
             handle.close()
 
     result = response.json()
@@ -76,3 +78,7 @@ def sendChatRequestWithFile(message: str, file_path: str = None):
 
         else:
             raise Exception(f"{save}")
+
+
+def sendChatRequestWithFile(message: str, file_path: str = None):
+    return sendChatRequestWithFiles(message, [file_path] if file_path else [])

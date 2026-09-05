@@ -32,7 +32,7 @@
 "menu.main.tab.AI.error": "Error"
 "menu.main.tab.AI.send": "Send"
 "menu.main.tab.AI.choose_file": "Choose file"
-"menu.main.tab.AI.remove_file": "Remove file"
+"menu.main.tab.AI.remove_files": "Remove files"
 
 "menu.main.tab.run.run": "Run"
 "menu.main.tab.run.time_passed": "Time passed"

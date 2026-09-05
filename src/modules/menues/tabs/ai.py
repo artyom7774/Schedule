@@ -2,28 +2,29 @@ from PyQt5.QtWidgets import QFileDialog, QWidget, QPushButton, QLineEdit
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
 from src.modules.widgets import ChatAITextEdit
-from src.modules.ai import sendChatRequestWithFile, decoder as decodeAIMessage
+from src.modules.ai import sendChatRequestWithFiles, decoder as decodeAIMessage
 
 from src.variables import *
 
 import datetime
 import shutil
 import json
+import os
 
 
 class AIWorker(QObject):
     finished = pyqtSignal(str, str)
     error = pyqtSignal(str)
 
-    def __init__(self, prompt, path):
+    def __init__(self, prompt, paths):
         super().__init__()
 
         self.prompt = prompt
-        self.path = path
+        self.paths = paths
 
     def run(self):
         try:
-            text, status = sendChatRequestWithFile(self.prompt, self.path)
+            text, status = sendChatRequestWithFiles(self.prompt, self.paths)
             self.finished.emit(text, status)
 
         except Exception as e:
@@ -32,7 +33,7 @@ class AIWorker(QObject):
 
 class TabAI(QWidget):
     chatTextEdit = None
-    path = None
+    paths = []
 
     def __init__(self, window):
         super().__init__()
@@ -67,60 +68,94 @@ class TabAI(QWidget):
         self.sendPushButton.show()
 
         self.loadPushButton = QPushButton(parent=self)
-        self.loadPushButton.setText(translate("menu.main.tab.AI.choose_file") if self.path is None else self.path)
         self.loadPushButton.clicked.connect(lambda: self.loadPushButtonClicked())
         self.loadPushButton.setFont(FONT)
         self.loadPushButton.show()
 
         self.removePushButton = QPushButton(parent=self)
-        self.removePushButton.setText(translate("menu.main.tab.AI.remove_file"))
+        self.removePushButton.setText(translate("menu.main.tab.AI.remove_files"))
         self.removePushButton.clicked.connect(lambda: self.removePushButtonClicked())
         self.removePushButton.setFont(FONT)
         self.removePushButton.show()
 
+        self.updateLoadButtonText()
+
+    def updateLoadButtonText(self):
+        if not self.paths:
+            self.loadPushButton.setText(translate("menu.main.tab.AI.choose_file"))
+
+        else:
+            names = ", ".join(os.path.basename(p) for p in self.paths)
+
+            self.loadPushButton.setText(f"{names}, {translate('menu.main.tab.AI.choose_file').lower()}")
+
     def removePushButtonClicked(self):
-        self.loadPushButton.setText(translate("menu.main.tab.AI.choose_file"))
-        self.path = None
+        self.paths = []
+        self.updateLoadButtonText()
 
     def loadPushButtonClicked(self):
-        path, _ = QFileDialog.getOpenFileName(self, "Choose file", "", "All files (*)")
+        paths, _ = QFileDialog.getOpenFileNames(self, "Choose files", "", "All files (*)")
 
-        if not path:
+        if not paths:
             return
 
-        self.path = path
-        self.loadPushButton.setText(path)
+        for p in paths:
+            if p not in self.paths:
+                self.paths.append(p)
+
+        self.updateLoadButtonText()
 
     def messageLineEditReturnPressed(self):
-        if self.messageLineEdit.text() == "" and self.path is None:
+        if self.messageLineEdit.text() == "" and not self.paths:
             return
 
         self.messageLineEdit.setEnabled(False)
         self.loadPushButton.setEnabled(False)
 
-        name = "$FILE$"
-        path = None
+        requestsDir = f"{PATH_TO_FOLDER}/projects/{self.window.project}/requests"
+        os.makedirs(requestsDir, exist_ok=True)
 
-        if self.path is not None:
-            name = f"requests/request.{self.path[self.path.rfind('.') + 1:]}"
-            path = f"{PATH_TO_FOLDER}/projects/{self.window.project}/{name}"
+        for f in os.listdir(requestsDir):
+            try:
+                os.remove(os.path.join(requestsDir, f))
 
-            shutil.copyfile(self.path, path)
+            except OSError:
+                pass
+
+        names = []
+        copiedPaths = []
+
+        for i, src in enumerate(self.paths):
+            base = os.path.basename(src)
+            ext = base[base.rfind(".") + 1:] if "." in base else ""
+
+            name = f"requests/request-{i}.{ext}" if ext else f"requests/request-{i}"
+            dst = f"{PATH_TO_FOLDER}/projects/{self.window.project}/{name}"
+
+            shutil.copyfile(src, dst)
+
+            names.append(name)
+            copiedPaths.append(dst)
 
         prompt = open("src/files/prompts/loader.txt", "r", encoding="utf-8").read()
 
-        prompt = prompt.replace("$FILE$", name)
+        prompt = prompt.replace("$FILE$", ", ".join(names) if names else "NO FILES")
         prompt = prompt.replace("$HISTORY$", str(self.chatTextEdit.history))
         prompt = prompt.replace("$MESSAGE$", self.messageLineEdit.text())
         prompt = prompt.replace("$PATH_TO_FOLDER$", PATH_TO_FOLDER)
         prompt = prompt.replace("$PROJECT$", self.window.project)
 
-        self.chatTextEdit.send(self.messageLineEdit.text() + (f" ({self.path})" if self.path is not None else ""))
+        shown = self.messageLineEdit.text()
+
+        if self.paths:
+            shown += " (" + ", ".join(os.path.basename(p) for p in self.paths) + ")"
+
+        self.chatTextEdit.send(shown)
         self.messageLineEdit.setText("")
 
         self.thread = QThread()
 
-        self.worker = AIWorker(prompt, path)
+        self.worker = AIWorker(prompt, copiedPaths)
         self.worker.moveToThread(self.thread)
 
         self.thread.started.connect(self.worker.run)
@@ -164,6 +199,8 @@ class TabAI(QWidget):
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json", "r", encoding="utf-8") as file:
             self.window.settings = json.load(file)
+
+        shutil.copyfile(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json", f"{PATH_TO_FOLDER}/projects/{self.window.project}/temp.json")
 
         os.remove(f"{PATH_TO_FOLDER}/projects/{self.window.project}/out.json")
 
