@@ -10,6 +10,7 @@ class ChatAITextEdit(QTextEdit):
 
         self.window = window
         self.last = None
+
         self.history = []
 
         if len(self.history) == 0:

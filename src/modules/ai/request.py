@@ -4,7 +4,7 @@ import sys
 import os
 
 URL = "https://ge3.pythonanywhere.com/"
-MODEL = "gemini-3.6-flash"
+MODEL = "gemini-3.7-flash"
 
 if os.name == "nt":
     try:
@@ -35,15 +35,11 @@ def sendChatRequestWithFiles(message: str, file_paths: list = None):
         for path in file_paths or []:
             if path and os.path.isfile(path):
                 handle = open(path, "rb")
+                
                 handles.append(handle)
                 files.append(("files", (os.path.basename(path), handle)))
 
-        response = requests.post(
-            f"{URL}/chat-ai-file",
-            data=data,
-            files=files or None,
-            timeout=timeout,
-        )
+        response = requests.post(f"{URL}/chat-ai-file", data=data, files=files or None, timeout=timeout)
         response.raise_for_status()
 
     finally:

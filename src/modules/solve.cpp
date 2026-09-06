@@ -61,7 +61,7 @@ public:
     vector<string> teachers, classes;
 
     vector<int> shifts;
-    vector<int> shiftByClass;
+    vector<int> classShiftByNumber;
 
     vector<double> hardsById;
     vector<double> capacityDaysByHard;
@@ -69,8 +69,8 @@ public:
     vector<int> classShiftOffset;
     vector<vector<int>> classesByShift;
 
-    map<int, set<int>> groupedWith;
-    vector<vector<char>> groupedMatrix;
+    map<int, map<int, set<int>>> groupedWith;
+    vector<vector<vector<char>>> groupedMatrix;
 
     vector<Constant> constants;
 
@@ -104,9 +104,9 @@ public:
         for (int s : shifts) {
             if (s < 0 || s >= NUMBER_OF_SHIFTS) {
                 throw runtime_error(
-                    "classes.shift содержит значение " + to_string(s) +
-                    ", но number_of_shifts = " + to_string(NUMBER_OF_SHIFTS) +
-                    " (допустимые индексы смены: 0.." + to_string(NUMBER_OF_SHIFTS - 1) + ")"
+                    "classes.shift contains " + to_string(s) +
+                    ", but number_of_shifts = " + to_string(NUMBER_OF_SHIFTS) +
+                    " (correct shift index: 0.." + to_string(NUMBER_OF_SHIFTS - 1) + ")"
                 );
             }
         }
@@ -114,7 +114,8 @@ public:
         for (int i = 1; i <= settings["classes"]["count"].size(); i++) {
             for (int j = 1; j <= settings["classes"]["count"][i - 1]; j++) {
                 classes.push_back(to_string(i) + " " + CLASSES_LETTERS[j]);
-                shiftByClass.push_back(i - 1);
+
+                classShiftByNumber.push_back(i - 1);
             }
         }
 
@@ -137,6 +138,7 @@ public:
                 for (int j = 0; j < exclude.size(); j++) {
                     if (i == exclude[j]) {
                         find = true;
+
                         break;
                     }
                 }
@@ -178,14 +180,10 @@ public:
                 }
 
                 if (temp.size()) {
-                    lessons[cls].push_back({
-                        {"subject", subject},
-                        {"teachers", temp},
-                        {"hours", count}
-                    });
+                    lessons[cls].push_back({{"subject", subject}, {"teachers", temp}, {"hours", count}});
 
                 } else {
-                    cout << "[WARNING]: " << cls << " not found teacher for " << subject << "\n";
+                    cout << "[WARNING] " << cls << " not found teacher for " << subject << "\n";
                 }
             }
         }
@@ -195,42 +193,6 @@ public:
 
             subjectNameByID[idx + 1] = subject;
             IDBySubjectName[subject] = idx + 1;
-        }
-
-        if (settings.contains("groups")) {
-            set<string> groupKeys;
-
-            for (auto& [key, val] : settings["groups"].items()) {
-                if ((int)val != 0) {
-                    groupKeys.insert(key);
-                }
-            }
-
-            int subjectsCount = settings["subjects"].size();
-
-            for (int i = 0; i < subjectsCount; i++) {
-                for (int j = 0; j < subjectsCount; j++) {
-                    if (i == j) continue;
-
-                    string s1 = settings["subjects"][i][0];
-                    string s2 = settings["subjects"][j][0];
-
-                    if (groupKeys.count(s1 + "-" + s2)) {
-                        groupedWith[i + 1].insert(j + 1);
-                    }
-                }
-            }
-
-            groupedMatrix.assign(subjectsCount + 1, vector<char>(subjectsCount + 1, 0));
-
-            for (auto& [a, set_] : groupedWith) {
-                for (int b : set_) {
-                    groupedMatrix[a][b] = 1;
-                }
-            }
-
-        } else {
-            groupedMatrix.assign(settings["subjects"].size() + 1, vector<char>(settings["subjects"].size() + 1, 0));
         }
 
         for (int idx = 0; idx < teachers.size(); idx++) {
@@ -247,6 +209,98 @@ public:
             IDByClassName[subject] = teachers.size() + idx + 1;
         }
 
+        int total_classes_offset = teachers.size() + classes.size() + 1;
+        int subjectsCount = settings["subjects"].size();
+
+        groupedMatrix.assign(total_classes_offset, vector<vector<char>>(subjectsCount + 1, vector<char>(subjectsCount + 1, 0)));
+
+        if (settings.contains("groups") && settings["groups"].is_object()) {
+            for (auto& [key, val] : settings["groups"].items()) {
+                auto dash = key.find('-');
+
+                if (dash == string::npos) {
+                    continue;
+                }
+
+                string s1 = key.substr(0, dash);
+                string s2 = key.substr(dash + 1);
+
+                if (!IDBySubjectName.count(s1) || !IDBySubjectName.count(s2)) {
+                    cout << "[WARNING] groups: unknown subjects in key " << key << "\n";
+
+                    continue;
+                }
+
+                int subject1 = IDBySubjectName[s1];
+                int subject2 = IDBySubjectName[s2];
+
+                if (val.is_array()) {
+                    for (auto& element : val) {
+                        if (!element.is_string()) {
+                            continue;
+                        }
+
+                        string name = element;
+
+                        if (!IDByClassName.count(name)) {
+                            cout << "[WARNING] groups: unknown class " << name << "\n";
+
+                            continue;
+                        }
+
+                        int cls = IDByClassName[name];
+
+                        groupedMatrix[cls][subject1][subject2] = 1;
+                        groupedMatrix[cls][subject2][subject1] = 1;
+
+                        groupedWith[cls][subject1].insert(subject2);
+                        groupedWith[cls][subject2].insert(subject1);
+                    }
+                }
+            }
+        }
+
+        for (auto& [cls, element] : groupedWith) {
+            for (auto& [subj1, partners] : element) {
+                for (int subj2 : partners) {
+                    if (subj2 < subj1) continue;
+
+                    string s1 = subjectNameByID[subj1];
+                    string s2 = subjectNameByID[subj2];
+
+                    set<string> t1, t2;
+
+                    for (auto& lesson : lessons[classNameByID[cls]]) {
+                        if (lesson["subject"] == s1) {
+                            for (auto& t : lesson["teachers"]) {
+                                t1.insert(t);
+                            }
+                        }
+
+                        if (lesson["subject"] == s2) {
+                            for (auto& t : lesson["teachers"]) {
+                                t2.insert(t);
+                            }
+                        }
+                    }
+
+                    vector<string> overlap;
+
+                    set_intersection(t1.begin(), t1.end(), t2.begin(), t2.end(), back_inserter(overlap));
+
+                    if (!overlap.empty()) {
+                        cout << "[WARNING] group " << s1 << "-" << s2 << " for " << classNameByID[cls] << " is IMPOSSIBLE: shared teachers (";
+
+                        for (auto& t : overlap) {
+                            cout << t << " ";
+                        }
+
+                        cout << ")" << "\n";
+                    }
+                }
+            }
+        }
+
         hardsById.assign(settings["subjects"].size() + 1, 0);
 
         for (int idx = 0; idx < settings["subjects"].size(); idx++) {
@@ -258,29 +312,30 @@ public:
         if (settings.contains("capacityDaysByHard")) {
             auto arr = settings["capacityDaysByHard"];
 
-            for (int i = 0; i < min((int)arr.size(), JOB_WEEK_LENGHT); i++) {
+            for (int i = 0; i < min(int(arr.size()), JOB_WEEK_LENGHT); i++) {
                 capacityDaysByHard[i] = arr[i];
             }
         }
 
         classShiftOffset.assign(teachers.size() + classes.size() + 1, 0);
 
-        for (int idx = 0; idx < (int)classes.size(); idx++) {
-            classShiftOffset[teachers.size() + idx + 1] = shifts[shiftByClass[idx]] * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        for (int idx = 0; idx < classes.size(); idx++) {
+            classShiftOffset[teachers.size() + idx + 1] = shifts[classShiftByNumber[idx]] * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
         }
 
         classesByShift.assign(NUMBER_OF_SHIFTS, vector<int>());
 
-        for (int idx = 0; idx < (int)classes.size(); idx++) {
+        for (int idx = 0; idx < classes.size(); idx++) {
             int cls = teachers.size() + idx + 1;
-            
-            classesByShift[shifts[shiftByClass[idx]]].push_back(cls);
+
+            classesByShift[shifts[classShiftByNumber[idx]]].push_back(cls);
         }
 
         if (settings.contains("constants") && settings["constants"].is_object()) {
             for (auto& [cls, items] : settings["constants"].items()) {
                 if (!IDByClassName.count(cls)) {
-                    cout << "[WARNING]: constants: unknown class " << cls << "\n";
+                    cout << "[WARNING] constants: unknown class " << cls << "\n";
+
                     continue;
                 }
 
@@ -292,14 +347,14 @@ public:
                     int day = -1, lesson = -1;
 
                     if (sscanf(key.c_str(), "%d-%d", &day, &lesson) != 2) {
-                        cout << "[WARNING]: constants: bad key \"" << key << "\" for " << cls << "\n";
-                        
+                        cout << "[WARNING] constants: bad key \"" << key << "\" for " << cls << "\n";
+
                         continue;
                     }
 
                     if (day < 0 || day >= JOB_WEEK_LENGHT || lesson < 0 || lesson >= MAX_LESSON_IN_DAY) {
-                        cout << "[WARNING]: constants: key \"" << key << "\" out of range for " << cls << "\n";
-                        
+                        cout << "[WARNING] constants: key \"" << key << "\" out of range for " << cls << "\n";
+
                         continue;
                     }
 
@@ -314,8 +369,8 @@ public:
                     }
 
                     if (!IDBySubjectName.count(subject)) {
-                        cout << "[WARNING]: constants: unknown subject \"" << subject << "\" for " << cls << "\n";
-                        
+                        cout << "[WARNING] constants: unknown subject \"" << subject << "\" for " << cls << "\n";
+
                         continue;
                     }
 
@@ -347,7 +402,7 @@ struct edge {
 };
 
 vector<vector<vector<edge>>> graph;
-vector<vector<bool>> teacherAllowed;
+vector<vector<bool>> teacherIsAllowed;
 
 inline bool occupied(int row, int slot) {
     return !graph[row][slot].empty();
@@ -416,7 +471,7 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
     Data& data = getData();
 
     for (int i = 0; i < existing.size; i++) {
-        if (!data.groupedMatrix[existing.values[i]][subjectID]) {
+        if (!data.groupedMatrix[cls][existing.values[i]][subjectID]) {
             return false;
         }
     }
@@ -595,9 +650,16 @@ public:
         }
 
         Data& data = getData();
-        auto it = data.groupedWith.find(subjects.values[0]);
 
-        return it != data.groupedWith.end() && !it->second.empty();
+        auto it = data.groupedWith.find(cls);
+
+        if (it == data.groupedWith.end()) {
+            return false;
+        }
+
+        auto sub = it->second.find(subjects.values[0]);
+
+        return sub != it->second.end() && !sub->second.empty();
     }
 
     static double groupBonus(int cls, int day) {
@@ -717,11 +779,16 @@ vector<double> getClassPoint() {
 
 double getClassTotal(int cls) {
     double answer = 0;
-    vector<double> temp = getClassPoint(cls);
 
-    for (int i = 0; i < FUNCTIONS_ARGUMENTS_COUNT; i++) {
-        answer += temp[i];
+    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        answer += Functions::equalLessons(cls, day);
+        answer += Functions::lessonsEmptySlots(cls, day);
+        answer += Functions::groupBonus(cls, day);
+        answer += Functions::incompleteGroupsAtEnd(cls, day);
     }
+
+    answer += Functions::notEqualsLessonsCountOnDay(cls);
+    answer += Functions::daysByHard(cls);
 
     return answer;
 }
@@ -776,7 +843,7 @@ json save() {
                 entry["teachers"] = teachersBySubject[subjectOrder[0]];
                 entry["extra"] = json::array();
 
-                for (int i = 1; i < (int)subjectOrder.size(); i++) {
+                for (int i = 1; i < subjectOrder.size(); i++) {
                     entry["extra"].push_back(json{
                         {"subject", subjectNameByID[subjectOrder[i]]},
                         {"teachers", teachersBySubject[subjectOrder[i]]}
@@ -792,6 +859,8 @@ json save() {
 }
 
 int main(int argc, char** argv) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
     CLI::App app;
 
     int iterations = 5e7;
@@ -825,13 +894,13 @@ int main(int argc, char** argv) {
 
     graph.assign(size, vector<vector<edge>>(SLOTS));
 
-    teacherAllowed.assign(size, vector<bool>(SLOTS, false));
+    teacherIsAllowed.assign(size, vector<bool>(SLOTS, false));
 
     locked.assign(size, vector<SubjectSet>(SLOTS));
 
     for (int teacher = 0; teacher < data.teachers.size(); teacher++) {
         for (int slot : data.free[teacher]) {
-            teacherAllowed[teacher + 1][slot] = true;
+            teacherIsAllowed[teacher + 1][slot] = true;
         }
     }
 
@@ -860,29 +929,30 @@ int main(int argc, char** argv) {
 
     int unplaced = 0;
 
-    for (const Constant& c : data.constants) {
-        const string& cls = classNameByID[c.cls];
-        const string& subject = subjectNameByID[c.subjectID];
+    for (const Constant& constant : data.constants) {
+        const string& cls = classNameByID[constant.cls];
+        const string& subject = subjectNameByID[constant.subjectID];
 
         int idx = -1;
 
         for (int i = 0; i < pending.size(); i++) {
-            if (pending[i].cls == c.cls && pending[i].subjectID == c.subjectID) {
+            if (pending[i].cls == constant.cls && pending[i].subjectID == constant.subjectID) {
                 idx = i;
+
                 break;
             }
         }
 
         if (idx == -1) {
-            cout << "[WARNING]: constant " << cls << " / " << subject << " skipped, no lesson hours (or no teacher) left for this subject\n";
+            cout << "[WARNING] constant " << cls << " / " << subject << " skipped, no lesson hours (or no teacher) left for this subject" << "\n";
 
             continue;
         }
 
         Lesson item = pending[idx];
 
-        if (!canPlaceLesson(c.cls, c.slot, c.subjectID)) {
-            cout << "[WARNING]: constant " << cls << " / " << subject << " skipped, slot conflicts with another constant\n";
+        if (!canPlaceLesson(constant.cls, constant.slot, constant.subjectID)) {
+            cout << "[WARNING] constant " << cls << " / " << subject << " skipped, slot conflicts with another constant" << "\n";
 
             continue;
         }
@@ -890,22 +960,23 @@ int main(int argc, char** argv) {
         bool ok = true;
 
         for (int id : item.ids) {
-            if (!teacherAllowed[id][c.slot] || occupied(id, c.slot)) {
+            if (!teacherIsAllowed[id][constant.slot] || occupied(id, constant.slot)) {
                 ok = false;
+
                 break;
             }
         }
 
         if (!ok) {
-            cout << "[WARNING]: constant " << cls << " / " << subject << " skipped: teacher is busy or unavailable at this slot\n";
-            
+            cout << "[WARNING] constant " << cls << " / " << subject << " skipped: teacher is busy or unavailable at this slot" << "\n";
+
             continue;
         }
 
         pending.erase(pending.begin() + idx);
 
-        placeLesson(item, c.slot);
-        locked[c.cls][c.slot].insert(c.subjectID);
+        placeLesson(item, constant.slot);
+        locked[constant.cls][constant.slot].insert(constant.subjectID);
     }
 
     while (!pending.empty()) {
@@ -913,7 +984,7 @@ int main(int argc, char** argv) {
 
         vector<int> bestCandidates;
 
-        for (int idx = 0; idx < (int)pending.size(); idx++) {
+        for (int idx = 0; idx < pending.size(); idx++) {
             Lesson& item = pending[idx];
 
             vector<int> candidates;
@@ -926,7 +997,7 @@ int main(int argc, char** argv) {
                 bool ok = true;
 
                 for (int id : item.ids) {
-                    if (!teacherAllowed[id][slot] || occupied(id, slot)) {
+                    if (!teacherIsAllowed[id][slot] || occupied(id, slot)) {
                         ok = false;
 
                         break;
@@ -940,6 +1011,7 @@ int main(int argc, char** argv) {
 
             if (bestIdx == -1 || candidates.size() < bestCandidates.size()) {
                 bestIdx = idx;
+
                 bestCandidates = candidates;
             }
 
@@ -949,10 +1021,11 @@ int main(int argc, char** argv) {
         }
 
         Lesson item = pending[bestIdx];
+
         pending.erase(pending.begin() + bestIdx);
 
         if (bestCandidates.empty()) {
-            cout << "[WARNING]: no common free slot for " << item.className << " / " << item.subjectName << "\n";
+            cout << "[WARNING] no common free slot for " << item.className << " / " << item.subjectName << "\n";
 
             unplaced++;
 
@@ -965,12 +1038,12 @@ int main(int argc, char** argv) {
     }
 
     if (unplaced > 0) {
-        cout << "[WARNING]: " << unplaced << " lesson(s) could not be placed during initial construction\n";
+        cout << "[WARNING] " << unplaced << " lesson(s) could not be placed during initial construction" << "\n";
     }
 
     double total = getClassTotal();
 
-    for (int teacher = 1; teacher <= (int)data.teachers.size(); teacher++) {
+    for (int teacher = 1; teacher <= data.teachers.size(); teacher++) {
         total += Functions::teacherFreeTime(teacher);
     }
 
@@ -1045,24 +1118,29 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            set<int> teachersA, teachersB;
-
-            for (auto& e : groupA) teachersA.insert(e.id);
-            for (auto& e : groupB) teachersB.insert(e.id);
-
             bool ok = true;
 
-            for (int t : teachersA) {
-                if (!teacherAllowed[t][slotB] || (occupied(t, slotB) && !teachersB.count(t))) {
+            for (auto& edge : groupA) {
+                if (!teacherIsAllowed[edge.id][slotB]) {
                     ok = false;
+
                     break;
                 }
-            }
 
-            if (ok) {
-                for (int t : teachersB) {
-                    if (!teacherAllowed[t][slotA] || (occupied(t, slotA) && !teachersA.count(t))) {
+                if (occupied(edge.id, slotB)) {
+                    bool flag = false;
+
+                    for (auto& element : groupB) {
+                        if (element.id == edge.id) {
+                            flag = true;
+
+                            break;
+                        }
+                    }
+
+                    if (!flag) {
                         ok = false;
+
                         break;
                     }
                 }
@@ -1072,23 +1150,67 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            vector<int> involvedTeachers(teachersA.begin(), teachersA.end());
+            for (auto& edge : groupB) {
+                if (!teacherIsAllowed[edge.id][slotA]) {
+                    ok = false;
 
-            for (int t : teachersB) {
-                if (!teachersA.count(t)) {
-                    involvedTeachers.push_back(t);
+                    break;
                 }
+
+                if (occupied(edge.id, slotA)) {
+                    bool flag = false;
+
+                    for (auto& element : groupA) {
+                        if (element.id == edge.id) {
+                            flag = true;
+
+                            break;
+                        }
+                    }
+
+                    if (!flag) {
+                        ok = false;
+
+                        break;
+                    }
+                }
+            }
+
+            if (!ok) {
+                continue;
+            }
+
+            vector<int> teachers;
+
+            for (auto& edge : groupA) {
+                teachers.push_back(edge.id);
+            }
+
+            for (auto& edge : groupB) {
+                bool flag = false;
+
+                for (auto& element : groupA) {
+                    if (element.id == edge.id) {
+                        flag = true;
+                    }
+                }
+
+                if (flag) {
+                    continue;
+                }
+
+                teachers.push_back(edge.id);
             }
 
             double before = getClassTotal(cls);
 
-            for (int t : involvedTeachers) {
-                before += Functions::teacherFreeTime(t);
+            for (int teacher : teachers) {
+                before += Functions::teacherFreeTime(teacher);
             }
 
             auto intraSwapper = [&]() {
-                for (int t : involvedTeachers) {
-                    swap(graph[t][slotA], graph[t][slotB]);
+                for (int teacher : teachers) {
+                    swap(graph[teacher][slotA], graph[teacher][slotB]);
                 }
 
                 swap(graph[cls][slotA], graph[cls][slotB]);
@@ -1099,7 +1221,7 @@ int main(int argc, char** argv) {
 
             double after = getClassTotal(cls);
 
-            for (int t : involvedTeachers) {
+            for (int t : teachers) {
                 after += Functions::teacherFreeTime(t);
             }
 
@@ -1174,7 +1296,7 @@ int main(int argc, char** argv) {
             bool ok = true;
 
             for (int t : teachers1) {
-                if (!teacherAllowed[t][color2]) {
+                if (!teacherIsAllowed[t][color2]) {
                     ok = false;
 
                     break;
@@ -1192,7 +1314,7 @@ int main(int argc, char** argv) {
             }
 
             for (int t : teachers2) {
-                if (!teacherAllowed[t][color1]) {
+                if (!teacherIsAllowed[t][color1]) {
                     ok = false;
 
                     break;
@@ -1303,7 +1425,7 @@ int main(int argc, char** argv) {
                 bool teachersOk = true;
 
                 for (int t : involvedTeachers) {
-                    if (!teacherAllowed[t][slot] || occupied(t, slot)) {
+                    if (!teacherIsAllowed[t][slot] || occupied(t, slot)) {
                         teachersOk = false;
                         break;
                     }
