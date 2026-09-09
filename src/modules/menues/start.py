@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QToolButton, QFrame
+from PyQt5.QtWidgets import QLabel, QToolButton, QFrame, QPushButton
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QSize
 
@@ -9,8 +9,22 @@ from src.variables import *
 
 import os
 
+languages = [
+    ["ru", "src/files/sprites/languages/ru.jpg"],
+    ["en", "src/files/sprites/languages/en.jpg"]
+]
+
 
 def init(window) -> None:
+    for obj in window.objects.values():
+        try:
+            obj.hide()
+
+            obj.deleteLater()
+
+        except AttributeError:
+            pass
+
     window.objects["labelName"] = QLabel(translate("menu.start.label_name"), parent=window)
     window.objects["labelName"].setAlignment(Qt.AlignCenter)
     window.objects["labelName"].setFont(BIG_FONT)
@@ -23,9 +37,9 @@ def init(window) -> None:
     window.objects["frameLine"].show()
 
     buttons = [
-        ("buttonCreateProject", "menu.start.button_create_project", "src/files/icons/create.svg", lambda: buttonCreateProject(window)),
-        ("buttonOpenProject", "menu.start.button_open_project", "src/files/icons/open.svg", lambda: buttonOpenProject(window)),
-        ("buttonExit", "menu.start.button_exit", "src/files/icons/exit.svg", lambda: window.close()),
+        ("buttonCreateProject", "menu.start.button_create_project", "src/files/sprites/create.svg", lambda: buttonCreateProject(window)),
+        ("buttonOpenProject", "menu.start.button_open_project", "src/files/sprites/open.svg", lambda: buttonOpenProject(window)),
+        ("buttonExit", "menu.start.button_exit", "src/files/sprites/exit.svg", lambda: window.close()),
     ]
 
     for name, key, icon, callback in buttons:
@@ -39,9 +53,34 @@ def init(window) -> None:
         btn.setCursor(Qt.PointingHandCursor)
         btn.clicked.connect(callback)
         btn.show()
+
         window.objects[name] = btn
 
+    for type, icon in languages:
+        btn = QPushButton(parent=window)
+        btn.setIcon(QIcon(icon))
+        btn.setIconSize(QSize(50, 25))
+        btn.setFixedSize(50, 25)
+        btn.clicked.connect(lambda _, lang=type: language(window, lang))
+        btn.show()
+
+        window.objects[type] = btn
+
     resize(window)
+
+
+def language(window, lang):
+    with open(f"{PATH_TO_FOLDER}/settings.json", "r", encoding="utf-8") as file:
+        settings = json.load(file)
+
+    settings["language"] = lang
+
+    with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
+        json.dump(settings, file, indent=4)
+
+    setTranslateLanguage(lang)
+
+    init(window)
 
 
 def resize(window) -> None:
@@ -59,6 +98,13 @@ def resize(window) -> None:
     window.objects["buttonCreateProject"].setGeometry(start_x, y, btn_size, btn_size)
     window.objects["buttonOpenProject"].setGeometry(start_x + btn_size + gap, y, btn_size, btn_size)
     window.objects["buttonExit"].setGeometry(start_x + 2 * (btn_size + gap), y, btn_size, btn_size)
+
+    idx = 0
+
+    for type, path in languages:
+        window.objects[type].setGeometry(5 + 55 * idx, Size.y(100) - 30, 60, 30)
+
+        idx += 1
 
 
 def buttonCreateProject(window):

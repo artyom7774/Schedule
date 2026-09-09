@@ -235,3 +235,19 @@ def resize(window) -> None:
         pass
 
     tab = window.objects["tabs"].widget(TAB_EXPORT)
+
+    tab.timesRama.setGeometry(0, 0, x(33), y(100))
+    tab.exportByClassPushButton.setGeometry(x(33) + 1, 1, x(100 - 33) - 1, 30 - 2)
+    tab.exportByTeacherPushButton.setGeometry(x(33) + 1, 31, x(100 - 33) - 1, 30 - 2)
+
+    lessons = window.settings["max_lesson_count_per_day"]
+    shifts = window.settings["number_of_shifts"]
+
+    idx = 0
+
+    for shift in range(shifts):
+        for lesson in range(lessons):
+            tab.objects[f"time_{shift}-{lesson}_label"].setGeometry(10, 10 + 40 * idx, x(15), 30)
+            tab.objects[f"time_{shift}-{lesson}_lineedit"].setGeometry(20 + x(15), 10 + 40 * idx, x(33) - x(15) - 30, 30)
+
+            idx += 1

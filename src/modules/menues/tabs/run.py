@@ -168,7 +168,7 @@ class TabRun(QWidget):
 
         self.update()
 
-        TabRun.init(self.window, ignore=[TAB_VIEW], reverse=True)
+        TabRun.init(self.window, ignore=[TAB_RUN])
 
     def stop(self):
         if self.process is not None and self.process.state() != QProcess.NotRunning:

@@ -89,6 +89,11 @@ def initProject(window, project):
         },
         "constants": {
 
+        },
+        "display": {
+            "time": {
+
+            }
         }
     }
 

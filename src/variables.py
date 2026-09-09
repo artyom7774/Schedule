@@ -1,8 +1,9 @@
 from PyQt5.QtGui import QFont
 
-from src.modules.translate import translate
+from src.modules.translate import translate, language as setTranslateLanguage
 
 import faulthandler
+import json
 import os
 
 faulthandler.enable()
@@ -46,6 +47,13 @@ if not os.path.exists(f"{PATH_TO_FOLDER}/using"):
 
 if not os.path.exists(f"{PATH_TO_FOLDER}/projects"):
     os.mkdir(f"{PATH_TO_FOLDER}/projects")
+
+if not os.path.exists(f"{PATH_TO_FOLDER}/settings.json"):
+    with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
+        json.dump({"language": "en"}, file, indent=4)
+
+with open(f"{PATH_TO_FOLDER}/settings.json", "r", encoding="utf-8") as file:
+    setTranslateLanguage(json.load(file)["language"])
 
 
 class Size:

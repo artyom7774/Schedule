@@ -23,7 +23,6 @@ vector<string> CLASSES_LETTERS = {"-", "А", "Б", "В", "Г", "Д", "Е", "Ж",
 string input = "settings.json";
 string output = "answer.json";
 
-
 int randint(int min, int max) {
     static __gnu_cxx::sfmt19937 rng(
         std::random_device{}() ^
@@ -35,7 +34,6 @@ int randint(int min, int max) {
     return dist(rng);
 }
 
-
 map<int, string> teacherNameByID;
 map<string, int> IDByTeacherName;
 
@@ -45,11 +43,9 @@ map<string, int> IDBySubjectName;
 map<int, string> classNameByID;
 map<string, int> IDByClassName;
 
-
 struct Constant {
     int cls, slot, subjectID;
 };
-
 
 class Data {
 public:
@@ -352,6 +348,7 @@ public:
 
 Data& getData() {
     static Data instance;
+
     return instance;
 }
 
@@ -436,6 +433,7 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
     }
 
     Data& data = getData();
+
     const vector<int>& mask = data.groupMaskBySubject[cls];
 
     int nw = subjectID >= 0 && subjectID < mask.size() ? mask[subjectID] : 0;

@@ -1,9 +1,9 @@
 {
-    "equalLessons": 10,
+    "equalLessons": 25,
     "notEqualsLessonsCountOnDay": 25,
     "lessonsEmptySlots": 200,
     "daysByHard": 2,
-    "teacherFreeTime": 5,
+    "teacherFreeTime": 10,
     "groupBonus": 10,
     "lessonShiftCrossing": 250,
     "profileGaps": 200
