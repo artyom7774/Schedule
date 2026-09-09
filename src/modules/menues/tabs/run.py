@@ -144,11 +144,15 @@ class TabRun(QWidget):
         self.stdTextEdit.ensureCursorVisible()
 
     def stdout(self):
+        self.update()
+
         self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardOutput()).decode("utf-8", errors="replace"))
 
         self.update()
 
     def stderr(self):
+        self.update()
+
         self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardError()).decode("utf-8", errors="replace"))
 
         self.update()
@@ -157,6 +161,8 @@ class TabRun(QWidget):
         self.runPushButton.setDisabled(False)
 
         self.timer.stop()
+
+        self.update()
 
         self.stdTextEdit.insertPlainText(f"\n=== Process finished with exit code {code} ===\n")
 

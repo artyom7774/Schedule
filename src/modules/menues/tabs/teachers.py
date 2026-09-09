@@ -21,14 +21,13 @@ class TeacherSubjectWidget(QTableWidget):
         self.subjects = subjects
         self.classes = classes
         self.using = using
+        self.teacher = teacher
 
         self.horizontalHeader().setVisible(False)
         self.verticalHeader().setVisible(False)
 
         self.subject = QComboBox(parent=self)
         self.subject.addItems(self.subjects)
-
-        self.teacher = teacher
 
         if current is not None and current in self.subjects:
             self.subject.setCurrentIndex(self.subjects.index(current))
@@ -45,13 +44,34 @@ class TeacherSubjectWidget(QTableWidget):
             self.grid = ButtonGridWidget(self.classes, 5, onClick=lambda text: self.clicked(text), parent=self)
 
             for button in self.grid.buttons:
-                if button.text() not in self.using:
-                    button.setStyleSheet("background: #901112")
+                if button.text() in self.using:
+                    button.setStyleSheet(f"QPushButton {{ background: #109012; }} QToolTip {{ font-size: 16px; }}")
+                    hours = self.window.settings.get("classes", {}).get("lessons", {}).get(button.text(), {}).get(self.subject.currentText(), 0)
 
                 else:
-                    button.setStyleSheet("background: #109012")
+                    button.setStyleSheet(f"QPushButton {{ background: #901112; }} QToolTip {{ font-size: 16px; }}")
+                    hours = 0
+
+                button.setToolTip(
+                    f"{translate('menu.main.tab.teachers.subject')} \"{self.subject.currentText()}\": {hours} {translate('menu.main.tab.teachers.hours')}\n"
+                    f"{translate('menu.main.tab.teachers.all_subjects')}: {self.teacherTotalHours(button.text())} {translate('menu.main.tab.teachers.hours')}"
+                )
 
         self.show()
+
+    def teacherTotalHours(self, cls):
+        lessons = self.window.settings.get("classes", {}).get("lessons", {}).get(cls, {})
+
+        subjects = set()
+        total = 0
+
+        for subject in self.window.settings["teachers"][self.teacher].get("subjects", []):
+            if cls in subject.get("classes", []) and subject.get("subject") not in subjects:
+                total += lessons.get(subject.get("subject"), 0)
+
+                subjects.add(subject.get("subject"))
+
+        return total
 
     def clicked(self, text):
         if text in self.window.settings["teachers"][self.teacher]["subjects"][self.index]["classes"]:
@@ -244,12 +264,15 @@ class TabTeachers(QWidget):
 
     def teachersSubjectsSubjectCurrentIndexChanged(self, idx):
         pos = self.teachersSubjects[f"object_{idx}"].subject.currentIndex()
+
         subject = self.subjects[pos]
 
         if len(self.window.settings["teachers"][self.teacher]["subjects"]) == idx:
             self.window.settings["teachers"][self.teacher]["subjects"].append({
                 "subject": subject,
-                "classes": []
+                "classes": [
+
+                ]
             })
 
         self.window.settings["teachers"][self.teacher]["subjects"][idx]["subject"] = subject
@@ -285,12 +308,12 @@ class TabTeachers(QWidget):
         name = self.window.dialog.edit.text()
 
         if name == "":
-            window.dialog.log.setText(translate("log.text.teacher_name_is_empty"))
+            self.window.dialog.log.setText(translate("log.text.teacher_name_is_empty"))
 
             return
 
         if name in self.window.settings["teachers"]:
-            window.dialog.log.setText(translate("log.text.teacher_name_already_exists"))
+            self.window.dialog.log.setText(translate("log.text.teacher_name_already_exists"))
 
             return
 

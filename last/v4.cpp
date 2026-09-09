@@ -16,7 +16,7 @@ int SHIFT_CROSSING     = 0;
 
 int SLOTS = 0;
 
-const int MAX_GROUP_SUBJECTS = 10;
+const int MAX_GROUP_SUBJECTS = 3;
 
 vector<string> CLASSES_LETTERS = {"-", "А", "Б", "В", "Г", "Д", "Е", "Ж", "З", "И", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Э", "Ю", "Я"};
 
@@ -70,8 +70,6 @@ public:
     vector<vector<int>> classesByShift;
 
     vector<vector<vector<int>>> groups;
-
-    vector<vector<int>> groupMaskBySubject;
 
     vector<Constant> constants;
 
@@ -321,32 +319,6 @@ public:
 
             groups[IDByClassName[cls]].push_back(temp);
         }
-
-        int numSubjects = settings["subjects"].size();
-
-        groupMaskBySubject.assign(teachers.size() + classes.size() + 1, vector<int>());
-
-        for (auto& cls_ : classes) {
-            int cls = IDByClassName[cls_];
-
-            groupMaskBySubject[cls].assign(numSubjects + 1, 0);
-
-            int groupCount = (int)groups[cls].size();
-
-            if (groupCount > 31) {
-                cout << "[WARNING] " << cls_ << " has more than 31 profile groups, truncating to 31" << "\n";
-
-                groupCount = 31;
-            }
-
-            for (int g = 0; g < groupCount; g++) {
-                for (int subjectID : groups[cls][g]) {
-                    if (subjectID >= 0 && subjectID <= numSubjects) {
-                        groupMaskBySubject[cls][subjectID] |= (1 << g);
-                    }
-                }
-            }
-        }
     }
 };
 
@@ -436,29 +408,14 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
     }
 
     Data& data = getData();
-    const vector<int>& mask = data.groupMaskBySubject[cls];
 
-    int nw = subjectID >= 0 && subjectID < mask.size() ? mask[subjectID] : 0;
-
-    if (nw == 0) {
-        return false;
-    }
-
-    int covered = 0;
-
+    /*
     for (int i = 0; i < existing.size; i++) {
-        int m = existing.values[i] >= 0 && existing.values[i] < mask.size() ? mask[existing.values[i]] : 0;
-
-        if (m == 0) {
+        if (!data.groupedMatrix[cls][existing.values[i]][subjectID]) {
             return false;
         }
-
-        covered |= m;
     }
-
-    if (covered & nw) {
-        return false;
-    }
+    */
 
     return true;
 }
@@ -498,8 +455,8 @@ struct Weights {
     inline static double daysByHard = 2;
     inline static double teacherFreeTime = 5;
     inline static double groupBonus = 10;
+    inline static double incompleteGroupNotEnd = 35;
     inline static double lessonShiftCrossing = 250;
-    inline static double profileGaps = 200;
 
     static void init(const json& data) {
         equalLessons = data.value("equalLessons", equalLessons);
@@ -508,8 +465,8 @@ struct Weights {
         daysByHard = data.value("daysByHard", daysByHard);
         teacherFreeTime = data.value("teacherFreeTime", teacherFreeTime);
         groupBonus = data.value("groupBonus", groupBonus);
+        incompleteGroupNotEnd = data.value("incompleteGroupNotEnd", incompleteGroupNotEnd);
         lessonShiftCrossing = data.value("lessonShiftCrossing", lessonShiftCrossing);
-        profileGaps = data.value("profileGaps", profileGaps);
     }
 };
 
@@ -589,53 +546,6 @@ public:
         return Weights::lessonsEmptySlots * value;
     }
 
-    static double profileGaps(int cls, int day) {
-        Data& data = getData();
-
-        int count = data.groups[cls].size();
-
-        if (count <= 1) {
-            return 0;
-        }
-
-        const vector<int>& mask = data.groupMaskBySubject[cls];
-
-        int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
-
-        double value = 0;
-
-        for (int capacity = 0; capacity < count; capacity++) {
-            int bit = 1 << capacity;
-
-            int temp = 0;
-
-            for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-                SubjectSet subjects = slotSubjects(cls, base + lesson);
-
-                int covered = 0;
-
-                for (int k = 0; k < subjects.size; k++) {
-                    int v = subjects.values[k];
-
-                    if (v >= 0 && v < (int)mask.size()) {
-                        covered |= mask[v];
-                    }
-                }
-
-                if (covered & bit) {
-                    value += temp;
-
-                    temp = 0;
-
-                } else {
-                    temp += 1;
-                }
-            }
-        }
-
-        return Weights::profileGaps * value;
-    }
-
     static double daysByHard(int cls) {
         Data& data = getData();
         int offset = data.classShiftOffset[cls];
@@ -669,6 +579,48 @@ public:
         return Weights::daysByHard * value;
     }
 
+    static bool functionIsIncompleteGroup(int cls, int slot) {
+        if (!occupied(cls, slot)) {
+            return false;
+        }
+
+        SubjectSet subjects = slotSubjects(cls, slot);
+
+        if (subjects.size >= MAX_GROUP_SUBJECTS) {
+            return false;
+        }
+
+        Data& data = getData();
+
+        /*
+        auto it = data.groupedWith.find(cls);
+
+        if (it == data.groupedWith.end()) {
+            return false;
+        }
+
+        for (int i = 0; i < subjects.size; i++) {
+            auto sub = it->second.find(subjects.values[i]);
+
+            if (sub == it->second.end()) {
+                continue;
+            }
+
+            for (int partner : sub->second) {
+                if (subjects.contains(partner)) {
+                    continue;
+                }
+
+                if (canPlaceLesson(cls, slot, partner)) {
+                    return true;
+                }
+            }
+        }
+        */
+
+        return false;
+    }
+
     static double groupBonus(int cls, int day) {
         Data& data = getData();
 
@@ -685,6 +637,27 @@ public:
         }
 
         return -Weights::groupBonus * value;
+    }
+
+    static double incompleteGroupsAtEnd(int cls, int day) {
+        Data& data = getData();
+        int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
+
+        double value = 0;
+
+        for (int i = base; i < base + MAX_LESSON_IN_DAY; i++) {
+            if (!functionIsIncompleteGroup(cls, i)) {
+                continue;
+            }
+
+            for (int j = i + 1; j < base + MAX_LESSON_IN_DAY; j++) {
+                if (occupied(cls, j) && !functionIsIncompleteGroup(cls, j)) {
+                    value += 1;
+                }
+            }
+        }
+
+        return Weights::incompleteGroupNotEnd * value;
     }
 
     static double teacherFreeTime(int teacher) {
@@ -740,7 +713,7 @@ vector<double> getClassPoint(int cls) {
         answer[0] += Functions::equalLessons(cls, day);
         answer[2] += Functions::lessonsEmptySlots(cls, day);
         answer[4] += Functions::groupBonus(cls, day);
-        answer[5] += Functions::profileGaps(cls, day);
+        answer[5] += Functions::incompleteGroupsAtEnd(cls, day);
     }
 
     answer[1] += Functions::notEqualsLessonsCountOnDay(cls);
@@ -771,7 +744,7 @@ double getClassTotal(int cls) {
         answer += Functions::equalLessons(cls, day);
         answer += Functions::lessonsEmptySlots(cls, day);
         answer += Functions::groupBonus(cls, day);
-        answer += Functions::profileGaps(cls, day);
+        answer += Functions::incompleteGroupsAtEnd(cls, day);
     }
 
     answer += Functions::notEqualsLessonsCountOnDay(cls);
@@ -782,7 +755,6 @@ double getClassTotal(int cls) {
 
 double getClassTotal() {
     Data& data = getData();
-
     double answer = 0;
 
     for (int cls = data.teachers.size() + 1; cls < data.teachers.size() + data.classes.size() + 1; cls++) {

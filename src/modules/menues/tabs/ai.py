@@ -25,6 +25,7 @@ class AIWorker(QObject):
     def run(self):
         try:
             text, status = sendChatRequestWithFiles(self.prompt, self.paths)
+
             self.finished.emit(text, status)
 
         except Exception as e:
@@ -123,7 +124,7 @@ class TabAI(QWidget):
                 pass
 
         names = []
-        copiedPaths = []
+        paths = []
 
         for i, src in enumerate(self.paths):
             base = os.path.basename(src)
@@ -135,7 +136,7 @@ class TabAI(QWidget):
             shutil.copyfile(src, dst)
 
             names.append(name)
-            copiedPaths.append(dst)
+            paths.append(dst)
 
         prompt = open("src/files/prompts/loader.txt", "r", encoding="utf-8").read()
 
@@ -155,7 +156,7 @@ class TabAI(QWidget):
 
         self.thread = QThread()
 
-        self.worker = AIWorker(prompt, copiedPaths)
+        self.worker = AIWorker(prompt, paths + [f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json"])
         self.worker.moveToThread(self.thread)
 
         self.thread.started.connect(self.worker.run)

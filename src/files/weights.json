@@ -5,6 +5,6 @@
     "daysByHard": 2,
     "teacherFreeTime": 5,
     "groupBonus": 10,
-    "incompleteGroupNotEnd": 35,
-    "lessonShiftCrossing": 250
+    "lessonShiftCrossing": 250,
+    "profileGaps": 200
 }

@@ -175,7 +175,8 @@ def resize(window) -> None:
     tab = window.objects["tabs"].widget(TAB_GROUPS)
 
     try:
-        tab.classSelector.setGeometry(1, 1, x(100) - 2, 28)
+        tab.classSelector.setGeometry(1, 1, 141, 28)
+        tab.addGroupButton.setGeometry(144, 1, x(20), 28)
         tab.groupsTable.setGeometry(0, 30, x(100), y(100) - 30)
 
     except AttributeError:

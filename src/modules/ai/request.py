@@ -19,7 +19,7 @@ if os.name == "nt":
 sys.stdout.reconfigure(encoding='utf-8')
 
 
-def sendChatRequestWithFiles(message: str, file_paths: list = None):
+def sendChatRequestWithFiles(message: str, paths: list = None):
     interval = 1.5
     timeout = 300
 
@@ -32,7 +32,7 @@ def sendChatRequestWithFiles(message: str, file_paths: list = None):
     handles = []
 
     try:
-        for path in file_paths or []:
+        for path in paths or []:
             if path and os.path.isfile(path):
                 handle = open(path, "rb")
                 
@@ -50,10 +50,10 @@ def sendChatRequestWithFiles(message: str, file_paths: list = None):
 
     ids = result["ids"]
 
-    start_time = time.time()
+    start = time.time()
 
     while True:
-        if time.time() - start_time > timeout:
+        if time.time() - start > timeout:
             raise Exception("timeout")
 
         now = requests.get(f"{URL}/ai/status/{ids}", timeout=30)
@@ -63,8 +63,15 @@ def sendChatRequestWithFiles(message: str, file_paths: list = None):
 
         status = save.get("status")
 
+        print(status)
+
         if status == "completed":
+            print(save.get("response"))
+
             return save.get("response", ""), status
+
+        elif status == "error" and save.get("error").startswith("503"):
+            return sendChatRequestWithFiles(message, paths)
 
         elif status == "error":
             raise Exception(f"{save.get('error')}")

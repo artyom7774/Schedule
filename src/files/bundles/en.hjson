@@ -24,6 +24,11 @@
 
 "menu.main.tab.teachers.add_teacher": "Add teacher"
 "menu.main.tab.teachers.delete": "Delete"
+"menu.main.tab.teachers.hours": "hours"
+"menu.main.tab.teachers.subject": "Subject"
+"menu.main.tab.teachers.all_subjects": "All subjects"
+
+"menu.main.tab.constants.none": "-"
 
 "menu.main.tab.AI.write_your_request_and_press_enter": "Write your request and press enter..."
 "menu.main.tab.AI.ai_first_message": "Hi! I can help with importing any data into this project. Feel free to ask me any questions."
@@ -65,8 +70,8 @@
 "weights.daysByHard": "Days by hard"
 "weights.teacherFreeTime": "Teacher free time"
 "weights.groupBonus": "Group bonus"
-"weights.incompleteGroupNotEnd": "Incomplete group not end"
 "weights.lessonShiftCrossing": "Lesson shift crossing"
+"weights.profileGaps": "Profile gaps"
 
 "day.0": "Monday"
 "day.1": "Tuesday"
