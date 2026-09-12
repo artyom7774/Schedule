@@ -372,10 +372,6 @@ inline bool occupied(int row, int slot) {
     return !graph[row][slot].empty();
 }
 
-inline int slotValue(int row, int slot) {
-    return graph[row][slot].empty() ? 0 : graph[row][slot][0].value;
-}
-
 struct SubjectSet {
     int values[MAX_GROUP_SUBJECTS];
     int size = 0;

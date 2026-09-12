@@ -3,8 +3,13 @@ import time
 import sys
 import os
 
-URL = "https://ge3.pythonanywhere.com/"
-MODEL = "gemini-3.7-flash"
+URL = "https://request.tail1af8d9.ts.net"
+# URL = "http://192.168.1.10:5000"
+
+MODEL = "muse-spark-1-3-contributor:free"
+
+REQUEST_ENDPOINT = f"{URL}/api/ai/request"
+STATUS_ENDPOINT = f"{URL}/api/ai/status"
 
 if os.name == "nt":
     try:
@@ -16,7 +21,11 @@ if os.name == "nt":
     except Exception:
         pass
 
-sys.stdout.reconfigure(encoding='utf-8')
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+
+except Exception:
+    pass
 
 
 def sendChatRequestWithFiles(message: str, paths: list = None):
@@ -28,25 +37,32 @@ def sendChatRequestWithFiles(message: str, paths: list = None):
         "model": MODEL,
     }
 
-    files = []
     handles = []
+    files = []
 
     try:
         for path in paths or []:
             if path and os.path.isfile(path):
                 handle = open(path, "rb")
-                
                 handles.append(handle)
+
                 files.append(("files", (os.path.basename(path), handle)))
 
-        response = requests.post(f"{URL}/chat-ai-file", data=data, files=files or None, timeout=timeout)
+        response = requests.post(REQUEST_ENDPOINT, data=data, files=files or None, timeout=timeout)
         response.raise_for_status()
 
     finally:
         for handle in handles:
             handle.close()
 
-    result = response.json()
+    try:
+        result = response.json()
+
+    except ValueError:
+        raise Exception(f"bad server response: HTTP {response.status_code} {response.text}" )
+
+    if "ids" not in result:
+        raise Exception(f"no ids in response: {result}")
 
     ids = result["ids"]
 
@@ -56,7 +72,7 @@ def sendChatRequestWithFiles(message: str, paths: list = None):
         if time.time() - start > timeout:
             raise Exception("timeout")
 
-        now = requests.get(f"{URL}/ai/status/{ids}", timeout=30)
+        now = requests.get(f"{STATUS_ENDPOINT}/{ids}", timeout=30)
         now.raise_for_status()
 
         save = now.json()
@@ -66,15 +82,19 @@ def sendChatRequestWithFiles(message: str, paths: list = None):
         print(status)
 
         if status == "completed":
-            print(save.get("response"))
+            answer = save.get("response", "")
 
-            return save.get("response", ""), status
+            print(answer)
 
-        elif status == "error" and save.get("error").startswith("503"):
-            return sendChatRequestWithFiles(message, paths)
+            return answer, status
 
         elif status == "error":
-            raise Exception(f"{save.get('error')}")
+            err = save.get("error", "")
+
+            if isinstance(err, str) and err.startswith("503"):
+                return sendChatRequestWithFiles(message, paths)
+
+            raise Exception(f"{err}")
 
         elif status == "processing":
             time.sleep(interval)
