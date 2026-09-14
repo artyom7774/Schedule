@@ -6,6 +6,7 @@
 
 "menu.main.tab.settings": "Настройки"
 "menu.main.tab.classes": "Классы"
+"menu.main.tab.classrooms": "Кабинеты"
 "menu.main.tab.teachers": "Учителя"
 "menu.main.tab.groups": "Группы"
 "menu.main.tab.AI": "ИИ"
@@ -81,7 +82,7 @@
 "weights.teacherFreeTime": "Свободное время учителя"
 "weights.groupBonus": "Бонус за группу"
 "weights.lessonShiftCrossing": "Пересечение уроков со сменой"
-"weights.profileGaps": "Окна в профиле"
+"weights.profileGaps": "Окна в группах"
 
 "day.0": "Понедельник"
 "day.1": "Вторник"

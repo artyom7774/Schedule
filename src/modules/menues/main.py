@@ -19,7 +19,7 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
     if ignore is None:
         ignore = []
 
-    tabs = [TabSettings, TabClasses, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabExport]
+    tabs = [TabSettings, TabClasses, TabClassrooms, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabExport]
 
     for tab in tabs:
         tab.resize = Import.resize
@@ -43,6 +43,7 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
     elements = [
         (TabSettings, "menu.main.tab.settings"),
         (TabClasses, "menu.main.tab.classes"),
+        (TabClassrooms, "menu.main.tab.classrooms"),
         (TabTeachers, "menu.main.tab.teachers"),
         (QWidget, "/"),
         (TabAI, "menu.main.tab.AI"),
@@ -135,6 +136,16 @@ def resize(window) -> None:
 
     try:
         tab.classesTable.setGeometry(0, 0, x(100), y(100))
+
+    except AttributeError:
+        pass
+
+    tab = window.objects["tabs"].widget(TAB_CLASSROOMS)
+
+    try:
+        tab.enablePushButton.setGeometry(1, 1, x(20) - 2, 28)
+        tab.roomGroupsListWidget.setGeometry(0, 30, x(20), y(100) - 60)
+        tab.createGroupPushButton.setGeometry(1, y(100) - 30 + 1, x(20) - 2, 28)
 
     except AttributeError:
         pass

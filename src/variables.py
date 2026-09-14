@@ -18,13 +18,14 @@ PLUS = 64 + 8 - 1
 
 TAB_SETTINGS    = 0
 TAB_CLASSES     = 1
-TAB_TEACHERS    = 2
-TAB_AI          = 4
-TAB_CONSTANTS   = 6
-TAB_GROUPS      = 7
-TAB_RUN         = 9
-TAB_VIEW        = 11
-TAB_EXPORT      = 13
+TAB_CLASSROOMS  = 2
+TAB_TEACHERS    = 3
+TAB_AI          = 5
+TAB_CONSTANTS   = 7
+TAB_GROUPS      = 8
+TAB_RUN         = 10
+TAB_VIEW        = 12
+TAB_EXPORT      = 14
 
 
 def getAppDataDir():

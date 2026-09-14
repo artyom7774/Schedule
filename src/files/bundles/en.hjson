@@ -6,6 +6,7 @@
 
 "menu.main.tab.settings": "Settings"
 "menu.main.tab.classes": "Classes"
+"menu.main.tab.classrooms": "Classrooms"
 "menu.main.tab.teachers": "Teachers"
 "menu.main.tab.groups": "Groups"
 "menu.main.tab.AI": "AI"
@@ -22,6 +23,12 @@
 "menu.main.tab.settings.shift_crossing": "Shift crossing:"
 "menu.main.tab.settings.subject": "Subject"
 "menu.main.tab.settings.hard": "Hard"
+
+"menu.main.tab.classrooms.classrooms": "Classrooms"
+"menu.main.tab.classrooms.add_group": "Add group"
+"menu.main.tab.classrooms.enable": "enable"
+"menu.main.tab.classrooms.disable": "disable"
+"menu.main.tab.classrooms.delete": "Delete"
 
 "menu.main.tab.teachers.add_teacher": "Add teacher"
 "menu.main.tab.teachers.delete": "Delete"
@@ -64,6 +71,10 @@
 "dialog.add_teacher.label": "Teacher name:"
 "dialog.add_teacher.allow": "Add"
 
+"dialog.add_classroom_group.title": "Add group"
+"dialog.add_classroom_group.label": "Group name:"
+"dialog.add_classroom_group.allow": "Add"
+
 "dialog.open_project.title": "Open project"
 "dialog.open_project.label": "Project name:"
 "dialog.open_project.allow": "Open"
@@ -73,6 +84,8 @@
 "log.text.project_name_must_be_without_spaces": "Project name must be without spaces"
 "log.text.teacher_name_is_empty": "Teacher name is empty"
 "log.text.teacher_name_already_exists": "Teacher name already exists"
+"log.text.group_name_is_empty": "Group name is empty"
+"log.text.group_name_already_exists": "Group name already exists"
 
 "weights.equalLessons": "Equal lessons"
 "weights.notEqualsLessonsCountOnDay": "Not equals lessons count on day"
@@ -81,7 +94,7 @@
 "weights.teacherFreeTime": "Teacher free time"
 "weights.groupBonus": "Group bonus"
 "weights.lessonShiftCrossing": "Lesson shift crossing"
-"weights.profileGaps": "Profile gaps"
+"weights.profileGaps": "Groups gaps"
 
 "day.0": "Monday"
 "day.1": "Tuesday"

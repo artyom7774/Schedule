@@ -70,6 +70,12 @@ def initProject(window, project):
         "subjects": [
 
         ],
+        "classrooms": {
+            "enable": False,
+            "rooms": {
+
+            }
+        },
         "classes": {
             "count": [
 
