@@ -53,7 +53,7 @@ class TabExport(QWidget):
 
         if flag:
             with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
-                json.dump(self.window.settings, file, ensure_ascii=False)
+                json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         self.exportByClassPushButton = QPushButton(parent=self)
         self.exportByClassPushButton.setFont(FONT)
@@ -71,7 +71,7 @@ class TabExport(QWidget):
         self.window.settings["display"]["time"][f"{shift}-{lesson}"] = self.objects[f"time_{shift}-{lesson}_lineedit"].text()
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
-            json.dump(self.window.settings, file, ensure_ascii=False)
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
     def start(self, page):
         page["A1"] = translate("menu.main.tab.export.day")

@@ -59,8 +59,8 @@ public:
     vector<int> shifts;
     vector<int> classShiftByNumber;
 
-    vector<double> hardsById;
-    vector<double> capacityDaysByHard{1, 1.4, 1.4, 1, 1.4, 1, 1};
+    vector<float> hardsById;
+    vector<float> capacityDaysByHard{1, 1.4, 1.4, 1, 1.4, 1, 1};
 
     vector<int> classShiftOffset;
     vector<vector<int>> classesByShift;
@@ -486,14 +486,14 @@ void placeLesson(const Lesson& item, int slot) {
 }
 
 struct Weights {
-    inline static double equalLessons = 5;
-    inline static double notEqualsLessonsCountOnDay = 25;
-    inline static double lessonsEmptySlots = 200;
-    inline static double daysByHard = 2;
-    inline static double teacherFreeTime = 5;
-    inline static double groupBonus = 10;
-    inline static double lessonShiftCrossing = 250;
-    inline static double profileGaps = 200;
+    inline static float equalLessons = 5;
+    inline static float notEqualsLessonsCountOnDay = 25;
+    inline static float lessonsEmptySlots = 200;
+    inline static float daysByHard = 2;
+    inline static float teacherFreeTime = 5;
+    inline static float groupBonus = 10;
+    inline static float lessonShiftCrossing = 250;
+    inline static float profileGaps = 200;
 
     static void init(const json& data) {
         equalLessons = data.value("equalLessons", equalLessons);
@@ -509,12 +509,12 @@ struct Weights {
 
 class Functions {
 public:
-    static double equalLessons(int cls, int day) {
+    static float equalLessons(int cls, int day) {
         Data& data = getData();
 
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
-        double value = 0;
+        float value = 0;
 
         for (int i = base; i < base + MAX_LESSON_IN_DAY; i++) {
             for (int j = i + 1; j < base + MAX_LESSON_IN_DAY; j++) {
@@ -532,12 +532,12 @@ public:
         return Weights::equalLessons * value;
     }
 
-    static double notEqualsLessonsCountOnDay(int cls) {
+    static float notEqualsLessonsCountOnDay(int cls) {
         Data& data = getData();
         int offset = data.classShiftOffset[cls];
 
         vector<int> lenghts(JOB_WEEK_LENGHT, 0);
-        double sum = 0;
+        float sum = 0;
 
         for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
             int base = offset + day * MAX_LESSON_IN_DAY;
@@ -553,8 +553,8 @@ public:
             sum += end;
         }
 
-        double avr = sum / JOB_WEEK_LENGHT;
-        double value = 0;
+        float avr = sum / JOB_WEEK_LENGHT;
+        float value = 0;
 
         for (auto lenght : lenghts) {
             value += pow(lenght - avr, 2.0);
@@ -563,11 +563,11 @@ public:
         return Weights::notEqualsLessonsCountOnDay * value;
     }
 
-    static double lessonsEmptySlots(int cls, int day) {
+    static float lessonsEmptySlots(int cls, int day) {
         Data& data = getData();
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
-        double value = 0;
+        float value = 0;
         int temp = 0;
 
         for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
@@ -583,7 +583,7 @@ public:
         return Weights::lessonsEmptySlots * value;
     }
 
-    static double profileGaps(int cls, int day) {
+    static float profileGaps(int cls, int day) {
         Data& data = getData();
 
         int count = data.groups[cls].size();
@@ -596,7 +596,7 @@ public:
 
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
-        double value = 0;
+        float value = 0;
 
         for (int capacity = 0; capacity < count; capacity++) {
             int bit = 1 << capacity;
@@ -630,13 +630,13 @@ public:
         return Weights::profileGaps * value;
     }
 
-    static double daysByHard(int cls) {
+    static float daysByHard(int cls) {
         Data& data = getData();
         int offset = data.classShiftOffset[cls];
 
-        vector<double> hards(JOB_WEEK_LENGHT, 0);
+        vector<float> hards(JOB_WEEK_LENGHT, 0);
 
-        double sum = 0;
+        float sum = 0;
 
         for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
             int base = offset + day * MAX_LESSON_IN_DAY;
@@ -653,8 +653,8 @@ public:
             sum += hards[day];
         }
 
-        double avr = sum / JOB_WEEK_LENGHT;
-        double value = 0;
+        float avr = sum / JOB_WEEK_LENGHT;
+        float value = 0;
 
         for (auto hard : hards) {
             value += abs(avr - hard);
@@ -663,12 +663,12 @@ public:
         return Weights::daysByHard * value;
     }
 
-    static double groupBonus(int cls, int day) {
+    static float groupBonus(int cls, int day) {
         Data& data = getData();
 
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
-        double value = 0;
+        float value = 0;
 
         for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
             SubjectSet subjects = slotSubjects(cls, base + lesson);
@@ -681,8 +681,8 @@ public:
         return -Weights::groupBonus * value;
     }
 
-    static double teacherFreeTime(int teacher) {
-        double value = 0;
+    static float teacherFreeTime(int teacher) {
+        float value = 0;
 
         for (int shift = 0; shift < NUMBER_OF_SHIFTS; shift++) {
             for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
@@ -727,8 +727,8 @@ public:
 
 const int FUNCTIONS_ARGUMENTS_COUNT = 6;
 
-vector<double> getClassPoint(int cls) {
-    vector<double> answer(FUNCTIONS_ARGUMENTS_COUNT, 0);
+vector<float> getClassPoint(int cls) {
+    vector<float> answer(FUNCTIONS_ARGUMENTS_COUNT, 0);
 
     for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
         answer[0] += Functions::equalLessons(cls, day);
@@ -743,12 +743,12 @@ vector<double> getClassPoint(int cls) {
     return answer;
 }
 
-vector<double> getClassPoint() {
+vector<float> getClassPoint() {
     Data& data = getData();
-    vector<double> answer(FUNCTIONS_ARGUMENTS_COUNT, 0);
+    vector<float> answer(FUNCTIONS_ARGUMENTS_COUNT, 0);
 
     for (int cls = data.teachers.size() + 1; cls < data.teachers.size() + data.classes.size() + 1; cls++) {
-        vector<double> temp = getClassPoint(cls);
+        vector<float> temp = getClassPoint(cls);
 
         for (int i = 0; i < FUNCTIONS_ARGUMENTS_COUNT; i++) {
             answer[i] += temp[i];
@@ -758,8 +758,8 @@ vector<double> getClassPoint() {
     return answer;
 }
 
-double getClassTotal(int cls) {
-    double answer = 0;
+float getClassTotal(int cls) {
+    float answer = 0;
 
     for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
         answer += Functions::equalLessons(cls, day);
@@ -774,10 +774,10 @@ double getClassTotal(int cls) {
     return answer;
 }
 
-double getClassTotal() {
+float getClassTotal() {
     Data& data = getData();
 
-    double answer = 0;
+    float answer = 0;
 
     for (int cls = data.teachers.size() + 1; cls < data.teachers.size() + data.classes.size() + 1; cls++) {
         answer += getClassTotal(cls);
@@ -1023,13 +1023,13 @@ int main(int argc, char** argv) {
         cout << "[WARNING] " << unplaced << " lesson(s) could not be placed during initial construction" << "\n";
     }
 
-    double total = getClassTotal();
+    float total = getClassTotal();
 
     for (int teacher = 1; teacher <= data.teachers.size(); teacher++) {
         total += Functions::teacherFreeTime(teacher);
     }
 
-    double temperature = 100;
+    float temperature = 100;
 
     int equal = 0;
     int count = 0;
@@ -1184,7 +1184,7 @@ int main(int argc, char** argv) {
                 teachers.push_back(edge.id);
             }
 
-            double before = getClassTotal(cls);
+            float before = getClassTotal(cls);
 
             for (int teacher : teachers) {
                 before += Functions::teacherFreeTime(teacher);
@@ -1201,15 +1201,15 @@ int main(int argc, char** argv) {
             count++;
             intraSwapper();
 
-            double after = getClassTotal(cls);
+            float after = getClassTotal(cls);
 
             for (int t : teachers) {
                 after += Functions::teacherFreeTime(t);
             }
 
-            double delta = after - before;
+            float delta = after - before;
 
-            if (delta < 0 || double(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+            if (delta < 0 || float(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
                 total = total - before + after;
                 equal = 0;
 
@@ -1321,7 +1321,7 @@ int main(int argc, char** argv) {
                 }
             }
 
-            double before = getClassTotal(cls1) + getClassTotal(cls2);
+            float before = getClassTotal(cls1) + getClassTotal(cls2);
 
             for (int t : involvedTeachers) {
                 before += Functions::teacherFreeTime(t);
@@ -1339,15 +1339,15 @@ int main(int argc, char** argv) {
             count++;
             swapper();
 
-            double after = getClassTotal(cls1) + getClassTotal(cls2);
+            float after = getClassTotal(cls1) + getClassTotal(cls2);
 
             for (int teacher : involvedTeachers) {
                 after += Functions::teacherFreeTime(teacher);
             }
 
-            double delta = after - before;
+            float delta = after - before;
 
-            if (delta < 0 || double(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+            if (delta < 0 || float(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
                 total = total - before + after;
 
                 equal = 0;
@@ -1437,7 +1437,7 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            double before = getClassTotal(cls);
+            float before = getClassTotal(cls);
 
             for (int t : involvedTeachers) {
                 before += Functions::teacherFreeTime(t);
@@ -1489,15 +1489,15 @@ int main(int argc, char** argv) {
 
             applyMove();
 
-            double after = getClassTotal(cls);
+            float after = getClassTotal(cls);
 
             for (int t : involvedTeachers) {
                 after += Functions::teacherFreeTime(t);
             }
 
-            double delta = after - before;
+            float delta = after - before;
 
-            if (delta < 0 || double(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+            if (delta < 0 || float(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
                 total = total - before + after;
 
                 equal = 0;

@@ -29,6 +29,7 @@
 "menu.main.tab.classrooms.enable": "enable"
 "menu.main.tab.classrooms.disable": "disable"
 "menu.main.tab.classrooms.delete": "Delete"
+"menu.main.tab.classrooms.add_classroom": "Add classroom"
 
 "menu.main.tab.teachers.add_teacher": "Add teacher"
 "menu.main.tab.teachers.delete": "Delete"
@@ -79,6 +80,10 @@
 "dialog.open_project.label": "Project name:"
 "dialog.open_project.allow": "Open"
 
+"dialog.add_classroom.title": "Add classroom"
+"dialog.add_classroom.label": "Classroom"
+"dialog.add_classroom.allow": "Add"
+
 "log.text.impossible_project_name": "Impossible project name"
 "log.text.project_name_already_exists": "Project name already exists"
 "log.text.project_name_must_be_without_spaces": "Project name must be without spaces"
@@ -86,6 +91,8 @@
 "log.text.teacher_name_already_exists": "Teacher name already exists"
 "log.text.group_name_is_empty": "Group name is empty"
 "log.text.group_name_already_exists": "Group name already exists"
+"log.text.classroom_name_is_empty": "Classroom name is empty"
+"log.text.classroom_name_already_exists": "Classroom name already exists"
 
 "weights.equalLessons": "Equal lessons"
 "weights.notEqualsLessonsCountOnDay": "Not equals lessons count on day"

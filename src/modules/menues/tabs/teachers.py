@@ -81,7 +81,7 @@ class TeacherSubjectWidget(QTableWidget):
             self.window.settings["teachers"][self.teacher]["subjects"][self.index]["classes"].append(text)
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
-            json.dump(self.window.settings, file, ensure_ascii=False)
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
@@ -236,7 +236,7 @@ class TabTeachers(QWidget):
         self.window.objects.pop("teachers_scroll", None)
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
-            json.dump(self.window.settings, file, ensure_ascii=False)
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
@@ -258,7 +258,7 @@ class TabTeachers(QWidget):
         self.window.objects["shift_selected"] = shift
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
-            json.dump(self.window.settings, file, ensure_ascii=False)
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
@@ -281,7 +281,7 @@ class TabTeachers(QWidget):
         self.window.objects["teachers_selected"] = self.teacher
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
-            json.dump(self.window.settings, file, ensure_ascii=False)
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
@@ -329,6 +329,6 @@ class TabTeachers(QWidget):
         self.window.dialog.close()
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
-            json.dump(self.window.settings, file, ensure_ascii=False)
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
