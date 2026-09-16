@@ -173,6 +173,7 @@ def resize(window) -> None:
                 tab.teachersSubjects[f"object_{i}"].setGeometry(0, i * y(20), width, y(20))
 
                 tab.teachersSubjects[f"object_{i}"].subject.setGeometry(4, 4, x(30), 30)
+                tab.teachersSubjects[f"object_{i}"].classrooms.setGeometry(5 + x(30), 3, width - x(30) - 8, 30 + 2)
 
                 if hasattr(tab.teachersSubjects[f"object_{i}"], "grid"):
                     tab.teachersSubjects[f"object_{i}"].grid.setGeometry(3, 35, x(80) - 26, y(20) - 38)

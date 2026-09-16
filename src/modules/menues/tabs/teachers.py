@@ -27,7 +27,13 @@ class TeacherSubjectWidget(QTableWidget):
         self.verticalHeader().setVisible(False)
 
         self.subject = QComboBox(parent=self)
+        self.subject.setFont(FONT)
         self.subject.addItems(self.subjects)
+        self.subject.show()
+
+        self.classrooms = QPushButton(parent=self)  # TODO
+        self.classrooms.setFont(FONT)
+        self.classrooms.show()
 
         if current is not None and current in self.subjects:
             self.subject.setCurrentIndex(self.subjects.index(current))
