@@ -86,6 +86,8 @@
 "dialog.add_classroom.label": "Classroom"
 "dialog.add_classroom.allow": "Add"
 
+"dialog.classrooms_priority.title": "Classrooms"
+
 "log.text.impossible_project_name": "Impossible project name"
 "log.text.project_name_already_exists": "Project name already exists"
 "log.text.project_name_must_be_without_spaces": "Project name must be without spaces"

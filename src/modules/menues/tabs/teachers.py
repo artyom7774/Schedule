@@ -41,11 +41,12 @@ class TeacherSubjectWidget(QTableWidget):
 
         self.groups = groups
 
-        if len(self.groups):
-            self.classrooms.setText(f"{translate('menu.main.tab.teachers.classrooms')}: {', '.join(self.groups)}")
+        self.groupUpdateClassroomsButtonText()
 
-        else:
-            self.classrooms.setText(f"{translate('menu.main.tab.teachers.not_require_a_classroom')}")
+        classroomsEnabled = self.window.settings.get("classrooms", {}).get("enable", False)
+
+        self.classrooms.setEnabled(bool(classroomsEnabled))
+        self.classrooms.clicked.connect(lambda: self.groupsShowDialog())
 
         self.classrooms.setFont(FONT)
         self.classrooms.show()
@@ -73,6 +74,37 @@ class TeacherSubjectWidget(QTableWidget):
                 )
 
         self.show()
+
+    def groupUpdateClassroomsButtonText(self):
+        if len(self.groups):
+            ordered = ", ".join(f"{group}" for i, group in enumerate(self.groups))
+
+            self.classrooms.setText(f"{translate('menu.main.tab.teachers.classrooms')}: {ordered}")
+
+        else:
+            self.classrooms.setText(f"{translate('menu.main.tab.teachers.not_require_a_classroom')}")
+
+    def groupsShowDialog(self):
+        rooms = self.window.settings.get("classrooms", {}).get("rooms", {})
+        groups = list(rooms.keys())
+
+        if not groups:
+            return
+
+        title = translate("dialog.classrooms_priority.title")
+
+        self.window.dialog = dialogs.ClassroomsPriorityDialog(self.window, title, groups, self.groups, lambda selected: self.groupsChanged(selected))
+        self.window.dialog.exec()
+
+    def groupsChanged(self, selected):
+        subject = self.window.settings["teachers"][self.teacher]["subjects"][self.index]
+
+        subject["classrooms"] = selected
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
     def teacherTotalHours(self, cls):
         lessons = self.window.settings.get("classes", {}).get("lessons", {}).get(cls, {})
@@ -289,6 +321,9 @@ class TabTeachers(QWidget):
             self.window.settings["teachers"][self.teacher]["subjects"].append({
                 "subject": subject,
                 "classes": [
+
+                ],
+                "classrooms": [
 
                 ]
             })
