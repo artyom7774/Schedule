@@ -12,7 +12,7 @@ import json
 
 
 class TeacherSubjectWidget(QTableWidget):
-    def __init__(self, window, teacher, subjects, classes, using, index, current=None, changed=None, parent=None):
+    def __init__(self, window, teacher, subjects, classes, groups, using, index, current=None, changed=None, parent=None):
         super().__init__(0, 0, parent)
 
         self.window = window
@@ -31,15 +31,24 @@ class TeacherSubjectWidget(QTableWidget):
         self.subject.addItems(self.subjects)
         self.subject.show()
 
-        self.classrooms = QPushButton(parent=self)  # TODO
-        self.classrooms.setFont(FONT)
-        self.classrooms.show()
-
         if current is not None and current in self.subjects:
             self.subject.setCurrentIndex(self.subjects.index(current))
 
         else:
             self.subject.setCurrentIndex(0)
+
+        self.classrooms = QPushButton(parent=self)
+
+        self.groups = groups
+
+        if len(self.groups):
+            self.classrooms.setText(f"{translate('menu.main.tab.teachers.classrooms')}: {', '.join(self.groups)}")
+
+        else:
+            self.classrooms.setText(f"{translate('menu.main.tab.teachers.not_require_a_classroom')}")
+
+        self.classrooms.setFont(FONT)
+        self.classrooms.show()
 
         if changed is not None:
             self.subject.currentIndexChanged.connect(lambda _, idx=self.index: changed(idx))
@@ -157,7 +166,10 @@ class TabTeachers(QWidget):
 
                     continue
 
-            self.teachersSubjects[f"object_{i}"] = TeacherSubjectWidget(self.window, self.teacher, self.subjects, self.classes, self.window.settings["teachers"][self.teacher]["subjects"][i]["classes"] if i < len(self.window.settings["teachers"][self.teacher]["subjects"]) else [], i, self.window.settings["teachers"][self.teacher]["subjects"][i]["subject"] if i < len(self.window.settings["teachers"][self.teacher]["subjects"]) else None, self.teachersSubjectsSubjectCurrentIndexChanged, container)
+                if "classrooms" not in self.window.settings["teachers"][self.teacher]["subjects"][i]:
+                    self.window.settings["teachers"][self.teacher]["subjects"][i]["classrooms"] = []
+
+            self.teachersSubjects[f"object_{i}"] = TeacherSubjectWidget(self.window, self.teacher, self.subjects, self.classes, self.window.settings["teachers"][self.teacher]["subjects"][i]["classrooms"] if i < len(self.window.settings["teachers"][self.teacher]["subjects"]) else [], self.window.settings["teachers"][self.teacher]["subjects"][i]["classes"] if i < len(self.window.settings["teachers"][self.teacher]["subjects"]) else [], i, self.window.settings["teachers"][self.teacher]["subjects"][i]["subject"] if i < len(self.window.settings["teachers"][self.teacher]["subjects"]) else None, self.teachersSubjectsSubjectCurrentIndexChanged, container)
 
             layout.addWidget(self.teachersSubjects[f"object_{i}"])
 

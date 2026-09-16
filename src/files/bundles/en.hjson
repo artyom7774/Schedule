@@ -36,6 +36,8 @@
 "menu.main.tab.teachers.hours": "hours"
 "menu.main.tab.teachers.subject": "Subject"
 "menu.main.tab.teachers.all_subjects": "All subjects"
+"menu.main.tab.teachers.classrooms": "Classrooms"
+"menu.main.tab.teachers.not_require_a_classroom": "Not require a classroom"
 
 "menu.main.tab.constants.none": "-"
 
