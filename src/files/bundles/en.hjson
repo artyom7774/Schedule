@@ -30,6 +30,7 @@
 "menu.main.tab.classrooms.disable": "disable"
 "menu.main.tab.classrooms.delete": "Delete"
 "menu.main.tab.classrooms.add_classroom": "Add classroom"
+"menu.main.tab.classrooms.choose_classroom": "Choose classroom"
 
 "menu.main.tab.teachers.add_teacher": "Add teacher"
 "menu.main.tab.teachers.delete": "Delete"
@@ -83,7 +84,7 @@
 "dialog.open_project.allow": "Open"
 
 "dialog.add_classroom.title": "Add classroom"
-"dialog.add_classroom.label": "Classroom"
+"dialog.add_classroom.label": "Classroom:"
 "dialog.add_classroom.allow": "Add"
 
 "dialog.classrooms_priority.title": "Classrooms"

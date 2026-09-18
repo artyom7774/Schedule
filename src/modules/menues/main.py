@@ -146,8 +146,9 @@ def resize(window) -> None:
         tab.enablePushButton.setGeometry(1, 1, x(100) - 2, 28)
         tab.roomGroupsListWidget.setGeometry(0, 30, x(20), y(100) - 60)
         tab.createGroupPushButton.setGeometry(1, y(100) - 30 + 1, x(20) - 2, 28)
-        tab.addRoomPushButton.setGeometry(x(20), y(100) - 30 + 1, x(80), 28)
-        tab.roomsListWidget.setGeometry(x(20), 30, x(80) + 1, y(100) - 60)
+        tab.addRoomPushButton.setGeometry(x(20) + 1, y(100) - 30 + 1, x(80) - 1, 28)
+        tab.chooseRoomPushButton.setGeometry(x(20) + 1, y(100) - 60 + 1, x(80) - 1, 28)
+        tab.roomsListWidget.setGeometry(x(20), 30, x(80) + 1, y(100) - 90)
 
     except AttributeError:
         pass

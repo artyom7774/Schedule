@@ -69,6 +69,13 @@ class TabClassrooms(QWidget):
         self.addRoomPushButton.setEnabled(bool(group))
         self.addRoomPushButton.show()
 
+        self.chooseRoomPushButton = QPushButton(parent=self)
+        self.chooseRoomPushButton.setText(translate("menu.main.tab.classrooms.choose_classroom"))
+        self.chooseRoomPushButton.setFont(FONT)
+        self.chooseRoomPushButton.clicked.connect(lambda: self.chooseRoomPushButtonClicked())
+        self.chooseRoomPushButton.setEnabled(bool(group))
+        self.chooseRoomPushButton.show()
+
     def enablePushButtonClickedConnect(self):
         self.window.settings["classrooms"]["enable"] = 1 - self.window.settings["classrooms"]["enable"]
 
@@ -173,7 +180,61 @@ class TabClassrooms(QWidget):
 
             return
 
-        self.window.settings["classrooms"]["rooms"][group].append(name)
+        if name not in self.window.settings["classrooms"]["rooms"][group]:
+            self.window.settings["classrooms"]["rooms"][group].append(name)
+
+        self.window.dialog.close()
+
+        self.window.objects["classrooms_scroll"] = self.roomsListWidget.verticalScrollBar().value()
+        self.window.objects["classrooms_selected"] = group
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        TabClassrooms.init(self.window, ignore=[TAB_CLASSROOMS, TAB_TEACHERS], reverse=True)
+
+    def chooseRoomPushButtonClicked(self):
+        group = self.window.objects.get("classrooms_selected")
+
+        if not group:
+            return
+
+        chooses = []
+
+        for element in self.window.settings["classrooms"]["rooms"].values():
+            chooses.extend(element)
+
+        chooses = list(sorted(list(set(chooses))))
+
+        title = translate("dialog.add_classroom.title")
+        label = translate("dialog.add_classroom.label")
+        allow = translate("dialog.add_classroom.allow")
+
+        self.window.dialog = dialogs.ChooseInputDialog(self.window, chooses, title, label, allow, lambda: self.chooseRoom())
+        self.window.dialog.exec()
+
+    def chooseRoom(self):
+        group = self.window.objects.get("classrooms_selected")
+
+        if not group:
+            self.window.dialog.close()
+
+            return
+
+        name = self.window.dialog.edit.currentText()
+
+        if name == "":
+            self.window.dialog.log.setText(translate("log.text.classroom_name_is_empty"))
+
+            return
+
+        if name in self.window.settings["classrooms"]["rooms"][group]:
+            self.window.dialog.log.setText(translate("log.text.classroom_name_already_exists"))
+
+            return
+
+        if name not in self.window.settings["classrooms"]["rooms"][group]:
+            self.window.settings["classrooms"]["rooms"][group].append(name)
 
         self.window.dialog.close()
 
