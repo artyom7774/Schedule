@@ -6,5 +6,6 @@
     "teacherFreeTime": 10,
     "groupBonus": 10,
     "lessonShiftCrossing": 250,
-    "profileGaps": 200
+    "profileGaps": 200,
+    "classroomPriority": 50
 }

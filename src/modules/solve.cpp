@@ -43,6 +43,12 @@ map<string, int> IDBySubjectName;
 map<int, string> classNameByID;
 map<string, int> IDByClassName;
 
+map<int, string> classroomGroupNameByID;
+map<string, int> IDByClassroomGroupName;
+
+map<int, string> classroomNameByID;
+map<string, int> IDByClassroomName;
+
 struct Constant {
     int cls, slot, subjectID;
 };
@@ -66,10 +72,16 @@ public:
     vector<vector<int>> classesByShift;
 
     vector<vector<vector<int>>> groups;
-
     vector<vector<int>> groupMaskBySubject;
 
     vector<Constant> constants;
+
+    bool classroomsEnable = false;
+
+    vector<vector<int>> classroomsGroups;
+    vector<vector<int>> classroomsTeacher;
+
+    vector<vector<vector<int>>> roomGroupsByTeacherSubject;
 
     Data() {
         ifstream file(input);
@@ -103,6 +115,41 @@ public:
                 classes.push_back(to_string(i) + " " + CLASSES_LETTERS[j]);
 
                 classShiftByNumber.push_back(i - 1);
+            }
+        }
+
+        classroomsEnable = settings["classrooms"]["enable"] != 0;
+
+        int groupID = 1;
+
+        set<string> rooms;
+
+        classroomsGroups.push_back(vector<int>());
+
+        for (auto& [name, group] : settings["classrooms"]["rooms"].items()) {
+            classroomGroupNameByID[groupID] = name;
+            IDByClassroomGroupName[name] = groupID;
+
+            groupID += 1;
+
+            classroomsGroups.push_back(vector<int>());
+
+            for (auto room : group) {
+                int idx = 0;
+
+                if (rooms.count(room) == 0) {
+                    rooms.insert(room);
+
+                    classroomNameByID[rooms.size()] = room;
+                    IDByClassroomName[room] = rooms.size();
+
+                    idx = rooms.size();
+
+                } else {
+                    idx = IDByClassroomName[room];
+                }
+
+                classroomsGroups.back().push_back(idx);
             }
         }
 
@@ -176,24 +223,51 @@ public:
         }
 
         for (int idx = 0; idx < settings["subjects"].size(); idx++) {
-            auto subject = settings["subjects"][idx][0];
-
-            subjectNameByID[idx + 1] = subject;
-            IDBySubjectName[subject] = idx + 1;
+            subjectNameByID[idx + 1] = settings["subjects"][idx][0];
+            IDBySubjectName[settings["subjects"][idx][0]] = idx + 1;
         }
 
         for (int idx = 0; idx < teachers.size(); idx++) {
-            auto teacher = teachers[idx];
+            teacherNameByID[idx + 1] = teachers[idx];
+            IDByTeacherName[teachers[idx]] = idx + 1;
+        }
 
-            teacherNameByID[idx + 1] = teacher;
-            IDByTeacherName[teacher] = idx + 1;
+        roomGroupsByTeacherSubject.assign(teachers.size() + 1, vector<vector<int>>(settings["subjects"].size() + 1));
+
+        for (auto& [teacher, value] : settings["teachers"].items()) {
+            int teacherID = IDByTeacherName[teacher];
+
+            for (auto& element : value["subjects"]) {
+                string subject = element["subject"];
+
+                if (!IDBySubjectName.count(subject)) {
+                    continue;
+                }
+
+                int subjectID = IDBySubjectName[subject];
+
+                vector<int> groupIDs;
+
+                if (element.contains("classrooms")) {
+                    for (auto& groupNameValue : element["classrooms"]) {
+                        string groupName = groupNameValue;
+
+                        if (IDByClassroomGroupName.count(groupName)) {
+                            groupIDs.push_back(IDByClassroomGroupName[groupName]);
+
+                        } else {
+                            cout << "[WARNING] teacher " << teacher << ": unknown classroom group \"" << groupName << "\"\n";
+                        }
+                    }
+                }
+
+                roomGroupsByTeacherSubject[teacherID][subjectID] = groupIDs;
+            }
         }
 
         for (int idx = 0; idx < classes.size(); idx++) {
-            auto subject = classes[idx];
-
-            classNameByID[teachers.size() + idx + 1] = subject;
-            IDByClassName[subject] = teachers.size() + idx + 1;
+            classNameByID[teachers.size() + idx + 1] = classes[idx];
+            IDByClassName[classes[idx]] = teachers.size() + idx + 1;
         }
 
         hardsById.assign(settings["subjects"].size() + 1, 0);
@@ -208,7 +282,6 @@ public:
             for (int i = 0; i < min(int(arr.size()), JOB_WEEK_LENGHT); i++) {
                 capacityDaysByHard[i] = arr[i];
             }
-
         }
 
         classShiftOffset.assign(teachers.size() + classes.size() + 1, 0);
@@ -322,23 +395,23 @@ public:
 
         groupMaskBySubject.assign(teachers.size() + classes.size() + 1, vector<int>());
 
-        for (auto& cls_ : classes) {
-            int cls = IDByClassName[cls_];
+        for (auto& cls : classes) {
+            int number = IDByClassName[cls];
 
-            groupMaskBySubject[cls].assign(numSubjects + 1, 0);
+            groupMaskBySubject[number].assign(numSubjects + 1, 0);
 
-            int groupCount = (int)groups[cls].size();
+            int groupCount = groups[number].size();
 
             if (groupCount > 31) {
-                cout << "[WARNING] " << cls_ << " has more than 31 profile groups, truncating to 31" << "\n";
+                cout << "[WARNING] " << cls << " has more than 31 profile groups, truncating to 31" << "\n";
 
                 groupCount = 31;
             }
 
-            for (int g = 0; g < groupCount; g++) {
-                for (int subjectID : groups[cls][g]) {
+            for (int group = 0; group < groupCount; group++) {
+                for (int subjectID : groups[number][group]) {
                     if (subjectID >= 0 && subjectID <= numSubjects) {
-                        groupMaskBySubject[cls][subjectID] |= (1 << g);
+                        groupMaskBySubject[number][subjectID] |= (1 << group);
                     }
                 }
             }
@@ -367,6 +440,12 @@ struct edge {
 
 vector<vector<vector<edge>>> graph;
 vector<vector<bool>> teacherIsAllowed;
+
+vector<vector<int>> teacherRoom;
+vector<vector<int>> roomOccupant;
+vector<vector<int>> teacherRoomRank;
+
+bool roomWarnings = true;
 
 inline bool occupied(int row, int slot) {
     return !graph[row][slot].empty();
@@ -457,6 +536,134 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
     return true;
 }
 
+pair<int, int> findRoomForTeacherRanked(int teacherID, int subjectID, int slot) {
+    Data& data = getData();
+
+    if (!data.classroomsEnable) {
+        return {0, 0};
+    }
+
+    if (teacherID <= 0 || teacherID >= (int)data.roomGroupsByTeacherSubject.size()) {
+        return {0, 0};
+    }
+
+    if (subjectID <= 0 || subjectID >= (int)data.roomGroupsByTeacherSubject[teacherID].size()) {
+        return {0, 0};
+    }
+
+    const vector<int>& groupIDs = data.roomGroupsByTeacherSubject[teacherID][subjectID];
+
+    if (groupIDs.empty()) {
+        return {0, 0};
+    }
+
+    for (int rank = 0; rank < (int)groupIDs.size(); rank++) {
+        int groupID = groupIDs[rank];
+
+        if (groupID < 0 || groupID >= (int)data.classroomsGroups.size()) {
+            continue;
+        }
+
+        for (int roomID : data.classroomsGroups[groupID]) {
+            if (roomOccupant[roomID][slot] == 0) {
+                return {roomID, rank};
+            }
+        }
+    }
+
+    return {-1, -1};
+}
+
+int findRoomForTeacher(int teacherID, int subjectID, int slot) {
+    return findRoomForTeacherRanked(teacherID, subjectID, slot).first;
+}
+
+void assignRoom(int teacherID, int subjectID, int slot) {
+    pair<int, int> found = findRoomForTeacherRanked(teacherID, subjectID, slot);
+
+    int room = found.first;
+    int rank = found.second;
+
+    if (room > 0) {
+        roomOccupant[room][slot] = teacherID;
+        teacherRoom[teacherID][slot] = room;
+        teacherRoomRank[teacherID][slot] = rank;
+
+    } else if (room == -1 && roomWarnings) {
+        cout << "[WARNING] no available classroom for " << teacherNameByID[teacherID] << " / " << subjectNameByID[subjectID] << " at slot " << slot << "\n";
+    }
+}
+
+void releaseRoom(int teacherID, int slot) {
+    int room = teacherRoom[teacherID][slot];
+
+    if (room > 0) {
+        roomOccupant[room][slot] = 0;
+        teacherRoom[teacherID][slot] = 0;
+        teacherRoomRank[teacherID][slot] = 0;
+    }
+}
+
+inline bool roomAvailableExcluding(int room, int slot, const vector<int>& excluding) {
+    if (room == 0) {
+        return true;
+    }
+
+    int occupant = roomOccupant[room][slot];
+
+    if (occupant == 0) {
+        return true;
+    }
+
+    for (int t : excluding) {
+        if (t == occupant) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool roomsSwappable(const vector<int>& teachersList, int slotA, int slotB) {
+    for (int t : teachersList) {
+        int rA = teacherRoom[t][slotA];
+        int rB = teacherRoom[t][slotB];
+
+        if (!roomAvailableExcluding(rA, slotB, teachersList)) {
+            return false;
+        }
+
+        if (!roomAvailableExcluding(rB, slotA, teachersList)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void swapRooms(int teacherID, int slotA, int slotB) {
+    int rA = teacherRoom[teacherID][slotA];
+    int rB = teacherRoom[teacherID][slotB];
+
+    if (rA) {
+        roomOccupant[rA][slotA] = 0;
+    }
+
+    if (rB) {
+        roomOccupant[rB][slotB] = 0;
+    }
+
+    swap(teacherRoom[teacherID][slotA], teacherRoom[teacherID][slotB]);
+
+    if (teacherRoom[teacherID][slotA]) {
+        roomOccupant[teacherRoom[teacherID][slotA]][slotA] = teacherID;
+    }
+
+    if (teacherRoom[teacherID][slotB]) {
+        roomOccupant[teacherRoom[teacherID][slotB]][slotB] = teacherID;
+    }
+}
+
 struct Lesson {
     int cls, base, subjectID;
     string className, subjectName;
@@ -478,6 +685,8 @@ void placeLesson(const Lesson& item, int slot) {
     for (int id : item.ids) {
         graph[id][slot] = {edge(item.cls, item.subjectID)};
         group.push_back(edge(id, item.subjectID));
+
+        assignRoom(id, item.subjectID, slot);
     }
 
     for (edge& e : group) {
@@ -494,6 +703,7 @@ struct Weights {
     inline static float groupBonus = 10;
     inline static float lessonShiftCrossing = 250;
     inline static float profileGaps = 200;
+    inline static float classroomPriority = 50;
 
     static void init(const json& data) {
         equalLessons = data.value("equalLessons", equalLessons);
@@ -504,6 +714,7 @@ struct Weights {
         groupBonus = data.value("groupBonus", groupBonus);
         lessonShiftCrossing = data.value("lessonShiftCrossing", lessonShiftCrossing);
         profileGaps = data.value("profileGaps", profileGaps);
+        classroomPriority = data.value("classroomPriority", classroomPriority);
     }
 };
 
@@ -723,6 +934,18 @@ public:
 
         return value;
     }
+
+    static float classroomPriority(int teacher) {
+        float value = 0;
+
+        for (int slot = 0; slot < SLOTS; slot++) {
+            if (teacherRoom[teacher][slot] > 0) {
+                value += teacherRoomRank[teacher][slot];
+            }
+        }
+
+        return Weights::classroomPriority * value;
+    }
 };
 
 const int FUNCTIONS_ARGUMENTS_COUNT = 6;
@@ -803,7 +1026,7 @@ json save() {
                 int slot = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY + lesson;
 
                 if (!occupied(cls, slot)) {
-                    answer[name][day].push_back(json{{"subject", "#"}, {"teachers", json::array()}, {"extra", json::array()}});
+                    answer[name][day].push_back(json{{"subject", "#"}, {"teachers", json::array()}, {"classrooms", json::array()}, {"extra", json::array()}});
 
                     continue;
                 }
@@ -819,16 +1042,36 @@ json save() {
                     teachersBySubject[e.value].push_back(teacherNameByID[e.id]);
                 }
 
+                auto roomsForSubject = [&](int subjectID) {
+                    set<string> names;
+
+                    for (edge& e : graph[cls][slot]) {
+                        if (e.value != subjectID) {
+                            continue;
+                        }
+
+                        int room = data.classroomsEnable ? teacherRoom[e.id][slot] : 0;
+
+                        if (room > 0) {
+                            names.insert(classroomNameByID[room]);
+                        }
+                    }
+
+                    return vector<string>(names.begin(), names.end());
+                };
+
                 json entry;
 
                 entry["subject"] = subjectNameByID[subjectOrder[0]];
                 entry["teachers"] = teachersBySubject[subjectOrder[0]];
+                entry["classrooms"] = roomsForSubject(subjectOrder[0]);
                 entry["extra"] = json::array();
 
                 for (int i = 1; i < subjectOrder.size(); i++) {
                     entry["extra"].push_back(json{
                         {"subject", subjectNameByID[subjectOrder[i]]},
-                        {"teachers", teachersBySubject[subjectOrder[i]]}
+                        {"teachers", teachersBySubject[subjectOrder[i]]},
+                        {"classrooms", roomsForSubject(subjectOrder[i])}
                     });
                 }
 
@@ -879,6 +1122,12 @@ int main(int argc, char** argv) {
     teacherIsAllowed.assign(size, vector<bool>(SLOTS, false));
 
     locked.assign(size, vector<SubjectSet>(SLOTS));
+
+    teacherRoom.assign(size, vector<int>(SLOTS, 0));
+    teacherRoomRank.assign(size, vector<int>(SLOTS, 0));
+
+    int numRooms = classroomNameByID.size();
+    roomOccupant.assign(numRooms + 1, vector<int>(SLOTS, 0));
 
     for (int teacher = 0; teacher < data.teachers.size(); teacher++) {
         for (int slot : data.free[teacher]) {
@@ -955,6 +1204,20 @@ int main(int argc, char** argv) {
             continue;
         }
 
+        for (int id : item.ids) {
+            if (findRoomForTeacher(id, item.subjectID, constant.slot) == -1) {
+                ok = false;
+
+                break;
+            }
+        }
+
+        if (!ok) {
+            cout << "[WARNING] constant " << cls << " / " << subject << " skipped: no available classroom at this slot" << "\n";
+
+            continue;
+        }
+
         pending.erase(pending.begin() + idx);
 
         placeLesson(item, constant.slot);
@@ -981,8 +1244,16 @@ int main(int argc, char** argv) {
                 for (int id : item.ids) {
                     if (!teacherIsAllowed[id][slot] || occupied(id, slot)) {
                         ok = false;
-
                         break;
+                    }
+                }
+
+                if (ok) {
+                    for (int id : item.ids) {
+                        if (findRoomForTeacher(id, item.subjectID, slot) == -1) {
+                            ok = false;
+                            break;
+                        }
                     }
                 }
 
@@ -1027,12 +1298,15 @@ int main(int argc, char** argv) {
 
     for (int teacher = 1; teacher <= data.teachers.size(); teacher++) {
         total += Functions::teacherFreeTime(teacher);
+        total += Functions::classroomPriority(teacher);
     }
 
     float temperature = 100;
 
     int equal = 0;
     int count = 0;
+
+    roomWarnings = false;
 
     for (int iter = 0; iter < iterations; iter++) {
         temperature *= 0.9999999;
@@ -1068,7 +1342,7 @@ int main(int argc, char** argv) {
             equal = 0;
         }
 
-        int type = randint(0, 2);
+        int type = randint(0, 3);
 
         if (type == 0) {
             int shift = randint(0, NUMBER_OF_SHIFTS - 1);
@@ -1184,6 +1458,10 @@ int main(int argc, char** argv) {
                 teachers.push_back(edge.id);
             }
 
+            if (!roomsSwappable(teachers, slotA, slotB)) {
+                continue;
+            }
+
             float before = getClassTotal(cls);
 
             for (int teacher : teachers) {
@@ -1193,6 +1471,7 @@ int main(int argc, char** argv) {
             auto intraSwapper = [&]() {
                 for (int teacher : teachers) {
                     swap(graph[teacher][slotA], graph[teacher][slotB]);
+                    swapRooms(teacher, slotA, slotB);
                 }
 
                 swap(graph[cls][slotA], graph[cls][slotB]);
@@ -1321,6 +1600,10 @@ int main(int argc, char** argv) {
                 }
             }
 
+            if (!roomsSwappable(involvedTeachers, color1, color2)) {
+                continue;
+            }
+
             float before = getClassTotal(cls1) + getClassTotal(cls2);
 
             for (int t : involvedTeachers) {
@@ -1330,6 +1613,7 @@ int main(int argc, char** argv) {
             auto swapper = [&]() {
                 for (int t : involvedTeachers) {
                     swap(graph[t][color1], graph[t][color2]);
+                    swapRooms(t, color1, color2);
                 }
 
                 swap(graph[cls1][color1], graph[cls1][color2]);
@@ -1417,6 +1701,19 @@ int main(int argc, char** argv) {
                     continue;
                 }
 
+                bool roomsOk = true;
+
+                for (int t : involvedTeachers) {
+                    if (findRoomForTeacher(t, subjectID, slot) == -1) {
+                        roomsOk = false;
+                        break;
+                    }
+                }
+
+                if (!roomsOk) {
+                    continue;
+                }
+
                 if (occupied(cls, slot)) {
                     groupCandidates.push_back(slot);
 
@@ -1441,6 +1738,7 @@ int main(int argc, char** argv) {
 
             for (int t : involvedTeachers) {
                 before += Functions::teacherFreeTime(t);
+                before += Functions::classroomPriority(t);
             }
 
             vector<edge> moving;
@@ -1456,12 +1754,21 @@ int main(int argc, char** argv) {
                 }
             }
 
+            map<int, int> savedRooms;
+
+            for (edge& e : moving) {
+                savedRooms[e.id] = teacherRoom[e.id][slotA];
+            }
+
             auto applyMove = [&]() {
                 for (edge& e : moving) {
                     graph[cls][slotB].push_back(edge(e.id, subjectID));
                     graph[e.id][slotB] = {edge(cls, subjectID)};
 
                     graph[e.id][slotA].clear();
+
+                    releaseRoom(e.id, slotA);
+                    assignRoom(e.id, subjectID, slotB);
                 }
             };
 
@@ -1478,6 +1785,15 @@ int main(int argc, char** argv) {
 
                     graph[e.id][slotB].clear();
                     graph[e.id][slotA] = {edge(cls, subjectID)};
+
+                    releaseRoom(e.id, slotB);
+
+                    int room = savedRooms[e.id];
+
+                    if (room > 0) {
+                        roomOccupant[room][slotA] = e.id;
+                        teacherRoom[e.id][slotA] = room;
+                    }
                 }
 
                 for (edge& e : moving) {
@@ -1493,6 +1809,7 @@ int main(int argc, char** argv) {
 
             for (int t : involvedTeachers) {
                 after += Functions::teacherFreeTime(t);
+                after += Functions::classroomPriority(t);
             }
 
             float delta = after - before;
@@ -1504,6 +1821,60 @@ int main(int argc, char** argv) {
 
             } else {
                 revertMove();
+
+                equal += 1;
+            }
+        }
+
+        if (type == 3) {
+            if (!data.classroomsEnable || data.teachers.empty()) {
+                continue;
+            }
+
+            int teacher = randint(1, data.teachers.size());
+            int slot = randint(0, SLOTS - 1);
+
+            int currentRoom = teacherRoom[teacher][slot];
+
+            if (currentRoom == 0 || graph[teacher][slot].empty()) {
+                continue;
+            }
+
+            int subjectID = graph[teacher][slot][0].value;
+            int currentRank = teacherRoomRank[teacher][slot];
+
+            float before = Functions::classroomPriority(teacher);
+
+            releaseRoom(teacher, slot);
+            assignRoom(teacher, subjectID, slot);
+
+            count++;
+
+            if (teacherRoom[teacher][slot] == 0) {
+                roomOccupant[currentRoom][slot] = teacher;
+                teacherRoom[teacher][slot] = currentRoom;
+                teacherRoomRank[teacher][slot] = currentRank;
+
+                equal += 1;
+
+                continue;
+            }
+
+            float after = Functions::classroomPriority(teacher);
+
+            float delta = after - before;
+
+            if (delta <= 0) {
+                total = total - before + after;
+
+                equal = (delta < 0) ? 0 : equal + 1;
+
+            } else {
+                releaseRoom(teacher, slot);
+
+                roomOccupant[currentRoom][slot] = teacher;
+                teacherRoom[teacher][slot] = currentRoom;
+                teacherRoomRank[teacher][slot] = currentRank;
 
                 equal += 1;
             }
