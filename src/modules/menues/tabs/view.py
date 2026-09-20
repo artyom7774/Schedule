@@ -20,6 +20,8 @@ class TabView(QWidget):
 
         self.teachers = list(sorted(window.settings["teachers"].keys()))
 
+        self.classroomsEnabled = bool(self.window.settings.get("classrooms", {}).get("enable", 0))
+
         self.answer = None
 
         answerPath = f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"
@@ -178,13 +180,13 @@ class TabView(QWidget):
         if cell.get("subject", "#") == "#":
             return []
 
-        entries = [(cell["subject"], cell.get("teachers", []))]
+        entries = [(cell["subject"], cell.get("teachers", []), cell.get("classrooms", []))]
 
         for extra in cell.get("extra", []):
             if extra.get("subject", "#") == "#":
                 continue
 
-            entries.append((extra["subject"], extra.get("teachers", [])))
+            entries.append((extra["subject"], extra.get("teachers", []), extra.get("classrooms", [])))
 
         return entries
 
@@ -206,11 +208,22 @@ class TabView(QWidget):
                     entries = self.entries(data[day][lesson])
 
                     if entries:
-                        text = " / ".join(subject for subject, _ in entries)
-                        tooltip = "\n".join(
-                            f"{subject}: {', '.join(teachers)}" if teachers else subject
-                            for subject, teachers in entries
-                        )
+                        text = " / ".join(subject for subject, _, _ in entries)
+
+                        tooltipLines = []
+
+                        for subject, teachers, classrooms in entries:
+                            line = subject
+
+                            if teachers:
+                                line += f": {', '.join(teachers)}"
+
+                            if self.classroomsEnabled and classrooms:
+                                line += f" ({', '.join(classrooms)})"
+
+                            tooltipLines.append(line)
+
+                        tooltip = "\n".join(tooltipLines)
 
                 item = QTableWidgetItem(text)
                 item.setTextAlignment(Qt.AlignCenter)
@@ -242,10 +255,16 @@ class TabView(QWidget):
 
                         found = False
 
-                        for subject, teachers in entries:
+                        for subject, teachers, classrooms in entries:
                             if teacher in teachers:
                                 tooltip = f"{cls}: {subject}"
                                 text = f"{cls}\n{subject}"
+
+                                if self.classroomsEnabled and classrooms:
+                                    roomsText = ', '.join(classrooms)
+
+                                    tooltip += f" ({roomsText})"
+                                    text += f"\n{roomsText}"
 
                                 found = True
 

@@ -9,10 +9,10 @@ using namespace std;
 
 using json = nlohmann::json;
 
-int JOB_WEEK_LENGHT    = 5;
-int MAX_LESSON_IN_DAY  = 8;
-int NUMBER_OF_SHIFTS   = 1;
-int SHIFT_CROSSING     = 0;
+int JOB_WEEK_LENGHT   = 5;
+int MAX_LESSON_IN_DAY = 8;
+int NUMBER_OF_SHIFTS  = 1;
+int SHIFT_CROSSING    = 0;
 
 int SLOTS = 0;
 
@@ -641,27 +641,68 @@ bool roomsSwappable(const vector<int>& teachersList, int slotA, int slotB) {
     return true;
 }
 
-void swapRooms(int teacherID, int slotA, int slotB) {
-    int rA = teacherRoom[teacherID][slotA];
-    int rB = teacherRoom[teacherID][slotB];
+void swapRoomsGroup(const vector<int>& teachersList, int slotA, int slotB) {
+    for (int t : teachersList) {
+        int rA = teacherRoom[t][slotA];
+        int rB = teacherRoom[t][slotB];
 
-    if (rA) {
-        roomOccupant[rA][slotA] = 0;
+        if (rA) {
+            roomOccupant[rA][slotA] = 0;
+        }
+
+        if (rB) {
+            roomOccupant[rB][slotB] = 0;
+        }
     }
 
-    if (rB) {
-        roomOccupant[rB][slotB] = 0;
+    for (int t : teachersList) {
+        swap(teacherRoom[t][slotA], teacherRoom[t][slotB]);
+        swap(teacherRoomRank[t][slotA], teacherRoomRank[t][slotB]);
     }
 
-    swap(teacherRoom[teacherID][slotA], teacherRoom[teacherID][slotB]);
+    for (int t : teachersList) {
+        if (teacherRoom[t][slotA]) {
+            roomOccupant[teacherRoom[t][slotA]][slotA] = t;
+        }
 
-    if (teacherRoom[teacherID][slotA]) {
-        roomOccupant[teacherRoom[teacherID][slotA]][slotA] = teacherID;
+        if (teacherRoom[t][slotB]) {
+            roomOccupant[teacherRoom[t][slotB]][slotB] = t;
+        }
+    }
+}
+
+bool verifyRooms() {
+    Data& data = getData();
+
+    bool ok = true;
+
+    for (int t = 1; t <= (int)data.teachers.size(); t++) {
+        for (int slot = 0; slot < SLOTS; slot++) {
+            int r = teacherRoom[t][slot];
+
+            if (r > 0 && roomOccupant[r][slot] != t) {
+                cout << "[ERROR] room mismatch: teacher " << teacherNameByID[t] << ", room " << classroomNameByID[r]
+                     << ", slot " << slot << ", roomOccupant says " << roomOccupant[r][slot] << "\n";
+
+                ok = false;
+            }
+        }
     }
 
-    if (teacherRoom[teacherID][slotB]) {
-        roomOccupant[teacherRoom[teacherID][slotB]][slotB] = teacherID;
+    for (int r = 1; r < (int)roomOccupant.size(); r++) {
+        for (int slot = 0; slot < SLOTS; slot++) {
+            int t = roomOccupant[r][slot];
+
+            if (t > 0 && teacherRoom[t][slot] != r) {
+                cout << "[ERROR] room mismatch: room " << classroomNameByID[r] << ", slot " << slot
+                     << " claims teacher " << teacherNameByID[t] << " who has room " << teacherRoom[t][slot] << "\n";
+
+                ok = false;
+            }
+        }
     }
+
+    return ok;
 }
 
 struct Lesson {
@@ -1471,8 +1512,9 @@ int main(int argc, char** argv) {
             auto intraSwapper = [&]() {
                 for (int teacher : teachers) {
                     swap(graph[teacher][slotA], graph[teacher][slotB]);
-                    swapRooms(teacher, slotA, slotB);
                 }
+
+                swapRoomsGroup(teachers, slotA, slotB);
 
                 swap(graph[cls][slotA], graph[cls][slotB]);
             };
@@ -1613,8 +1655,9 @@ int main(int argc, char** argv) {
             auto swapper = [&]() {
                 for (int t : involvedTeachers) {
                     swap(graph[t][color1], graph[t][color2]);
-                    swapRooms(t, color1, color2);
                 }
+
+                swapRoomsGroup(involvedTeachers, color1, color2);
 
                 swap(graph[cls1][color1], graph[cls1][color2]);
                 swap(graph[cls2][color1], graph[cls2][color2]);
@@ -1754,10 +1797,11 @@ int main(int argc, char** argv) {
                 }
             }
 
-            map<int, int> savedRooms;
+            map<int, int> savedRooms, savedRanks;
 
             for (edge& e : moving) {
                 savedRooms[e.id] = teacherRoom[e.id][slotA];
+                savedRanks[e.id] = teacherRoomRank[e.id][slotA];
             }
 
             auto applyMove = [&]() {
@@ -1793,6 +1837,7 @@ int main(int argc, char** argv) {
                     if (room > 0) {
                         roomOccupant[room][slotA] = e.id;
                         teacherRoom[e.id][slotA] = room;
+                        teacherRoomRank[e.id][slotA] = savedRanks[e.id];
                     }
                 }
 
@@ -1879,6 +1924,10 @@ int main(int argc, char** argv) {
                 equal += 1;
             }
         }
+    }
+
+    if (data.classroomsEnable && !verifyRooms()) {
+        cout << "[ERROR] classroom tables are inconsistent, result may contain overlaps" << "\n";
     }
 
     std::ofstream file(output);
