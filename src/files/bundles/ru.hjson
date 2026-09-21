@@ -24,11 +24,21 @@
 "menu.main.tab.settings.subject": "Предмет"
 "menu.main.tab.settings.hard": "Сложность"
 
+"menu.main.tab.classrooms.classrooms": "Кабинеты"
+"menu.main.tab.classrooms.add_group": "Добавить группу"
+"menu.main.tab.classrooms.enable": "включить"
+"menu.main.tab.classrooms.disable": "отключить"
+"menu.main.tab.classrooms.delete": "Удалить"
+"menu.main.tab.classrooms.add_classroom": "Добавить кабинет"
+"menu.main.tab.classrooms.choose_classroom": "Выбрать кабинет"
+
 "menu.main.tab.teachers.add_teacher": "Добавить учителя"
 "menu.main.tab.teachers.delete": "Удалить"
 "menu.main.tab.teachers.hours": "часов"
 "menu.main.tab.teachers.subject": "Предмет"
 "menu.main.tab.teachers.all_subjects": "Все предметы"
+"menu.main.tab.teachers.classrooms": "Кабинеты"
+"menu.main.tab.teachers.not_require_a_classroom": "Не требует кабинета"
 
 "menu.main.tab.constants.none": "-"
 
@@ -65,15 +75,29 @@
 "dialog.add_teacher.label": "Имя учителя:"
 "dialog.add_teacher.allow": "Добавить"
 
+"dialog.add_classroom_group.title": "Добавление группы"
+"dialog.add_classroom_group.label": "Название группы:"
+"dialog.add_classroom_group.allow": "Добавить"
+
 "dialog.open_project.title": "Открытие проекта"
 "dialog.open_project.label": "Название проекта:"
 "dialog.open_project.allow": "Открыть"
+
+"dialog.add_classroom.title": "Добавление кабинета"
+"dialog.add_classroom.label": "Кабинет:"
+"dialog.add_classroom.allow": "Добавить"
+
+"dialog.classrooms_priority.title": "Приоритет кабинетов"
 
 "log.text.impossible_project_name": "Недопустимое название проекта"
 "log.text.project_name_already_exists": "Проект с таким названием уже существует"
 "log.text.project_name_must_be_without_spaces": "Название проекта не должно содержать пробелов"
 "log.text.teacher_name_is_empty": "Имя учителя не заполнено"
 "log.text.teacher_name_already_exists": "Учитель с таким именем уже существует"
+"log.text.group_name_is_empty": "Название группы не заполнено"
+"log.text.group_name_already_exists": "Группа с таким названием уже существует"
+"log.text.classroom_name_is_empty": "Название кабинета не заполнено"
+"log.text.classroom_name_already_exists": "Кабинет с таким названием уже существует"
 
 "weights.equalLessons": "Одинаковые уроки"
 "weights.notEqualsLessonsCountOnDay": "Неравное количество уроков по дням"
@@ -83,6 +107,7 @@
 "weights.groupBonus": "Бонус за группу"
 "weights.lessonShiftCrossing": "Пересечение уроков со сменой"
 "weights.profileGaps": "Окна в группах"
+"weights.classroomPriority": "Приоритет кабинета"
 
 "day.0": "Понедельник"
 "day.1": "Вторник"

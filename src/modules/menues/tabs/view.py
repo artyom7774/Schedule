@@ -217,17 +217,17 @@ class TabView(QWidget):
                             part = subject
 
                             if self.classroomsEnabled and classrooms:
-                                part += f", {translate('abbreviate.room')} {', '.join(classrooms)}"
+                                part += f" - {translate('abbreviate.room')} {', '.join(classrooms)}"
 
                             text.append(part)
 
                             line = subject
 
                             if teachers:
-                                line += f", {', '.join(teachers)}"
+                                line += f" - {', '.join(teachers)}"
 
                             if self.classroomsEnabled and classrooms:
-                                line += f", {translate('abbreviate.room')} {', '.join(classrooms)}"
+                                line += f" - {translate('abbreviate.room')} {', '.join(classrooms)}"
 
                             tooltip.append(line)
 
@@ -263,10 +263,10 @@ class TabView(QWidget):
 
                         for subject, teachers, classrooms in entries:
                             if teacher in teachers:
-                                text = f"{subject}, {cls}"
+                                text = f"{subject} - {cls}"
 
                                 if self.classroomsEnabled and classrooms:
-                                    text += f", {translate('abbreviate.room')} {', '.join(classrooms)}"
+                                    text += f" - {translate('abbreviate.room')} {', '.join(classrooms)}"
 
                                 found = True
 
