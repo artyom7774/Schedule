@@ -92,6 +92,8 @@ class TabView(QWidget):
 
             table.setEditTriggers(QAbstractItemView.NoEditTriggers)
             table.setSelectionMode(QAbstractItemView.NoSelection)
+            table.setWordWrap(True)
+            table.setTextElideMode(Qt.ElideNone)
 
             table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
             table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
@@ -208,26 +210,30 @@ class TabView(QWidget):
                     entries = self.entries(data[day][lesson])
 
                     if entries:
-                        text = " / ".join(subject for subject, _, _ in entries)
-
-                        tooltipLines = []
+                        text = []
+                        tooltip = []
 
                         for subject, teachers, classrooms in entries:
+                            part = subject
+
+                            if self.classroomsEnabled and classrooms:
+                                part += f", {translate('abbreviate.room')} {', '.join(classrooms)}"
+
+                            text.append(part)
+
                             line = subject
 
                             if teachers:
-                                line += f": {', '.join(teachers)}"
+                                line += f", {', '.join(teachers)}"
 
                             if self.classroomsEnabled and classrooms:
-                                line += f" ({', '.join(classrooms)})"
+                                line += f", {translate('abbreviate.room')} {', '.join(classrooms)}"
 
-                            tooltipLines.append(line)
+                            tooltip.append(line)
 
-                        tooltip = "\n".join(tooltipLines)
-
-                item = QTableWidgetItem(text)
+                item = QTableWidgetItem("\n".join(text))
                 item.setTextAlignment(Qt.AlignCenter)
-                item.setToolTip(tooltip)
+                item.setToolTip("\n".join(tooltip))
 
                 table.setItem(lesson, day, item)
 
@@ -257,14 +263,10 @@ class TabView(QWidget):
 
                         for subject, teachers, classrooms in entries:
                             if teacher in teachers:
-                                tooltip = f"{cls}: {subject}"
-                                text = f"{cls}\n{subject}"
+                                text = f"{subject}, {cls}"
 
                                 if self.classroomsEnabled and classrooms:
-                                    roomsText = ', '.join(classrooms)
-
-                                    tooltip += f" ({roomsText})"
-                                    text += f"\n{roomsText}"
+                                    text += f", {translate('abbreviate.room')} {', '.join(classrooms)}"
 
                                 found = True
 
@@ -275,6 +277,6 @@ class TabView(QWidget):
 
                     item = QTableWidgetItem(text)
                     item.setTextAlignment(Qt.AlignCenter)
-                    item.setToolTip(tooltip)
+                    item.setToolTip(text)
 
                     table.setItem(lesson, day, item)
