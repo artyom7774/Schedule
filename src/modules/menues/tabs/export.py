@@ -164,7 +164,14 @@ class TabExport(QWidget):
                     if lesson["subject"] == "#":
                         continue
 
-                    subjects = ", ".join([lesson["subject"]] + [element["subject"] for element in lesson["extra"]])
+                    subjects = ""
+
+                    for element in [lesson] + [temp for temp in lesson["extra"]]:
+                        print(element)
+
+                        subjects += f"{element['subject']} - {', '.join(lesson['classrooms'])}, "
+
+                    subjects = subjects[:len(subjects) - 2]
 
                     col = pos
                     row = day * (height + 1) + shift * lessons + i + 2
@@ -228,7 +235,12 @@ class TabExport(QWidget):
                         if element["subject"] == "#" or not element.get("teachers"):
                             continue
 
-                        content = f"{cls}: {element['subject']}"
+                        if "classrooms" in element:
+                            content = f"{element['subject']} - {cls} - {translate('abbreviate.room')} {element['classrooms'][0]}"
+
+                        else:
+                            content = f"{element['subject']} - {cls}"
+
                         color = self.color(element["subject"])
 
                         for teacher in element["teachers"]:
