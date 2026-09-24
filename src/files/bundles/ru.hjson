@@ -26,8 +26,8 @@
 
 "menu.main.tab.classrooms.classrooms": "Кабинеты"
 "menu.main.tab.classrooms.add_group": "Добавить группу"
-"menu.main.tab.classrooms.enable": "включить"
-"menu.main.tab.classrooms.disable": "отключить"
+"menu.main.tab.classrooms.enable": "включены"
+"menu.main.tab.classrooms.disable": "отключены"
 "menu.main.tab.classrooms.delete": "Удалить"
 "menu.main.tab.classrooms.add_classroom": "Добавить кабинет"
 "menu.main.tab.classrooms.choose_classroom": "Выбрать кабинет"
