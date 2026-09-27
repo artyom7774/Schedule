@@ -3,6 +3,7 @@ from PyQt5.QtCore import Qt
 
 from src.variables import *
 
+import natsort
 import json
 
 
@@ -18,7 +19,7 @@ class TabView(QWidget):
             for number in range(cnt):
                 self.classes.append(f"{i + 1} {CLASSES_ALPHABET[number + 1]}")
 
-        self.teachers = list(sorted(window.settings["teachers"].keys()))
+        self.teachers = list(natsort.natsorted(window.settings["teachers"].keys()))
 
         self.classroomsEnabled = bool(self.window.settings.get("classrooms", {}).get("enable", 0))
 
