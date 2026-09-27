@@ -5,3 +5,4 @@ hjson
 requests
 pyqtdarktheme
 openpyxl
+natsort

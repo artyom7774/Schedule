@@ -17,7 +17,7 @@
 
 "menu.main.tab.settings.working_days_per_week": "Рабочих дней в неделе:"
 "menu.main.tab.settings.max_lesson_count_per_day": "Макс. количество уроков в день:"
-"menu.main.tab.settings.classes_count": "Количество классов:"
+"menu.main.tab.settings.classes_count": "Количество параллелей:"
 "menu.main.tab.settings.subjects_count": "Количество предметов:"
 "menu.main.tab.settings.number_of_shifts": "Количество смен:"
 "menu.main.tab.settings.shift_crossing": "Пересечение смен:"

@@ -8,6 +8,7 @@ from src.modules import dialogs
 
 from src.variables import *
 
+import natsort
 import json
 
 
@@ -145,7 +146,7 @@ class TabTeachers(QWidget):
             for number in range(cnt):
                 self.classes.append(f"{i + 1} {CLASSES_ALPHABET[number + 1]}")
 
-        teachers = list(sorted(window.settings["teachers"].keys()))
+        teachers = list(natsort.natsorted(window.settings["teachers"].keys()))
 
         self.teachersList = QListWidget(parent=self)
         self.teachersList.itemClicked.connect(lambda: self.teachersListItemClicked())
