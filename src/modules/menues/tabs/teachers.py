@@ -61,11 +61,11 @@ class TeacherSubjectWidget(QTableWidget):
 
             for button in self.grid.buttons:
                 if button.text() in self.using:
-                    button.setStyleSheet(f"QPushButton {{ background: #109012; }} QToolTip {{ font-size: 16px; }}")
+                    button.setStyleSheet(f"QPushButton {{ background: #{COLORS['green']}; }} QToolTip {{ font-size: 16px; }}")
                     hours = self.window.settings.get("classes", {}).get("lessons", {}).get(button.text(), {}).get(self.subject.currentText(), 0)
 
                 else:
-                    button.setStyleSheet(f"QPushButton {{ background: #901112; }} QToolTip {{ font-size: 16px; }}")
+                    button.setStyleSheet(f"QPushButton {{ background: #{COLORS['red']}; }} QToolTip {{ font-size: 16px; }}")
                     hours = 0
 
                 button.setToolTip(
@@ -247,10 +247,10 @@ class TabTeachers(QWidget):
                     item = QTableWidgetItem()
 
                     if [col, row] in self.window.settings["teachers"][self.teacher]["free"][shift]:
-                        item.setBackground(QColor("#901112"))
+                        item.setBackground(QColor(f"#{COLORS['red']}"))
 
                     else:
-                        item.setBackground(QColor("#109012"))
+                        item.setBackground(QColor(f"#{COLORS['green']}"))
 
                     teacherFreeTable.setItem(row, col, item)
 

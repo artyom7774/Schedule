@@ -19,10 +19,10 @@ class TabClassrooms(QWidget):
         self.enablePushButton.show()
 
         if self.window.settings["classrooms"]["enable"]:
-            self.enablePushButton.setStyleSheet(f"QPushButton {{ background: #109012; }}")
+            self.enablePushButton.setStyleSheet(f"QPushButton {{ background: #{COLORS['green']}; }}")
 
         else:
-            self.enablePushButton.setStyleSheet(f"QPushButton {{ background: #901112; }}")
+            self.enablePushButton.setStyleSheet(f"QPushButton {{ background: #{COLORS['red']}; }}")
 
         self.enablePushButton.clicked.connect(lambda: self.enablePushButtonClickedConnect())
 

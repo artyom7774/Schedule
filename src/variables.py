@@ -11,7 +11,24 @@ faulthandler.enable()
 NAME = "Schedule Maker 1"
 
 CLASSES_ALPHABET = "-АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ"
-CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "#929396", "#A9AAAD", "#C0C0C0"]
+
+STYLE = "dark"
+
+if STYLE == "dark":
+    CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "#929396", "#A9AAAD", "#C0C0C0"]
+
+    COLORS = {
+        "green": "109012",
+        "red": "901112"
+    }
+
+else:
+    CLASSES_TABLE_COLORS = ["#FFFFFF", "#F2F2F3", "#E5E5E6", "#D8D8D9", "#CBCBCC", "#BEBEBF", "#B1B1B2", "#A4A4A5"]
+
+    COLORS = {
+        "green": "4caf50",
+        "red": "f44336"
+    }
 
 SIZE = {}
 PLUS = 64 + 8 - 1

@@ -14,6 +14,8 @@ faulthandler.enable()
 
 class Window(QMainWindow):
     def __init__(self) -> None:
+        global STYLE
+
         super().__init__()
 
         try:
@@ -22,45 +24,87 @@ class Window(QMainWindow):
         except AttributeError:
             pass
 
-        STYLE = """
-        QPushButton {
-            color: white;
-        }
+        if STYLE == "dark":
+            style = """
+                QPushButton {
+                    color: white;
+                }
+                
+                QFrame#frameLine {
+                    background-color: #3f4042;
+                    border: none;
+                }
         
-        QFrame#frameLine {
-            background-color: #3f4042;
-            border: none;
-        }
+                QToolButton#bigMenuButton {
+                    border: 2px solid #3f4042;
+                    border-radius: 16px;
+                    font-weight: 450;
+                }
+                
+                QToolButton#bigMenuButton:hover {
+                    background-color: rgba(255, 255, 255, 10);
+                }
+                
+                QToolButton#bigMenuButton:pressed {
+                    background-color: rgba(255, 255, 255, 20);
+                }
+                
+                QTableWidget {
+                    background-color: #202124;
+                }
+                
+                QToolTip {
+                    background-color: #2b2b2b;
+                    color: #ffffff;
+                    border: 1px solid #555555;
+                    padding-right: -3px;
+                    border-radius: 3px;
+                    font-size: 13px;
+                }
+            """
 
-        QToolButton#bigMenuButton {
-            border: 2px solid #3f4042;
-            border-radius: 16px;
-            font-weight: 450;
-        }
+        else:
+            style = """
+                QPushButton {
+                    color: black;
+                }
         
-        QToolButton#bigMenuButton:hover {
-            background-color: rgba(255, 255, 255, 10);
-        }
+                QFrame#frameLine {
+                    background-color: #d0d0d0;
+                    border: none;
+                }
         
-        QToolButton#bigMenuButton:pressed {
-            background-color: rgba(255, 255, 255, 20);
-        }
+                QToolButton#bigMenuButton {
+                    border: 2px solid #d0d0d0;
+                    border-radius: 16px;
+                    font-weight: 450;
+                    color: black;
+                }
         
-        QTableWidget {
-            background-color: #202124;
-        }
+                QToolButton#bigMenuButton:hover {
+                    background-color: rgba(0, 0, 0, 10);
+                }
         
-        QToolTip {
-            background-color: #2b2b2b;
-            color: #ffffff;
-            border: 1px solid #555555;
-            padding-right: -3px;
-            border-radius: 3px;
-            font-size: 13px;
-        }
-        """
+                QToolButton#bigMenuButton:pressed {
+                    background-color: rgba(0, 0, 0, 20);
+                }
+        
+                QTableWidget {
+                    background-color: #ffffff;
+                    color: black;
+                }
+        
+                QToolTip {
+                    background-color: #ffffff;
+                    color: #000000;
+                    border: 1px solid #aaaaaa;
+                    padding-right: -3px;
+                    border-radius: 3px;
+                    font-size: 13px;
+                }
+            """
 
-        qdarktheme.setup_theme(theme="dark", additional_qss=STYLE)
+        qdarktheme.setup_theme(theme=STYLE, additional_qss=style)
 
         self.setWindowTitle(NAME)
 

@@ -95,10 +95,10 @@ class TabGroups(QWidget):
                 subjectsForGroup = data.get(group, [])
 
                 if subject in subjectsForGroup:
-                    item.setBackground(QColor("#109012"))
+                    item.setBackground(QColor(f"#{COLORS['green']}"))
 
                 else:
-                    item.setBackground(QColor("#901010"))
+                    item.setBackground(QColor(f"#{COLORS['red']}"))
 
                 self.groupsTable.setItem(row, col, item)
 
