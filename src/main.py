@@ -14,8 +14,6 @@ faulthandler.enable()
 
 class Window(QMainWindow):
     def __init__(self) -> None:
-        global STYLE
-
         super().__init__()
 
         try:
@@ -24,7 +22,7 @@ class Window(QMainWindow):
         except AttributeError:
             pass
 
-        if STYLE == "dark":
+        if THEME == "dark":
             style = """
                 QPushButton {
                     color: white;
@@ -104,7 +102,7 @@ class Window(QMainWindow):
                 }
             """
 
-        qdarktheme.setup_theme(theme=STYLE, additional_qss=style)
+        qdarktheme.setup_theme(theme=THEME, additional_qss=style)
 
         self.setWindowTitle(NAME)
 

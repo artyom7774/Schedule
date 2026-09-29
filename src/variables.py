@@ -12,9 +12,9 @@ NAME = "Schedule Maker 1"
 
 CLASSES_ALPHABET = "-АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ"
 
-STYLE = "light"
+THEME = "light"
 
-if STYLE == "dark":
+if THEME == "dark":
     CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "#929396", "#A9AAAD", "#C0C0C0"]
 
     COLORS = {

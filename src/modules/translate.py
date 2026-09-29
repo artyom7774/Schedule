@@ -5,7 +5,8 @@ LANGUAGE = "en"
 
 BUNDLES = {
     "en": hjson.load(open("src/files/bundles/en.hjson", "r", encoding="utf-8")),
-    "ru": hjson.load(open("src/files/bundles/ru.hjson", "r", encoding="utf-8"))
+    "ru": hjson.load(open("src/files/bundles/ru.hjson", "r", encoding="utf-8")),
+    "by": hjson.load(open("src/files/bundles/by.hjson", "r", encoding="utf-8"))
 }
 
 def translate(name) -> str:

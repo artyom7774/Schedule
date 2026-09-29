@@ -11,7 +11,8 @@ import os
 
 languages = [
     ["ru", "src/files/sprites/languages/ru.jpg"],
-    ["en", "src/files/sprites/languages/en.jpg"]
+    ["en", "src/files/sprites/languages/en.jpg"],
+    ["by", "src/files/sprites/languages/by.png"]
 ]
 
 
@@ -37,9 +38,9 @@ def init(window) -> None:
     window.objects["frameLine"].show()
 
     buttons = [
-        ("buttonCreateProject", "menu.start.button_create_project", "src/files/sprites/create.svg", lambda: buttonCreateProject(window)),
-        ("buttonOpenProject", "menu.start.button_open_project", "src/files/sprites/open.svg", lambda: buttonOpenProject(window)),
-        ("buttonExit", "menu.start.button_exit", "src/files/sprites/exit.svg", lambda: window.close()),
+        ("buttonCreateProject", "menu.start.button_create_project", f"src/files/sprites/{THEME}/create.svg", lambda: buttonCreateProject(window)),
+        ("buttonOpenProject", "menu.start.button_open_project", f"src/files/sprites/{THEME}/open.svg", lambda: buttonOpenProject(window)),
+        ("buttonExit", "menu.start.button_exit", f"src/files/sprites/{THEME}/exit.svg", lambda: window.close()),
     ]
 
     for name, key, icon, callback in buttons:
