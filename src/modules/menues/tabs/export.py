@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog, QTableWidget, QLabel, QLineEdit
+from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog, QTableWidget, QLabel, QLineEdit, QMessageBox
 
 from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.utils import get_column_letter as letter
@@ -167,9 +167,11 @@ class TabExport(QWidget):
                     subjects = ""
 
                     for element in [lesson] + [temp for temp in lesson["extra"]]:
-                        print(element)
+                        if lesson['classrooms']:
+                            subjects += f"{element['subject']} - {', '.join(lesson['classrooms'])}, "
 
-                        subjects += f"{element['subject']} - {', '.join(lesson['classrooms'])}, "
+                        else:
+                            subjects += f"{element['subject']}. "
 
                     subjects = subjects[:len(subjects) - 2]
 
@@ -184,7 +186,11 @@ class TabExport(QWidget):
 
         self.finish(page, lines)
 
-        book.save(path)
+        try:
+            book.save(path)
+
+        except PermissionError:
+            QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.file_permission_denied"), QMessageBox.Ok)
 
     def exportByTeacherPushButtonClicked(self, path: str = None):
         if path is None:
@@ -235,7 +241,7 @@ class TabExport(QWidget):
                         if element["subject"] == "#" or not element.get("teachers"):
                             continue
 
-                        if "classrooms" in element:
+                        if "classrooms" in element and element['classrooms']:
                             content = f"{element['subject']} - {cls} - {translate('abbreviate.room')} {element['classrooms'][0]}"
 
                         else:
@@ -258,4 +264,8 @@ class TabExport(QWidget):
 
         self.finish(page, lines)
 
-        book.save(path)
+        try:
+            book.save(path)
+
+        except PermissionError:
+            QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.file_permission_denied"), QMessageBox.Ok)

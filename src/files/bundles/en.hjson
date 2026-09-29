@@ -66,6 +66,8 @@
 "menu.main.tab.export.schedule": "Schedule"
 "menu.main.tab.export.day": "Day"
 "menu.main.tab.export.time": "Time"
+"menu.main.tab.export.error": "Error"
+"menu.main.tab.export.file_permission_denied": "File permission denied"
 
 "dialog.create_project.title": "Create project"
 "dialog.create_project.label": "Project name:"

@@ -66,6 +66,8 @@
 "menu.main.tab.export.schedule": "Разклад"
 "menu.main.tab.export.day": "Дзень"
 "menu.main.tab.export.time": "Час"
+"menu.main.tab.export.error": "Памылка",
+"menu.main.tab.export.file_permission_denied": "Доступ да файла забаронены"
 
 "dialog.create_project.title": "Стварыць праект"
 "dialog.create_project.label": "Назва праекта:"
