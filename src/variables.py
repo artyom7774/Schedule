@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QFont
 
-from src.modules.translate import translate, language as setTranslateLanguage
+from src.modules.translate import translate, language as setLanguage
 
 import faulthandler
 import json
@@ -11,24 +11,6 @@ faulthandler.enable()
 NAME = "Schedule Maker 1"
 
 CLASSES_ALPHABET = "-АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ"
-
-THEME = "light"
-
-if THEME == "dark":
-    CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "#929396", "#A9AAAD", "#C0C0C0"]
-
-    COLORS = {
-        "green": "109012",
-        "red": "901112"
-    }
-
-else:
-    CLASSES_TABLE_COLORS = ["#FFFFFF", "#F2F2F3", "#E5E5E6", "#D8D8D9", "#CBCBCC", "#BEBEBF", "#B1B1B2", "#A4A4A5"]
-
-    COLORS = {
-        "green": "4caf50",
-        "red": "f44336"
-    }
 
 SIZE = {}
 PLUS = 64 + 8 - 1
@@ -68,10 +50,31 @@ if not os.path.exists(f"{PATH_TO_FOLDER}/projects"):
 
 if not os.path.exists(f"{PATH_TO_FOLDER}/settings.json"):
     with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
-        json.dump({"language": "en"}, file, indent=4)
+        json.dump({"language": "en", "theme": "dark"}, file, indent=4)
 
 with open(f"{PATH_TO_FOLDER}/settings.json", "r", encoding="utf-8") as file:
-    setTranslateLanguage(json.load(file)["language"])
+    SETTINGS = json.load(file)
+
+VERSION = json.load(open("src/files/version.json", "r", encoding="utf-8"))["version"]
+
+setLanguage(SETTINGS["language"])
+THEME = SETTINGS.get("theme", "dark")
+
+if THEME == "dark":
+    CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "#929396", "#A9AAAD", "#C0C0C0"]
+
+    COLORS = {
+        "green": "109012",
+        "red": "901112"
+    }
+
+else:
+    CLASSES_TABLE_COLORS = ["#FFFFFF", "#F2F2F3", "#E5E5E6", "#D8D8D9", "#CBCBCC", "#BEBEBF", "#B1B1B2", "#A4A4A5"]
+
+    COLORS = {
+        "green": "4caf50",
+        "red": "f44336"
+    }
 
 
 class Size:

@@ -110,6 +110,9 @@ class TabAI(QWidget):
         if self.messageLineEdit.text() == "" and not self.paths:
             return
 
+        # if self.worker is not None:
+        #     return
+
         self.messageLineEdit.setEnabled(False)
         self.loadPushButton.setEnabled(False)
 
@@ -179,6 +182,8 @@ class TabAI(QWidget):
 
         self.chatTextEdit.error(error)
 
+        self.worker = None
+
     def finish(self, text, status):
         status, message = decodeAIMessage(self.window, text, self.chatTextEdit)
 
@@ -209,3 +214,5 @@ class TabAI(QWidget):
             json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         TabAI.init(self.window, ignore=[TAB_SETTINGS, TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS, TAB_CONSTANTS], reverse=True)
+
+        self.worker = None

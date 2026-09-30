@@ -1,7 +1,7 @@
-"menu.start.label_name": "Schedule"
+"menu.start.label_name": "Расклад заняткаў"
 
-"menu.start.button_create_project": "Стварыць праект"
-"menu.start.button_open_project": "Адкрыць праект"
+"menu.start.button_create_project": "Стварыць"
+"menu.start.button_open_project": "Адкрыць"
 "menu.start.button_exit": "Выйсці"
 
 "menu.main.tab.settings": "Налады"
@@ -72,6 +72,11 @@
 "dialog.create_project.title": "Стварыць праект"
 "dialog.create_project.label": "Назва праекта:"
 "dialog.create_project.allow": "Стварыць"
+
+"dialog.about.title": "Аб праграме"
+"dialog.about.site": "Сайт"
+"dialog.about.github": "GitHub Рэпазіторый"
+"dialog.about.telegram": "Тэлеграм канал"
 
 "dialog.add_teacher.title": "Дадаць настаўніка"
 "dialog.add_teacher.label": "Імя настаўніка:"

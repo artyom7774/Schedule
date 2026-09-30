@@ -1,12 +1,14 @@
 from PyQt5.QtWidgets import QLabel, QToolButton, QFrame, QPushButton
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QIcon, QColor
+from PyQt5.QtCore import Qt, QSize, QTimer
 
 from src.modules.functions.tree import createProject, openProject
-from src.modules import dialogs
+from src.modules import dialogs, widgets
 
 from src.variables import *
 
+import subprocess
+import threading
 import os
 
 languages = [
@@ -26,10 +28,17 @@ def init(window) -> None:
         except AttributeError:
             pass
 
+    window.objects.clear()
+
     window.objects["labelName"] = QLabel(translate("menu.start.label_name"), parent=window)
     window.objects["labelName"].setAlignment(Qt.AlignCenter)
     window.objects["labelName"].setFont(BIG_FONT)
     window.objects["labelName"].show()
+
+    window.objects["labelVersion"] = QLabel(f"v{VERSION}", parent=window)
+    window.objects["labelVersion"].setAlignment(Qt.AlignCenter)
+    window.objects["labelVersion"].setFont(FONT)
+    window.objects["labelVersion"].show()
 
     window.objects["frameLine"] = QFrame(window)
     window.objects["frameLine"].setObjectName("frameLine")
@@ -37,19 +46,40 @@ def init(window) -> None:
     window.objects["frameLine"].setFrameShadow(QFrame.Plain)
     window.objects["frameLine"].show()
 
+    window.objects["themePushButton"] = widgets.CircleButton(QColor("#202124" if THEME == "light" else "#f0f0f0"), 25, parent=window)
+    window.objects["themePushButton"].clicked.connect(lambda: setTheme(window))
+    window.objects["themePushButton"].show()
+
     buttons = [
         ("buttonCreateProject", "menu.start.button_create_project", f"src/files/sprites/{THEME}/create.svg", lambda: buttonCreateProject(window)),
         ("buttonOpenProject", "menu.start.button_open_project", f"src/files/sprites/{THEME}/open.svg", lambda: buttonOpenProject(window)),
         ("buttonExit", "menu.start.button_exit", f"src/files/sprites/{THEME}/exit.svg", lambda: window.close()),
     ]
 
-    for name, key, icon, callback in buttons:
+    for name, text, icon, callback in buttons:
         btn = QToolButton(parent=window)
         btn.setObjectName("bigMenuButton")
-        btn.setText(translate(key))
+        btn.setText(translate(text))
         btn.setIcon(QIcon(icon))
         btn.setIconSize(QSize(96, 96))
         btn.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        btn.setFont(FONT)
+        btn.setCursor(Qt.PointingHandCursor)
+        btn.clicked.connect(callback)
+        btn.show()
+
+        window.objects[name] = btn
+
+    buttons = [
+        ("buttonAbout", f"src/files/sprites/{THEME}/about.svg", lambda: buttonAbout(window))
+    ]
+
+    for name, icon, callback in buttons:
+        btn = QToolButton(parent=window)
+        btn.setObjectName("bigMenuButton")
+        btn.setIcon(QIcon(icon))
+        btn.setIconSize(QSize(48, 48))
+        btn.setToolButtonStyle(Qt.ToolButtonIconOnly)
         btn.setFont(FONT)
         btn.setCursor(Qt.PointingHandCursor)
         btn.clicked.connect(callback)
@@ -79,7 +109,7 @@ def language(window, lang):
     with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
         json.dump(settings, file, indent=4)
 
-    setTranslateLanguage(lang)
+    setLanguage(lang)
 
     init(window)
 
@@ -90,7 +120,9 @@ def resize(window) -> None:
     window.objects["labelName"].setGeometry(0, 40, w, 60)
     window.objects["frameLine"].setGeometry(w // 2 - 150, 100, 300, 2)
 
-    btn_size = 150
+    window.objects["labelVersion"].setGeometry(0, h - 30, w, 30)
+
+    btn_size = 140
     gap = 20
     total_width = btn_size * 3 + gap * 2
     start_x = (w - total_width) // 2
@@ -100,12 +132,40 @@ def resize(window) -> None:
     window.objects["buttonOpenProject"].setGeometry(start_x + btn_size + gap, y, btn_size, btn_size)
     window.objects["buttonExit"].setGeometry(start_x + 2 * (btn_size + gap), y, btn_size, btn_size)
 
+    btn_size = 60
+    gap = 20
+    y = y + 140 + 10
+
+    window.objects["buttonAbout"].setGeometry(start_x, y, btn_size, btn_size)
+
     idx = 0
 
     for type, path in languages:
         window.objects[type].setGeometry(5 + 55 * idx, Size.y(100) - 30, 60, 30)
 
         idx += 1
+
+    window.objects["themePushButton"].setGeometry(w - 30, h - 30, 25, 25)
+
+
+def setTheme(window):
+    global SETTINGS
+
+    SETTINGS["theme"] = "light" if THEME == "dark" else "dark"
+
+    with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
+        json.dump(SETTINGS, file, indent=4)
+
+    thr = threading.Thread(target=lambda: subprocess.run(
+        ["python/python.exe", "Schedule.py"],
+        capture_output=True,
+        text=True,
+        creationflags=subprocess.CREATE_NO_WINDOW
+    ))
+
+    thr.start()
+
+    window.close()
 
 
 def buttonCreateProject(window):
@@ -125,4 +185,9 @@ def buttonOpenProject(window):
     chooses = os.listdir(f"{PATH_TO_FOLDER}/projects/")
 
     window.dialog = dialogs.ChooseInputDialog(window, chooses, title, label, allow, lambda: openProject(window))
+    window.dialog.exec()
+
+
+def buttonAbout(window):
+    window.dialog = dialogs.AboutDialog(window)
     window.dialog.exec()

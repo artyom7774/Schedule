@@ -22,8 +22,10 @@ class Window(QMainWindow):
         except AttributeError:
             pass
 
+        self.STYLE = ""
+
         if THEME == "dark":
-            style = """
+            self.STYLE = """
                 QPushButton {
                     color: white;
                 }
@@ -62,7 +64,7 @@ class Window(QMainWindow):
             """
 
         else:
-            style = """
+            self.STYLE = """
                 QPushButton {
                     color: black;
                 }
@@ -74,7 +76,7 @@ class Window(QMainWindow):
         
                 QToolButton#bigMenuButton {
                     border: 2px solid #d0d0d0;
-                    border-radius: 16px;
+                    border-radius: 10px;
                     font-weight: 450;
                     color: black;
                 }
@@ -102,9 +104,9 @@ class Window(QMainWindow):
                 }
             """
 
-        qdarktheme.setup_theme(theme=THEME, additional_qss=style)
+        qdarktheme.setup_theme(theme=THEME, additional_qss=self.STYLE)
 
-        self.setWindowTitle(NAME)
+        self.setWindowTitle("СуперЗавуч")
 
         self.settings = {}
         self.objects = {}
