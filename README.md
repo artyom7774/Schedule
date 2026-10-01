@@ -2,6 +2,8 @@
 
 **SuperZavych** is a digital assistant for automatic schedule generation. It helps educational process organizers create timetables while taking into account many constraints: teacher workloads, classroom availability, subject difficulty, and more.
 
+<img src="src/files/sprites/background.png" width="100%">
+
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 - **Repository:** [https://github.com/artyom7774/Schedule](https://github.com/artyom7774/Schedule)
