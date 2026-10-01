@@ -103,7 +103,7 @@ class TabSettings(QWidget):
 
         self.subjectsTable.cellChanged.connect(lambda row, col: TabSettings.save(window, "subjects", self.subjectsTable, [row, col], [0]))
         self.subjectsTable.setHorizontalHeaderLabels([translate("menu.main.tab.settings.subject"), translate("menu.main.tab.settings.hard")])
-        self.subjectsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # self.subjectsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.subjectsTable.verticalHeader().setVisible(False)
         self.subjectsTable.setFont(FONT)
         self.subjectsTable.show()
@@ -191,8 +191,6 @@ class TabSettings(QWidget):
         if ignore is None:
             ignore = []
 
-        refresh = []
-
         if parameter in ("working_days_per_week", "max_lesson_count_per_day", "classes_count", "subjects_count", "number_of_shifts", "shift_crossing"):
             text = object.text()
 
@@ -205,8 +203,6 @@ class TabSettings(QWidget):
                 return
 
             window.settings[parameter] = int(text)
-
-            refresh = [TAB_SETTINGS, TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS, TAB_CONSTANTS]
 
         elif parameter in ("subjects", ):
             row, col = another
@@ -227,8 +223,6 @@ class TabSettings(QWidget):
 
                 window.settings[parameter][row][col] = int(text)
 
-            refresh = [TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS, TAB_CONSTANTS]
-
         elif parameter in ("classes/count", ):
             window.settings["classes"]["count"][another[0]] = another[1]
 
@@ -243,13 +237,7 @@ class TabSettings(QWidget):
             if window.objects["tabs"].widget(TAB_SETTINGS):
                 window.objects["tabs"].widget(TAB_SETTINGS).initClassCountObject(another, False)
 
-            refresh = []
-
         with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(window.settings, file, indent=4, ensure_ascii=False)
 
-        if refresh:
-            TabSettings.init(window, ignore=refresh, reverse=True)
-
-        else:
-            TabSettings.resize(window)
+        TabSettings.init(window)

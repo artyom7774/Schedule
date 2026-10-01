@@ -46,6 +46,8 @@ def initProject(window, project):
     window.project = project
     window.menu = "main"
 
+    window.setWindowTitle(f"СуперЗавуч - {window.project}")
+
     path = f"{PATH_TO_FOLDER}/projects/{window.project}"
 
     if not os.path.exists(f"{path}/data"):
