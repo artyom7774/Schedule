@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QPushButton
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtGui import QIcon
 
 from src.modules import menues
 
@@ -16,6 +17,11 @@ import sys
 
 faulthandler.enable()
 
+try:
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(f"Schedule-Maker-1 {VERSION}")
+
+except AttributeError:
+    pass
 
 class Window(QMainWindow):
     versionWasChecked = False
@@ -34,6 +40,7 @@ class Window(QMainWindow):
         qdarktheme.setup_theme(theme=THEME, additional_qss=open(f"src/files/styles/{THEME}.qss", "r", encoding="utf-8").read())
 
         self.setWindowTitle("СуперЗавуч")
+        self.setWindowIcon(QIcon("src/files/sprites/icon.ico"))
 
         self.settings = {}
         self.objects = {}
