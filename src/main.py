@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QPushButton
+from PyQt5.QtCore import pyqtSignal
 
 from src.modules import menues
 
@@ -6,13 +7,21 @@ from src.variables import *
 
 import faulthandler
 import qdarktheme
+import webbrowser
+import threading
+import requests
 import ctypes
+import json
 import sys
 
 faulthandler.enable()
 
 
 class Window(QMainWindow):
+    versionWasChecked = False
+
+    signal = pyqtSignal(str, str)
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -22,89 +31,7 @@ class Window(QMainWindow):
         except AttributeError:
             pass
 
-        self.STYLE = ""
-
-        if THEME == "dark":
-            self.STYLE = """
-                QPushButton {
-                    color: white;
-                }
-                
-                QFrame#frameLine {
-                    background-color: #3f4042;
-                    border: none;
-                }
-        
-                QToolButton#bigMenuButton {
-                    border: 2px solid #3f4042;
-                    border-radius: 16px;
-                    font-weight: 450;
-                }
-                
-                QToolButton#bigMenuButton:hover {
-                    background-color: rgba(255, 255, 255, 10);
-                }
-                
-                QToolButton#bigMenuButton:pressed {
-                    background-color: rgba(255, 255, 255, 20);
-                }
-                
-                QTableWidget {
-                    background-color: #202124;
-                }
-                
-                QToolTip {
-                    background-color: #2b2b2b;
-                    color: #ffffff;
-                    border: 1px solid #555555;
-                    padding-right: -3px;
-                    border-radius: 3px;
-                    font-size: 13px;
-                }
-            """
-
-        else:
-            self.STYLE = """
-                QPushButton {
-                    color: black;
-                }
-        
-                QFrame#frameLine {
-                    background-color: #d0d0d0;
-                    border: none;
-                }
-        
-                QToolButton#bigMenuButton {
-                    border: 2px solid #d0d0d0;
-                    border-radius: 10px;
-                    font-weight: 450;
-                    color: black;
-                }
-        
-                QToolButton#bigMenuButton:hover {
-                    background-color: rgba(0, 0, 0, 10);
-                }
-        
-                QToolButton#bigMenuButton:pressed {
-                    background-color: rgba(0, 0, 0, 20);
-                }
-        
-                QTableWidget {
-                    background-color: #ffffff;
-                    color: black;
-                }
-        
-                QToolTip {
-                    background-color: #ffffff;
-                    color: #000000;
-                    border: 1px solid #aaaaaa;
-                    padding-right: -3px;
-                    border-radius: 3px;
-                    font-size: 13px;
-                }
-            """
-
-        qdarktheme.setup_theme(theme=THEME, additional_qss=self.STYLE)
+        qdarktheme.setup_theme(theme=THEME, additional_qss=open(f"src/files/styles/{THEME}.qss", "r", encoding="utf-8").read())
 
         self.setWindowTitle("СуперЗавуч")
 
@@ -118,6 +45,8 @@ class Window(QMainWindow):
         SIZE["height"] = self.height() - PLUS
 
         self.dialog = None
+
+        self.signal.connect(self.showVersionDialog)
 
         self.init()
 
@@ -141,6 +70,48 @@ class Window(QMainWindow):
         self.objects = {}
 
         getattr(menues, self.menu).init(self)
+
+        if self.versionWasChecked:
+            return
+
+        thr = threading.Thread(target=self.version)
+        thr.daemon = True
+        thr.start()
+
+        self.versionWasChecked = True
+
+    def version(self):
+        url = "https://raw.githubusercontent.com/artyom7774/versions/main/Schedule-Maker-1.json"
+
+        try:
+            response = requests.get(url, timeout=10)
+            
+        except requests.RequestException as e:
+            return
+
+        if response.status_code == 200:
+            newVersion = json.loads(response.text)["version"]
+
+            print(f"now version = {VERSION}, new version = {newVersion}")
+
+            if newVersion > VERSION:
+                self.signal.emit(VERSION, newVersion)
+
+    def showVersionDialog(self, oldVersion, newVersion):
+        msg = QMessageBox(self)
+
+        msg.setWindowTitle(f"{translate('dialog.new_version.update')} {oldVersion} -> {newVersion}")
+        msg.setText(translate("dialog.new_version.message"))
+        msg.setIcon(QMessageBox.Information)
+
+        openButton = QPushButton(translate("dialog.new_version.open"))
+        openButton.clicked.connect(lambda: webbrowser.open("https://superzavych.pythonanywhere.com/"))
+
+        msg.addButton(openButton, QMessageBox.ActionRole)
+
+        okButton = msg.addButton(QMessageBox.Ok)
+
+        msg.exec_()
 
     def showMaximized(self) -> None:
         super().showMaximized()

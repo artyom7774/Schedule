@@ -1,0 +1,35 @@
+QPushButton {
+    color: white;
+}
+
+QFrame#frameLine {
+    background-color: #3f4042;
+    border: none;
+}
+
+QToolButton#bigMenuButton {
+    border: 2px solid #3f4042;
+    border-radius: 16px;
+    font-weight: 450;
+}
+
+QToolButton#bigMenuButton:hover {
+    background-color: rgba(255, 255, 255, 10);
+}
+
+QToolButton#bigMenuButton:pressed {
+    background-color: rgba(255, 255, 255, 20);
+}
+
+QTableWidget {
+    background-color: #202124;
+}
+
+QToolTip {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #555555;
+    padding-right: -3px;
+    border-radius: 3px;
+    font-size: 13px;
+}

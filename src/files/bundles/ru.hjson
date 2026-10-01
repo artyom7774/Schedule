@@ -96,6 +96,10 @@
 
 "dialog.classrooms_priority.title": "Приоритет кабинетов"
 
+"dialog.new_version.update": "Обновление"
+"dialog.new_version.open": "Открыть"
+"dialog.new_version.message": "Вышла новая версия проекта. Пожалуйста, обновите продукт"
+
 "log.text.impossible_project_name": "Недопустимое название проекта"
 "log.text.project_name_already_exists": "Проект с таким названием уже существует"
 "log.text.project_name_must_be_without_spaces": "Название проекта не должно содержать пробелов"

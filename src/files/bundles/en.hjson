@@ -96,6 +96,10 @@
 
 "dialog.classrooms_priority.title": "Classrooms"
 
+"dialog.new_version.update": "Update"
+"dialog.new_version.open": "Open"
+"dialog.new_version.message": "A new version of the project has been released. Please update the product"
+
 "log.text.impossible_project_name": "Impossible project name"
 "log.text.project_name_already_exists": "Project name already exists"
 "log.text.project_name_must_be_without_spaces": "Project name must be without spaces"

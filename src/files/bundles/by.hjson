@@ -96,6 +96,10 @@
 
 "dialog.classrooms_priority.title": "Кабінеты"
 
+"dialog.new_version.update": "Абнаўленне"
+"dialog.new_version.open": "Адкрыць"
+"dialog.new_version.message": "Выйшла новая версія праекта. Калі ласка, абнавіце прадукт"
+
 "log.text.impossible_project_name": "Немагчымая назва праекта"
 "log.text.project_name_already_exists": "Назва праекта ўжо існуе"
 "log.text.project_name_must_be_without_spaces": "Назва праекта павінна быць без прабелаў"
