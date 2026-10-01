@@ -20,7 +20,7 @@ The program provides a full workflow for scheduling — from entering initial da
 - **Automatic generation** — simulated annealing algorithm on a graph.
 - **Viewing and export** — view schedules for classes and teachers, export to `.xlsx`.
 
-## 🚀 Installation
+## Installation
 
 1. Download the latest release from the [Releases](https://github.com/artyom7774/Schedule/releases) section.
 2. Run the application.
