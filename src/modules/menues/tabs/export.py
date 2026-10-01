@@ -7,6 +7,7 @@ from openpyxl import Workbook
 from src.variables import *
 
 import hashlib
+import natsort
 import json
 
 
@@ -216,7 +217,7 @@ class TabExport(QWidget):
 
                         teachers.update(element.get("teachers", []))
 
-        teachers = sorted(teachers)
+        teachers = natsort.natsorted(teachers)
 
         book = Workbook()
 

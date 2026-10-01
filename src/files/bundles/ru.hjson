@@ -21,6 +21,7 @@
 "menu.main.tab.settings.subjects_count": "Количество предметов:"
 "menu.main.tab.settings.number_of_shifts": "Количество смен:"
 "menu.main.tab.settings.shift_crossing": "Пересечение смен:"
+"menu.main.tab.settings.max_lesson_for_teacher_per_day": "Макс. уроков для учителя в день:"
 "menu.main.tab.settings.subject": "Предмет"
 "menu.main.tab.settings.hard": "Сложность"
 
@@ -119,6 +120,7 @@
 "weights.lessonShiftCrossing": "Пересечение уроков по сменам"
 "weights.profileGaps": "Окна в группах"
 "weights.classroomPriority": "Приоритет кабинета"
+"weights.teacherLessonLimit": "Лимит уроков учителя"
 
 "day.0": "Понедельник"
 "day.1": "Вторник"

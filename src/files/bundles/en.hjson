@@ -21,6 +21,7 @@
 "menu.main.tab.settings.subjects_count": "Subjects count:"
 "menu.main.tab.settings.number_of_shifts": "Number of shifts:"
 "menu.main.tab.settings.shift_crossing": "Shift crossing:"
+"menu.main.tab.settings.max_lesson_for_teacher_per_day": "Max lesson for teacher per day:"
 "menu.main.tab.settings.subject": "Subject"
 "menu.main.tab.settings.hard": "Hard"
 
@@ -119,6 +120,7 @@
 "weights.lessonShiftCrossing": "Lesson shift crossing"
 "weights.profileGaps": "Groups gaps"
 "weights.classroomPriority": "Classroom priority"
+"weights.teacherLessonLimit": "Teacher lessons limit"
 
 "day.0": "Monday"
 "day.1": "Tuesday"

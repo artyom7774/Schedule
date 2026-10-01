@@ -7,5 +7,6 @@
     "groupBonus": 10,
     "lessonShiftCrossing": 250,
     "profileGaps": 200,
-    "classroomPriority": 50
+    "classroomPriority": 50,
+    "teacherLessonLimit": 25
 }

@@ -69,6 +69,7 @@ def initProject(window, project):
         "subjects_count": 20,
         "number_of_shifts": 2,
         "shift_crossing": 0,
+        "max_lesson_for_teacher": 10,
         "subjects": [
 
         ],
