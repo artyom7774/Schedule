@@ -9,10 +9,11 @@ using namespace std;
 
 using json = nlohmann::json;
 
-int JOB_WEEK_LENGHT   = 5;
-int MAX_LESSON_IN_DAY = 8;
-int NUMBER_OF_SHIFTS  = 1;
-int SHIFT_CROSSING    = 0;
+int JOB_WEEK_LENGHT     = 5;
+int MAX_LESSON_IN_DAY   = 8;
+int NUMBER_OF_SHIFTS    = 1;
+int SHIFT_CROSSING      = 0;
+int TEACHER_MAX_LESSONS = 9;
 
 int SLOTS = 0;
 
@@ -95,10 +96,11 @@ public:
             throw runtime_error("Can not open input file: " + input);
         }
 
-        JOB_WEEK_LENGHT   = settings["working_days_per_week"];
-        MAX_LESSON_IN_DAY = settings["max_lesson_count_per_day"];
-        NUMBER_OF_SHIFTS  = settings["number_of_shifts"];
-        SHIFT_CROSSING    = settings["shift_crossing"];
+        JOB_WEEK_LENGHT     = settings["working_days_per_week"];
+        MAX_LESSON_IN_DAY   = settings["max_lesson_count_per_day"];
+        NUMBER_OF_SHIFTS    = settings["number_of_shifts"];
+        SHIFT_CROSSING      = settings["shift_crossing"];
+        TEACHER_MAX_LESSONS = settings["max_lesson_for_teacher"];
 
         SLOTS = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY * NUMBER_OF_SHIFTS;
 
@@ -745,6 +747,7 @@ struct Weights {
     inline static float lessonShiftCrossing = 250;
     inline static float profileGaps = 200;
     inline static float classroomPriority = 50;
+    inline static float teacherLessonLimit = 25;
 
     static void init(const json& data) {
         equalLessons = data.value("equalLessons", equalLessons);
@@ -756,6 +759,7 @@ struct Weights {
         lessonShiftCrossing = data.value("lessonShiftCrossing", lessonShiftCrossing);
         profileGaps = data.value("profileGaps", profileGaps);
         classroomPriority = data.value("classroomPriority", classroomPriority);
+        teacherLessonLimit = data.value("teacherLessonLimit", teacherLessonLimit);
     }
 };
 
@@ -789,6 +793,7 @@ public:
         int offset = data.classShiftOffset[cls];
 
         vector<int> lenghts(JOB_WEEK_LENGHT, 0);
+
         float sum = 0;
 
         for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
@@ -817,6 +822,7 @@ public:
 
     static float lessonsEmptySlots(int cls, int day) {
         Data& data = getData();
+
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
         float value = 0;
@@ -936,6 +942,8 @@ public:
     static float teacherFreeTime(int teacher) {
         float value = 0;
 
+        vector<int> lenghts(JOB_WEEK_LENGHT, 0);
+
         for (int shift = 0; shift < NUMBER_OF_SHIFTS; shift++) {
             for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
                 int base = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
@@ -947,6 +955,8 @@ public:
                         if (start == -1) {
                             start = lesson;
                         }
+
+                        lenghts[day] += 1;
 
                         end = lesson;
                         cnt += 1;
@@ -971,6 +981,10 @@ public:
                     }
                 }
             }
+        }
+
+        for (int count : lenghts) {
+            value += Weights::teacherLessonLimit * max(0, count - TEACHER_MAX_LESSONS);
         }
 
         return value;

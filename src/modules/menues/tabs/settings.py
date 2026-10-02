@@ -78,6 +78,16 @@ class TabSettings(QWidget):
         self.settingsShiftCrossingEdit.setFont(FONT)
         self.settingsShiftCrossingEdit.show()
 
+        self.maxLessonForTeacherLabel = QLabel(translate("menu.main.tab.settings.max_lesson_for_teacher_per_day"), parent=self)
+        self.maxLessonForTeacherLabel.setFont(FONT)
+        self.maxLessonForTeacherLabel.show()
+
+        self.maxLessonForTeacherEdit = QLineEdit(parent=self)
+        self.maxLessonForTeacherEdit.setText(str(window.settings["max_lesson_for_teacher"]))
+        self.maxLessonForTeacherEdit.editingFinished.connect(lambda: TabSettings.save(window, "max_lesson_for_teacher", self.maxLessonForTeacherEdit))
+        self.maxLessonForTeacherEdit.setFont(FONT)
+        self.maxLessonForTeacherEdit.show()
+
         flag = False
 
         self.subjectsTable = QTableWidget(window.settings["subjects_count"], 2, parent=self)
@@ -103,7 +113,8 @@ class TabSettings(QWidget):
 
         self.subjectsTable.cellChanged.connect(lambda row, col: TabSettings.save(window, "subjects", self.subjectsTable, [row, col], [0]))
         self.subjectsTable.setHorizontalHeaderLabels([translate("menu.main.tab.settings.subject"), translate("menu.main.tab.settings.hard")])
-        # self.subjectsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # TODO
+        self.subjectsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.subjectsTable.verticalHeader().setVisible(False)
         self.subjectsTable.setFont(FONT)
         self.subjectsTable.show()

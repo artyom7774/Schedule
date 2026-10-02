@@ -157,7 +157,7 @@ def setTheme(window):
         json.dump(SETTINGS, file, indent=4)
 
     thr = threading.Thread(target=lambda: subprocess.run(
-        ["python/python.exe", "Schedule.py"],
+        ["./python/Scripts/python.exe", "-OO", "-s", "Schedule.py"] if os.path.exists("python/Scripts/python.exe") else ["./python/python.exe", "-OO", "-s", "Schedule.py"],
         capture_output=True,
         text=True,
         creationflags=subprocess.CREATE_NO_WINDOW

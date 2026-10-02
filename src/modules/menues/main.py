@@ -135,6 +135,8 @@ def resize(window) -> None:
             tab.settingsShiftsCountEdit.setGeometry(20 + x(15), 170, x(33) - x(15) - 30, 30)
             tab.settingsShiftCrossingLabel.setGeometry(10, 210, x(15), 30)
             tab.settingsShiftCrossingEdit.setGeometry(20 + x(15), 210, x(33) - x(15) - 30, 30)
+            tab.maxLessonForTeacherLabel.setGeometry(10, 250, x(15), 30)
+            tab.maxLessonForTeacherEdit.setGeometry(20 + x(15), 250, x(33) - x(15) - 30, 30)
 
             tab.subjectsTable.setGeometry(x(33), 0, x(34), y(100))
             tab.classesRama.setGeometry(x(67), 0, x(33), y(100))
