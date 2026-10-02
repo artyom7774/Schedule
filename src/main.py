@@ -23,6 +23,7 @@ try:
 except AttributeError:
     pass
 
+
 class Window(QMainWindow):
     versionWasChecked = False
 

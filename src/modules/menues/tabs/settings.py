@@ -240,7 +240,12 @@ class TabSettings(QWidget):
             if window.objects["tabs"].widget(TAB_SETTINGS):
                 window.objects["tabs"].widget(TAB_SETTINGS).initClassCountObject(another[0], False)
 
-            refresh = [TAB_CLASSES, TAB_TEACHERS, TAB_GROUPS, TAB_CONSTANTS]
+            with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="utf-8") as file:
+                json.dump(window.settings, file, indent=4, ensure_ascii=False)
+
+            TabSettings.resize(window)
+
+            return
 
         elif parameter in ("classes/shift", ):
             window.settings["classes"]["shift"][another] = (window.settings["classes"]["shift"][another] + 1) % window.settings["number_of_shifts"]
