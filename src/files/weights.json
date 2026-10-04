@@ -4,6 +4,7 @@
     "lessonsEmptySlots": 200,
     "daysByHard": 2,
     "teacherFreeTime": 10,
+    "teacherSmallDay": 5,
     "groupBonus": 10,
     "lessonShiftCrossing": 250,
     "profileGaps": 200,

@@ -149,6 +149,13 @@ class TabView(QWidget):
 
             self.tabs.setCurrentIndex(shift)
 
+        answer = 0
+
+        for teacher in self.teachers:
+            answer += self.countTeacherWindows(teacher)
+
+        print(answer)
+
     def classShift(self, name: str) -> int:
         grade = int(name.split(" ")[0]) - 1
 
@@ -192,6 +199,44 @@ class TabView(QWidget):
             entries.append((extra["subject"], extra.get("teachers", []), extra.get("classrooms", [])))
 
         return entries
+
+    def countTeacherWindows(self, teacher: str) -> int:
+        lessons = self.window.settings["max_lesson_count_per_day"]
+        days = self.window.settings["working_days_per_week"]
+
+        total = 0
+
+        for shift in range(self.window.settings["number_of_shifts"]):
+            classesInShift = [cls for cls in self.classes if self.classShift(cls) == shift]
+
+            for day in range(days):
+                elements = []
+
+                for lesson in range(lessons):
+                    has = False
+
+                    for cls in classesInShift:
+                        data = self.answer.get(cls, [])
+
+                        if day >= len(data) or lesson >= len(data[day]):
+                            continue
+
+                        for subject, teachers, classrooms in self.entries(data[day][lesson]):
+                            if teacher in teachers:
+                                has = True
+
+                                break
+
+                        if has:
+                            break
+
+                    if has:
+                        elements.append(lesson)
+
+                if len(elements) >= 2:
+                    total += (max(elements) - min(elements) + 1) - len(elements)
+
+        return total
 
     def fillClassSchedule(self, cls: str):
         days = self.window.settings["working_days_per_week"]

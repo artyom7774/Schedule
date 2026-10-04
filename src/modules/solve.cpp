@@ -743,6 +743,7 @@ struct Weights {
     inline static float lessonsEmptySlots = 200;
     inline static float daysByHard = 2;
     inline static float teacherFreeTime = 5;
+    inline static float teacherSmallDay = 5;
     inline static float groupBonus = 10;
     inline static float lessonShiftCrossing = 250;
     inline static float profileGaps = 200;
@@ -755,6 +756,7 @@ struct Weights {
         lessonsEmptySlots = data.value("lessonsEmptySlots", lessonsEmptySlots);
         daysByHard = data.value("daysByHard", daysByHard);
         teacherFreeTime = data.value("teacherFreeTime", teacherFreeTime);
+        teacherSmallDay = data.value("teacherSmallDay", teacherSmallDay);
         groupBonus = data.value("groupBonus", groupBonus);
         lessonShiftCrossing = data.value("lessonShiftCrossing", lessonShiftCrossing);
         profileGaps = data.value("profileGaps", profileGaps);
@@ -967,7 +969,8 @@ public:
                     continue;
                 }
 
-                value += Weights::teacherFreeTime * (pow(end - start - cnt + 1, 2) + 3 * max(0, 4 - cnt));
+                value += Weights::teacherFreeTime * pow(end - start - cnt + 1, 2);
+                value += Weights::teacherSmallDay * max(0, 4 - cnt);
 
                 if (shift == NUMBER_OF_SHIFTS - 1 || SHIFT_CROSSING <= 0) {
                     continue;
