@@ -67,6 +67,8 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
             if sep:
                 tabs.setTabEnabled(idx, False)
 
+        tabs.tabBarClicked.connect(lambda idx: update(window, idx))
+
         tabs.blockSignals(False)
         resize(window)
 
@@ -102,6 +104,14 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
         tabs.blockSignals(False)
 
     resize(window)
+
+
+def update(window, idx):
+    if idx == TAB_TEACHERS:
+        init(window, ignore=[TAB_TEACHERS], reverse=True)
+
+    if idx == TAB_CONSTANTS:
+        init(window, ignore=[TAB_CONSTANTS], reverse=True)
 
 
 def resize(window) -> None:

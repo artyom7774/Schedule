@@ -237,7 +237,7 @@ class TabSettings(QWidget):
             with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="utf-8") as file:
                 json.dump(window.settings, file, indent=4, ensure_ascii=False)
 
-            TabSettings.resize(window)
+            TabSettings.init(window, ignore=[TAB_CLASSES, TAB_GROUPS], reverse=True)
 
             return
 
@@ -250,7 +250,7 @@ class TabSettings(QWidget):
             with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="utf-8") as file:
                 json.dump(window.settings, file, indent=4, ensure_ascii=False)
 
-            TabSettings.resize(window)
+            TabSettings.init(window, ignore=[TAB_CLASSES, TAB_GROUPS], reverse=True)
 
             return
 
