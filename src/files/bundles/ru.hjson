@@ -112,7 +112,7 @@
 "log.text.classroom_name_already_exists": "Кабинет с таким названием уже существует"
 
 "weights.equalLessons": "Одинаковые уроки"
-"weights.notEqualsLessonsCountOnDay": "Неравное количество уроков по дням"
+"weights.notEqualsLessonsCountOnDay": "Неравное количество уроков"
 "weights.lessonsEmptySlots": "Пустые окна в уроках"
 "weights.daysByHard": "Дни по сложности"
 "weights.teacherFreeTime": "Свободное время учителя"

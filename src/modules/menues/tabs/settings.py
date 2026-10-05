@@ -202,7 +202,7 @@ class TabSettings(QWidget):
         if ignore is None:
             ignore = []
 
-        if parameter in ("working_days_per_week", "max_lesson_count_per_day", "classes_count", "subjects_count", "number_of_shifts", "shift_crossing"):
+        if parameter in ("working_days_per_week", "max_lesson_count_per_day", "classes_count", "subjects_count", "number_of_shifts", "shift_crossing", "max_lesson_for_teacher"):
             text = object.text()
 
             try:
