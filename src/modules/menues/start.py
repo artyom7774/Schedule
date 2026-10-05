@@ -47,7 +47,7 @@ def init(window) -> None:
     window.objects["frameLine"].show()
 
     window.objects["themePushButton"] = widgets.CircleButton(QColor("#202124" if THEME == "light" else "#f0f0f0"), 25, parent=window)
-    window.objects["themePushButton"].clicked.connect(lambda: setTheme(window))
+    window.objects["themePushButton"].clicked.connect(lambda: theme(window))
     window.objects["themePushButton"].show()
 
     buttons = [
@@ -114,6 +114,27 @@ def language(window, lang):
     init(window)
 
 
+def theme(window):
+    with open(f"{PATH_TO_FOLDER}/settings.json", "r", encoding="utf-8") as file:
+        settings = json.load(file)
+
+    settings["theme"] = "light" if THEME == "dark" else "dark"
+
+    with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
+        json.dump(settings, file, indent=4)
+
+    thr = threading.Thread(target=lambda: subprocess.run(
+        ["./python/Scripts/python.exe", "-OO", "-s", "Schedule.py"] if os.path.exists("python/Scripts/python.exe") else ["./python/python.exe", "-OO", "-s", "Schedule.py"],
+        capture_output=True,
+        text=True,
+        creationflags=subprocess.CREATE_NO_WINDOW
+    ))
+
+    thr.start()
+
+    window.close()
+
+
 def resize(window) -> None:
     w, h = window.width(), window.height()
 
@@ -146,26 +167,6 @@ def resize(window) -> None:
         idx += 1
 
     window.objects["themePushButton"].setGeometry(w - 30, h - 30, 25, 25)
-
-
-def setTheme(window):
-    global SETTINGS
-
-    SETTINGS["theme"] = "light" if THEME == "dark" else "dark"
-
-    with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
-        json.dump(SETTINGS, file, indent=4)
-
-    thr = threading.Thread(target=lambda: subprocess.run(
-        ["./python/Scripts/python.exe", "-OO", "-s", "Schedule.py"] if os.path.exists("python/Scripts/python.exe") else ["./python/python.exe", "-OO", "-s", "Schedule.py"],
-        capture_output=True,
-        text=True,
-        creationflags=subprocess.CREATE_NO_WINDOW
-    ))
-
-    thr.start()
-
-    window.close()
 
 
 def buttonCreateProject(window):

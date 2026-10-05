@@ -116,6 +116,7 @@
 "weights.lessonsEmptySlots": "Lessons empty slots"
 "weights.daysByHard": "Days by hard"
 "weights.teacherFreeTime": "Teacher free time"
+"weights.teacherSmallDay": "Teacher small day"
 "weights.groupBonus": "Group bonus"
 "weights.lessonShiftCrossing": "Lesson shift crossing"
 "weights.profileGaps": "Groups gaps"

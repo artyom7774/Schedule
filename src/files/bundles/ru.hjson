@@ -116,6 +116,7 @@
 "weights.lessonsEmptySlots": "Пустые окна в уроках"
 "weights.daysByHard": "Дни по сложности"
 "weights.teacherFreeTime": "Свободное время учителя"
+"weights.teacherSmallDay": "Маленький день учителя"
 "weights.groupBonus": "Бонус за группу"
 "weights.lessonShiftCrossing": "Пересечение уроков по сменам"
 "weights.profileGaps": "Окна в группах"

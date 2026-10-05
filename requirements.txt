@@ -12,3 +12,10 @@ PyQt5_sip==12.19.0
 pyqtdarktheme==2.1.0
 requests==2.34.2
 urllib3==2.8.0
+pandas
+openpyxl
+xlrd
+pypdf
+python-docx
+beautifulsoup4
+lxml

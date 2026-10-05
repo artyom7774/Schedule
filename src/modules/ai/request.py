@@ -11,6 +11,8 @@ MODEL = "muse-spark-1-3-contributor:free"
 REQUEST_ENDPOINT = f"{URL}/api/ai/request"
 STATUS_ENDPOINT = f"{URL}/api/ai/status"
 
+RETRIES = 5
+
 if os.name == "nt":
     try:
         import ctypes
@@ -28,7 +30,7 @@ except Exception:
     pass
 
 
-def sendChatRequestWithFiles(message: str, paths: list = None):
+def sendChatRequestWithFiles(message: str, paths: list = None, retry: int = 0):
     interval = 1.5
     timeout = 300
 
@@ -49,17 +51,19 @@ def sendChatRequestWithFiles(message: str, paths: list = None):
                 files.append(("files", (os.path.basename(path), handle)))
 
         response = requests.post(REQUEST_ENDPOINT, data=data, files=files or None, timeout=timeout)
-        response.raise_for_status()
 
     finally:
         for handle in handles:
             handle.close()
 
+    if not response.ok:
+        raise Exception(f"HTTP {response.status_code}: {response.text}")
+
     try:
         result = response.json()
 
     except ValueError:
-        raise Exception(f"bad server response: HTTP {response.status_code} {response.text}" )
+        raise Exception(f"bad server response: HTTP {response.status_code} {response.text}")
 
     if "ids" not in result:
         raise Exception(f"no ids in response: {result}")
@@ -91,8 +95,10 @@ def sendChatRequestWithFiles(message: str, paths: list = None):
         elif status == "error":
             err = save.get("error", "")
 
-            if isinstance(err, str) and err.startswith("503"):
-                return sendChatRequestWithFiles(message, paths)
+            if isinstance(err, str) and err.startswith("HTTP 503") and retry < RETRIES:
+                time.sleep(interval * (retry + 1))
+
+                return sendChatRequestWithFiles(message, paths, retry + 1)
 
             raise Exception(f"{err}")
 
