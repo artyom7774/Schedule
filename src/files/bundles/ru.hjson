@@ -61,14 +61,22 @@
 
 "menu.main.tab.export.shift": "Смена"
 "menu.main.tab.export.lesson": "урок"
-"menu.main.tab.export.save_classes_schedule": "Сохранить расписание классов"
-"menu.main.tab.export.save_teachers_schedule": "Сохранить расписание учителей"
 "menu.main.tab.export.save_file": "Сохранить файл"
 "menu.main.tab.export.schedule": "Расписание"
 "menu.main.tab.export.day": "День"
 "menu.main.tab.export.time": "Время"
 "menu.main.tab.export.error": "Ошибка",
 "menu.main.tab.export.file_permission_denied": "Нет доступа к файлу"
+"menu.main.tab.export.answer_is_not_created": "Расписание не создано"
+
+"menu.main.tab.export.save_classes_schedule": "Сохранить расписание классов в Excel"
+"menu.main.tab.export.save_teachers_schedule": "Сохранить расписание учителей в Excel"
+"menu.main.tab.export.save_classes_teachers_html_schedule": "Сохранить расписание классов и учителей в HTML"
+
+"menu.main.tab.export.html.classes": "Классы"
+"menu.main.tab.export.html.teachers": "Учителя"
+"menu.main.tab.export.html.groups": "Группы"
+"menu.main.tab.export.html.elements": "Элементы"
 
 "dialog.create_project.title": "Создание проекта"
 "dialog.create_project.label": "Название проекта:"

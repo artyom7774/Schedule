@@ -68,6 +68,12 @@ class TabExport(QWidget):
         self.exportByTeacherPushButton.setText(translate("menu.main.tab.export.save_teachers_schedule"))
         self.exportByTeacherPushButton.show()
 
+        self.exportClassesTeachersToHTMLPushButton = QPushButton(parent=self)
+        self.exportClassesTeachersToHTMLPushButton.setFont(FONT)
+        self.exportClassesTeachersToHTMLPushButton.clicked.connect(lambda: self.exportClassesTeachersToHTMLPushButtonClicked())
+        self.exportClassesTeachersToHTMLPushButton.setText(translate("menu.main.tab.export.save_classes_teachers_html_schedule"))
+        self.exportClassesTeachersToHTMLPushButton.show()
+
     def timeLineEditEditingFinished(self, shift, lesson):
         self.window.settings["display"]["time"][f"{shift}-{lesson}"] = self.objects[f"time_{shift}-{lesson}_lineedit"].text()
 
@@ -138,7 +144,7 @@ class TabExport(QWidget):
             return
 
         if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"):
-            return
+            QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.answer_is_not_created"), QMessageBox.Ok)
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json", "r", encoding="utf-8") as file:
             answer = json.load(file)
@@ -201,7 +207,7 @@ class TabExport(QWidget):
             return
 
         if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"):
-            return
+            QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.answer_is_not_created"), QMessageBox.Ok)
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json", "r", encoding="utf-8") as file:
             answer = json.load(file)
@@ -270,3 +276,145 @@ class TabExport(QWidget):
 
         except PermissionError:
             QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.file_permission_denied"), QMessageBox.Ok)
+
+    def exportClassesTeachersToHTMLPushButtonClicked(self, path: str = None):
+        if path is None:
+            path, _ = QFileDialog.getSaveFileName(self, translate("menu.main.tab.export.save_file"), "schedule.html", "HTML (*.html)")
+
+        if not path:
+            return
+
+        if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"):
+            QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.answer_is_not_created"), QMessageBox.Ok)
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json", "r", encoding="utf-8") as file:
+            answer = json.load(file)
+
+        with open("src/files/templates/export.html", "r", encoding="utf-8") as file:
+            template = file.read()
+
+        data = {
+            "classes": {
+                "title": translate("menu.main.tab.export.html.classes"),
+                "items": {
+
+                }
+            },
+
+            "teachers": {
+                "title": translate("menu.main.tab.export.html.teachers"),
+                "items": {
+
+                }
+            }
+        }
+
+        classes = [translate(f"abbreviate.day.{day}") for day in range(self.window.settings["working_days_per_week"])]
+        learning = [translate(f"abbreviate.day.{day}") for day in range(self.window.settings["working_days_per_week"])]
+
+        data["classes"]["items"] = {}
+
+        for cls in self.classes:
+            shift = self.window.settings["classes"]["shift"][int(cls.split(" ")[0]) - 1]
+            days = answer.get(cls, [])
+            
+            rows = []
+
+            for lesson in range(self.window.settings["max_lesson_count_per_day"]):
+                row = []
+
+                for day in range(self.window.settings["working_days_per_week"]):
+                    parts = []
+
+                    if day < len(days) and lesson < len(days[day]):
+                        var = days[day][lesson]
+
+                        for element in [var] + var.get("extra", []):
+                            if element.get("subject") == "#":
+                                continue
+
+                            piece = element.get("subject", "")
+
+                            if element.get("classrooms"):
+                                piece += " - " + translate("abbreviate.room") + " " + ", ".join(element["classrooms"])
+
+                            parts.append(piece + "<br>")
+
+                    row.append("\n".join(parts))
+
+                rows.append(row)
+
+            data["classes"]["items"][cls] = {
+                "title": cls,
+                "headers": classes,
+                "rows": rows
+            }
+
+        teachers = set()
+
+        for cls, days in answer.items():
+            for day in days:
+                for lesson in day:
+                    for element in [lesson] + lesson.get("extra", []):
+                        if element.get("subject") == "#":
+                            continue
+                            
+                        teachers.update(element.get("teachers", []))
+
+        teachers = natsort.natsorted(teachers)
+
+        index = {}
+
+        for cls, days in answer.items():
+            shift = self.window.settings["classes"]["shift"][int(cls.split(" ")[0]) - 1]
+
+            for day in range(len(days)):
+                for lesson, lesson_data in enumerate(days[day]):
+                    for element in [lesson_data] + lesson_data.get("extra", []):
+                        if element.get("subject") == "#":
+                            continue
+                            
+                        index.setdefault((shift, day, lesson), []).append((cls, element))
+
+        data["teachers"]["items"] = {}
+
+        for teacher in teachers:
+            rows = []
+
+            for shift in range(self.window.settings["number_of_shifts"]):
+                for lesson in range(self.window.settings["max_lesson_count_per_day"]):
+                    row = []
+
+                    for day in range(self.window.settings["working_days_per_week"]):
+                        parts = []
+
+                        for cls, element in index.get((shift, day, lesson), []):
+                            if teacher not in element.get("teachers", []):
+                                continue
+
+                            piece = element.get("subject", "") + " - " + cls
+
+                            if element.get("classrooms"):
+                                piece += " - " + translate("abbreviate.room") + " " + ", ".join(element["classrooms"])
+
+                            parts.append(piece)
+
+                        row.append("\n".join(parts))
+
+                    rows.append(row)
+
+            data["teachers"]["items"][teacher] = {
+                "title": teacher,
+                "headers": learning,
+                "rows": rows
+            }
+
+        template = template.replace("$LANGUAGE$", LANGUAGE)
+        template = template.replace("$MAX$", str(self.window.settings["max_lesson_count_per_day"]))
+        template = template.replace("$DATA$", str(data))
+
+        for name, word in list(BUNDLES[LANGUAGE.lower()].items())[::-1]:
+            template = template.replace(name, word)
+
+        with open(path, "w", encoding="utf-8") as file:
+            file.write(template)

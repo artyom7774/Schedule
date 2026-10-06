@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QFont
 
-from src.modules.translate import translate, language as setLanguage
+from src.modules.translate import translate, language as setLanguage, LANGUAGE, BUNDLES
 
 import faulthandler
 import json

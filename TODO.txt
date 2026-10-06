@@ -26,6 +26,7 @@
 
 один из студентов написал к нашему ПО такую штуку, оказалось очень удобным как для студентов так и для педагогов, например найти свободный кабинет или найти преподавателя которому тебе надо сдать долги.
 
+- export schedule to HTML
 - fixed bug with AI
 - fixed bug with changing theme
 - fixed bug translate "teacherSmallDay"

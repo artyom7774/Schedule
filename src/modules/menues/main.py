@@ -293,8 +293,10 @@ def resize(window) -> None:
     if tab and isinstance(tab, TabExport):
         try:
             tab.timesRama.setGeometry(0, 0, x(33), y(100))
+
             tab.exportByClassPushButton.setGeometry(x(33) + 1, 1, x(100 - 33) - 1, 30 - 2)
-            tab.exportByTeacherPushButton.setGeometry(x(33) + 1, 31, x(100 - 33) - 1, 30 - 2)
+            tab.exportByTeacherPushButton.setGeometry(x(33) + 1, 30 + 1, x(100 - 33) - 1, 30 - 2)
+            tab.exportClassesTeachersToHTMLPushButton.setGeometry(x(33) + 1, 2 * 30 + 1, x(100 - 33) - 1, 30 - 2)
 
             lessons = window.settings.get("max_lesson_count_per_day", 0)
             shifts = window.settings.get("number_of_shifts", 0)

@@ -61,14 +61,22 @@
 
 "menu.main.tab.export.shift": "Shift"
 "menu.main.tab.export.lesson": "lesson"
-"menu.main.tab.export.save_classes_schedule": "Save classes schedule"
-"menu.main.tab.export.save_teachers_schedule": "Save teachers schedule"
 "menu.main.tab.export.save_file": "Save file"
 "menu.main.tab.export.schedule": "Schedule"
 "menu.main.tab.export.day": "Day"
 "menu.main.tab.export.time": "Time"
 "menu.main.tab.export.error": "Error"
 "menu.main.tab.export.file_permission_denied": "File permission denied"
+"menu.main.tab.export.answer_is_not_created": "Schedule is not created"
+
+"menu.main.tab.export.save_classes_schedule": "Save classes schedule to Excel"
+"menu.main.tab.export.save_teachers_schedule": "Save teachers schedule to Excel"
+"menu.main.tab.export.save_classes_teachers_html_schedule": "Save classes and teachers schedule to HTML"
+
+"menu.main.tab.export.html.classes": "Classes"
+"menu.main.tab.export.html.teachers": "Teachers"
+"menu.main.tab.export.html.groups": "Groups"
+"menu.main.tab.export.html.elements": "Elements"
 
 "dialog.create_project.title": "Create project"
 "dialog.create_project.label": "Project name:"
