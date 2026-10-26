@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QScrollArea, QMenu, QAction, QVBoxLayout, QTabWidget
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 
-from src.modules.widgets import ButtonGridWidget
+from src.modules.widgets import ButtonGridWidget, NoWhellComboBox
 
 from src.modules import dialogs
 
@@ -27,7 +27,7 @@ class TeacherSubjectWidget(QTableWidget):
         self.horizontalHeader().setVisible(False)
         self.verticalHeader().setVisible(False)
 
-        self.subject = QComboBox(parent=self)
+        self.subject = NoWhellComboBox(parent=self)
         self.subject.setFont(FONT)
         self.subject.addItems(self.subjects)
         self.subject.show()
