@@ -18,6 +18,11 @@ class TabSettings(QWidget):
         self.settingsRama.verticalHeader().setVisible(False)
         self.settingsRama.show()
 
+        self.settingsRamaSecond = QTableWidget(0, 0, parent=self)
+        self.settingsRamaSecond.horizontalHeader().setVisible(False)
+        self.settingsRamaSecond.verticalHeader().setVisible(False)
+        self.settingsRamaSecond.show()
+
         self.settingsDaysLabel = QLabel(translate("menu.main.tab.settings.working_days_per_week"), parent=self)
         self.settingsDaysLabel.setFont(FONT)
         self.settingsDaysLabel.show()
@@ -119,11 +124,6 @@ class TabSettings(QWidget):
         self.subjectsTable.setFont(FONT)
         self.subjectsTable.show()
 
-        self.classesRama = QTableWidget(0, 0, parent=self)
-        self.classesRama.horizontalHeader().setVisible(False)
-        self.classesRama.verticalHeader().setVisible(False)
-        self.classesRama.show()
-
         while len(window.settings["classes"]["count"]) > window.settings["classes_count"]:
             window.settings["classes"]["count"].pop(-1)
 
@@ -140,13 +140,18 @@ class TabSettings(QWidget):
             flag = True
 
         while len(window.settings["classes"]["shift"]) < window.settings["classes_count"]:
-            window.settings["classes"]["shift"].append(0)
+            window.settings["classes"]["shift"].append([0] * 20)
 
             flag = True
 
         if flag:
             with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
                 json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        self.shiftsTable = QTableWidget(len(CLASSES_ALPHABET) - 1, window.settings["classes_count"], parent=self)
+        self.shiftsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.shiftsTable.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.shiftsTable.show()
 
         self.classesObjects = {}
 
@@ -188,6 +193,7 @@ class TabSettings(QWidget):
         self.classesObjects[f"info_{number}"].setFont(FONT)
         self.classesObjects[f"info_{number}"].show()
 
+        """
         shifts = ["I", "II"][:self.window.settings["number_of_shifts"] + 1] + list([f"{element}" for element in range(3, self.window.settings["number_of_shifts"] + 1)])
         shift = self.window.settings["classes"]["shift"][number]
 
@@ -196,6 +202,7 @@ class TabSettings(QWidget):
         self.classesObjects[f"shift_{number}"].setText(shifts[shift])
         self.classesObjects[f"shift_{number}"].setFont(FONT)
         self.classesObjects[f"shift_{number}"].show()
+        """
 
     @staticmethod
     def save(window, parameter, object, another: typing.Any = None, ignore: list = None):

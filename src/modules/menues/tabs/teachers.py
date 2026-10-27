@@ -131,6 +131,8 @@ class TeacherSubjectWidget(QTableWidget):
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
+        print(True)  # TODO
+
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
 

@@ -132,7 +132,9 @@ def resize(window) -> None:
 
     if tab and isinstance(tab, TabSettings):
         try:
-            tab.settingsRama.setGeometry(0, 0, x(33), y(100))
+            tab.settingsRama.setGeometry(0, 0, x(33), 290)
+            tab.settingsRamaSecond.setGeometry(x(33), 0, x(34), y(100))
+
             tab.settingsDaysLabel.setGeometry(10, 10, x(15), 30)
             tab.settingsDaysEdit.setGeometry(20 + x(15), 10, x(33) - x(15) - 30, 30)
             tab.settingsLessonsLabel.setGeometry(10, 50, x(15), 30)
@@ -148,15 +150,14 @@ def resize(window) -> None:
             tab.maxLessonForTeacherLabel.setGeometry(10, 250, x(15), 30)
             tab.maxLessonForTeacherEdit.setGeometry(20 + x(15), 250, x(33) - x(15) - 30, 30)
 
-            tab.subjectsTable.setGeometry(x(33), 0, x(34), y(100))
-            tab.classesRama.setGeometry(x(67), 0, x(33), y(100))
+            tab.subjectsTable.setGeometry(0, 290, x(33), y(100) - 290)
+            tab.shiftsTable.setGeometry(x(67), 0, x(33), y(100))
 
             for number in range(window.settings.get("classes_count", 0)):
                 if f"label_{number}" in tab.classesObjects:
-                    tab.classesObjects[f"label_{number}"].setGeometry(x(67) + 10, 10 + 50 * number, 50, 30)
-                    tab.classesObjects[f"scroll_{number}"].setGeometry(x(67) + 50, 10 + 50 * number, x(33) - 170, 30)
-                    tab.classesObjects[f"info_{number}"].setGeometry(x(100) - 110, 10 + 50 * number, 60, 30)
-                    tab.classesObjects[f"shift_{number}"].setGeometry(x(100) - 40, 10 + 50 * number, 30, 30)
+                    tab.classesObjects[f"label_{number}"].setGeometry(x(33) + 10, 10 + 50 * number, 50, 30)
+                    tab.classesObjects[f"scroll_{number}"].setGeometry(x(33) + 50, 10 + 50 * number, x(34) - 120, 30)
+                    tab.classesObjects[f"info_{number}"].setGeometry(x(33) + x(34) - 65, 10 + 50 * number, 60, 30)
 
             tab.subjectsTable.setColumnWidth(0, int(tab.subjectsTable.viewport().width() * 2 / 3))
             tab.subjectsTable.setColumnWidth(1, int(tab.subjectsTable.viewport().width() * 1 / 3 + tab.subjectsTable.viewport().width() % 3))
