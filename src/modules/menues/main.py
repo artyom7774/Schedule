@@ -11,14 +11,14 @@ TABS = [
     (TabTeachers, "menu.main.tab.teachers", False),
     (QWidget, "/", True),
     (TabAI, "menu.main.tab.AI", False),
-    (QWidget, "->", True), 
+    (QWidget, "->", True),
     (TabConstants, "menu.main.tab.constants", False),
     (TabGroups, "menu.main.tab.groups", False),
-    (QWidget, "->", True),  
+    (QWidget, "->", True),
     (TabRun, "menu.main.tab.run", False),
-    (QWidget, "->", True),  
+    (QWidget, "->", True),
     (TabView, "menu.main.tab.view", False),
-    (QWidget, "->", True),  
+    (QWidget, "->", True),
     (TabExport, "menu.main.tab.export", False)
 ]
 
@@ -33,12 +33,17 @@ class Import:
         resize(window)
 
 
+rebuilding = False
+
+
 def init(window, ignore: list = None, reverse: bool = False) -> None:
+    global rebuilding
+
     if ignore is None:
         ignore = []
 
     tabs = [TabSettings, TabClasses, TabClassrooms, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabExport]
-    
+
     for tab in tabs:
         tab.resize = Import.resize
         tab.init = Import.init
@@ -74,10 +79,15 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
 
         return
 
+    if rebuilding:
+        return
+
     current_index = tabs.currentIndex()
-    
+
     tabs.blockSignals(True)
     tabs.setUpdatesEnabled(False)
+
+    rebuilding = True
 
     try:
         for i, (cls, label, sep) in enumerate(TABS):
@@ -102,6 +112,8 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
     finally:
         tabs.setUpdatesEnabled(True)
         tabs.blockSignals(False)
+
+        rebuilding = False
 
     resize(window)
 
@@ -263,8 +275,9 @@ def resize(window) -> None:
         try:
             tab.settingsRama.setGeometry(0, 0, x(33), y(100))
             tab.stdTextEdit.setGeometry(x(33), 0, x(100 - 33), y(100) - 30)
-            tab.runPushButton.setGeometry(x(33) + 1, y(100) - 30 + 1, x(30) - 2, 28)
-            tab.timeLabel.setGeometry(x(63) + 10, y(100) - 30, x(50), 30)
+            tab.runPushButton.setGeometry(x(33) + 1, y(100) - 30 + 1, x(15) - 10, 28)
+            tab.warningsPushButton.setGeometry(x(33) + x(15) - 7, y(100) - 30 + 1, x(15) - 10, 28)
+            tab.timeLabel.setGeometry(x(63) - 12, y(100) - 30, x(50), 30)
 
             idx = 0
 

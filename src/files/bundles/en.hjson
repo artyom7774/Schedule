@@ -17,7 +17,7 @@
 
 "menu.main.tab.settings.working_days_per_week": "Working days per week:"
 "menu.main.tab.settings.max_lesson_count_per_day": "Max lesson count per day:"
-"menu.main.tab.settings.classes_count": "Classes count:"
+"menu.main.tab.settings.classes_count": "Parallels count:"
 "menu.main.tab.settings.subjects_count": "Subjects count:"
 "menu.main.tab.settings.number_of_shifts": "Number of shifts:"
 "menu.main.tab.settings.shift_crossing": "Shift crossing:"
@@ -53,6 +53,7 @@
 "menu.main.tab.AI.remove_files": "Remove files"
 
 "menu.main.tab.run.run": "Run"
+"menu.main.tab.run.warnings": "Warnings"
 "menu.main.tab.run.time_passed": "Time passed"
 
 "menu.main.tab.view.classes": "Classes"

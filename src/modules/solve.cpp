@@ -1153,6 +1153,8 @@ json save() {
 int main(int argc, char** argv) {
     setvbuf(stdout, NULL, _IONBF, 0);
 
+    bool warnings = false;
+
     CLI::App app;
 
     int iterations = 5e7;
@@ -1163,6 +1165,8 @@ int main(int argc, char** argv) {
 
     app.add_option("--input", input);
     app.add_option("--output", output);
+
+    app.add_option("--warnings", warnings);
 
     CLI11_PARSE(app, argc, argv);
 
@@ -1359,6 +1363,10 @@ int main(int argc, char** argv) {
 
     if (unplaced > 0) {
         cout << "[WARNING] " << unplaced << " lesson(s) could not be placed during initial construction" << "\n";
+    }
+
+    if (warnings) {
+        return 0;
     }
 
     float total = getClassTotal();

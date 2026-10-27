@@ -1,5 +1,4 @@
-from PyQt5.QtWidgets import QSlider, QWidget, QTableWidget, QPushButton, QHeaderView, QLabel, QLineEdit, QTableWidgetItem, QAbstractItemView
-from PyQt5.QtGui import QBrush, QColor
+from PyQt5.QtWidgets import QSlider, QWidget, QTableWidget, QHeaderView, QLabel, QLineEdit, QTableWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt
 
 from src.variables import *
@@ -147,9 +146,11 @@ class TabSettings(QWidget):
         self.shiftsTable.setVerticalHeaderLabels([CLASSES_ALPHABET[i + 1] for i in range(len(CLASSES_ALPHABET) - 1)])
         self.shiftsTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.shiftsTable.setSelectionMode(QAbstractItemView.NoSelection)
+        self.shiftsTable.setFocusPolicy(Qt.NoFocus)
         self.shiftsTable.setFont(LITTLE_FONT)
         self.shiftsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.shiftsTable.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.shiftsTable.cellClicked.connect(self.onShiftCellClicked)
         self.shiftsTable.show()
 
         self.classesObjects = {}
@@ -203,23 +204,28 @@ class TabSettings(QWidget):
 
                 continue
 
-            self.shiftsTable.removeCellWidget(letter, grade)
-
-            item = QTableWidgetItem()
+            item = QTableWidgetItem("-")
             item.setFlags(Qt.NoItemFlags)
-            item.setBackground(QBrush(QColor(CLASSES_TABLE_COLORS[1])))
+            item.setTextAlignment(Qt.AlignCenter)
 
             self.shiftsTable.setItem(letter, grade, item)
 
     def initShiftButton(self, grade: int, letter: int):
-        self.shiftsTable.takeItem(letter, grade)
+        item = QTableWidgetItem(shiftName(self.window.settings["classes"]["shift"][grade][letter]))
+        item.setFlags(Qt.ItemIsEnabled)
+        item.setTextAlignment(Qt.AlignCenter)
+        item.setToolTip(f"{grade + 1} {CLASSES_ALPHABET[letter + 1]}")
 
-        button = QPushButton(shiftName(self.window.settings["classes"]["shift"][grade][letter]), parent=self.shiftsTable)
-        button.setFont(LITTLE_FONT)
-        button.setToolTip(f"{grade + 1} {CLASSES_ALPHABET[letter + 1]}")
-        button.clicked.connect(lambda checked=False, g=grade, l=letter: TabSettings.save(self.window, "classes/shift", button, [g, l]))
+        self.shiftsTable.setItem(letter, grade, item)
 
-        self.shiftsTable.setCellWidget(letter, grade, button)
+    def onShiftCellClicked(self, row: int, col: int):
+        if col >= len(self.window.settings["classes"]["count"]):
+            return
+
+        if row >= self.window.settings["classes"]["count"][col]:
+            return
+
+        TabSettings.save(self.window, "classes/shift", self.shiftsTable, [col, row])
 
     @staticmethod
     def save(window, parameter, object, another: typing.Any = None, ignore: list = None):
@@ -235,6 +241,9 @@ class TabSettings(QWidget):
             except BaseException:
                 object.setText(str(window.settings[parameter]))
 
+                return
+
+            if int(text) == window.settings[parameter]:
                 return
 
             window.settings[parameter] = int(text)

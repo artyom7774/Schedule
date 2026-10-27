@@ -23,14 +23,17 @@
 + иишка
 - раздвоение меню
 + сброс настроек при смене темы
-- смещаеться скролл при клике на класс для предмета учителя
-- добавить вторую кнопку в запуск которая выводит WARNING программы
++ смещаеться скролл при клике на класс для предмета учителя
++ добавить вторую кнопку в запуск которая выводит WARNING программы
 
 один из студентов написал к нашему ПО такую штуку, оказалось очень удобным как для студентов так и для педагогов, например найти свободный кабинет или найти преподавателя которому тебе надо сдать долги.
 
 - export schedule to HTML
 - ability to add shift for every class separately
-- new button in "Run" menu for showing all project warning without run program
+- new button in run menu for showing all project warning without run program
+- fixed bug with duplicating tab menu
 - fixed bug with AI
 - fixed bug with changing theme
 - fixed bug translate "teacherSmallDay"
+- fixed bug with reset scroll value in teacher menu
+- fixed bug with settings classrooms in teacher menu

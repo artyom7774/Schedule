@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QScrollArea, QMenu, QAction, QVBoxLayout, QTabWidget, QWidget, QComboBox, QListWidget, QTableWidget, QPushButton, QHeaderView, QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QColor
 
 from src.modules.widgets import ButtonGridWidget, NoWhellComboBox
@@ -76,6 +76,17 @@ class TeacherSubjectWidget(QTableWidget):
 
         self.show()
 
+    def scroll(self):
+        scroll = self.parentWidget()
+
+        while scroll is not None and not isinstance(scroll, QScrollArea):
+            scroll = scroll.parentWidget()
+
+        if scroll is not None:
+            self.window.objects["teachers_scroll"] = scroll.verticalScrollBar().value()
+
+        self.window.objects["teachers_selected"] = self.teacher
+
     def groupUpdateClassroomsButtonText(self):
         if len(self.groups):
             ordered = ", ".join(f"{group}" for i, group in enumerate(self.groups))
@@ -98,12 +109,17 @@ class TeacherSubjectWidget(QTableWidget):
         self.window.dialog.exec()
 
     def groupsChanged(self, selected):
+        if self.index == self.window.settings["teachers"][self.teacher]["subjects"]:
+            return
+
         subject = self.window.settings["teachers"][self.teacher]["subjects"][self.index]
 
         subject["classrooms"] = selected
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        self.scroll()
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
@@ -131,7 +147,7 @@ class TeacherSubjectWidget(QTableWidget):
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
-        print(True)  # TODO
+        self.scroll()
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 
@@ -211,6 +227,17 @@ class TabTeachers(QWidget):
             i += 1
 
         self.teachersScroll.setWidget(container)
+
+        # Восстанавливаем позицию скролла после пересборки вкладки.
+        # QTimer.singleShot(0, ...) нужен, потому что сразу после setWidget
+        # лейаут ещё не рассчитан и scrollBar().maximum() == 0.
+        if "teachers_scroll" in self.window.objects:
+            value = self.window.objects.pop("teachers_scroll")
+
+            QTimer.singleShot(
+                0,
+                lambda v=value: self.teachersScroll.verticalScrollBar().setValue(v)
+            )
 
         self.teacherFree = QTabWidget(parent=self)
         self.teacherFree.tabBarClicked.connect(lambda idx: self.teacherFreeTabBarClicked(idx))
@@ -349,6 +376,7 @@ class TabTeachers(QWidget):
 
         self.teacher = new
         self.window.objects["teachers_selected"] = self.teacher
+        self.window.objects.pop("teachers_scroll", None)  # при смене учителя скролл не восстанавливаем
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 

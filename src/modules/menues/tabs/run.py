@@ -46,6 +46,12 @@ class TabRun(QWidget):
         self.runPushButton.setFont(FONT)
         self.runPushButton.show()
 
+        self.warningsPushButton = QPushButton(parent=self)
+        self.warningsPushButton.clicked.connect(lambda: self.runPushButtonClicked(warnings=1))
+        self.warningsPushButton.setText(translate("menu.main.tab.run.warnings"))
+        self.warningsPushButton.setFont(FONT)
+        self.warningsPushButton.show()
+
         self.number = 0
         self.timer = None
 
@@ -90,7 +96,7 @@ class TabRun(QWidget):
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "w", encoding="utf-8") as file:
             json.dump(self.weights, file, indent=4, ensure_ascii=False)
 
-    def runPushButtonClicked(self):
+    def runPushButtonClicked(self, warnings: int = 0):
         if self.process and self.process.state() != QProcess.NotRunning:
             return
 
@@ -107,6 +113,7 @@ class TabRun(QWidget):
         self.stdTextEdit.clear()
 
         self.runPushButton.setDisabled(True)
+        self.warningsPushButton.setDisabled(True)
 
         TabRun.process = QProcess(self)
 
@@ -121,14 +128,16 @@ class TabRun(QWidget):
             "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
             "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
             "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
-            "--iterations", f"100000000"
+            "--iterations", f"100000000",
+            "--warnings",   f"{warnings}"
         ]))
 
         self.process.start("src/modules/solve.exe", [
             "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
             "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
             "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
-            "--iterations", f"100000000"
+            "--iterations", f"100000000",
+            "--warnings",   f"{warnings}"
         ])
 
     def counter(self):
@@ -159,6 +168,7 @@ class TabRun(QWidget):
 
     def finish(self, code, status):
         self.runPushButton.setDisabled(False)
+        self.warningsPushButton.setDisabled(False)
 
         self.timer.stop()
 

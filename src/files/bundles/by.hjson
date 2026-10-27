@@ -53,6 +53,7 @@
 "menu.main.tab.AI.remove_files": "Выдаліць файлы"
 
 "menu.main.tab.run.run": "Запуск"
+"menu.main.tab.run.warnings": "Папярэджанні"
 "menu.main.tab.run.time_passed": "Прайшло часу"
 
 "menu.main.tab.view.classes": "Класы"
