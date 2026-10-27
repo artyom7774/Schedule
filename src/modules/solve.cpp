@@ -63,8 +63,7 @@ public:
     map<string, int> hards;
     vector<string> teachers, classes;
 
-    vector<int> shifts;
-    vector<int> classShiftByNumber;
+    vector<int> classShifts;
 
     vector<float> hardsById;
     vector<float> capacityDaysByHard{1, 1.4, 1.4, 1, 1.4, 1, 1};
@@ -108,15 +107,25 @@ public:
             hards[element[0]] = element[1];
         }
 
-        for (auto element : settings["classes"]["shift"]) {
-            shifts.push_back(element);
-        }
-
         for (int i = 1; i <= settings["classes"]["count"].size(); i++) {
             for (int j = 1; j <= settings["classes"]["count"][i - 1]; j++) {
                 classes.push_back(to_string(i) + " " + CLASSES_LETTERS[j]);
 
-                classShiftByNumber.push_back(i - 1);
+                int shiftValue = 0;
+
+                if (settings["classes"].contains("shift") && i - 1 < (int) settings["classes"]["shift"].size()) {
+                    auto& entry = settings["classes"]["shift"][i - 1];
+
+                    if (entry.is_array()) {
+                        if (j - 1 < (int) entry.size() && entry[j - 1].is_number()) {
+                            shiftValue = entry[j - 1];
+                        }
+                    } else if (entry.is_number()) {
+                        shiftValue = entry;
+                    }
+                }
+
+                classShifts.push_back(max(0, min(shiftValue, NUMBER_OF_SHIFTS - 1)));
             }
         }
 
@@ -289,7 +298,7 @@ public:
         classShiftOffset.assign(teachers.size() + classes.size() + 1, 0);
 
         for (int idx = 0; idx < classes.size(); idx++) {
-            classShiftOffset[teachers.size() + idx + 1] = shifts[classShiftByNumber[idx]] * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+            classShiftOffset[teachers.size() + idx + 1] = classShifts[idx] * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
         }
 
         classesByShift.assign(NUMBER_OF_SHIFTS, vector<int>());
@@ -297,7 +306,7 @@ public:
         for (int idx = 0; idx < classes.size(); idx++) {
             int cls = teachers.size() + idx + 1;
 
-            classesByShift[shifts[classShiftByNumber[idx]]].push_back(cls);
+            classesByShift[classShifts[idx]].push_back(cls);
         }
 
         for (auto& [cls, items] : settings["constants"].items()) {

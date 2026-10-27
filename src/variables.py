@@ -27,6 +27,81 @@ TAB_VIEW        = 12
 TAB_EXPORT      = 14
 
 
+def shiftName(index: int) -> str:
+    names = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+
+    return names[index] if 0 <= index < len(names) else str(index + 1)
+
+
+def shiftNormalize(settings: dict) -> bool:
+    classes = settings.setdefault("classes", {})
+    shifts = classes.setdefault("shift", [])
+
+    changed = False
+
+    count = settings.get("classes_count", len(shifts))
+    maxShift = max(int(settings.get("number_of_shifts", 1)), 1) - 1
+
+    while len(shifts) < count:
+        shifts.append([0] * (len(CLASSES_ALPHABET) - 1))
+
+        changed = True
+
+    while len(shifts) > count:
+        shifts.pop(-1)
+
+        changed = True
+
+    for grade in range(len(shifts)):
+        row = shifts[grade]
+
+        if not isinstance(row, list):
+            try:
+                value = int(row)
+
+            except BaseException:
+                value = 0
+
+            row = [value] * (len(CLASSES_ALPHABET) - 1)
+
+            changed = True
+
+        if len(row) != (len(CLASSES_ALPHABET) - 1):
+            row = (row + [0] * (len(CLASSES_ALPHABET) - 1))[:len(CLASSES_ALPHABET) - 1]
+
+            changed = True
+
+        for letter in range(len(CLASSES_ALPHABET) - 1):
+            try:
+                value = int(row[letter])
+
+            except BaseException:
+                value = 0
+
+            value = min(max(value, 0), maxShift)
+
+            if row[letter] != value:
+                row[letter] = value
+
+                changed = True
+
+        shifts[grade] = row
+
+    return changed
+
+
+def shiftGetClass(settings: dict, name: str) -> int:
+    try:
+        grade, letter = name.split(" ", 1)
+
+        value = int(settings["classes"]["shift"][int(grade) - 1][CLASSES_ALPHABET.index(letter) - 1])
+
+    except BaseException:
+        return 0
+
+    return min(max(value, 0), max(int(settings.get("number_of_shifts", 1)), 1) - 1)
+
+
 def getAppDataDir():
     if os.name == "nt":
         base = os.getenv("APPDATA")
@@ -60,20 +135,19 @@ VERSION = json.load(open("src/files/version.json", "r", encoding="utf-8"))["vers
 setLanguage(SETTINGS["language"])
 THEME = SETTINGS.get("theme", "dark")
 
+CLASSES_TABLE_COLORS = ["#FFFFFF", "#F2F2F3", "#E5E5E6", "#D8D8D9", "#CBCBCC", "#BEBEBF", "#B1B1B2", "#A4A4A5"]
+
+COLORS = {
+    "green": "4caf50",
+    "red": "f44336"
+}
+
 if THEME == "dark":
     CLASSES_TABLE_COLORS = ["#202124", "#37383B", "#4E4F52", "#656669", "#7B7C7F", "#929396", "#A9AAAD", "#C0C0C0"]
 
     COLORS = {
         "green": "109012",
         "red": "901112"
-    }
-
-else:
-    CLASSES_TABLE_COLORS = ["#FFFFFF", "#F2F2F3", "#E5E5E6", "#D8D8D9", "#CBCBCC", "#BEBEBF", "#B1B1B2", "#A4A4A5"]
-
-    COLORS = {
-        "green": "4caf50",
-        "red": "f44336"
     }
 
 

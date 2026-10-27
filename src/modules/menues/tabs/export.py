@@ -164,7 +164,7 @@ class TabExport(QWidget):
         for cls, days in answer.items():
             pos = self.classes.index(cls) + 4
 
-            shift = self.window.settings["classes"]["shift"][int(cls.split(" ")[0]) - 1]
+            shift = shiftGetClass(self.window.settings, cls)
 
             for day in range(len(days)):
                 for i, lesson in enumerate(days[day]):
@@ -238,7 +238,7 @@ class TabExport(QWidget):
             page[f"{letter(col)}1"] = teacher
 
         for cls, days in answer.items():
-            shift = self.window.settings["classes"]["shift"][int(cls.split(" ")[0]) - 1]
+            shift = shiftGetClass(self.window.settings, cls)
 
             for day in range(len(days)):
                 for i, lesson in enumerate(days[day]):
@@ -315,7 +315,7 @@ class TabExport(QWidget):
         data["classes"]["items"] = {}
 
         for cls in self.classes:
-            shift = self.window.settings["classes"]["shift"][int(cls.split(" ")[0]) - 1]
+            shift = shiftGetClass(self.window.settings, cls)
             days = answer.get(cls, [])
             
             rows = []
@@ -366,7 +366,7 @@ class TabExport(QWidget):
         index = {}
 
         for cls, days in answer.items():
-            shift = self.window.settings["classes"]["shift"][int(cls.split(" ")[0]) - 1]
+            shift = shiftGetClass(self.window.settings, cls)
 
             for day in range(len(days)):
                 for lesson, lesson_data in enumerate(days[day]):

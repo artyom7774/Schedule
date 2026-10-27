@@ -157,9 +157,7 @@ class TabView(QWidget):
         print(answer)
 
     def classShift(self, name: str) -> int:
-        grade = int(name.split(" ")[0]) - 1
-
-        return self.window.settings["classes"]["shift"][grade]
+        return shiftGetClass(self.window.settings, name)
 
     def modeChanged(self, idx):
         self.window.objects["mode"] = idx

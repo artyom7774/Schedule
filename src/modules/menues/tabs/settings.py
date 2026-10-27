@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QSlider, QWidget, QTableWidget, QPushButton, QHeaderView, QLabel, QLineEdit, QTableWidgetItem
+from PyQt5.QtWidgets import QSlider, QWidget, QTableWidget, QPushButton, QHeaderView, QLabel, QLineEdit, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtGui import QBrush, QColor
 from PyQt5.QtCore import Qt
 
 from src.variables import *
@@ -134,14 +135,7 @@ class TabSettings(QWidget):
 
             flag = True
 
-        while len(window.settings["classes"]["shift"]) > window.settings["classes_count"]:
-            window.settings["classes"]["shift"].pop(-1)
-
-            flag = True
-
-        while len(window.settings["classes"]["shift"]) < window.settings["classes_count"]:
-            window.settings["classes"]["shift"].append([0] * 20)
-
+        if shiftNormalize(window.settings):
             flag = True
 
         if flag:
@@ -149,6 +143,11 @@ class TabSettings(QWidget):
                 json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
         self.shiftsTable = QTableWidget(len(CLASSES_ALPHABET) - 1, window.settings["classes_count"], parent=self)
+        self.shiftsTable.setHorizontalHeaderLabels([str(i + 1) for i in range(window.settings["classes_count"])])
+        self.shiftsTable.setVerticalHeaderLabels([CLASSES_ALPHABET[i + 1] for i in range(len(CLASSES_ALPHABET) - 1)])
+        self.shiftsTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.shiftsTable.setSelectionMode(QAbstractItemView.NoSelection)
+        self.shiftsTable.setFont(LITTLE_FONT)
         self.shiftsTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.shiftsTable.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.shiftsTable.show()
@@ -159,7 +158,7 @@ class TabSettings(QWidget):
             self.initClassCountObject(number)
 
     def initClassCountObject(self, number, slider: bool = True):
-        elements = [f"label_{number}", f"scroll_{number}", f"info_{number}", f"shift_{number}"]
+        elements = [f"label_{number}", f"scroll_{number}", f"info_{number}"]
 
         for element in elements:
             if element in self.classesObjects:
@@ -193,16 +192,34 @@ class TabSettings(QWidget):
         self.classesObjects[f"info_{number}"].setFont(FONT)
         self.classesObjects[f"info_{number}"].show()
 
-        """
-        shifts = ["I", "II"][:self.window.settings["number_of_shifts"] + 1] + list([f"{element}" for element in range(3, self.window.settings["number_of_shifts"] + 1)])
-        shift = self.window.settings["classes"]["shift"][number]
+        self.initShiftColumn(number)
 
-        self.classesObjects[f"shift_{number}"] = QPushButton(parent=self)
-        self.classesObjects[f"shift_{number}"].clicked.connect(lambda value: TabSettings.save(self.window, "classes/shift", self.classesObjects[f"shift_{number}"], number))
-        self.classesObjects[f"shift_{number}"].setText(shifts[shift])
-        self.classesObjects[f"shift_{number}"].setFont(FONT)
-        self.classesObjects[f"shift_{number}"].show()
-        """
+    def initShiftColumn(self, grade: int):
+        count = self.window.settings["classes"]["count"][grade]
+
+        for letter in range(len(CLASSES_ALPHABET) - 1):
+            if letter < count:
+                self.initShiftButton(grade, letter)
+
+                continue
+
+            self.shiftsTable.removeCellWidget(letter, grade)
+
+            item = QTableWidgetItem()
+            item.setFlags(Qt.NoItemFlags)
+            item.setBackground(QBrush(QColor(CLASSES_TABLE_COLORS[1])))
+
+            self.shiftsTable.setItem(letter, grade, item)
+
+    def initShiftButton(self, grade: int, letter: int):
+        self.shiftsTable.takeItem(letter, grade)
+
+        button = QPushButton(shiftName(self.window.settings["classes"]["shift"][grade][letter]), parent=self.shiftsTable)
+        button.setFont(LITTLE_FONT)
+        button.setToolTip(f"{grade + 1} {CLASSES_ALPHABET[letter + 1]}")
+        button.clicked.connect(lambda checked=False, g=grade, l=letter: TabSettings.save(self.window, "classes/shift", button, [g, l]))
+
+        self.shiftsTable.setCellWidget(letter, grade, button)
 
     @staticmethod
     def save(window, parameter, object, another: typing.Any = None, ignore: list = None):
@@ -262,10 +279,21 @@ class TabSettings(QWidget):
             return
 
         elif parameter in ("classes/shift", ):
-            window.settings["classes"]["shift"][another] = (window.settings["classes"]["shift"][another] + 1) % window.settings["number_of_shifts"]
+            grade, letter = another
+
+            shifts = max(window.settings["number_of_shifts"], 1)
+
+            window.settings["classes"]["shift"][grade][letter] = (window.settings["classes"]["shift"][grade][letter] + 1) % shifts
+
+            with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="utf-8") as file:
+                json.dump(window.settings, file, indent=4, ensure_ascii=False)
 
             if window.objects["tabs"].widget(TAB_SETTINGS):
-                window.objects["tabs"].widget(TAB_SETTINGS).initClassCountObject(another, False)
+                window.objects["tabs"].widget(TAB_SETTINGS).initShiftButton(grade, letter)
+
+            TabSettings.init(window, ignore=[TAB_VIEW, TAB_EXPORT], reverse=True)
+
+            return
 
         with open(f"{PATH_TO_FOLDER}/projects/{window.project}/settings.json", "w", encoding="utf-8") as file:
             json.dump(window.settings, file, indent=4, ensure_ascii=False)

@@ -125,6 +125,8 @@ def initProject(window, project):
         if key not in settings:
             settings[key] = value
 
+    shiftNormalize(settings)
+
     window.settings = settings
 
     with open(f"{path}/settings.json", "w", encoding="UTF-8") as file:
