@@ -70,6 +70,7 @@
 "menu.main.tab.export.file_permission_denied": "File permission denied"
 "menu.main.tab.export.answer_is_not_created": "Schedule is not created"
 
+"menu.main.tab.export.export_project": "Export project"
 "menu.main.tab.export.save_classes_schedule": "Save classes schedule to Excel"
 "menu.main.tab.export.save_teachers_schedule": "Save teachers schedule to Excel"
 "menu.main.tab.export.save_classes_teachers_html_schedule": "Save classes and teachers schedule to HTML"

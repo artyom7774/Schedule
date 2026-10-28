@@ -8,6 +8,7 @@ from src.variables import *
 
 import hashlib
 import natsort
+import shutil
 import json
 
 
@@ -55,6 +56,12 @@ class TabExport(QWidget):
         if flag:
             with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
                 json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
+        self.exportProjectPushButton = QPushButton(parent=self)
+        self.exportProjectPushButton.setFont(FONT)
+        self.exportProjectPushButton.clicked.connect(lambda: self.exportProjectPushButtonClicked())
+        self.exportProjectPushButton.setText(translate("menu.main.tab.export.export_project"))
+        self.exportProjectPushButton.show()
 
         self.exportByClassPushButton = QPushButton(parent=self)
         self.exportByClassPushButton.setFont(FONT)
@@ -135,6 +142,15 @@ class TabExport(QWidget):
         hexnum = f"{number:06x}"
 
         return "".join(f"{int((int(hexnum[i:i + 2], 16) + 255) / 2 + 0.5):02x}" for i in range(0, 6, 2))
+
+    def exportProjectPushButtonClicked(self, path: str = None):
+        if path is None:
+            path, _ = QFileDialog.getSaveFileName(self, translate("menu.main.tab.export.save_file"), "schedule.json", "Excel (*.xlsx)")
+
+        if not path:
+            return
+
+        shutil.copyfile(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", path)
 
     def exportByClassPushButtonClicked(self, path: str = None):
         if path is None:

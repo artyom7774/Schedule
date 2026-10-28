@@ -2,6 +2,8 @@
 #include <ext/random>
 #include <windows.h>
 
+#pragma GCC optimize("unroll-loops")
+
 #include "libs/CLI11.hpp"
 #include "libs/json.hpp"
 
@@ -117,9 +119,10 @@ public:
                     auto& entry = settings["classes"]["shift"][i - 1];
 
                     if (entry.is_array()) {
-                        if (j - 1 < (int) entry.size() && entry[j - 1].is_number()) {
+                        if (j - 1 < entry.size() && entry[j - 1].is_number()) {
                             shiftValue = entry[j - 1];
                         }
+
                     } else if (entry.is_number()) {
                         shiftValue = entry;
                     }
@@ -913,12 +916,17 @@ public:
             for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
                 SubjectSet subjects = slotSubjects(cls, base + lesson);
 
+                float now = 0;
+
                 for (int k = 0; k < subjects.size; k++) {
-                    hards[day] += data.hardsById[subjects.values[k]];
+                    now += data.hardsById[subjects.values[k]];
                 }
+
+                hards[day] += now / max(1, subjects.size);
             }
 
             hards[day] /= data.capacityDaysByHard[day];
+
             sum += hards[day];
         }
 
@@ -1399,7 +1407,7 @@ int main(int argc, char** argv) {
             int len = prefix.size();
 
             if (len < 40) {
-                std::cout << string(40 - len, ' ');
+                cout << string(40 - len, ' ');
             }
 
             cout << "| ";
