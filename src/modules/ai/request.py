@@ -6,7 +6,7 @@ import os
 URL = "https://request.tail1af8d9.ts.net"
 # URL = "http://127.0.0.1:5000"
 
-MODEL = "DeepSeek-V4.1-Flash"
+MODEL = "free/qwen-3.8-max"
 
 REQUEST_ENDPOINT = f"{URL}/api/ai/request"
 STATUS_ENDPOINT = f"{URL}/api/ai/status"
