@@ -97,8 +97,12 @@ class TabRun(QWidget):
             json.dump(self.weights, file, indent=4, ensure_ascii=False)
 
     def runPushButtonClicked(self, warnings: int = 0):
-        if self.process and self.process.state() != QProcess.NotRunning:
-            return
+        try:
+            if self.process and self.process.state() != QProcess.NotRunning:
+                return
+
+        except RuntimeError:
+            pass
 
         for name, value in self.weights.items():
             self.weightLineEditEditingFinished(name)

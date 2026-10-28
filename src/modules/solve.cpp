@@ -439,6 +439,8 @@ Data& getData() {
     return instance;
 }
 
+Data* DATA = nullptr;
+
 struct edge {
     int id = 0, value = 0;
 
@@ -453,7 +455,8 @@ struct edge {
 };
 
 vector<vector<vector<edge>>> graph;
-vector<vector<bool>> teacherIsAllowed;
+
+vector<vector<char>> teacherIsAllowed;
 
 vector<vector<int>> teacherRoom;
 vector<vector<int>> roomOccupant;
@@ -488,6 +491,16 @@ struct SubjectSet {
 
 vector<vector<SubjectSet>> locked;
 
+vector<SubjectSet> bufferSubjects;
+
+vector<int> bufferCovered;
+vector<int> bufferCounter;
+vector<int> bufferEnds;
+
+vector<float> bufferHards;
+
+vector<int> bufferTeacherLengths;
+
 inline bool slotLocked(int cls, int slot) {
     return locked[cls][slot].size > 0;
 }
@@ -507,23 +520,13 @@ inline SubjectSet slotSubjects(int row, int slot) {
 }
 
 bool canPlaceLesson(int cls, int slot, int subjectID) {
-    if (!occupied(cls, slot)) {
+    const vector<edge>& edges = graph[cls][slot];
+
+    if (edges.empty()) {
         return true;
     }
 
-    SubjectSet existing = slotSubjects(cls, slot);
-
-    if (existing.contains(subjectID)) {
-        return false;
-    }
-
-    if (existing.size >= MAX_GROUP_SUBJECTS) {
-        return false;
-    }
-
-    Data& data = getData();
-
-    const vector<int>& mask = data.groupMaskBySubject[cls];
+    const vector<int>& mask = DATA->groupMaskBySubject[cls];
 
     int nw = subjectID >= 0 && subjectID < mask.size() ? mask[subjectID] : 0;
 
@@ -531,10 +534,38 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
         return false;
     }
 
+    int seen[MAX_GROUP_SUBJECTS];
+    int count = 0;
     int covered = 0;
 
-    for (int i = 0; i < existing.size; i++) {
-        int m = existing.values[i] >= 0 && existing.values[i] < mask.size() ? mask[existing.values[i]] : 0;
+    for (const edge& e : edges) {
+        int v = e.value;
+
+        if (v == subjectID) {
+            return false;
+        }
+
+        bool duplicate = false;
+
+        for (int i = 0; i < count; i++) {
+            if (seen[i] == v) {
+                duplicate = true;
+
+                break;
+            }
+        }
+
+        if (duplicate) {
+            continue;
+        }
+
+        if (count >= MAX_GROUP_SUBJECTS) {
+            return false;
+        }
+
+        seen[count++] = v;
+
+        int m = v >= 0 && v < mask.size() ? mask[v] : 0;
 
         if (m == 0) {
             return false;
@@ -551,7 +582,7 @@ bool canPlaceLesson(int cls, int slot, int subjectID) {
 }
 
 pair<int, int> findRoomForTeacherRanked(int teacherID, int subjectID, int slot) {
-    Data& data = getData();
+    const Data& data = *DATA;
 
     if (!data.classroomsEnable) {
         return {0, 0};
@@ -780,7 +811,7 @@ struct Weights {
 class Functions {
 public:
     static float equalLessons(int cls, int day) {
-        Data& data = getData();
+        const Data& data = *DATA;
 
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
@@ -803,7 +834,8 @@ public:
     }
 
     static float notEqualsLessonsCountOnDay(int cls) {
-        Data& data = getData();
+        const Data& data = *DATA;
+
         int offset = data.classShiftOffset[cls];
 
         vector<int> lenghts(JOB_WEEK_LENGHT, 0);
@@ -835,7 +867,7 @@ public:
     }
 
     static float lessonsEmptySlots(int cls, int day) {
-        Data& data = getData();
+        const Data& data = *DATA;
 
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
@@ -856,7 +888,7 @@ public:
     }
 
     static float profileGaps(int cls, int day) {
-        Data& data = getData();
+        const Data& data = *DATA;
 
         int count = data.groups[cls].size();
 
@@ -870,7 +902,7 @@ public:
 
         float value = 0;
 
-        for (int capacity = 0; capacity < count; capacity++) {
+        for (int capacity = 0; capacity < min(count, 31); capacity++) {
             int bit = 1 << capacity;
 
             int temp = 0;
@@ -903,7 +935,7 @@ public:
     }
 
     static float daysByHard(int cls) {
-        Data& data = getData();
+        const Data& data = *DATA;
         int offset = data.classShiftOffset[cls];
 
         vector<float> hards(JOB_WEEK_LENGHT, 0);
@@ -922,10 +954,10 @@ public:
                     now += data.hardsById[subjects.values[k]];
                 }
 
-                hards[day] += now / max(1, subjects.size);
+                hards[day] += now / max(1, subjects.size) * (static_cast<float>(lesson + 1) / MAX_LESSON_IN_DAY + 1);
             }
 
-            hards[day] /= data.capacityDaysByHard[day];
+            hards[day] /= data.capacityDaysByHard[day % data.capacityDaysByHard.size()];
 
             sum += hards[day];
         }
@@ -941,7 +973,7 @@ public:
     }
 
     static float groupBonus(int cls, int day) {
-        Data& data = getData();
+        const Data& data = *DATA;
 
         int base = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
 
@@ -961,7 +993,9 @@ public:
     static float teacherFreeTime(int teacher) {
         float value = 0;
 
-        vector<int> lenghts(JOB_WEEK_LENGHT, 0);
+        const vector<vector<edge>>& row = graph[teacher];
+
+        fill(bufferTeacherLengths.begin(), bufferTeacherLengths.end(), 0);
 
         for (int shift = 0; shift < NUMBER_OF_SHIFTS; shift++) {
             for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
@@ -970,23 +1004,25 @@ public:
                 int start = -1, end = -1, cnt = 0;
 
                 for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-                    if (occupied(teacher, base + lesson)) {
+                    if (!row[base + lesson].empty()) {
                         if (start == -1) {
                             start = lesson;
                         }
-
-                        lenghts[day] += 1;
 
                         end = lesson;
                         cnt += 1;
                     }
                 }
 
+                bufferTeacherLengths[day] += cnt;
+
                 if (cnt == 0) {
                     continue;
                 }
 
-                value += Weights::teacherFreeTime * pow(end - start - cnt + 1, 2);
+                int gap = end - start - cnt + 1;
+
+                value += Weights::teacherFreeTime * static_cast<float>(gap * gap);
                 value += Weights::teacherSmallDay * max(0, 4 - cnt);
 
                 if (shift == NUMBER_OF_SHIFTS - 1 || SHIFT_CROSSING <= 0) {
@@ -996,15 +1032,15 @@ public:
                 int another = (shift + 1) * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
 
                 for (int step = 0; step < SHIFT_CROSSING; step++) {
-                    if (occupied(teacher, base + MAX_LESSON_IN_DAY - SHIFT_CROSSING + step) && occupied(teacher, another + step)) {
+                    if (!row[base + MAX_LESSON_IN_DAY - SHIFT_CROSSING + step].empty() && !row[another + step].empty()) {
                         value += Weights::lessonShiftCrossing;
                     }
                 }
             }
         }
 
-        for (int count : lenghts) {
-            value += Weights::teacherLessonLimit * max(0, count - TEACHER_MAX_LESSONS);
+        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+            value += Weights::teacherLessonLimit * max(0, bufferTeacherLengths[day] - TEACHER_MAX_LESSONS);
         }
 
         return value;
@@ -1057,31 +1093,163 @@ vector<float> getClassPoint() {
 }
 
 float getClassTotal(int cls) {
+    const Data& data = *DATA;
+
+    const int offset = data.classShiftOffset[cls];
+
+    const vector<int>& mask = data.groupMaskBySubject[cls];
+
+    const vector<vector<edge>>& row = graph[cls];
+
     float answer = 0;
+    float sumEnd = 0;
+    float sumHard = 0;
 
     for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
-        answer += Functions::equalLessons(cls, day);
-        answer += Functions::lessonsEmptySlots(cls, day);
-        answer += Functions::groupBonus(cls, day);
-        answer += Functions::profileGaps(cls, day);
+        const int base = offset + day * MAX_LESSON_IN_DAY;
+
+        float equal = 0;
+        float empty = 0;
+        float bonus = 0;
+        float hard = 0;
+
+        int temp = 0;
+        int end = 0;
+
+        for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+            SubjectSet& subjects = bufferSubjects[lesson];
+
+            subjects.size = 0;
+
+            for (const edge& e : row[base + lesson]) {
+                subjects.insert(e.value);
+            }
+
+            if (subjects.size == 0) {
+                temp += 1;
+
+                bufferCovered[lesson] = 0;
+
+                continue;
+            }
+
+            end = lesson;
+
+            empty += temp;
+            temp = 0;
+
+            float now = 0;
+            int covered = 0;
+
+            for (int k = 0; k < subjects.size; k++) {
+                int v = subjects.values[k];
+
+                now += data.hardsById[v];
+
+                equal += bufferCounter[v]++;
+
+                if (v >= 0 && v < mask.size()) {
+                    covered |= mask[v];
+                }
+            }
+
+            bufferCovered[lesson] = covered;
+
+            hard += now / subjects.size * (static_cast<float>(lesson + 1) / MAX_LESSON_IN_DAY + 1);
+
+            if (subjects.size >= 2) {
+                bonus += subjects.size * (subjects.size - 1) / 2.0;
+            }
+        }
+
+        for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+            for (int k = 0; k < bufferSubjects[lesson].size; k++) {
+                bufferCounter[bufferSubjects[lesson].values[k]] = 0;
+            }
+        }
+
+        float gaps = 0;
+
+        if (data.groups[cls].size() > 1) {
+            for (int capacity = 0; capacity < data.groups[cls].size(); capacity++) {
+                int bit = 1 << capacity;
+
+                int gap = 0;
+
+                for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+                    if (bufferCovered[lesson] & bit) {
+                        gaps += gap;
+
+                        gap = 0;
+
+                    } else {
+                        gap += 1;
+                    }
+                }
+            }
+        }
+
+        answer += Weights::equalLessons * equal;
+        answer += Weights::lessonsEmptySlots * empty;
+        answer -= Weights::groupBonus * bonus;
+        answer += Weights::profileGaps * gaps;
+
+        hard /= data.capacityDaysByHard[day % (data.capacityDaysByHard.size())];
+
+        bufferHards[day] = hard;
+        bufferEnds[day] = end;
+
+        sumHard += hard;
+        sumEnd += end;
     }
 
-    answer += Functions::notEqualsLessonsCountOnDay(cls);
-    answer += Functions::daysByHard(cls);
+    float avrEnd = sumEnd / JOB_WEEK_LENGHT;
+    float valueEnd = 0;
+
+    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        float x = bufferEnds[day] - avrEnd;
+
+        valueEnd += x * x;
+    }
+
+    answer += Weights::notEqualsLessonsCountOnDay * valueEnd;
+
+    float avrHard = sumHard / JOB_WEEK_LENGHT;
+    float valueHard = 0;
+
+    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        valueHard += abs(avrHard - bufferHards[day]);
+    }
+
+    answer += Weights::daysByHard * valueHard;
 
     return answer;
 }
 
-float getClassTotal() {
+double getClassTotal() {
     Data& data = getData();
 
-    float answer = 0;
+    double answer = 0;
 
     for (int cls = data.teachers.size() + 1; cls < data.teachers.size() + data.classes.size() + 1; cls++) {
         answer += getClassTotal(cls);
     }
 
     return answer;
+}
+
+inline bool accept(float delta, float temperature) {
+    if (delta < 0) {
+        return true;
+    }
+
+    float x = delta / temperature;
+
+    if (x > 16.2f) {
+        return false;
+    }
+
+    return float(randint(1, 10000000)) / 1e7 < exp(-x);
 }
 
 json save() {
@@ -1194,19 +1362,29 @@ int main(int argc, char** argv) {
 
     Data& data = getData();
 
+    DATA = &data;
+
     int size = data.teachers.size() + data.classes.size() + 3;
 
     graph.assign(size, vector<vector<edge>>(SLOTS));
 
-    teacherIsAllowed.assign(size, vector<bool>(SLOTS, false));
+    teacherIsAllowed.assign(size, vector<char>(SLOTS, 0));
 
     locked.assign(size, vector<SubjectSet>(SLOTS));
 
     teacherRoom.assign(size, vector<int>(SLOTS, 0));
     teacherRoomRank.assign(size, vector<int>(SLOTS, 0));
 
-    int numRooms = classroomNameByID.size();
-    roomOccupant.assign(numRooms + 1, vector<int>(SLOTS, 0));
+    roomOccupant.assign(classroomNameByID.size() + 1, vector<int>(SLOTS, 0));
+
+    bufferSubjects.assign(MAX_LESSON_IN_DAY, SubjectSet());
+    bufferCovered.assign(MAX_LESSON_IN_DAY, 0);
+
+    bufferCounter.assign(subjectNameByID.size() + 2, 0);
+
+    bufferTeacherLengths.assign(JOB_WEEK_LENGHT, 0);
+    bufferEnds.assign(JOB_WEEK_LENGHT, 0);
+    bufferHards.assign(JOB_WEEK_LENGHT, 0);
 
     for (int teacher = 0; teacher < data.teachers.size(); teacher++) {
         for (int slot : data.free[teacher]) {
@@ -1377,7 +1555,7 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    float total = getClassTotal();
+    double total = getClassTotal();
 
     for (int teacher = 1; teacher <= data.teachers.size(); teacher++) {
         total += Functions::teacherFreeTime(teacher);
@@ -1390,6 +1568,13 @@ int main(int argc, char** argv) {
     int count = 0;
 
     roomWarnings = false;
+
+    vector<int> involved, teachers1, teachers2, groupCandidates, emptyCandidates, savedRooms, savedRanks;
+    vector<edge> moving;
+
+    auto has = [](const vector<int>& values, int x) {
+        return find(values.begin(), values.end(), x) != values.end();
+    };
 
     for (int iter = 0; iter < iterations; iter++) {
         temperature *= 0.9999999;
@@ -1519,10 +1704,10 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            vector<int> teachers;
+            involved.clear();
 
             for (auto& edge : groupA) {
-                teachers.push_back(edge.id);
+                involved.push_back(edge.id);
             }
 
             for (auto& edge : groupB) {
@@ -1538,25 +1723,25 @@ int main(int argc, char** argv) {
                     continue;
                 }
 
-                teachers.push_back(edge.id);
+                involved.push_back(edge.id);
             }
 
-            if (!roomsSwappable(teachers, slotA, slotB)) {
+            if (!roomsSwappable(involved, slotA, slotB)) {
                 continue;
             }
 
             float before = getClassTotal(cls);
 
-            for (int teacher : teachers) {
+            for (int teacher : involved) {
                 before += Functions::teacherFreeTime(teacher);
             }
 
             auto intraSwapper = [&]() {
-                for (int teacher : teachers) {
+                for (int teacher : involved) {
                     swap(graph[teacher][slotA], graph[teacher][slotB]);
                 }
 
-                swapRoomsGroup(teachers, slotA, slotB);
+                swapRoomsGroup(involved, slotA, slotB);
 
                 swap(graph[cls][slotA], graph[cls][slotB]);
             };
@@ -1566,13 +1751,13 @@ int main(int argc, char** argv) {
 
             float after = getClassTotal(cls);
 
-            for (int t : teachers) {
+            for (int t : involved) {
                 after += Functions::teacherFreeTime(t);
             }
 
             float delta = after - before;
 
-            if (delta < 0 || float(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+            if (accept(delta, temperature)) {
                 total = total - before + after;
                 equal = 0;
 
@@ -1628,14 +1813,19 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            set<int> teachers1, teachers2;
+            teachers1.clear();
+            teachers2.clear();
 
             for (auto& e : group1) {
-                teachers1.insert(e.id);
+                if (!has(teachers1, e.id)) {
+                    teachers1.push_back(e.id);
+                }
             }
 
             for (auto& e : group2) {
-                teachers2.insert(e.id);
+                if (!has(teachers2, e.id)) {
+                    teachers2.push_back(e.id);
+                }
             }
 
             bool ok = true;
@@ -1647,7 +1837,7 @@ int main(int argc, char** argv) {
                     break;
                 }
 
-                if (occupied(t, color2) && !teachers2.count(t)) {
+                if (occupied(t, color2) && !has(teachers2, t)) {
                     ok = false;
 
                     break;
@@ -1665,7 +1855,7 @@ int main(int argc, char** argv) {
                     break;
                 }
 
-                if (occupied(t, color1) && !teachers1.count(t)) {
+                if (occupied(t, color1) && !has(teachers1, t)) {
                     ok = false;
 
                     break;
@@ -1676,30 +1866,30 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            vector<int> involvedTeachers(teachers1.begin(), teachers1.end());
+            involved = teachers1;
 
             for (int t : teachers2) {
-                if (!teachers1.count(t)) {
-                    involvedTeachers.push_back(t);
+                if (!has(teachers1, t)) {
+                    involved.push_back(t);
                 }
             }
 
-            if (!roomsSwappable(involvedTeachers, color1, color2)) {
+            if (!roomsSwappable(involved, color1, color2)) {
                 continue;
             }
 
             float before = getClassTotal(cls1) + getClassTotal(cls2);
 
-            for (int t : involvedTeachers) {
+            for (int t : involved) {
                 before += Functions::teacherFreeTime(t);
             }
 
             auto swapper = [&]() {
-                for (int t : involvedTeachers) {
+                for (int t : involved) {
                     swap(graph[t][color1], graph[t][color2]);
                 }
 
-                swapRoomsGroup(involvedTeachers, color1, color2);
+                swapRoomsGroup(involved, color1, color2);
 
                 swap(graph[cls1][color1], graph[cls1][color2]);
                 swap(graph[cls2][color1], graph[cls2][color2]);
@@ -1710,13 +1900,13 @@ int main(int argc, char** argv) {
 
             float after = getClassTotal(cls1) + getClassTotal(cls2);
 
-            for (int teacher : involvedTeachers) {
+            for (int teacher : involved) {
                 after += Functions::teacherFreeTime(teacher);
             }
 
             float delta = after - before;
 
-            if (delta < 0 || float(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+            if (accept(delta, temperature)) {
                 total = total - before + after;
 
                 equal = 0;
@@ -1754,18 +1944,32 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            vector<int> involvedTeachers;
+            involved.clear();
 
             for (edge& e : graph[cls][slotA]) {
                 if (e.value == subjectID) {
-                    involvedTeachers.push_back(e.id);
+                    involved.push_back(e.id);
                 }
             }
 
-            vector<int> groupCandidates, emptyCandidates;
+            groupCandidates.clear();
+            emptyCandidates.clear();
 
             for (int slot = off; slot < off + week; slot++) {
                 if (slot == slotA) {
+                    continue;
+                }
+
+                bool slotOk = true;
+
+                for (int t : involved) {
+                    if (!teacherIsAllowed[t][slot] || occupied(t, slot)) {
+                        slotOk = false;
+                        break;
+                    }
+                }
+
+                if (!slotOk) {
                     continue;
                 }
 
@@ -1773,29 +1977,17 @@ int main(int argc, char** argv) {
                     continue;
                 }
 
-                bool teachersOk = true;
+                if (data.classroomsEnable) {
+                    for (int t : involved) {
+                        if (findRoomForTeacher(t, subjectID, slot) == -1) {
+                            slotOk = false;
 
-                for (int t : involvedTeachers) {
-                    if (!teacherIsAllowed[t][slot] || occupied(t, slot)) {
-                        teachersOk = false;
-                        break;
+                            break;
+                        }
                     }
                 }
 
-                if (!teachersOk) {
-                    continue;
-                }
-
-                bool roomsOk = true;
-
-                for (int t : involvedTeachers) {
-                    if (findRoomForTeacher(t, subjectID, slot) == -1) {
-                        roomsOk = false;
-                        break;
-                    }
-                }
-
-                if (!roomsOk) {
+                if (!slotOk) {
                     continue;
                 }
 
@@ -1821,12 +2013,12 @@ int main(int argc, char** argv) {
 
             float before = getClassTotal(cls);
 
-            for (int t : involvedTeachers) {
+            for (int t : involved) {
                 before += Functions::teacherFreeTime(t);
-                before += Functions::classroomPriority(t);
+                before += Weights::classroomPriority * teacherRoomRank[t][slotA];
             }
 
-            vector<edge> moving;
+            moving.clear();
 
             for (auto it = graph[cls][slotA].begin(); it != graph[cls][slotA].end(); ) {
                 if (it->value == subjectID) {
@@ -1839,11 +2031,12 @@ int main(int argc, char** argv) {
                 }
             }
 
-            map<int, int> savedRooms, savedRanks;
+            savedRooms.clear();
+            savedRanks.clear();
 
             for (edge& e : moving) {
-                savedRooms[e.id] = teacherRoom[e.id][slotA];
-                savedRanks[e.id] = teacherRoomRank[e.id][slotA];
+                savedRooms.push_back(teacherRoom[e.id][slotA]);
+                savedRanks.push_back(teacherRoomRank[e.id][slotA]);
             }
 
             auto applyMove = [&]() {
@@ -1859,7 +2052,9 @@ int main(int argc, char** argv) {
             };
 
             auto revertMove = [&]() {
-                for (edge& e : moving) {
+                for (int i = 0; i < moving.size(); i++) {
+                    edge& e = moving[i];
+
                     vector<edge>& vb = graph[cls][slotB];
 
                     for (auto it = vb.begin(); it != vb.end(); ++it) {
@@ -1874,12 +2069,12 @@ int main(int argc, char** argv) {
 
                     releaseRoom(e.id, slotB);
 
-                    int room = savedRooms[e.id];
+                    int room = savedRooms[i];
 
                     if (room > 0) {
                         roomOccupant[room][slotA] = e.id;
                         teacherRoom[e.id][slotA] = room;
-                        teacherRoomRank[e.id][slotA] = savedRanks[e.id];
+                        teacherRoomRank[e.id][slotA] = savedRanks[i];
                     }
                 }
 
@@ -1894,14 +2089,14 @@ int main(int argc, char** argv) {
 
             float after = getClassTotal(cls);
 
-            for (int t : involvedTeachers) {
+            for (int t : involved) {
                 after += Functions::teacherFreeTime(t);
-                after += Functions::classroomPriority(t);
+                after += Weights::classroomPriority * teacherRoomRank[t][slotB];
             }
 
             float delta = after - before;
 
-            if (delta < 0 || float(randint(1, 1e7)) / 1e7 < exp(-delta / temperature)) {
+            if (accept(delta, temperature)) {
                 total = total - before + after;
 
                 equal = 0;
@@ -1930,7 +2125,7 @@ int main(int argc, char** argv) {
             int subjectID = graph[teacher][slot][0].value;
             int currentRank = teacherRoomRank[teacher][slot];
 
-            float before = Functions::classroomPriority(teacher);
+            float before = Weights::classroomPriority * currentRank;
 
             releaseRoom(teacher, slot);
             assignRoom(teacher, subjectID, slot);
@@ -1947,7 +2142,7 @@ int main(int argc, char** argv) {
                 continue;
             }
 
-            float after = Functions::classroomPriority(teacher);
+            float after = Weights::classroomPriority * teacherRoomRank[teacher][slot];
 
             float delta = after - before;
 
@@ -1966,10 +2161,6 @@ int main(int argc, char** argv) {
                 equal += 1;
             }
         }
-    }
-
-    if (data.classroomsEnable && !verifyRooms()) {
-        cout << "[ERROR] classroom tables are inconsistent, result may contain overlaps" << "\n";
     }
 
     std::ofstream file(output);

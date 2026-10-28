@@ -6,7 +6,7 @@ import os
 URL = "https://request.tail1af8d9.ts.net"
 # URL = "http://127.0.0.1:5000"
 
-MODEL = "muse-spark-1-3-contributor:free"
+MODEL = "DeepSeek-V4.1-Flash"
 
 REQUEST_ENDPOINT = f"{URL}/api/ai/request"
 STATUS_ENDPOINT = f"{URL}/api/ai/status"
