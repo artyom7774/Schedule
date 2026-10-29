@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt
 
 from src.variables import *
 
+import natsort
+
 
 class ChooseInputDialog(QDialog):
     def __init__(self, parent, chooses, title, label, accept, function):
@@ -20,7 +22,7 @@ class ChooseInputDialog(QDialog):
         self.label.show()
 
         self.edit = QComboBox(parent=self)
-        self.edit.addItems(chooses)
+        self.edit.addItems(natsort.natsorted(chooses))
         self.edit.setGeometry(250, 10, 300, 28)
         self.edit.setFont(FONT)
         self.edit.show()
