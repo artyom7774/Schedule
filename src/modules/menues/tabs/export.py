@@ -145,7 +145,7 @@ class TabExport(QWidget):
 
     def exportProjectPushButtonClicked(self, path: str = None):
         if path is None:
-            path, _ = QFileDialog.getSaveFileName(self, translate("menu.main.tab.export.save_file"), "schedule.json", "Excel (*.xlsx)")
+            path, _ = QFileDialog.getSaveFileName(self, translate("menu.main.tab.export.save_file"), "schedule.json", "JSON (*.json)")
 
         if not path:
             return

@@ -8,6 +8,7 @@
 
 - **Repository:** [https://github.com/artyom7774/Schedule](https://github.com/artyom7774/Schedule)
 - **Site:** [https://superzavych.pythonanywhere.com/](https://superzavych.pythonanywhere.com/)
+- **Habr:** [https://habr.com/ru/articles/1089006/](https://habr.com/ru/articles/1089006/)
 
 ## Features
 
