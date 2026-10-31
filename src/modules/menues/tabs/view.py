@@ -152,6 +152,8 @@ class TabView(QWidget):
         answer = 0
 
         for teacher in self.teachers:
+            # print(f"{teacher}: {self.countTeacherWindows(teacher)}")
+
             answer += self.countTeacherWindows(teacher)
 
         print(answer)
@@ -201,13 +203,16 @@ class TabView(QWidget):
     def countTeacherWindows(self, teacher: str) -> int:
         total = 0
 
-        for shift in range(self.window.settings["number_of_shifts"]):
-            classesInShift = [cls for cls in self.classes if self.classShift(cls) == shift]
+        lessons = self.window.settings["max_lesson_count_per_day"]
+        crossing = self.window.settings.get("shift_crossing", 0)
 
-            for day in range(self.window.settings["working_days_per_week"]):
-                elements = []
+        for day in range(self.window.settings["working_days_per_week"]):
+            elements = set()
 
-                for lesson in range(self.window.settings["max_lesson_count_per_day"]):
+            for shift in range(self.window.settings["number_of_shifts"]):
+                classesInShift = [cls for cls in self.classes if self.classShift(cls) == shift]
+
+                for lesson in range(lessons):
                     has = False
 
                     for cls in classesInShift:
@@ -229,10 +234,10 @@ class TabView(QWidget):
                             break
 
                     if has:
-                        elements.append(lesson)
+                        elements.add(shift * (lessons - crossing) + lesson)
 
-                if len(elements) >= 2:
-                    total += (max(elements) - min(elements) + 1) - len(elements)
+            if len(elements) >= 2:
+                total += (max(elements) - min(elements) + 1) - len(elements)
 
         return total
 
