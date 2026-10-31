@@ -103,6 +103,9 @@ def initProject(window, project):
             "time": {
 
             }
+        },
+        "crossing": {
+
         }
     }
 

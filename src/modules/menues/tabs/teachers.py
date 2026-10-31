@@ -203,6 +203,8 @@ class TabTeachers(QWidget):
             return
 
         self.window.settings["teachers"][self.teacher].setdefault("subjects", [])
+
+        self.window.settings["teachers"][self.teacher].setdefault("reserve", [])
         self.window.settings["teachers"][self.teacher].setdefault("free", [])
 
         self.teachersScroll = QScrollArea(parent=self)
@@ -228,9 +230,6 @@ class TabTeachers(QWidget):
 
         self.teachersScroll.setWidget(container)
 
-        # Восстанавливаем позицию скролла после пересборки вкладки.
-        # QTimer.singleShot(0, ...) нужен, потому что сразу после setWidget
-        # лейаут ещё не рассчитан и scrollBar().maximum() == 0.
         if "teachers_scroll" in self.window.objects:
             value = self.window.objects.pop("teachers_scroll")
 
@@ -252,6 +251,16 @@ class TabTeachers(QWidget):
 
         while len(self.window.settings["teachers"][self.teacher]["free"]) > self.window.settings["number_of_shifts"]:
             self.window.settings["teachers"][self.teacher]["free"].pop(-1)
+
+            flag = True
+
+        while len(self.window.settings["teachers"][self.teacher]["reserve"]) < self.window.settings["number_of_shifts"]:
+            self.window.settings["teachers"][self.teacher]["reserve"].append([])
+
+            flag = True
+
+        while len(self.window.settings["teachers"][self.teacher]["reserve"]) > self.window.settings["number_of_shifts"]:
+            self.window.settings["teachers"][self.teacher]["reserve"].pop(-1)
 
             flag = True
 
@@ -278,6 +287,9 @@ class TabTeachers(QWidget):
 
                     if [col, row] in self.window.settings["teachers"][self.teacher]["free"][shift]:
                         item.setBackground(QColor(f"#{COLORS['red']}"))
+
+                    elif [col, row] in self.window.settings["teachers"][self.teacher]["reserve"][shift]:
+                        item.setBackground(QColor(f"#{COLORS['yellow']}"))
 
                     else:
                         item.setBackground(QColor(f"#{COLORS['green']}"))
@@ -330,7 +342,11 @@ class TabTeachers(QWidget):
         pos = [col, row]
 
         if pos in self.window.settings["teachers"][self.teacher]["free"][shift]:
+            self.window.settings["teachers"][self.teacher]["reserve"][shift].append(pos)
             self.window.settings["teachers"][self.teacher]["free"][shift].remove(pos)
+
+        elif pos in self.window.settings["teachers"][self.teacher]["reserve"][shift]:
+            self.window.settings["teachers"][self.teacher]["reserve"][shift].remove(pos)
 
         else:
             self.window.settings["teachers"][self.teacher]["free"][shift].append(pos)
@@ -376,7 +392,7 @@ class TabTeachers(QWidget):
 
         self.teacher = new
         self.window.objects["teachers_selected"] = self.teacher
-        self.window.objects.pop("teachers_scroll", None)  # при смене учителя скролл не восстанавливаем
+        self.window.objects.pop("teachers_scroll", None)
 
         TabTeachers.init(self.window, ignore=[TAB_TEACHERS], reverse=True)
 

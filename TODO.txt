@@ -25,11 +25,21 @@
 + сброс настроек при смене темы
 + смещаеться скролл при клике на класс для предмета учителя
 + добавить вторую кнопку в запуск которая выводит WARNING программы
-- в нагрузке учителей жёлтые уроки которые означают что урок есть и это не учитываеться алгоритмом как окна
-- новое меню с таблице сверху и слева предметы на пересечение зелёный если эти уроки могут быть вместе и красный иначе, изначально красный только на равных уроках
++ в нагрузке учителей жёлтые уроки которые означают что урок есть и это не учитываеться алгоритмом как окна
++ новое меню с таблице сверху и слева предметы на пересечение зелёный если эти уроки могут быть вместе и красный иначе, изначально красный только на равных уроках
++ в экспорте пересечения помечать чёрным цветом
+
+ДОКУМЕНТАЦИЯ
+жёлтый цвет учителей
+таблица предметов
+в меню настройках смены
 
 один из студентов написал к нашему ПО такую штуку, оказалось очень удобным как для студентов так и для педагогов, например найти свободный кабинет или найти преподавателя которому тебе надо сдать долги.
 
-- algorithm has been updated using the Kempe algorithm
-- update using daysByHard parameter
-- update AI
+- new menu Subjects (can select lessons that can be repeated on the same day)
+- parameter equalLessons working only with repeatable subjects
+- update algorithm for working with subjects menu
+- yellow lesson type for teacher, mean teacher have lesson but it no indicated
+- update AI instructions
+- in teachers export view lessons, what have shift crossing
+- update standard algorithm weights values

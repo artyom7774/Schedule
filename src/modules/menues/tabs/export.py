@@ -225,6 +225,8 @@ class TabExport(QWidget):
         if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"):
             QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.answer_is_not_created"), QMessageBox.Ok)
 
+            return
+
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json", "r", encoding="utf-8") as file:
             answer = json.load(file)
 
@@ -249,6 +251,11 @@ class TabExport(QWidget):
         height, lines = self.start(page)
 
         lessons = self.window.settings["max_lesson_count_per_day"]
+        shifts = self.window.settings["number_of_shifts"]
+
+        crossing = min(self.window.settings.get("shift_crossing", 0), lessons)
+
+        busy = {teacher: set() for teacher in teachers}
 
         for col, teacher in enumerate(teachers, start=4):
             page[f"{letter(col)}1"] = teacher
@@ -284,6 +291,53 @@ class TabExport(QWidget):
                                 cell.value = content
 
                             cell.fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
+
+                            busy[teacher].add((day, shift, i))
+
+        def pair(day, shift, i):
+            result = []
+
+            if i >= lessons - crossing and shift + 1 < shifts:
+                result.append((day, shift + 1, i - (lessons - crossing)))
+
+            if i < crossing and shift > 0:
+                result.append((day, shift - 1, (lessons - crossing) + i))
+
+            return result
+
+        def paint(day, shift, i, col, color):
+            page.cell(row=day * (height + 1) + shift * lessons + i + 2, column=col).fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
+
+        if crossing > 0:
+            for teacher, slots in busy.items():
+                col = teachers.index(teacher) + 4
+
+                blocked = set()
+
+                for day, shift, i in slots:
+                    blocked.update(pair(day, shift, i))
+
+                for day, shift, i in blocked - slots:
+                    paint(day, shift, i, col, "6a6a6a")
+
+        for teacher in teachers:
+            col = teachers.index(teacher) + 4
+            slots = busy[teacher]
+
+            info = self.window.settings.get("teachers", {}).get(teacher, {})
+
+            reserved = set()
+
+            for shift, items in enumerate(info.get("reserve", [])):
+                for day, i in items:
+                    if day >= self.window.settings["working_days_per_week"] or shift >= shifts or i >= lessons:
+                        continue
+
+                    reserved.add((day, shift, i))
+                    reserved.update(pair(day, shift, i))
+
+            for day, shift, i in reserved - slots:
+                paint(day, shift, i, col, "e9e96a")
 
         self.finish(page, lines)
 

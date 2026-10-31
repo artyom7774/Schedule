@@ -199,18 +199,15 @@ class TabView(QWidget):
         return entries
 
     def countTeacherWindows(self, teacher: str) -> int:
-        lessons = self.window.settings["max_lesson_count_per_day"]
-        days = self.window.settings["working_days_per_week"]
-
         total = 0
 
         for shift in range(self.window.settings["number_of_shifts"]):
             classesInShift = [cls for cls in self.classes if self.classShift(cls) == shift]
 
-            for day in range(days):
+            for day in range(self.window.settings["working_days_per_week"]):
                 elements = []
 
-                for lesson in range(lessons):
+                for lesson in range(self.window.settings["max_lesson_count_per_day"]):
                     has = False
 
                     for cls in classesInShift:
@@ -224,6 +221,9 @@ class TabView(QWidget):
                                 has = True
 
                                 break
+
+                        if "reserve" in self.window.settings["teachers"][teacher] and [day, lesson] in self.window.settings["teachers"][teacher]["reserve"][shift]:
+                            has = True
 
                         if has:
                             break

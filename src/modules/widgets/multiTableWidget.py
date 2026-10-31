@@ -3,19 +3,17 @@ from PyQt5.QtCore import Qt
 
 
 class MultiTableWidget(QTableWidget):
-    def __init__(self, rows, cols, parent=None):
+    def __init__(self, rows, cols, parent=None, base: str = "0"):
         super().__init__(rows, cols, parent)
 
         self.blockSignals(True)
 
         for c in range(cols):
             for r in range(rows):
-                self.setItem(r, c, QTableWidgetItem("0"))
+                self.setItem(r, c, QTableWidgetItem(base))
 
         for col in range(self.columnCount()):
             self.setColumnWidth(col, 80)
-
-        self.verticalHeader().setFixedWidth(80)
 
         self.blockSignals(False)
 

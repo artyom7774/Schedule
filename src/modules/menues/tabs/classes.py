@@ -15,6 +15,7 @@ class TabClasses(QWidget):
         self.window = window
 
         self.classesTable = MultiTableWidget(sum(self.window.settings["classes"]["count"]), self.window.settings["subjects_count"], parent=self)
+        self.classesTable.verticalHeader().setFixedWidth(80)
 
         self.classes = []
 

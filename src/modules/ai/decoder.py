@@ -17,7 +17,7 @@ def decoder(window, output, function):
                 importlib.import_module(name)
 
             except ImportError:
-                result = subprocess.run([sys.executable, "-m", "pip", "install", name], capture_output=True, text=True)
+                result = subprocess.run(["python/Scripts/pip.exe", "install", name], capture_output=True, text=True)
 
                 if result.returncode != 0:
                     raise Exception(result.stderr)

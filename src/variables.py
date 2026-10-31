@@ -18,13 +18,14 @@ PLUS = 64 + 8 - 1
 TAB_SETTINGS    = 0
 TAB_CLASSES     = 1
 TAB_CLASSROOMS  = 2
-TAB_TEACHERS    = 3
-TAB_AI          = 5
-TAB_CONSTANTS   = 7
-TAB_GROUPS      = 8
-TAB_RUN         = 10
-TAB_VIEW        = 12
-TAB_EXPORT      = 14
+TAB_SUBJECTS    = 3
+TAB_TEACHERS    = 4
+TAB_AI          = 6
+TAB_CONSTANTS   = 8
+TAB_GROUPS      = 9
+TAB_RUN         = 11
+TAB_VIEW        = 13
+TAB_EXPORT      = 15
 
 
 def shiftName(index: int) -> str:
@@ -139,6 +140,7 @@ CLASSES_TABLE_COLORS = ["#FFFFFF", "#F2F2F3", "#E5E5E6", "#D8D8D9", "#CBCBCC", "
 
 COLORS = {
     "green": "4caf50",
+    "yellow": "ffc107",
     "red": "f44336"
 }
 
@@ -147,6 +149,7 @@ if THEME == "dark":
 
     COLORS = {
         "green": "109012",
+        "yellow": "907810",
         "red": "901112"
     }
 

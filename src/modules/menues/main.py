@@ -8,6 +8,7 @@ TABS = [
     (TabSettings, "menu.main.tab.settings", False),
     (TabClasses, "menu.main.tab.classes", False),
     (TabClassrooms, "menu.main.tab.classrooms", False),
+    (TabSubjects, "menu.main.tab.subjects", False),
     (TabTeachers, "menu.main.tab.teachers", False),
     (QWidget, "/", True),
     (TabAI, "menu.main.tab.AI", False),
@@ -42,7 +43,7 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
     if ignore is None:
         ignore = []
 
-    tabs = [TabSettings, TabClasses, TabClassrooms, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabExport]
+    tabs = [TabSettings, TabClasses, TabClassrooms, TabSubjects, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabExport]
 
     for tab in tabs:
         tab.resize = Import.resize
@@ -140,7 +141,7 @@ def resize(window) -> None:
     def y(prec):
         return int(tab.height() * prec / 100) if tab else 0
 
-    tab = tabs.widget(0)
+    tab = tabs.widget(TAB_SETTINGS)
 
     if tab and isinstance(tab, TabSettings):
         try:
@@ -177,7 +178,7 @@ def resize(window) -> None:
         except (AttributeError, KeyError):
             pass
 
-    tab = tabs.widget(1)
+    tab = tabs.widget(TAB_CLASSES)
 
     if tab and isinstance(tab, TabClasses):
         try:
@@ -186,7 +187,7 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(2)
+    tab = tabs.widget(TAB_CLASSROOMS)
 
     if tab and isinstance(tab, TabClassrooms):
         try:
@@ -200,7 +201,16 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(3)
+    tab = tabs.widget(TAB_SUBJECTS)
+
+    if tab and isinstance(tab, TabSubjects):
+        try:
+            tab.subjectsTable.setGeometry(0, 0, x(100), y(100))
+
+        except AttributeError:
+            pass
+
+    tab = tabs.widget(TAB_TEACHERS)
 
     if tab and isinstance(tab, TabTeachers):
         try:
@@ -235,7 +245,7 @@ def resize(window) -> None:
         except (AttributeError, KeyError):
             pass
 
-    tab = tabs.widget(8)
+    tab = tabs.widget(TAB_GROUPS)
 
     if tab and isinstance(tab, TabGroups):
         try:
@@ -246,7 +256,7 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(5)
+    tab = tabs.widget(TAB_AI)
 
     if tab and isinstance(tab, TabAI):
         try:
@@ -259,7 +269,7 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(7)
+    tab = tabs.widget(TAB_CONSTANTS)
 
     if tab and isinstance(tab, TabConstants):
         try:
@@ -269,7 +279,7 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(10)
+    tab = tabs.widget(TAB_RUN)
 
     if tab and isinstance(tab, TabRun):
         try:
@@ -290,7 +300,7 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(12)
+    tab = tabs.widget(TAB_VIEW)
 
     if tab and isinstance(tab, TabView):
         try:
@@ -302,7 +312,7 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(14)
+    tab = tabs.widget(TAB_EXPORT)
 
     if tab and isinstance(tab, TabExport):
         try:

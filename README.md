@@ -27,7 +27,7 @@ The program provides a full workflow for scheduling — from entering initial da
 
 1. Download the latest release from the [Releases](https://github.com/artyom7774/Schedule/releases) section.
 2. Run the application.
-3. Fill in the tabs sequentially: **Settings** > **Classes** > **Classrooms** > **Teachers**.
+3. Fill in the tabs sequentially: **Settings** > **Classes** > **Classrooms** > **Subjects** > **Teachers**.
 4. Click **Run** and wait for the schedule to be generated.
 
 > Detailed documentation is available at: [https://superzavych.pythonanywhere.com/](https://superzavych.pythonanywhere.com/)
@@ -42,11 +42,11 @@ The program provides a full workflow for scheduling — from entering initial da
 
 The interface is divided into **10 logical tabs**. Work on a project proceeds sequentially — from basic settings to export.
 
-| Stage          | Tabs                                            | Purpose                                                |
-|----------------|-------------------------------------------------|--------------------------------------------------------|
-| **Settings**   | Settings > Classes > Classrooms > Teachers > AI | Enter initial data, import and edit with AI assistance |
-| **Refinement** | Constants > Groups                              | Define specific lessons and create groups/profiles     |
-| **Result**     | Run > View > Export                             | Generate, review, and export the schedule              |
+| Stage          | Tabs                                                       | Purpose                                                |
+|----------------|------------------------------------------------------------|--------------------------------------------------------|
+| **Settings**   | Settings > Classes > Classrooms > Subjects > Teachers > AI | Enter initial data, import and edit with AI assistance |
+| **Refinement** | Constants > Groups                                         | Define specific lessons and create groups/profiles     |
+| **Result**     | Run > View > Export                                        | Generate, review, and export the schedule              |
 
 ### Settings
 
@@ -59,6 +59,10 @@ For each class and subject, you specify how many times per week the subject is t
 ### Classrooms
 
 Classrooms and their groups are defined. You can add and remove groups, and include specific classrooms in them.
+
+### Subjects
+
+For every subjects set subjects, what can be together in the one day
 
 ### Teachers
 
@@ -87,7 +91,7 @@ The AI assistant makes it convenient to work with the project:
 
 - **Interface** - chat with the AI and submit files for processing.
 - **Capabilities** - answers user questions and questions about submitted files; imports data from a file into the project.
-- **Supported formats**: `.db`, `.sqlite`, `.sqlite3`, `.xlsx`, `.xls`, `.txt`, `.csv`, `.json`, `.md`, `.markdown`, `.html`, `.xml`, `.pdf`, `.docx`.
+- **Supported formats**: `.sqlite`, `.sqlite3`, `.xlsx`, `.xls`, `.txt`, `.csv`, `.json`, `.md`, `.html`, `.xml`, `.pdf`, `.docx`.
 
 ## Export
 
