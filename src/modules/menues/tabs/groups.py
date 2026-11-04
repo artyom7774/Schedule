@@ -38,7 +38,7 @@ class TabGroups(QWidget):
         self.groupsTable.setStyleSheet("""QHeaderView::section { padding-right: -12px; }""")
 
         self.groupsTable.setVerticalHeaderLabels(self.subjects)
-        self.groupsTable.verticalHeader().setFixedWidth(140)
+        self.groupsTable.verticalHeader().setFixedWidth(200)
 
         for row, subject in enumerate(self.subjects):
             header = self.groupsTable.verticalHeaderItem(row)
@@ -156,7 +156,7 @@ class TabGroups(QWidget):
         data = self.currentGroupsData()
 
         if group in data:
-            QMessageBox.warning(self, "Ошибка", f"Группа «{group}» уже существует.")
+            QMessageBox.warning(self, "Ошибка", f"Группа {group} уже существует.")
 
             return
 
@@ -206,7 +206,7 @@ class TabGroups(QWidget):
         data = self.currentGroupsData()
 
         if new in data:
-            QMessageBox.warning(self, "Ошибка", f"Группа «{new}» уже существует.")
+            QMessageBox.warning(self, "Ошибка", f"Группа {new} уже существует.")
 
             return
 
@@ -216,7 +216,7 @@ class TabGroups(QWidget):
         self.load()
 
     def deleteGroup(self, group):
-        answer = QMessageBox.question(self, "Удаление группы", f"Удалить группу «{group}»?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        answer = QMessageBox.question(self, "Удаление группы", f"Удалить группу {group}?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if answer != QMessageBox.Yes:
             return

@@ -20,7 +20,7 @@ int TEACHER_MAX_LESSONS = 9;
 int SLOTS = 0;
 
 const int MAX_GROUP_SUBJECTS = 10;
-const int TEACHER_SMALL_DAY = 4;
+const int TEACHER_SMALL_DAY = 5;
 
 int SUBJECT_MULTI_DAY_THRESHOLD = 4;
 
@@ -2167,6 +2167,9 @@ int main(int argc, char** argv) {
     int iterations = 5e7;
     app.add_option("--iterations", iterations);
 
+    double cooling = 0.9999999;
+    app.add_option("--cooling", cooling);
+
     string weights = "null";
     app.add_option("--weights", weights);
 
@@ -2436,7 +2439,7 @@ int main(int argc, char** argv) {
         total += Functions::classroomPriority(teacherID);
     }
 
-    float temperature = 100;
+    double temperature = 100;
 
     int equal = 0;
     int count = 0;
@@ -2451,7 +2454,7 @@ int main(int argc, char** argv) {
     };
 
     for (int iteration = 0; iteration < iterations; iteration++) {
-        temperature *= 0.9999999;
+        temperature *= cooling;
 
         if (equal == 10000 || (iteration + 1) % 1000000 == 0) {
             ostringstream stream;

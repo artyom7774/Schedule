@@ -56,6 +56,8 @@
 "menu.main.tab.run.run": "Запуск"
 "menu.main.tab.run.warnings": "Папярэджанні"
 "menu.main.tab.run.time_passed": "Прайшло часу"
+"menu.main.tab.run.parameters": "Параметры"
+"menu.main.tab.run.weights": "Вагі"
 
 "menu.main.tab.view.classes": "Класы"
 "menu.main.tab.view.teachers": "Настаўнікі"
@@ -133,6 +135,9 @@
 "weights.profileGaps": "Вокны груп"
 "weights.classroomPriority": "Прыярытэт кабінета"
 "weights.teacherLessonLimit": "Ліміт урокаў настаўніка"
+
+"parameters.iterations": "Ітэрацыі"
+"parameters.cooling": "Астуджэнне"
 
 "day.0": "Панядзелак"
 "day.1": "Аўторак"

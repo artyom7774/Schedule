@@ -19,6 +19,7 @@ class TabSubjects(QWidget):
 
         self.subjectsTable = MultiTableWidget(self.window.settings["subjects_count"], self.window.settings["subjects_count"], parent=self, base="")
         self.subjectsTable.setSelectionMode(QAbstractItemView.NoSelection)
+        self.subjectsTable.verticalHeader().setFixedWidth(200)
 
         self.subjectsTable.setVerticalHeaderLabels([element[0] for element in self.window.settings["subjects"]])
         self.subjectsTable.setHorizontalHeaderLabels([element[0] for element in self.window.settings["subjects"]])

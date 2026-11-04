@@ -60,7 +60,10 @@ def initProject(window, project):
         os.mkdir(f"{path}/backups")
 
     if not os.path.exists(f"{path}/weights.json"):
-        shutil.copy(f"src/files/weights.json", f"{path}/weights.json")
+        shutil.copy(f"src/files/settings/weights.json", f"{path}/weights.json")
+
+    if not os.path.exists(f"{path}/parameters.json"):
+        shutil.copy(f"src/files/settings/parameters.json", f"{path}/parameters.json")
 
     parameters = {
         "working_days_per_week": 5,

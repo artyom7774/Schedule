@@ -283,19 +283,11 @@ def resize(window) -> None:
 
     if tab and isinstance(tab, TabRun):
         try:
-            tab.settingsRama.setGeometry(0, 0, x(33), y(100))
+            tab.settingsRama.setGeometry(0, -1, x(33), y(100))
             tab.stdTextEdit.setGeometry(x(33), 0, x(100 - 33), y(100) - 30)
-            tab.runPushButton.setGeometry(x(33) + 1, y(100) - 30 + 1, x(15) - 10, 28)
-            tab.warningsPushButton.setGeometry(x(33) + x(15) - 7, y(100) - 30 + 1, x(15) - 10, 28)
-            tab.timeLabel.setGeometry(x(63) - 12, y(100) - 30, x(50), 30)
-
-            idx = 0
-
-            for name, value in tab.weights.items():
-                tab.objects[f"label_{name}"].setGeometry(10, 10 + 40 * idx, x(15), 30)
-                tab.objects[f"lineedit_{name}"].setGeometry(20 + x(15), 10 + 40 * idx, x(33) - x(15) - 30, 30)
-
-                idx += 1
+            tab.runPushButton.setGeometry(x(33) + 2, y(100) - 30 + 1, x(15) - 4, 28)
+            tab.warningsPushButton.setGeometry(x(33) + x(15), y(100) - 30 + 1, x(15) - 4, 28)
+            tab.timeLabel.setGeometry(x(63) - 4, y(100) - 30, x(50), 30)
 
         except AttributeError:
             pass

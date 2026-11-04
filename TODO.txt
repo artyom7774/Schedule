@@ -29,17 +29,15 @@
 + новое меню с таблице сверху и слева предметы на пересечение зелёный если эти уроки могут быть вместе и красный иначе, изначально красный только на равных уроках
 + в экспорте пересечения помечать чёрным цветом
 
++ выпадающий список параметров в запуске
+
 ДОКУМЕНТАЦИЯ
 жёлтый цвет учителей
 таблица предметов
 в меню настройках смены
+новое меню Run
 
 один из студентов написал к нашему ПО такую штуку, оказалось очень удобным как для студентов так и для педагогов, например найти свободный кабинет или найти преподавателя которому тебе надо сдать долги.
 
-- new menu Subjects (can select lessons that can be repeated on the same day)
-- parameter equalLessons working only with repeatable subjects
-- update algorithm for working with subjects menu
-- yellow lesson type for teacher, mean teacher have lesson but it no indicated
-- update AI instructions
-- in teachers export view lessons, what have shift crossing
-- update standard algorithm weights values
+- update Run menu
+- new parameters for Run menu: iterations, cooling

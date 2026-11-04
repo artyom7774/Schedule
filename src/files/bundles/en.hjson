@@ -56,6 +56,8 @@
 "menu.main.tab.run.run": "Run"
 "menu.main.tab.run.warnings": "Warnings"
 "menu.main.tab.run.time_passed": "Time passed"
+"menu.main.tab.run.parameters": "Parameters"
+"menu.main.tab.run.weights": "Weights"
 
 "menu.main.tab.view.classes": "Classes"
 "menu.main.tab.view.teachers": "Teachers"
@@ -133,6 +135,9 @@
 "weights.profileGaps": "Groups gaps"
 "weights.classroomPriority": "Classroom priority"
 "weights.teacherLessonLimit": "Teacher lessons limit"
+
+"parameters.iterations": "Iterations"
+"parameters.cooling": "Cooling"
 
 "day.0": "Monday"
 "day.1": "Tuesday"

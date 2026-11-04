@@ -1,11 +1,65 @@
-from PyQt5.QtWidgets import QTextEdit, QWidget, QTableWidget, QPushButton, QLabel, QLineEdit
-from PyQt5.QtCore import QProcess, QTimer
+from PyQt5.QtWidgets import QTextEdit, QWidget, QPushButton, QLabel, QLineEdit, QScrollArea, QVBoxLayout, QGridLayout, QStyle, QStyleOptionButton, QStylePainter
+
+from PyQt5.QtCore import QProcess, QTimer, Qt
 from PyQt5.QtGui import QTextCursor
+
+from src.modules.widgets import NoFocusPushButton
 
 from src.variables import *
 
 import json
 import time
+
+
+class CollapsibleSection(QWidget):
+    def __init__(self, title: str, parent=None):
+        super().__init__(parent)
+
+        self.title = title
+
+        self.open = True
+        self.row = 0
+
+        self.header = NoFocusPushButton(parent=self)
+        self.header.setFont(FONT)
+
+        self.header.clicked.connect(self.toggle)
+
+        self.update()
+
+        self.content = QWidget(parent=self)
+
+        self.grid = QGridLayout(self.content)
+        self.grid.setContentsMargins(0, 2, 0, 0)
+        self.grid.setHorizontalSpacing(10)
+        self.grid.setVerticalSpacing(2)
+        self.grid.setColumnStretch(0, 9)
+        self.grid.setColumnStretch(1, 11)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+
+        layout.addWidget(self.header)
+        layout.addWidget(self.content)
+
+    def addRow(self, label: QLabel, edit: QLineEdit) -> None:
+        label.setMinimumHeight(30)
+        edit.setMinimumHeight(30)
+
+        self.grid.addWidget(label, self.row, 0)
+        self.grid.addWidget(edit, self.row, 1)
+
+        self.row += 1
+
+    def update(self) -> None:
+        self.header.setText(f"{self.title}")
+
+    def toggle(self) -> None:
+        self.open = not self.open
+
+        self.content.setVisible(self.open)
+        self.update()
 
 
 class TabRun(QWidget):
@@ -26,15 +80,25 @@ class TabRun(QWidget):
 
         self.stdTextEdit = TabRun.stdTextEdit
 
-        self.settingsRama = QTableWidget(0, 0, parent=self)
-        self.settingsRama.horizontalHeader().setVisible(False)
-        self.settingsRama.verticalHeader().setVisible(False)
+        self.settingsRama = QScrollArea(parent=self)
+        self.settingsRama.setWidgetResizable(True)
+        self.settingsRama.setFrameShape(QScrollArea.NoFrame)
+        self.settingsRama.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        self.settingsContent = QWidget()
+        self.sectionsLayout = QVBoxLayout(self.settingsContent)
+        self.sectionsLayout.setContentsMargins(0, 0, 0, 0)
+        self.sectionsLayout.setSpacing(2)
+
+        self.settingsRama.setWidget(self.settingsContent)
         self.settingsRama.show()
 
         self.objects = {}
+
+        self.parameters = {}
         self.weights = {}
 
-        self.settingsInputsInit()
+        self.initializate()
 
         self.stdTextEdit.setReadOnly(True)
         self.stdTextEdit.setFont(ANOTHER_FONT)
@@ -59,42 +123,97 @@ class TabRun(QWidget):
         self.timeLabel.setFont(FONT)
         self.timeLabel.show()
 
-    def settingsInputsInit(self):
-        for obj in self.objects.values():
-            obj.deleteLater()
+    def load(self, name: str) -> dict:
+        try:
+            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/{name}.json", "r", encoding="utf-8") as file:
+                return json.load(file)
+
+        except FileNotFoundError:
+            return {}
+
+    def save(self, name: str, data: dict) -> None:
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/{name}.json", "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+
+    def data(self, type: str) -> dict:
+        return self.weights if type == "weights" else self.parameters
+
+    def parse(self, type: str, text: str):
+        if type == "weights":
+            return int(text)
+
+        try:
+            return int(text)
+
+        except ValueError:
+            return float(text)
+
+    def initializate(self):
+        while self.sectionsLayout.count():
+            item = self.sectionsLayout.takeAt(0)
+
+            widget = item.widget()
+
+            if widget is not None:
+                widget.setParent(None)
+                widget.deleteLater()
 
         self.objects = {}
 
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "r", encoding="utf-8") as file:
-            self.weights = json.load(file)
+        self.weights = self.load("weights")
+        self.parameters = self.load("parameters")
 
-        for name, value in self.weights.items():
-            self.objects[f"label_{name}"] = QLabel(parent=self)
-            self.objects[f"label_{name}"].setText(translate(f"weights.{name}") + ": ")
-            self.objects[f"label_{name}"].setFont(FONT)
-            self.objects[f"label_{name}"].show()
+        labels = []
 
-            self.objects[f"lineedit_{name}"] = QLineEdit(parent=self)
-            self.objects[f"lineedit_{name}"].setText(str(value))
-            self.objects[f"lineedit_{name}"].editingFinished.connect(lambda var = name: self.weightLineEditEditingFinished(var))
-            self.objects[f"lineedit_{name}"].setFont(FONT)
-            self.objects[f"lineedit_{name}"].show()
+        for type in ("parameters", "weights"):
+            data = self.data(type)
 
-    def weightLineEditEditingFinished(self, name):
-        value = self.objects[f"lineedit_{name}"].text()
+            if not data:
+                continue
+
+            section = CollapsibleSection(translate(f"menu.main.tab.run.{type}"))
+            section.setParent(self.settingsContent)
+
+            for name, value in data.items():
+                label = QLabel(translate(f"{type}.{name}") + ":")
+                label.setFont(FONT)
+
+                edit = QLineEdit(str(value))
+                edit.setFont(FONT)
+                edit.editingFinished.connect(lambda f=type, n=name: self.valueLineEditEditingFinished(f, n))
+
+                section.addRow(label, edit)
+                labels.append(label)
+
+                self.objects[f"label_{type}_{name}"] = label
+                self.objects[f"edit_{type}_{name}"] = edit
+
+            self.sectionsLayout.addWidget(section)
+
+        if labels:
+            width = max(label.sizeHint().width() for label in labels) + 2
+
+            for label in labels:
+                label.setMinimumWidth(width)
+
+        self.sectionsLayout.addStretch(1)
+
+    def valueLineEditEditingFinished(self, type: str, name: str):
+        edit = self.objects[f"edit_{type}_{name}"]
+        text = edit.text()
+
+        data = self.data(type)
 
         try:
-            int(value)
+            value = self.parse(type, text)
 
-        except BaseException:
-            self.objects[f"lineedit_{name}"].setText(str(self.weights[name]))
+        except (ValueError, TypeError):
+            edit.setText(str(data[name]))
 
             return
 
-        self.weights[name] = int(value)
-
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "w", encoding="utf-8") as file:
-            json.dump(self.weights, file, indent=4, ensure_ascii=False)
+        data[name] = value
+        self.save(type, data)
 
     def runPushButtonClicked(self, warnings: int = 0):
         try:
@@ -104,8 +223,11 @@ class TabRun(QWidget):
         except RuntimeError:
             pass
 
-        for name, value in self.weights.items():
-            self.weightLineEditEditingFinished(name)
+        for name in list(self.weights.keys()):
+            self.valueLineEditEditingFinished("weights", name)
+
+        for name in list(self.parameters.keys()):
+            self.valueLineEditEditingFinished("parameters", name)
 
         self.time = time.time()
         self.number = 0
@@ -125,24 +247,22 @@ class TabRun(QWidget):
 
         self.process.readyReadStandardOutput.connect(self.stdout)
         self.process.readyReadStandardError.connect(self.stderr)
-
         self.process.finished.connect(self.finish)
 
-        print("src/modules/solve.exe", " ".join([
+        args = [
             "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
             "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
             "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
-            "--iterations", f"100000000",
-            "--warnings",   f"{warnings}"
-        ]))
 
-        self.process.start("src/modules/solve.exe", [
-            "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
-            "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
-            "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
-            "--iterations", f"100000000",
+            "--iterations", f"{self.parameters['iterations']}",
+            "--cooling", f"{self.parameters['cooling']}",
+
             "--warnings",   f"{warnings}"
-        ])
+        ]
+
+        print("src/modules/solve.exe", " ".join(args))
+
+        self.process.start("src/modules/solve.exe", args)
 
     def counter(self):
         self.number += 1
@@ -158,16 +278,12 @@ class TabRun(QWidget):
 
     def stdout(self):
         self.update()
-
         self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardOutput()).decode("utf-8", errors="replace"))
-
         self.update()
 
     def stderr(self):
         self.update()
-
         self.stdTextEdit.insertPlainText(bytes(self.process.readAllStandardError()).decode("utf-8", errors="replace"))
-
         self.update()
 
     def finish(self, code, status):
@@ -177,9 +293,7 @@ class TabRun(QWidget):
         self.timer.stop()
 
         self.update()
-
         self.stdTextEdit.insertPlainText(f"\n=== Process finished with exit code {code} ===\n")
-
         self.update()
 
         TabRun.init(self.window, ignore=[TAB_RUN])
@@ -190,4 +304,5 @@ class TabRun(QWidget):
 
             if not self.process.waitForFinished(1000):
                 self.process.kill()
+
                 self.process.waitForFinished()
