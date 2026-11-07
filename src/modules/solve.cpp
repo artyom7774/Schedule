@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include <bits/stdc++.h>
 #include <ext/random>
 #include <windows.h>
@@ -740,7 +742,7 @@ inline bool classDayHasDuplicates(int cls, int slot) {
     return bad;
 }
 
-bool canPlaceLesson(int cls, int slot, int subjectID, int excludeSlot = -1) {
+inline bool canPlaceLesson(int cls, int slot, int subjectID, int excludeSlot = -1) {
     if (classDayConflict(cls, subjectID, slot, excludeSlot)) {
         return false;
     }
@@ -807,7 +809,7 @@ bool canPlaceLesson(int cls, int slot, int subjectID, int excludeSlot = -1) {
     return true;
 }
 
-pair<int, int> findRoomForTeacherRanked(int teacherID, int subjectID, int slot) {
+inline pair<int, int> findRoomForTeacherRanked(int teacherID, int subjectID, int slot) {
     const Data& data = *DATA;
 
     if (!data.classroomsEnable) {
@@ -845,7 +847,7 @@ pair<int, int> findRoomForTeacherRanked(int teacherID, int subjectID, int slot) 
     return {-1, -1};
 }
 
-int findRoomForTeacher(int teacherID, int subjectID, int slot) {
+inline int findRoomForTeacher(int teacherID, int subjectID, int slot) {
     return findRoomForTeacherRanked(teacherID, subjectID, slot).first;
 }
 
@@ -866,7 +868,7 @@ void assignRoom(int teacherID, int subjectID, int slot) {
     }
 }
 
-void releaseRoom(int teacherID, int slot) {
+inline void releaseRoom(int teacherID, int slot) {
     int room = teacherRoom[teacherID][slot];
 
     if (room > 0) {
@@ -897,7 +899,7 @@ inline bool roomAvailableExcluding(int room, int slot, const vector<int>& exclud
     return false;
 }
 
-bool roomsSwappable(const vector<int>& teachersList, int slotA, int slotB) {
+inline bool roomsSwappable(const vector<int>& teachersList, int slotA, int slotB) {
     for (int teacherID : teachersList) {
         int roomA = teacherRoom[teacherID][slotA];
         int roomB = teacherRoom[teacherID][slotB];
@@ -914,7 +916,7 @@ bool roomsSwappable(const vector<int>& teachersList, int slotA, int slotB) {
     return true;
 }
 
-void swapRoomsGroup(const vector<int>& teachersList, int slotA, int slotB) {
+inline void swapRoomsGroup(const vector<int>& teachersList, int slotA, int slotB) {
     for (int teacherID : teachersList) {
         int roomA = teacherRoom[teacherID][slotA];
         int roomB = teacherRoom[teacherID][slotB];
@@ -1570,517 +1572,1096 @@ float teacherGaps(int teacherID) {
     return value;
 }
 
-inline float fair(float gap) {
-    return TEACHER_FAIR > 0 ? gap * gap / TEACHER_FAIR : 0.0f;
+inline float teacherCost(int teacherID) {
+    return Functions::teacherFreeTime(teacherID) + lastTeacherGapCost * lastTeacherGapCost / TEACHER_FAIR;
 }
 
-float teacherCost(int teacherID) {
-    float cost = Functions::teacherFreeTime(teacherID);
-
-    if (TEACHER_FAIR > 0) {
-        cost += fair(lastTeacherGapCost);
-    }
-
-    return cost;
-}
-
-int verifyNoDuplicates() {
-    Data& data = getData();
-
-    int bad = 0;
-
-    for (int cls = data.teachers.size() + 1; cls < data.teachers.size() + data.classes.size() + 1; cls++) {
-        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
-            int slot = data.classShiftOffset[cls] + day * MAX_LESSON_IN_DAY;
-
-            if (classDayHasDuplicates(cls, slot)) {
-                cout << "[ERROR] day rule violated (repeat or forbidden subject pair): " << classNameByID[cls] << ", day " << day << "\n";
-
-                bad++;
-            }
-        }
-    }
-
-    return bad;
-}
-
-struct KempeUnit {
-    int cls = 0, from = 0, subject = 0;
-    vector<int> ids;
-};
-
-struct KempeStart {
-    int A = -1, B = -1, cls = 0, subject = 0;
-};
-
-struct KempeStats {
-    long long tried[3] = {0, 0, 0}, built[3] = {0, 0, 0}, valid[3] = {0, 0, 0}, accepted[3] = {0, 0, 0}, improved[3] = {0, 0, 0};
-};
-
-KempeStats kempeStats;
-
-int KEMPE_MAX_UNITS = 24;
-
-inline bool pairCompatible(int cls, int subjectA, int subjectB) {
-    if (subjectA == subjectB) {
-        return false;
-    }
-
-    const vector<int>& mask = DATA->groupMaskBySubject[cls];
-
-    int maskA = (subjectA >= 0 && subjectA < mask.size()) ? mask[subjectA] : 0;
-    int maskB = (subjectB >= 0 && subjectB < mask.size()) ? mask[subjectB] : 0;
-
-    return maskA != 0 && maskB != 0 && (maskA & maskB) == 0;
-}
-
-bool kempeBuild(int A, int B, int startCls, int startSubject, vector<KempeUnit>& chain) {
-    chain.clear();
-
-    auto add = [&](int cls, int slot, int subject) -> bool {
-        for (const KempeUnit& existing : chain) {
-            if (existing.cls == cls && existing.from == slot && existing.subject == subject) {
-                return true;
-            }
-        }
-
-        KempeUnit unit;
-
-        unit.cls = cls;
-        unit.from = slot;
-        unit.subject = subject;
-
-        for (const edge& connection : graph[cls][slot]) {
-            if (connection.value == subject) {
-                unit.ids.push_back(connection.id);
-            }
-        }
-
-        if (unit.ids.empty()) {
-            return false;
-        }
-
-        chain.push_back(unit);
-
-        return true;
+namespace kempe {
+    struct Unit {
+        int cls = 0, from = 0, subject = 0;
+        vector<int> ids;
     };
 
-    if (!add(startCls, A, startSubject)) {
-        return false;
+    struct Start {
+        int A = -1, B = -1, cls = 0, subject = 0;
+    };
+
+    struct Stats {
+        long long tried[3] = {0, 0, 0}, built[3] = {0, 0, 0}, valid[3] = {0, 0, 0}, accepted[3] = {0, 0, 0}, improved[3] = {0, 0, 0};
+    };
+
+    Stats stats;
+
+    int MAX_UNITS = 24;
+
+    inline bool pairCompatible(int cls, int subjectA, int subjectB) {
+        if (subjectA == subjectB) {
+            return false;
+        }
+
+        const vector<int>& mask = DATA->groupMaskBySubject[cls];
+
+        int maskA = (subjectA >= 0 && subjectA < mask.size()) ? mask[subjectA] : 0;
+        int maskB = (subjectB >= 0 && subjectB < mask.size()) ? mask[subjectB] : 0;
+
+        return maskA != 0 && maskB != 0 && (maskA & maskB) == 0;
     }
 
-    for (size_t index = 0; index < chain.size(); index++) {
-        if (chain.size() > KEMPE_MAX_UNITS) {
-            return false;
-        }
+    bool build(int A, int B, int startCls, int startSubject, vector<Unit>& chain) {
+        chain.clear();
 
-        KempeUnit chainUnit = chain[index];
+        auto add = [&](int cls, int slot, int subject) -> bool {
+            for (const Unit& existing : chain) {
+                if (existing.cls == cls && existing.from == slot && existing.subject == subject) {
+                    return true;
+                }
+            }
 
-        int oppositeSlot = (chainUnit.from == A) ? B : A;
+            Unit unit;
 
-        if (subjectLocked(chainUnit.cls, chainUnit.from, chainUnit.subject)) {
-            return false;
-        }
+            unit.cls = cls;
+            unit.from = slot;
+            unit.subject = subject;
 
-        for (int id : chainUnit.ids) {
-            if (!teacherIsAllowed[id][oppositeSlot]) {
+            for (const edge& connection : graph[cls][slot]) {
+                if (connection.value == subject) {
+                    unit.ids.push_back(connection.id);
+                }
+            }
+
+            if (unit.ids.empty()) {
                 return false;
             }
 
-            if (!graph[id][oppositeSlot].empty()) {
-                int otherCls = graph[id][oppositeSlot][0].id;
-                int otherSubject = graph[id][oppositeSlot][0].value;
+            chain.push_back(unit);
 
-                if (!add(otherCls, oppositeSlot, otherSubject)) {
+            return true;
+        };
+
+        if (!add(startCls, A, startSubject)) {
+            return false;
+        }
+
+        for (size_t index = 0; index < chain.size(); index++) {
+            if (chain.size() > MAX_UNITS) {
+                return false;
+            }
+
+            Unit chainUnit = chain[index];
+
+            int oppositeSlot = (chainUnit.from == A) ? B : A;
+
+            if (subjectLocked(chainUnit.cls, chainUnit.from, chainUnit.subject)) {
+                return false;
+            }
+
+            for (int id : chainUnit.ids) {
+                if (!teacherIsAllowed[id][oppositeSlot]) {
                     return false;
+                }
+
+                if (!graph[id][oppositeSlot].empty()) {
+                    int otherCls = graph[id][oppositeSlot][0].id;
+                    int otherSubject = graph[id][oppositeSlot][0].value;
+
+                    if (!add(otherCls, oppositeSlot, otherSubject)) {
+                        return false;
+                    }
+                }
+            }
+
+            SubjectSet subjects = slotSubjects(chainUnit.cls, oppositeSlot);
+
+            for (int subjectIndex = 0; subjectIndex < subjects.size; subjectIndex++) {
+                if (!pairCompatible(chainUnit.cls, chainUnit.subject, subjects.values[subjectIndex])) {
+                    if (!add(chainUnit.cls, oppositeSlot, subjects.values[subjectIndex])) {
+                        return false;
+                    }
                 }
             }
         }
 
-        SubjectSet subjects = slotSubjects(chainUnit.cls, oppositeSlot);
+        return chain.size() <= MAX_UNITS;
+    }
 
-        for (int subjectIndex = 0; subjectIndex < subjects.size; subjectIndex++) {
-            if (!pairCompatible(chainUnit.cls, chainUnit.subject, subjects.values[subjectIndex])) {
-                if (!add(chainUnit.cls, oppositeSlot, subjects.values[subjectIndex])) {
-                    return false;
+    inline int shiftForDay(int teacherID, int shift, int day) {
+        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+
+        int bestShift = -1, bestCount = INT_MAX;
+
+        for (int candidateShift = 0; candidateShift < NUMBER_OF_SHIFTS; candidateShift++) {
+            int currentShift = (candidateShift == 0) ? shift : (candidateShift <= shift ? candidateShift - 1 : candidateShift);
+
+            int count = 0;
+
+            for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+                if (!graph[teacherID][currentShift * week + day * MAX_LESSON_IN_DAY + lesson].empty()) {
+                    count++;
                 }
             }
-        }
-    }
 
-    return chain.size() <= KEMPE_MAX_UNITS;
-}
+            if (candidateShift == 0 && count > 0) {
+                return shift;
+            }
 
-inline int kempeShiftForDay(int teacherID, int shift, int day) {
-    int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+            if (count > 0 && count < bestCount) {
+                bestCount = count;
 
-    int bestShift = -1, bestCount = INT_MAX;
-
-    for (int candidateShift = 0; candidateShift < NUMBER_OF_SHIFTS; candidateShift++) {
-        int currentShift = (candidateShift == 0) ? shift : (candidateShift <= shift ? candidateShift - 1 : candidateShift);
-
-        int count = 0;
-
-        for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-            if (!graph[teacherID][currentShift * week + day * MAX_LESSON_IN_DAY + lesson].empty()) {
-                count++;
+                bestShift = currentShift;
             }
         }
 
-        if (candidateShift == 0 && count > 0) {
-            return shift;
-        }
-
-        if (count > 0 && count < bestCount) {
-            bestCount = count;
-
-            bestShift = currentShift;
-        }
+        return bestShift;
     }
 
-    return bestShift;
-}
+    bool pickSmallDay(int teacherID, int shift, int& slotA, int& slotB) {
+        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
 
-bool kempePickSmallDay(int teacherID, int shift, int& slotA, int& slotB) {
-    int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        vector<int> dailyLessons(JOB_WEEK_LENGHT, 0);
+        vector<int> smallDays;
 
-    vector<int> dailyLessons(JOB_WEEK_LENGHT, 0);
-    vector<int> smallDays;
+        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+            dailyLessons[day] = teacherDayLessons(graph[teacherID], day);
 
-    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
-        dailyLessons[day] = teacherDayLessons(graph[teacherID], day);
+            if (dailyLessons[day] == 0) {
+                continue;
+            }
 
-        if (dailyLessons[day] == 0) {
-            continue;
+            if (teacherDayLoad(teacherID, day) < TEACHER_SMALL_DAY || teacherDayGap(teacherID, day) > 0) {
+                smallDays.push_back(day);
+            }
         }
 
-        if (teacherDayLoad(teacherID, day) < TEACHER_SMALL_DAY || teacherDayGap(teacherID, day) > 0) {
-            smallDays.push_back(day);
-        }
-    }
-
-    if (smallDays.empty()) {
-        return false;
-    }
-
-    int firstDay = smallDays[randint(0, smallDays.size() - 1)];
-
-    int chosenShift = kempeShiftForDay(teacherID, shift, firstDay);
-
-    if (chosenShift < 0) {
-        return false;
-    }
-
-    vector<int> lessonSlots;
-
-    for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-        int slot = chosenShift * week + firstDay * MAX_LESSON_IN_DAY + lesson;
-
-        if (!graph[teacherID][slot].empty()) {
-            lessonSlots.push_back(slot);
-        }
-    }
-
-    if (lessonSlots.empty()) {
-        return false;
-    }
-
-    slotA = lessonSlots[randint(0, lessonSlots.size() - 1)];
-
-    vector<int> candidates;
-
-    for (int secondDay = 0; secondDay < JOB_WEEK_LENGHT; secondDay++) {
-        if (secondDay == firstDay || dailyLessons[secondDay] == 0) {
-            continue;
+        if (smallDays.empty()) {
+            return false;
         }
 
-        int base = chosenShift * week + secondDay * MAX_LESSON_IN_DAY;
+        int firstDay = smallDays[randint(0, smallDays.size() - 1)];
 
-        int first = -1, last = -1;
+        int chosenShift = shiftForDay(teacherID, shift, firstDay);
+
+        if (chosenShift < 0) {
+            return false;
+        }
+
+        vector<int> lessonSlots;
 
         for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-            if (!graph[teacherID][base + lesson].empty() || teacherReserve[teacherID][base + lesson]) {
+            int slot = chosenShift * week + firstDay * MAX_LESSON_IN_DAY + lesson;
+
+            if (!graph[teacherID][slot].empty()) {
+                lessonSlots.push_back(slot);
+            }
+        }
+
+        if (lessonSlots.empty()) {
+            return false;
+        }
+
+        slotA = lessonSlots[randint(0, lessonSlots.size() - 1)];
+
+        vector<int> candidates;
+
+        for (int secondDay = 0; secondDay < JOB_WEEK_LENGHT; secondDay++) {
+            if (secondDay == firstDay || dailyLessons[secondDay] == 0) {
+                continue;
+            }
+
+            int base = chosenShift * week + secondDay * MAX_LESSON_IN_DAY;
+
+            int first = -1, last = -1;
+
+            for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+                if (!graph[teacherID][base + lesson].empty() || teacherReserve[teacherID][base + lesson]) {
+                    if (first == -1) {
+                        first = lesson;
+                    }
+
+                    last = lesson;
+                }
+            }
+
+            if (first == -1) {
+                continue;
+            }
+
+            for (int lesson = first; lesson <= last; lesson++) {
+                if (graph[teacherID][base + lesson].empty() && !teacherReserve[teacherID][base + lesson]) {
+                    candidates.push_back(base + lesson);
+                }
+            }
+
+            if (first > 0) {
+                candidates.push_back(base + first - 1);
+            }
+
+            if (last < MAX_LESSON_IN_DAY - 1) {
+                candidates.push_back(base + last + 1);
+            }
+        }
+
+        if (candidates.empty()) {
+            return false;
+        }
+
+        slotB = candidates[randint(0, candidates.size() - 1)];
+
+        return slotA != slotB;
+    }
+
+    bool pickWindow(int teacherID, int shift, int& slotA, int& slotB) {
+        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+
+        int day = randint(0, JOB_WEEK_LENGHT - 1);
+        int base = shift * week + day * MAX_LESSON_IN_DAY;
+
+        int first = -1, last = -1, count = 0;
+
+        for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+            bool real = !graph[teacherID][base + lesson].empty();
+
+            if (real || teacherReserve[teacherID][base + lesson]) {
                 if (first == -1) {
                     first = lesson;
                 }
 
                 last = lesson;
             }
+
+            if (real) {
+                count++;
+            }
         }
 
-        if (first == -1) {
-            continue;
+        if (count == 0) {
+            return false;
         }
+
+        static vector<int> gapSlots;
+
+        gapSlots.clear();
 
         for (int lesson = first; lesson <= last; lesson++) {
             if (graph[teacherID][base + lesson].empty() && !teacherReserve[teacherID][base + lesson]) {
-                candidates.push_back(base + lesson);
+                gapSlots.push_back(base + lesson);
             }
         }
 
-        if (first > 0) {
-            candidates.push_back(base + first - 1);
+        if (gapSlots.empty()) {
+            return false;
         }
 
-        if (last < MAX_LESSON_IN_DAY - 1) {
-            candidates.push_back(base + last + 1);
-        }
-    }
+        slotB = gapSlots[randint(0, gapSlots.size() - 1)];
 
-    if (candidates.empty()) {
-        return false;
-    }
+        static vector<int> realSlots, endSlots;
 
-    slotB = candidates[randint(0, candidates.size() - 1)];
+        realSlots.clear();
+        endSlots.clear();
 
-    return slotA != slotB;
-}
-
-bool kempePickWindow(int teacherID, int shift, int& slotA, int& slotB) {
-    int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-
-    int day = randint(0, JOB_WEEK_LENGHT - 1);
-    int base = shift * week + day * MAX_LESSON_IN_DAY;
-
-    int first = -1, last = -1, count = 0;
-
-    for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-        bool real = !graph[teacherID][base + lesson].empty();
-
-        if (real || teacherReserve[teacherID][base + lesson]) {
-            if (first == -1) {
-                first = lesson;
-            }
-
-            last = lesson;
-        }
-
-        if (real) {
-            count++;
-        }
-    }
-
-    if (count == 0) {
-        return false;
-    }
-
-    static vector<int> gapSlots;
-
-    gapSlots.clear();
-
-    for (int lesson = first; lesson <= last; lesson++) {
-        if (graph[teacherID][base + lesson].empty() && !teacherReserve[teacherID][base + lesson]) {
-            gapSlots.push_back(base + lesson);
-        }
-    }
-
-    if (gapSlots.empty()) {
-        return false;
-    }
-
-    slotB = gapSlots[randint(0, gapSlots.size() - 1)];
-
-    static vector<int> realSlots, endSlots;
-
-    realSlots.clear();
-    endSlots.clear();
-
-    for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
-        if (!graph[teacherID][base + lesson].empty()) {
-            realSlots.push_back(base + lesson);
-        }
-    }
-
-    if (!graph[teacherID][base + first].empty()) {
-        endSlots.push_back(base + first);
-    }
-
-    if (last != first && !graph[teacherID][base + last].empty()) {
-        endSlots.push_back(base + last);
-    }
-
-    if (!endSlots.empty() && randint(1, 10) <= 7) {
-        slotA = endSlots[randint(0, endSlots.size() - 1)];
-
-    } else {
-        slotA = realSlots[randint(0, realSlots.size() - 1)];
-    }
-
-    return true;
-}
-
-inline bool kempePickTeacher(int kind, int t, int sh, KempeStart& k) {
-    bool found = (kind == 1) ? kempePickWindow(t, sh, k.A, k.B) : kempePickSmallDay(t, sh, k.A, k.B);
-
-    if (!found) {
-        return false;
-    }
-
-    k.cls = graph[t][k.A][0].id;
-    k.subject = graph[t][k.A][0].value;
-
-    return true;
-}
-
-inline bool kempePickRandom(int sh, KempeStart& k) {
-    const vector<int>& shiftClasses = DATA->classesByShift[sh];
-
-    if (shiftClasses.empty()) {
-        return false;
-    }
-
-    int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-    int offset = sh * week;
-
-    int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
-
-    k.A = offset + randint(0, week - 1);
-
-    if (!occupied(cls, k.A)) {
-        return false;
-    }
-
-    SubjectSet subjects = slotSubjects(cls, k.A);
-
-    k.cls = cls;
-    k.subject = subjects.values[randint(0, subjects.size - 1)];
-
-    if (randint(0, 1)) {
-        k.B = k.A - k.A % MAX_LESSON_IN_DAY + randint(0, MAX_LESSON_IN_DAY - 1);
-
-    } else {
-        k.B = offset + randint(0, week - 1);
-    }
-
-    return k.A != k.B;
-}
-
-int kempeMove(int A, int B, int startCls, int startSubject, int kind, float temperature, double& total, int& equal, int& count) {
-    static vector<KempeUnit> chain;
-    static vector<int> involved, classes;
-
-    kempeStats.tried[kind]++;
-
-    if (!kempeBuild(A, B, startCls, startSubject, chain)) {
-        return 0;
-    }
-
-    kempeStats.built[kind]++;
-
-    involved.clear();
-    classes.clear();
-
-    for (const KempeUnit& chainUnit : chain) {
-        classes.push_back(chainUnit.cls);
-
-        for (int id : chainUnit.ids) {
-            involved.push_back(id);
-        }
-    }
-
-    sort(classes.begin(), classes.end());
-    classes.erase(unique(classes.begin(), classes.end()), classes.end());
-
-    sort(involved.begin(), involved.end());
-    involved.erase(unique(involved.begin(), involved.end()), involved.end());
-
-    if (!roomsSwappable(involved, A, B)) {
-        return 0;
-    }
-
-    kempeStats.valid[kind]++;
-
-    float before = 0;
-
-    for (int cls : classes) {
-        before += getClassTotal(cls);
-    }
-
-    for (int teacherID : involved) {
-        before += teacherCost(teacherID);
-    }
-
-    auto flip = [&](bool back) {
-        for (const KempeUnit& chainUnit : chain) {
-            int toSlot = (chainUnit.from == A) ? B : A;
-            int sourceSlot = back ? toSlot : chainUnit.from;
-
-            vector<edge>& edges = graph[chainUnit.cls][sourceSlot];
-
-            edges.erase(remove_if(edges.begin(), edges.end(), [&](const edge& connection) { return connection.value == chainUnit.subject; }), edges.end());
-        }
-
-        for (const KempeUnit& chainUnit : chain) {
-            int toSlot = (chainUnit.from == A) ? B : A;
-            int destSlot = back ? chainUnit.from : toSlot;
-
-            for (int id : chainUnit.ids) {
-                graph[chainUnit.cls][destSlot].push_back(edge(id, chainUnit.subject));
+        for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
+            if (!graph[teacherID][base + lesson].empty()) {
+                realSlots.push_back(base + lesson);
             }
         }
+
+        if (!graph[teacherID][base + first].empty()) {
+            endSlots.push_back(base + first);
+        }
+
+        if (last != first && !graph[teacherID][base + last].empty()) {
+            endSlots.push_back(base + last);
+        }
+
+        if (!endSlots.empty() && randint(1, 10) <= 7) {
+            slotA = endSlots[randint(0, endSlots.size() - 1)];
+
+        } else {
+            slotA = realSlots[randint(0, realSlots.size() - 1)];
+        }
+
+        return true;
+    }
+
+    inline bool pickTeacher(int kind, int t, int sh, Start& k) {
+        bool found = (kind == 1) ? pickWindow(t, sh, k.A, k.B) : pickSmallDay(t, sh, k.A, k.B);
+
+        if (!found) {
+            return false;
+        }
+
+        k.cls = graph[t][k.A][0].id;
+        k.subject = graph[t][k.A][0].value;
+
+        return true;
+    }
+
+    inline bool pickRandom(int sh, Start& k) {
+        const vector<int>& shiftClasses = DATA->classesByShift[sh];
+
+        if (shiftClasses.empty()) {
+            return false;
+        }
+
+        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int offset = sh * week;
+
+        int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
+
+        k.A = offset + randint(0, week - 1);
+
+        if (!occupied(cls, k.A)) {
+            return false;
+        }
+
+        SubjectSet subjects = slotSubjects(cls, k.A);
+
+        k.cls = cls;
+        k.subject = subjects.values[randint(0, subjects.size - 1)];
+
+        if (randint(0, 1)) {
+            k.B = k.A - k.A % MAX_LESSON_IN_DAY + randint(0, MAX_LESSON_IN_DAY - 1);
+
+        } else {
+            k.B = offset + randint(0, week - 1);
+        }
+
+        return k.A != k.B;
+    }
+}
+
+double temperature = 100;
+double total = 0;
+
+int stagnation = 0;
+int moves = 0;
+
+vector<int> involved, teachers1, teachers2, groupCandidates, emptyCandidates, savedRooms, savedRanks;
+vector<edge> moving;
+
+inline bool has(const vector<int>& values, int target) {
+    return find(values.begin(), values.end(), target) != values.end();
+}
+
+namespace move {
+    void intraClassSlotSwap() {
+        const Data& data = *DATA;
+
+        int shift = randint(0, NUMBER_OF_SHIFTS - 1);
+
+        if (data.classesByShift[shift].empty()) {
+            return;
+        }
+
+        auto& shiftClasses = data.classesByShift[shift];
+
+        int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
+        int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+
+        int slotA = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+        int slotB = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+
+        if (slotA == slotB) {
+            return;
+        }
+
+        if (slotLocked(cls, slotA) || slotLocked(cls, slotB)) {
+            return;
+        }
+
+        vector<edge>& groupA = graph[cls][slotA];
+        vector<edge>& groupB = graph[cls][slotB];
+
+        if (groupA.empty() && groupB.empty()) {
+            return;
+        }
+
+        for (auto& connection : groupA) {
+            if (!teacherIsAllowed[connection.id][slotB]) {
+                return;
+            }
+
+            if (occupied(connection.id, slotB)) {
+                bool flag = false;
+
+                for (auto& other : groupB) {
+                    if (other.id == connection.id) {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (!flag) {
+                    return;
+                }
+            }
+        }
+
+        for (auto& connection : groupB) {
+            if (!teacherIsAllowed[connection.id][slotA]) {
+                return;
+            }
+
+            if (occupied(connection.id, slotA)) {
+                bool flag = false;
+
+                for (auto& other : groupA) {
+                    if (other.id == connection.id) {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (!flag) {
+                    return;
+                }
+            }
+        }
+
+        involved.clear();
+
+        for (auto& connection : groupA) {
+            involved.push_back(connection.id);
+        }
+
+        for (auto& connection : groupB) {
+            bool flag = false;
+
+            for (auto& other : groupA) {
+                if (other.id == connection.id) {
+                    flag = true;
+                }
+            }
+
+            if (flag) {
+                continue;
+            }
+
+            involved.push_back(connection.id);
+        }
+
+        if (!roomsSwappable(involved, slotA, slotB)) {
+            return;
+        }
+
+        float before = getClassTotal(cls);
 
         for (int teacherID : involved) {
-            swap(graph[teacherID][A], graph[teacherID][B]);
+            before += teacherCost(teacherID);
         }
 
-        swapRoomsGroup(involved, A, B);
-    };
+        auto swapper = [&]() {
+            for (int teacherID : involved) {
+                swap(graph[teacherID][slotA], graph[teacherID][slotB]);
+            }
 
-    count++;
+            swapRoomsGroup(involved, slotA, slotB);
 
-    flip(false);
+            swap(graph[cls][slotA], graph[cls][slotB]);
+        };
 
-    if (A / MAX_LESSON_IN_DAY != B / MAX_LESSON_IN_DAY) {
+        moves++;
+
+        swapper();
+
         bool hard = false;
 
-        for (int cls : classes) {
-            if (classDayHasDuplicates(cls, A) || classDayHasDuplicates(cls, B)) {
-                hard = true;
+        if ((slotA - off) / MAX_LESSON_IN_DAY != (slotB - off) / MAX_LESSON_IN_DAY) {
+            hard = classDayHasDuplicates(cls, slotA) || classDayHasDuplicates(cls, slotB);
+        }
 
-                break;
+        float after = getClassTotal(cls);
+
+        for (int teacherID : involved) {
+            after += teacherCost(teacherID);
+        }
+
+        float delta = after - before;
+
+        if (!hard && accept(delta, temperature)) {
+            total = total - before + after;
+
+            stagnation = 0;
+
+        } else {
+            swapper();
+
+            stagnation += 1;
+        }
+    }
+
+    void interClassSlotSwap() {
+        const Data& data = *DATA;
+
+        int shift = randint(0, NUMBER_OF_SHIFTS - 1);
+
+        if (data.classesByShift[shift].size() < 2) {
+            return;
+        }
+
+        auto& shiftClasses = data.classesByShift[shift];
+
+        int cls1 = shiftClasses[randint(0, shiftClasses.size() - 1)];
+        int cls2 = shiftClasses[randint(0, shiftClasses.size() - 1)];
+
+        if (cls1 == cls2) {
+            return;
+        }
+
+        int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+
+        int color1 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+        int color2 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+
+        if (color1 == color2) {
+            return;
+        }
+
+        if (slotLocked(cls1, color1) || slotLocked(cls2, color2) ||
+            slotLocked(cls1, color2) || slotLocked(cls2, color1)) {
+            return;
+        }
+
+        vector<edge>& group1 = graph[cls1][color1];
+        vector<edge>& group2 = graph[cls2][color2];
+
+        if (group1.empty() && group2.empty()) {
+            return;
+        }
+
+        if ((group1.empty() || group2.empty()) && randint(1, 3) != 1) {
+            return;
+        }
+
+        if (occupied(cls1, color2) || occupied(cls2, color1)) {
+            return;
+        }
+
+        teachers1.clear();
+        teachers2.clear();
+
+        for (auto& connection : group1) {
+            if (!has(teachers1, connection.id)) {
+                teachers1.push_back(connection.id);
             }
         }
 
-        if (hard) {
-            flip(true);
+        for (auto& connection : group2) {
+            if (!has(teachers2, connection.id)) {
+                teachers2.push_back(connection.id);
+            }
+        }
 
-            equal += 1;
+        for (int teacherID : teachers1) {
+            if (!teacherIsAllowed[teacherID][color2]) {
+                return;
+            }
 
-            return 2;
+            if (occupied(teacherID, color2) && !has(teachers2, teacherID)) {
+                return;
+            }
+        }
+
+        for (int teacherID : teachers2) {
+            if (!teacherIsAllowed[teacherID][color1]) {
+                return;
+            }
+
+            if (occupied(teacherID, color1) && !has(teachers1, teacherID)) {
+                return;
+            }
+        }
+
+        involved = teachers1;
+
+        for (int teacherID : teachers2) {
+            if (!has(teachers1, teacherID)) {
+                involved.push_back(teacherID);
+            }
+        }
+
+        if (!roomsSwappable(involved, color1, color2)) {
+            return;
+        }
+
+        float before = getClassTotal(cls1) + getClassTotal(cls2);
+
+        for (int teacherID : involved) {
+            before += teacherCost(teacherID);
+        }
+
+        auto swapper = [&]() {
+            for (int teacherID : involved) {
+                swap(graph[teacherID][color1], graph[teacherID][color2]);
+            }
+
+            swapRoomsGroup(involved, color1, color2);
+
+            swap(graph[cls1][color1], graph[cls1][color2]);
+            swap(graph[cls2][color1], graph[cls2][color2]);
+        };
+
+        moves++;
+
+        swapper();
+
+        bool hard = false;
+
+        if ((color1 - off) / MAX_LESSON_IN_DAY != (color2 - off) / MAX_LESSON_IN_DAY) {
+            hard = classDayHasDuplicates(cls1, color1) || classDayHasDuplicates(cls1, color2) ||
+                   classDayHasDuplicates(cls2, color1) || classDayHasDuplicates(cls2, color2);
+        }
+
+        float after = getClassTotal(cls1) + getClassTotal(cls2);
+
+        for (int teacherID : involved) {
+            after += teacherCost(teacherID);
+        }
+
+        float delta = after - before;
+
+        if (!hard && accept(delta, temperature)) {
+            total = total - before + after;
+
+            stagnation = 0;
+
+        } else {
+            swapper();
+
+            stagnation += 1;
         }
     }
 
-    float after = 0;
+    void subjectOfClassSwap() {
+        const Data& data = *DATA;
 
-    for (int cls : classes) {
-        after += getClassTotal(cls);
-    }
+        int shift = randint(0, NUMBER_OF_SHIFTS - 1);
 
-    for (int teacherID : involved) {
-        after += teacherCost(teacherID);
-    }
-
-    float delta = after - before;
-
-    if (accept(delta, temperature)) {
-        total = total - before + after;
-
-        equal = 0;
-
-        kempeStats.accepted[kind]++;
-
-        if (delta < -0.01f) {
-            kempeStats.improved[kind]++;
+        if (data.classesByShift[shift].empty()) {
+            return;
         }
 
-        return 1;
+        auto& shiftClasses = data.classesByShift[shift];
+
+        int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
+
+        int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+
+        int slotA = off + randint(0, week - 1);
+
+        if (!occupied(cls, slotA)) {
+            return;
+        }
+
+        SubjectSet subjectsA = slotSubjects(cls, slotA);
+        int subjectID = subjectsA.values[randint(0, subjectsA.size - 1)];
+
+        if (subjectLocked(cls, slotA, subjectID)) {
+            return;
+        }
+
+        involved.clear();
+
+        for (edge& connection : graph[cls][slotA]) {
+            if (connection.value == subjectID) {
+                involved.push_back(connection.id);
+            }
+        }
+
+        groupCandidates.clear();
+        emptyCandidates.clear();
+
+        for (int slot = off; slot < off + week; slot++) {
+            if (slot == slotA) {
+                continue;
+            }
+
+            bool slotOk = true;
+
+            for (int teacherID : involved) {
+                if (!teacherIsAllowed[teacherID][slot] || occupied(teacherID, slot)) {
+                    slotOk = false;
+
+                    break;
+                }
+            }
+
+            if (!slotOk) {
+                continue;
+            }
+
+            if (!canPlaceLesson(cls, slot, subjectID, slotA)) {
+                continue;
+            }
+
+            if (data.classroomsEnable) {
+                for (int teacherID : involved) {
+                    if (findRoomForTeacher(teacherID, subjectID, slot) == -1) {
+                        slotOk = false;
+
+                        break;
+                    }
+                }
+            }
+
+            if (!slotOk) {
+                continue;
+            }
+
+            if (occupied(cls, slot)) {
+                groupCandidates.push_back(slot);
+
+            } else {
+                emptyCandidates.push_back(slot);
+            }
+        }
+
+        int slotB;
+
+        if (!groupCandidates.empty()) {
+            slotB = groupCandidates[randint(0, groupCandidates.size() - 1)];
+
+        } else if (!emptyCandidates.empty()) {
+            slotB = emptyCandidates[randint(0, emptyCandidates.size() - 1)];
+
+        } else {
+            return;
+        }
+
+        float before = getClassTotal(cls);
+
+        for (int teacherID : involved) {
+            before += teacherCost(teacherID) + Weights::classroomPriority * teacherRoomRank[teacherID][slotA];
+        }
+
+        moving.clear();
+
+        for (auto iterator = graph[cls][slotA].begin(); iterator != graph[cls][slotA].end(); ) {
+            if (iterator->value == subjectID) {
+                moving.push_back(*iterator);
+
+                iterator = graph[cls][slotA].erase(iterator);
+
+            } else {
+                ++iterator;
+            }
+        }
+
+        savedRooms.clear();
+        savedRanks.clear();
+
+        for (edge& connection : moving) {
+            savedRooms.push_back(teacherRoom[connection.id][slotA]);
+            savedRanks.push_back(teacherRoomRank[connection.id][slotA]);
+        }
+
+        auto applyMove = [&]() {
+            for (edge& connection : moving) {
+                graph[cls][slotB].push_back(edge(connection.id, subjectID));
+                graph[connection.id][slotB] = {edge(cls, subjectID)};
+
+                graph[connection.id][slotA].clear();
+
+                releaseRoom(connection.id, slotA);
+                assignRoom(connection.id, subjectID, slotB);
+            }
+        };
+
+        auto revertMove = [&]() {
+            for (int index = 0; index < (int) moving.size(); index++) {
+                edge& connection = moving[index];
+
+                vector<edge>& slotBEdges = graph[cls][slotB];
+
+                for (auto iterator = slotBEdges.begin(); iterator != slotBEdges.end(); ++iterator) {
+                    if (iterator->id == connection.id && iterator->value == subjectID) {
+                        slotBEdges.erase(iterator);
+
+                        break;
+                    }
+                }
+
+                graph[connection.id][slotB].clear();
+                graph[connection.id][slotA] = {edge(cls, subjectID)};
+
+                releaseRoom(connection.id, slotB);
+
+                int room = savedRooms[index];
+
+                if (room > 0) {
+                    roomOccupant[room][slotA] = connection.id;
+
+                    teacherRoom[connection.id][slotA] = room;
+                    teacherRoomRank[connection.id][slotA] = savedRanks[index];
+                }
+            }
+
+            for (edge& connection : moving) {
+                graph[cls][slotA].push_back(connection);
+            }
+        };
+
+        moves++;
+
+        applyMove();
+
+        bool hard = false;
+
+        if ((slotA - off) / MAX_LESSON_IN_DAY != (slotB - off) / MAX_LESSON_IN_DAY) {
+            hard = classDayHasDuplicates(cls, slotA) || classDayHasDuplicates(cls, slotB);
+        }
+
+        float after = getClassTotal(cls);
+
+        for (int teacherID : involved) {
+            after += teacherCost(teacherID) + Weights::classroomPriority * teacherRoomRank[teacherID][slotB];
+        }
+
+        float delta = after - before;
+
+        if (!hard && accept(delta, temperature)) {
+            total = total - before + after;
+
+            stagnation = 0;
+
+        } else {
+            revertMove();
+
+            stagnation += 1;
+        }
     }
 
-    flip(true);
+    void classroomReplacing() {
+        const Data& data = *DATA;
 
-    equal += 1;
+        if (!data.classroomsEnable || data.teachers.empty()) {
+            return;
+        }
 
-    return 2;
+        int teacherID = randint(1, data.teachers.size());
+        int slot = randint(0, SLOTS - 1);
+
+        int room = teacherRoom[teacherID][slot];
+
+        if (room == 0 || graph[teacherID][slot].empty()) {
+            return;
+        }
+
+        int subjectID = graph[teacherID][slot][0].value;
+        int rank = teacherRoomRank[teacherID][slot];
+
+        float before = Weights::classroomPriority * rank;
+
+        releaseRoom(teacherID, slot);
+        assignRoom(teacherID, subjectID, slot);
+
+        moves++;
+
+        if (teacherRoom[teacherID][slot] == 0) {
+            roomOccupant[room][slot] = teacherID;
+
+            teacherRoom[teacherID][slot] = room;
+            teacherRoomRank[teacherID][slot] = rank;
+
+            stagnation += 1;
+
+            return;
+        }
+
+        float after = Weights::classroomPriority * teacherRoomRank[teacherID][slot];
+
+        float delta = after - before;
+
+        if (delta <= 0) {
+            total = total - before + after;
+
+            stagnation = (delta < 0) ? 0 : stagnation + 1;
+
+        } else {
+            releaseRoom(teacherID, slot);
+
+            roomOccupant[room][slot] = teacherID;
+
+            teacherRoom[teacherID][slot] = room;
+            teacherRoomRank[teacherID][slot] = rank;
+
+            stagnation += 1;
+        }
+    }
+
+    inline void kempeChain(int kind) {
+        const Data& data = *DATA;
+
+        static vector<int> chainTeachers, chainClasses;
+        static vector<kempe::Unit> chain;
+
+        int shift = randint(0, NUMBER_OF_SHIFTS - 1);
+
+        if (data.classesByShift[shift].empty()) {
+            return;
+        }
+
+        kempe::Start start;
+
+        bool found = false;
+
+        if (kind == 0) {
+            found = kempe::pickRandom(shift, start);
+
+        } else {
+            if (data.teachers.empty()) {
+                return;
+            }
+
+            int attempts = (kind == 2) ? 40 : 30;
+
+            for (int attempt = 0; attempt < attempts && !found; attempt++) {
+                found = kempe::pickTeacher(kind, randint(1, data.teachers.size()), shift, start);
+            }
+        }
+
+        if (!found) {
+            return;
+        }
+
+        const int A = start.A;
+        const int B = start.B;
+
+        kempe::stats.tried[kind]++;
+
+        if (!kempe::build(A, B, start.cls, start.subject, chain)) {
+            return;
+        }
+
+        kempe::stats.built[kind]++;
+
+        chainTeachers.clear();
+        chainClasses.clear();
+
+        for (const kempe::Unit& unit : chain) {
+            chainClasses.push_back(unit.cls);
+
+            for (int id : unit.ids) {
+                chainTeachers.push_back(id);
+            }
+        }
+
+        sort(chainClasses.begin(), chainClasses.end());
+        chainClasses.erase(unique(chainClasses.begin(), chainClasses.end()), chainClasses.end());
+
+        sort(chainTeachers.begin(), chainTeachers.end());
+        chainTeachers.erase(unique(chainTeachers.begin(), chainTeachers.end()), chainTeachers.end());
+
+        if (!roomsSwappable(chainTeachers, A, B)) {
+            return;
+        }
+
+        kempe::stats.valid[kind]++;
+
+        float before = 0;
+
+        for (int cls : chainClasses) {
+            before += getClassTotal(cls);
+        }
+
+        for (int teacherID : chainTeachers) {
+            before += teacherCost(teacherID);
+        }
+
+        auto flip = [&](bool back) {
+            for (const kempe::Unit& unit : chain) {
+                int toSlot = (unit.from == A) ? B : A;
+                int sourceSlot = back ? toSlot : unit.from;
+
+                vector<edge>& edges = graph[unit.cls][sourceSlot];
+
+                edges.erase(remove_if(edges.begin(), edges.end(), [&](const edge& connection) {
+                    return connection.value == unit.subject;
+                }), edges.end());
+            }
+
+            for (const kempe::Unit& unit : chain) {
+                int toSlot = (unit.from == A) ? B : A;
+                int destSlot = back ? unit.from : toSlot;
+
+                for (int id : unit.ids) {
+                    graph[unit.cls][destSlot].push_back(edge(id, unit.subject));
+                }
+            }
+
+            for (int teacherID : chainTeachers) {
+                swap(graph[teacherID][A], graph[teacherID][B]);
+            }
+
+            swapRoomsGroup(chainTeachers, A, B);
+        };
+
+        moves++;
+
+        flip(false);
+
+        if (A / MAX_LESSON_IN_DAY != B / MAX_LESSON_IN_DAY) {
+            bool hard = false;
+
+            for (int cls : chainClasses) {
+                if (classDayHasDuplicates(cls, A) || classDayHasDuplicates(cls, B)) {
+                    hard = true;
+
+                    break;
+                }
+            }
+
+            if (hard) {
+                flip(true);
+
+                stagnation += 1;
+
+                return;
+            }
+        }
+
+        float after = 0;
+
+        for (int cls : chainClasses) {
+            after += getClassTotal(cls);
+        }
+
+        for (int teacherID : chainTeachers) {
+            after += teacherCost(teacherID);
+        }
+
+        float delta = after - before;
+
+        if (accept(delta, temperature)) {
+            total = total - before + after;
+
+            stagnation = 0;
+
+            kempe::stats.accepted[kind]++;
+
+            if (delta < -0.01f) {
+                kempe::stats.improved[kind]++;
+            }
+
+            return;
+        }
+
+        flip(true);
+
+        stagnation += 1;
+    }
+
+    void kempeChainRandom() {
+        kempeChain(0);
+    }
+
+    void kempeChainTeacher() {
+        kempeChain(1);
+    }
+
+    void kempeChainTeacherSmallDay() {
+        kempeChain(2);
+    }
 }
 
 json save() {
@@ -2141,7 +2722,7 @@ json save() {
                 entry["classrooms"] = roomsForSubject(subjectOrder[0]);
                 entry["extra"] = json::array();
 
-                for (int index = 1; index < subjectOrder.size(); index++) {
+                for (int index = 1; index < (int) subjectOrder.size(); index++) {
                     entry["extra"].push_back(json{
                         {"subject", subjectNameByID[subjectOrder[index]]},
                         {"teachers", teachersBySubject[subjectOrder[index]]},
@@ -2178,16 +2759,16 @@ int main(int argc, char** argv) {
 
     app.add_option("--warnings", warnings);
 
-    app.add_option("--fair", TEACHER_FAIR, "convex teacher gap cost: + gaps^2/fair, for annealing, Kempe and LNS (0 = off)");
+    app.add_option("--fair", TEACHER_FAIR);
 
     int kempePercent = 20;
     int kempeWindowPercent = 50;
     int kempeSmallPercent = 20;
 
-    app.add_option("--kempe", kempePercent, "percent of annealing moves that are Kempe-chain moves (0 = off)");
-    app.add_option("--kempe-window", kempeWindowPercent, "percent of Kempe moves aimed at closing a teacher gap");
-    app.add_option("--kempe-small", kempeSmallPercent, "percent of Kempe moves aimed at emptying a teacher short day (0 = off)");
-    app.add_option("--kempe-size", KEMPE_MAX_UNITS, "max lessons in one Kempe chain");
+    app.add_option("--kempe", kempePercent);
+    app.add_option("--kempe-window", kempeWindowPercent);
+    app.add_option("--kempe-small", kempeSmallPercent);
+    app.add_option("--kempe-size", kempe::MAX_UNITS);
 
     CLI11_PARSE(app, argc, argv);
 
@@ -2210,14 +2791,6 @@ int main(int argc, char** argv) {
     DATA = &data;
 
     SUBJECT_MULTI_DAY_THRESHOLD = JOB_WEEK_LENGHT + 1;
-
-    for (const string& name : data.classes) {
-        map<string, int> hoursPerSubject;
-
-        for (auto& lesson : data.lessons[name]) {
-            hoursPerSubject[lesson["subject"].get<string>()] += lesson["hours"].get<int>();
-        }
-    }
 
     int size = data.teachers.size() + data.classes.size() + 3;
 
@@ -2250,7 +2823,7 @@ int main(int argc, char** argv) {
     bufferEnds.assign(JOB_WEEK_LENGHT, 0);
     bufferHards.assign(JOB_WEEK_LENGHT, 0);
 
-    for (int index = 0; index < data.teachers.size(); index++) {
+    for (int index = 0; index < (int) data.teachers.size(); index++) {
         for (int slot : data.free[index]) {
             teacherIsAllowed[index + 1][slot] = true;
         }
@@ -2274,7 +2847,6 @@ int main(int argc, char** argv) {
         json& value = data.lessons[name];
 
         int cls = IDByClassName[name];
-
         int base = data.classShiftOffset[cls];
 
         for (auto lessonEntry : value) {
@@ -2287,7 +2859,7 @@ int main(int argc, char** argv) {
             int subjectID = IDBySubjectName[lessonEntry["subject"]];
 
             for (int hour = 0; hour < lessonEntry["hours"]; hour++) {
-                pending.push_back(Lesson{cls, base, ids, subjectID, name, (string)lessonEntry["subject"]});
+                pending.push_back(Lesson{cls, base, ids, subjectID, name, (string) lessonEntry["subject"]});
             }
         }
     }
@@ -2300,7 +2872,7 @@ int main(int argc, char** argv) {
 
         int index = -1;
 
-        for (int pos = 0; pos < pending.size(); pos++) {
+        for (int pos = 0; pos < (int) pending.size(); pos++) {
             if (pending[pos].cls == constant.cls && pending[pos].subjectID == constant.subjectID) {
                 index = pos;
 
@@ -2363,7 +2935,7 @@ int main(int argc, char** argv) {
 
         vector<int> bestCandidates;
 
-        for (int index = 0; index < pending.size(); index++) {
+        for (int index = 0; index < (int) pending.size(); index++) {
             Lesson& item = pending[index];
 
             vector<int> candidates;
@@ -2432,35 +3004,21 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    double total = getClassTotal();
+    total = getClassTotal();
 
-    for (int teacherID = 1; teacherID <= data.teachers.size(); teacherID++) {
+    for (int teacherID = 1; teacherID <= (int) data.teachers.size(); teacherID++) {
         total += teacherCost(teacherID);
         total += Functions::classroomPriority(teacherID);
     }
 
-    double temperature = 100;
-
-    int equal = 0;
-    int count = 0;
-
-    roomWarnings = false;
-
-    vector<int> involved, teachers1, teachers2, groupCandidates, emptyCandidates, savedRooms, savedRanks;
-    vector<edge> moving;
-
-    auto has = [](const vector<int>& values, int target) {
-        return find(values.begin(), values.end(), target) != values.end();
-    };
-
     for (int iteration = 0; iteration < iterations; iteration++) {
         temperature *= cooling;
 
-        if (equal == 10000 || (iteration + 1) % 1000000 == 0) {
+        if (stagnation == 10000 || (iteration + 1) % 1000000 == 0) {
             ostringstream stream;
 
-            stream << (equal == 10000 ? "[EQUAL]" : "[PRINT]") << " ";
-            stream << iteration + 1 << " " << temperature << " " << total << " " << equal;
+            stream << (stagnation == 10000 ? "[EQUAL]" : "[PRINT]") << " ";
+            stream << iteration + 1 << " " << temperature << " " << total << " " << stagnation;
 
             string prefix = stream.str();
 
@@ -2481,10 +3039,10 @@ int main(int argc, char** argv) {
             cout << "\n";
         }
 
-        if (equal == 10000) {
+        if (stagnation == 10000) {
             temperature = 20;
 
-            equal = 0;
+            stagnation = 0;
         }
 
         int type;
@@ -2501,608 +3059,15 @@ int main(int argc, char** argv) {
             type = randint(0, 3);
         }
 
-        if (type == 0) {
-            int shift = randint(0, NUMBER_OF_SHIFTS - 1);
-
-            if (data.classesByShift[shift].empty()) {
-                continue;
-            }
-
-            auto& shiftClasses = data.classesByShift[shift];
-
-            int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
-            int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-
-            int slotA = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-            int slotB = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-
-            if (slotA == slotB) {
-                continue;
-            }
-
-            if (slotLocked(cls, slotA) || slotLocked(cls, slotB)) {
-                continue;
-            }
-
-            vector<edge>& groupA = graph[cls][slotA];
-            vector<edge>& groupB = graph[cls][slotB];
-
-            if (groupA.empty() && groupB.empty()) {
-                continue;
-            }
-
-            bool ok = true;
-
-            for (auto& connection : groupA) {
-                if (!teacherIsAllowed[connection.id][slotB]) {
-                    ok = false;
-
-                    break;
-                }
-
-                if (occupied(connection.id, slotB)) {
-                    bool flag = false;
-
-                    for (auto& other : groupB) {
-                        if (other.id == connection.id) {
-                            flag = true;
-
-                            break;
-                        }
-                    }
-
-                    if (!flag) {
-                        ok = false;
-
-                        break;
-                    }
-                }
-            }
-
-            if (!ok) {
-                continue;
-            }
-
-            for (auto& connection : groupB) {
-                if (!teacherIsAllowed[connection.id][slotA]) {
-                    ok = false;
-
-                    break;
-                }
-
-                if (occupied(connection.id, slotA)) {
-                    bool flag = false;
-
-                    for (auto& other : groupA) {
-                        if (other.id == connection.id) {
-                            flag = true;
-
-                            break;
-                        }
-                    }
-
-                    if (!flag) {
-                        ok = false;
-
-                        break;
-                    }
-                }
-            }
-
-            if (!ok) {
-                continue;
-            }
-
-            involved.clear();
-
-            for (auto& connection : groupA) {
-                involved.push_back(connection.id);
-            }
-
-            for (auto& connection : groupB) {
-                bool flag = false;
-
-                for (auto& other : groupA) {
-                    if (other.id == connection.id) {
-                        flag = true;
-                    }
-                }
-
-                if (flag) {
-                    continue;
-                }
-
-                involved.push_back(connection.id);
-            }
-
-            if (!roomsSwappable(involved, slotA, slotB)) {
-                continue;
-            }
-
-            float before = getClassTotal(cls);
-
-            for (int teacherID : involved) {
-                before += teacherCost(teacherID);
-            }
-
-            auto intraSwapper = [&]() {
-                for (int teacherID : involved) {
-                    swap(graph[teacherID][slotA], graph[teacherID][slotB]);
-                }
-
-                swapRoomsGroup(involved, slotA, slotB);
-
-                swap(graph[cls][slotA], graph[cls][slotB]);
-            };
-
-            count++;
-
-            intraSwapper();
-
-            bool hard = false;
-
-            if ((slotA - off) / MAX_LESSON_IN_DAY != (slotB - off) / MAX_LESSON_IN_DAY) {
-                hard = classDayHasDuplicates(cls, slotA) || classDayHasDuplicates(cls, slotB);
-            }
-
-            float after = getClassTotal(cls);
-
-            for (int teacherID : involved) {
-                after += teacherCost(teacherID);
-            }
-
-            float delta = after - before;
-
-            if (!hard && accept(delta, temperature)) {
-                total = total - before + after;
-
-                equal = 0;
-
-            } else {
-                intraSwapper();
-
-                equal += 1;
-            }
-        }
-
-        if (type == 1) {
-            int shift = randint(0, NUMBER_OF_SHIFTS - 1);
-
-            if (data.classesByShift[shift].size() < 2) {
-                continue;
-            }
-
-            auto& shifts = data.classesByShift[shift];
-
-            int cls1 = shifts[randint(0, shifts.size() - 1)];
-            int cls2 = shifts[randint(0, shifts.size() - 1)];
-
-            if (cls1 == cls2) {
-                continue;
-            }
-
-            int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-
-            int color1 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-            int color2 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-
-            if (color1 == color2) {
-                continue;
-            }
-
-            if (slotLocked(cls1, color1) || slotLocked(cls2, color2) ||
-                slotLocked(cls1, color2) || slotLocked(cls2, color1)) {
-                continue;
-                }
-
-            vector<edge>& group1 = graph[cls1][color1];
-            vector<edge>& group2 = graph[cls2][color2];
-
-            if (group1.empty() && group2.empty()) {
-                continue;
-            }
-
-            if ((group1.empty() || group2.empty()) && randint(1, 3) != 1) {
-                continue;
-            }
-
-            if (occupied(cls1, color2) || occupied(cls2, color1)) {
-                continue;
-            }
-
-            teachers1.clear();
-            teachers2.clear();
-
-            for (auto& connection : group1) {
-                if (!has(teachers1, connection.id)) {
-                    teachers1.push_back(connection.id);
-                }
-            }
-
-            for (auto& connection : group2) {
-                if (!has(teachers2, connection.id)) {
-                    teachers2.push_back(connection.id);
-                }
-            }
-
-            bool ok = true;
-
-            for (int teacherID : teachers1) {
-                if (!teacherIsAllowed[teacherID][color2]) {
-                    ok = false;
-
-                    break;
-                }
-
-                if (occupied(teacherID, color2) && !has(teachers2, teacherID)) {
-                    ok = false;
-
-                    break;
-                }
-            }
-
-            if (ok == false) {
-                continue;
-            }
-
-            for (int teacherID : teachers2) {
-                if (!teacherIsAllowed[teacherID][color1]) {
-                    ok = false;
-
-                    break;
-                }
-
-                if (occupied(teacherID, color1) && !has(teachers1, teacherID)) {
-                    ok = false;
-
-                    break;
-                }
-            }
-
-            if (ok == false) {
-                continue;
-            }
-
-            involved = teachers1;
-
-            for (int teacherID : teachers2) {
-                if (!has(teachers1, teacherID)) {
-                    involved.push_back(teacherID);
-                }
-            }
-
-            if (!roomsSwappable(involved, color1, color2)) {
-                continue;
-            }
-
-            float before = getClassTotal(cls1) + getClassTotal(cls2);
-
-            for (int teacherID : involved) {
-                before += teacherCost(teacherID);
-            }
-
-            auto swapper = [&]() {
-                for (int teacherID : involved) {
-                    swap(graph[teacherID][color1], graph[teacherID][color2]);
-                }
-
-                swapRoomsGroup(involved, color1, color2);
-
-                swap(graph[cls1][color1], graph[cls1][color2]);
-                swap(graph[cls2][color1], graph[cls2][color2]);
-            };
-
-            count++;
-
-            swapper();
-
-            bool hard = false;
-
-            if ((color1 - off) / MAX_LESSON_IN_DAY != (color2 - off) / MAX_LESSON_IN_DAY) {
-                hard = classDayHasDuplicates(cls1, color1) || classDayHasDuplicates(cls1, color2) ||  classDayHasDuplicates(cls2, color1) || classDayHasDuplicates(cls2, color2);
-            }
-
-            float after = getClassTotal(cls1) + getClassTotal(cls2);
-
-            for (int teacherID : involved) {
-                after += teacherCost(teacherID);
-            }
-
-            float delta = after - before;
-
-            if (!hard && accept(delta, temperature)) {
-                total = total - before + after;
-
-                equal = 0;
-
-            } else {
-                swapper();
-
-                equal += 1;
-            }
-        }
-
-        if (type == 2) {
-            int shift = randint(0, NUMBER_OF_SHIFTS - 1);
-
-            if (data.classesByShift[shift].empty()) {
-                continue;
-            }
-
-            auto& shiftClasses = data.classesByShift[shift];
-
-            int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
-
-            int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-            int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-
-            int slotA = off + randint(0, week - 1);
-
-            if (!occupied(cls, slotA)) {
-                continue;
-            }
-
-            SubjectSet subjectsA = slotSubjects(cls, slotA);
-            int subjectID = subjectsA.values[randint(0, subjectsA.size - 1)];
-
-            if (subjectLocked(cls, slotA, subjectID)) {
-                continue;
-            }
-
-            involved.clear();
-
-            for (edge& connection : graph[cls][slotA]) {
-                if (connection.value == subjectID) {
-                    involved.push_back(connection.id);
-                }
-            }
-
-            groupCandidates.clear();
-            emptyCandidates.clear();
-
-            for (int slot = off; slot < off + week; slot++) {
-                if (slot == slotA) {
-                    continue;
-                }
-
-                bool slotOk = true;
-
-                for (int teacherID : involved) {
-                    if (!teacherIsAllowed[teacherID][slot] || occupied(teacherID, slot)) {
-                        slotOk = false;
-
-                        break;
-                    }
-                }
-
-                if (!slotOk) {
-                    continue;
-                }
-
-                if (!canPlaceLesson(cls, slot, subjectID, slotA)) {
-                    continue;
-                }
-
-                if (data.classroomsEnable) {
-                    for (int teacherID : involved) {
-                        if (findRoomForTeacher(teacherID, subjectID, slot) == -1) {
-                            slotOk = false;
-
-                            break;
-                        }
-                    }
-                }
-
-                if (!slotOk) {
-                    continue;
-                }
-
-                if (occupied(cls, slot)) {
-                    groupCandidates.push_back(slot);
-
-                } else {
-                    emptyCandidates.push_back(slot);
-                }
-            }
-
-            int slotB;
-
-            if (!groupCandidates.empty()) {
-                slotB = groupCandidates[randint(0, groupCandidates.size() - 1)];
-
-            } else if (!emptyCandidates.empty()) {
-                slotB = emptyCandidates[randint(0, emptyCandidates.size() - 1)];
-
-            } else {
-                continue;
-            }
-
-            float before = getClassTotal(cls);
-
-            for (int teacherID : involved) {
-                before += teacherCost(teacherID) + Weights::classroomPriority * teacherRoomRank[teacherID][slotA];
-            }
-
-            moving.clear();
-
-            for (auto iterator = graph[cls][slotA].begin(); iterator != graph[cls][slotA].end(); ) {
-                if (iterator->value == subjectID) {
-                    moving.push_back(*iterator);
-
-                    iterator = graph[cls][slotA].erase(iterator);
-
-                } else {
-                    iterator += 1;
-                }
-            }
-
-            savedRooms.clear();
-            savedRanks.clear();
-
-            for (edge& connection : moving) {
-                savedRooms.push_back(teacherRoom[connection.id][slotA]);
-                savedRanks.push_back(teacherRoomRank[connection.id][slotA]);
-            }
-
-            auto applyMove = [&]() {
-                for (edge& connection : moving) {
-                    graph[cls][slotB].push_back(edge(connection.id, subjectID));
-                    graph[connection.id][slotB] = {edge(cls, subjectID)};
-
-                    graph[connection.id][slotA].clear();
-
-                    releaseRoom(connection.id, slotA);
-                    assignRoom(connection.id, subjectID, slotB);
-                }
-            };
-
-            auto revertMove = [&]() {
-                for (int index = 0; index < moving.size(); index++) {
-                    edge& connection = moving[index];
-
-                    vector<edge>& slotBEdges = graph[cls][slotB];
-
-                    for (auto iterator = slotBEdges.begin(); iterator != slotBEdges.end(); ++iterator) {
-                        if (iterator->id == connection.id && iterator->value == subjectID) {
-                            slotBEdges.erase(iterator);
-
-                            break;
-                        }
-                    }
-
-                    graph[connection.id][slotB].clear();
-                    graph[connection.id][slotA] = {edge(cls, subjectID)};
-
-                    releaseRoom(connection.id, slotB);
-
-                    int room = savedRooms[index];
-
-                    if (room > 0) {
-                        roomOccupant[room][slotA] = connection.id;
-
-                        teacherRoom[connection.id][slotA] = room;
-                        teacherRoomRank[connection.id][slotA] = savedRanks[index];
-                    }
-                }
-
-                for (edge& connection : moving) {
-                    graph[cls][slotA].push_back(connection);
-                }
-            };
-
-            count += 1;
-
-            applyMove();
-
-            bool hard = false;
-
-            if ((slotA - off) / MAX_LESSON_IN_DAY != (slotB - off) / MAX_LESSON_IN_DAY) {
-                hard = classDayHasDuplicates(cls, slotA) || classDayHasDuplicates(cls, slotB);
-            }
-
-            float after = getClassTotal(cls);
-
-            for (int teacherID : involved) {
-                after += teacherCost(teacherID) + Weights::classroomPriority * teacherRoomRank[teacherID][slotB];
-            }
-
-            float delta = after - before;
-
-            if (!hard && accept(delta, temperature)) {
-                total = total - before + after;
-
-                equal = 0;
-
-            } else {
-                revertMove();
-
-                equal += 1;
-            }
-        }
-
-        if (type == 3) {
-            if (!data.classroomsEnable || data.teachers.empty()) {
-                continue;
-            }
-
-            int teacherID = randint(1, data.teachers.size());
-            int slot = randint(0, SLOTS - 1);
-
-            int room = teacherRoom[teacherID][slot];
-
-            if (room == 0 || graph[teacherID][slot].empty()) {
-                continue;
-            }
-
-            int subjectID = graph[teacherID][slot][0].value;
-            int rank = teacherRoomRank[teacherID][slot];
-
-            float before = Weights::classroomPriority * rank;
-
-            releaseRoom(teacherID, slot);
-            assignRoom(teacherID, subjectID, slot);
-
-            count++;
-
-            if (teacherRoom[teacherID][slot] == 0) {
-                roomOccupant[room][slot] = teacherID;
-
-                teacherRoom[teacherID][slot] = room;
-                teacherRoomRank[teacherID][slot] = rank;
-
-                equal += 1;
-
-                continue;
-            }
-
-            float after = Weights::classroomPriority * teacherRoomRank[teacherID][slot];
-
-            float delta = after - before;
-
-            if (delta <= 0) {
-                total = total - before + after;
-
-                equal = (delta < 0) ? 0 : equal + 1;
-
-            } else {
-                releaseRoom(teacherID, slot);
-
-                roomOccupant[room][slot] = teacherID;
-
-                teacherRoom[teacherID][slot] = room;
-                teacherRoomRank[teacherID][slot] = rank;
-
-                equal += 1;
-            }
-        }
-
-        if (type >= 4) {
-            int shift = randint(0, NUMBER_OF_SHIFTS - 1);
-
-            if (data.classesByShift[shift].empty()) {
-                continue;
-            }
-
-            KempeStart kempeStart;
-
-            bool found = false;
-
-            if (type == 4) {
-                found = kempePickRandom(shift, kempeStart);
-
-            } else {
-                int attempts = (type == 6) ? 40 : 30;
-
-                for (int attempt = 0; attempt < attempts && !found; attempt++) {
-                    found = kempePickTeacher(type - 4, randint(1, data.teachers.size()), shift, kempeStart);
-                }
-            }
-
-            if (!found) {
-                continue;
-            }
-
-            kempeMove(kempeStart.A, kempeStart.B, kempeStart.cls, kempeStart.subject, type - 4, temperature, total, equal, count);
+        switch (type) {
+            case 0: move::intraClassSlotSwap(); break;
+            case 1: move::interClassSlotSwap(); break;
+            case 2: move::subjectOfClassSwap(); break;
+            case 3: move::classroomReplacing(); break;
+                
+            case 4: move::kempeChainRandom(); break;
+            case 5: move::kempeChainTeacher(); break;
+            case 6: move::kempeChainTeacherSmallDay(); break;
         }
     }
 
@@ -3111,7 +3076,7 @@ int main(int argc, char** argv) {
     file << std::setw(4) << save() << std::endl;
     file.close();
 
-    cout << count << " " << total << endl;
+    cout << moves << " " << total << endl;
 
     return 0;
 }

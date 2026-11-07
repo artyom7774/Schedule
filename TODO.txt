@@ -41,3 +41,4 @@
 
 - update Run menu
 - new parameters for Run menu: iterations, cooling
+- optimize schedule algorithm

@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QFileDialog, QWidget, QPushButton, QLineEdit
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
 from src.modules.widgets import ChatAITextEdit
-from src.modules.ai import sendChatRequestWithFiles, decoder as decodeAIMessage
+from src.modules.assistant import sendChatRequestWithFiles, decoder as decodeAIMessage
 
 from src.variables import *
 

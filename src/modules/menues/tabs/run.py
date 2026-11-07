@@ -255,7 +255,7 @@ class TabRun(QWidget):
             "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
 
             "--iterations", f"{self.parameters['iterations']}",
-            "--cooling", f"{self.parameters['cooling']}",
+            "--cooling",    f"{self.parameters['cooling']}",
 
             "--warnings",   f"{warnings}"
         ]
