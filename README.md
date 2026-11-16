@@ -74,16 +74,16 @@ The algorithm is based on **simulated annealing on a graph**. Each generated sch
 
 ### Criterions
 
-| Criterion                               | Description                                                                |
-|-----------------------------------------|----------------------------------------------------------------------------|
-| **Repeated lessons**                    | Penalty for two or more identical lessons in one day for a class           |
-| **Incorrect number of lessons per day** | Penalty for unequal number of lessons across days                          |
-| **Gaps in lessons**                     | Penalty for each gap in a class's schedule                                 |
-| **Difficulty distribution**             | Penalty for uneven lesson difficulty across days                           |
-| **Teacher free time**                   | Penalty for each gap in a teacher's schedule                               |
-| **Group bonus**                         | Points deducted for each lesson with multiple groups simultaneously        |
-| **Shift lesson overlaps**               | Penalty for each lesson overlap between shifts                             |
-| **Gaps in groups**                      | Penalty for a lesson where one group has no activity but has later lessons |
+| Criterion                               | Description                                                                        |
+|-----------------------------------------|------------------------------------------------------------------------------------|
+| **Repeated lessons**                    | Penalty for two or more identical lessons in one day for a class/parallel          |
+| **Incorrect number of lessons per day** | Penalty for unequal number of lessons across days, considering the allowed maximum |
+| **Gaps in class schedule**              | Penalty for each gap in a class/parallel schedule                                  |
+| **Difficulty distribution**             | Penalty for uneven distribution of subject difficulty across days                  |
+| **Teacher free time**                   | Penalty for each gap in a teacher's schedule                                       |
+| **Group bonus**                         | Points deducted for each lesson with multiple groups simultaneously                |
+| **Shift lesson overlaps**               | Penalty for each lesson overlap between shifts                                     |
+| **Gaps in groups**                      | Penalty for a lesson where one group has no activity but has later lessons         |
 
 ## AI Assistant
 

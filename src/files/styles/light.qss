@@ -1,5 +1,5 @@
 QPushButton {
-    color: black;
+    color: #4d5157;
 }
 
 QFrame#frameLine {
@@ -11,7 +11,6 @@ QToolButton#bigMenuButton {
     border: 2px solid #d0d0d0;
     border-radius: 10px;
     font-weight: 450;
-    color: black;
 }
 
 QToolButton#bigMenuButton:hover {
@@ -24,7 +23,6 @@ QToolButton#bigMenuButton:pressed {
 
 QTableWidget {
     background-color: #ffffff;
-    color: black;
 }
 
 QToolTip {

@@ -57,7 +57,7 @@
 "menu.main.tab.run.warnings": "Предупреждения"
 "menu.main.tab.run.time_passed": "Прошло времени"
 "menu.main.tab.run.parameters": "Параметры"
-"menu.main.tab.run.weights": "Веса"
+"menu.main.tab.run.weights": "Множители"
 
 "menu.main.tab.view.classes": "Классы"
 "menu.main.tab.view.teachers": "Учителя"
