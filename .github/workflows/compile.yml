@@ -29,5 +29,5 @@ jobs:
       - name: Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Schedule-Maker-1
+          name: Schedule-windows-installer
           path: .github/out/Schedule-windows-installer.exe

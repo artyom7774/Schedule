@@ -49,7 +49,7 @@ Source: "..\..\requirements.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "..\..\last\*"; DestDir: "{app}\last"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\src\*"; DestDir: "{app}\src"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\..\python\*"; DestDir: "{app}\python\*"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\windows\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
