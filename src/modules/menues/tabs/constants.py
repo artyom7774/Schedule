@@ -8,18 +8,6 @@ import json
 
 
 class TabConstants(QWidget):
-    """
-    Формат хранения в settings.json:
-        "constants": {
-            "1 А": {
-                "0-2": "Математика",   # "<день>-<урок>" (нулевая индексация): предмет
-                "3-0": "Физкультура"
-            },
-            ...
-        }
-    Незафиксированные ячейки в словаре отсутствуют.
-    """
-
     def __init__(self, window):
         super().__init__()
 
@@ -86,8 +74,30 @@ class TabConstants(QWidget):
     def key(day, lesson) -> str:
         return f"{day}-{lesson}"
 
-    def getSubject(self, cls, day, lesson) -> str:
-        return self.window.settings["constants"].get(cls, {}).get(self.key(day, lesson), "-")
+    def groups(self, cls) -> list:
+        return [set(subjects) for subjects in self.window.settings.get("groups", {}).get(cls, {}).values()]
+
+    def canCombine(self, cls, subjects) -> bool:
+        groups = self.groups(cls)
+
+        if len(set(subjects)) != len(subjects):
+            return False
+
+        if not all(any(s in group for group in groups) for s in subjects):
+            return False
+
+        return not any(sum(s in group for s in subjects) > 1 for group in groups)
+
+    def getSubjects(self, cls, day, lesson) -> list:
+        value = self.window.settings["constants"].get(cls, {}).get(self.key(day, lesson))
+
+        if value is None:
+            return []
+
+        if isinstance(value, list):
+            return list(value)
+
+        return [value]
 
     def normalize(self):
         settings = self.window.settings
@@ -123,9 +133,11 @@ class TabConstants(QWidget):
                 try:
                     day, lesson = map(int, key.split("-"))
 
-                    valid = 0 <= day < self.days and 0 <= lesson < self.lessons and data[key] in self.subjects and data[key] != "-"
+                    values = data[key] if isinstance(data[key], list) else [data[key]]
 
-                except (ValueError, AttributeError):
+                    valid = 0 <= day < self.days and 0 <= lesson < self.lessons and len(values) > 0 and all(s in self.subjects and s != "-" for s in values) and (len(values) == 1 or self.canCombine(cls, values))
+
+                except (ValueError, AttributeError, TypeError):
                     valid = False
 
                 if not valid:
@@ -153,12 +165,13 @@ class TabConstants(QWidget):
                 self.updateCell(day, lesson)
 
     def updateCell(self, day, lesson):
-        subject = self.getSubject(self.cls, day, lesson)
+        subjects = self.getSubjects(self.cls, day, lesson)
+        text = " / ".join(subjects) if subjects else "-"
 
         item = self.table.item(lesson, day)
 
-        item.setText(subject)
-        item.setToolTip("" if subject == "-" else subject)
+        item.setText(text)
+        item.setToolTip("" if not subjects else "\n".join(subjects))
 
     def updateRowSizes(self):
         if self.cls is None:
@@ -179,7 +192,7 @@ class TabConstants(QWidget):
     def cellClicked(self, row, col):
         day, lesson = col, row
 
-        current = self.getSubject(self.cls, day, lesson)
+        current = self.getSubjects(self.cls, day, lesson)
 
         menu = QMenu(self)
         menu.setFont(FONT)
@@ -187,8 +200,8 @@ class TabConstants(QWidget):
         for subject in self.subjects:
             action = QAction(subject if subject != "-" else translate("menu.main.tab.constants.none"), self)
             action.setCheckable(True)
-            action.setChecked(subject == current)
-            action.triggered.connect(lambda _, s=subject: self.setSubject(day, lesson, s))
+            action.setChecked(subject in current if subject != "-" else not current)
+            action.triggered.connect(lambda _, s=subject: self.toggleSubject(day, lesson, s))
 
             menu.addAction(action)
 
@@ -205,15 +218,43 @@ class TabConstants(QWidget):
 
         self.setSubject(item.column(), item.row(), "-")
 
+    def toggleSubject(self, day, lesson, subject):
+        current = self.getSubjects(self.cls, day, lesson)
+        groups = self.groups(self.cls)
+
+        if subject == "-" or not any(subject in group for group in groups):
+            self.setSubject(day, lesson, subject)
+
+            return
+
+        if subject in current:
+            current.remove(subject)
+
+        elif self.canCombine(self.cls, current + [subject]):
+            current.append(subject)
+
+        else:
+            current = [subject]
+
+        self.setSubjects(day, lesson, current)
+
     def setSubject(self, day, lesson, subject):
+        self.setSubjects(day, lesson, [subject])
+
+    def setSubjects(self, day, lesson, subjects):
         data = self.window.settings["constants"].setdefault(self.cls, {})
         key = self.key(day, lesson)
 
-        if subject not in self.subjects or subject == "-":
+        subjects = [s for s in subjects if s in self.subjects and s != "-"]
+
+        if not subjects:
             data.pop(key, None)
 
+        elif len(subjects) == 1:
+            data[key] = subjects[0]
+
         else:
-            data[key] = subject
+            data[key] = subjects
 
         self.updateCell(day, lesson)
 
@@ -273,7 +314,7 @@ class TabConstants(QWidget):
 
         for other in self.classes:
             if other != cls and other.split(" ")[0] == grade:
-                self.window.settings["constants"][other] = dict(source)
+                self.window.settings["constants"][other] = {key: list(value) if isinstance(value, list) else value for key, value in source.items()}
 
         self.window.objects["constants_selected"] = cls
 
