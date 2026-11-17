@@ -33,14 +33,12 @@
 
 - иишка может сама вызывать себя из написанного кода один раз, чтобы она могла найти с помощью кода нужную информацию и уже использовала её в новом запросе
 
-ДОКУМЕНТАЦИЯ
-жёлтый цвет учителей
-таблица предметов
-в меню настройках смены
-новое меню Run
+- в константы добавить возможность устанавливать несколько предметов в урок используя данные групп
 
 один из студентов написал к нашему ПО такую штуку, оказалось очень удобным как для студентов так и для педагогов, например найти свободный кабинет или найти преподавателя которому тебе надо сдать долги.
 
 - update Run menu
-- new parameters for Run menu: iterations, cooling
+- new parameters for Run menu: iterations, cooling, kempe chain chance, kempe chain units
 - optimize schedule algorithm
+- fixed bug with displaying crossing lessons in exported teachers schedule
+- update visualizating warnings information

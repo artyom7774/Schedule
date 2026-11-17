@@ -56,6 +56,8 @@
 "menu.main.tab.run.run": "Run"
 "menu.main.tab.run.warnings": "Warnings"
 "menu.main.tab.run.time_passed": "Time passed"
+
+"menu.main.tab.run.kempe": "Kempe"
 "menu.main.tab.run.parameters": "Parameters"
 "menu.main.tab.run.weights": "Weights"
 
@@ -138,6 +140,9 @@
 
 "parameters.iterations": "Iterations"
 "parameters.cooling": "Cooling"
+
+"kempe.units": "Units"
+"kempe.chance": "Chance"
 
 "day.0": "Monday"
 "day.1": "Tuesday"

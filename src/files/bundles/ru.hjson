@@ -56,6 +56,8 @@
 "menu.main.tab.run.run": "Запуск"
 "menu.main.tab.run.warnings": "Предупреждения"
 "menu.main.tab.run.time_passed": "Прошло времени"
+
+"menu.main.tab.run.kempe": "Цепи Кемпе"
 "menu.main.tab.run.parameters": "Параметры"
 "menu.main.tab.run.weights": "Множители"
 
@@ -138,6 +140,9 @@
 
 "parameters.iterations": "Итерации"
 "parameters.cooling": "Охлаждение"
+
+"kempe.units": "Количество узлов"
+"kempe.chance": "Шанц использования"
 
 "day.0": "Понедельник"
 "day.1": "Вторник"

@@ -7,6 +7,7 @@ from src.modules.widgets import NoFocusPushButton
 
 from src.variables import *
 
+import shutil
 import json
 import time
 
@@ -95,6 +96,7 @@ class TabRun(QWidget):
 
         self.objects = {}
 
+        self.kempe = {}
         self.parameters = {}
         self.weights = {}
 
@@ -125,18 +127,28 @@ class TabRun(QWidget):
 
     def load(self, name: str) -> dict:
         try:
-            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/{name}.json", "r", encoding="utf-8") as file:
-                return json.load(file)
+            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "r", encoding="utf-8") as file:
+                return json.load(file)[name]
 
         except FileNotFoundError:
             return {}
 
+        except KeyError:
+            shutil.copy(f"src/files/settings/weights.json", f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json")
+
+        return self.load(name)
+
     def save(self, name: str, data: dict) -> None:
-        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/{name}.json", "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "r", encoding="utf-8") as file:
+            var = json.load(file)
+
+        var[name] = data
+
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json", "w", encoding="utf-8") as file:
+            json.dump(var, file, indent=4, ensure_ascii=False)
 
     def data(self, type: str) -> dict:
-        return self.weights if type == "weights" else self.parameters
+        return self.kempe if type == "kempe" else (self.weights if type == "weights" else self.parameters)
 
     def parse(self, type: str, text: str):
         if type == "weights":
@@ -162,10 +174,11 @@ class TabRun(QWidget):
 
         self.weights = self.load("weights")
         self.parameters = self.load("parameters")
+        self.kempe = self.load("kempe")
 
         labels = []
 
-        for type in ("parameters", "weights"):
+        for type in ("parameters", "weights", "kempe"):
             data = self.data(type)
 
             if not data:
@@ -229,6 +242,9 @@ class TabRun(QWidget):
         for name in list(self.parameters.keys()):
             self.valueLineEditEditingFinished("parameters", name)
 
+        for name in list(self.kempe.keys()):
+            self.valueLineEditEditingFinished("kempe", name)
+
         self.time = time.time()
         self.number = 0
 
@@ -250,14 +266,17 @@ class TabRun(QWidget):
         self.process.finished.connect(self.finish)
 
         args = [
-            "--weights",    f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
-            "--input",      f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
-            "--output",     f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
+            "--weights",       f"{PATH_TO_FOLDER}/projects/{self.window.project}/weights.json",
+            "--input",         f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json",
+            "--output",        f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json",
 
-            "--iterations", f"{self.parameters['iterations']}",
-            "--cooling",    f"{self.parameters['cooling']}",
+            "--iterations",    f"{self.parameters['iterations']}",
+            "--cooling",       f"{self.parameters['cooling']}",
 
-            "--warnings",   f"{warnings}"
+            "--kempe-chance",  f"{self.kempe['chance']}",
+            "--kempe-units",   f"{self.kempe['units']}",
+
+            "--warnings",      f"{warnings}"
         ]
 
         print("src/modules/solve.exe", " ".join(args))

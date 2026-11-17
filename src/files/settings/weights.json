@@ -1,13 +1,25 @@
 {
-    "equalLessons": 100,
-    "notEqualsLessonsCountOnDay": 50,
-    "lessonsEmptySlots": 250,
-    "daysByHard": 5,
-    "teacherFreeTime": 50,
-    "teacherSmallDay": 25,
-    "groupBonus": 10,
-    "lessonShiftCrossing": 250,
-    "profileGaps": 200,
-    "classroomPriority": 50,
-    "teacherLessonLimit": 25
+    "weights": {
+        "equalLessons": 100,
+        "notEqualsLessonsCountOnDay": 50,
+        "lessonsEmptySlots": 250,
+        "daysByHard": 5,
+        "teacherFreeTime": 50,
+        "teacherSmallDay": 25,
+        "groupBonus": 10,
+        "lessonShiftCrossing": 250,
+        "profileGaps": 200,
+        "classroomPriority": 50,
+        "teacherLessonLimit": 25
+    },
+
+    "parameters": {
+        "iterations": 100000000,
+        "cooling": 0.9999999
+    },
+
+    "kempe": {
+        "units": 24,
+        "chance": 20
+    }
 }

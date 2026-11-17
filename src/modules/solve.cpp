@@ -127,7 +127,7 @@ public:
 
                 int shift = 0;
 
-                if (settings["classes"].contains("shift") && number - 1 < (int) settings["classes"]["shift"].size()) {
+                if (settings["classes"].contains("shift") && number - 1 < settings["classes"]["shift"].size()) {
                     auto& entry = settings["classes"]["shift"][number - 1];
 
                     if (entry.is_array()) {
@@ -193,7 +193,7 @@ public:
             vector<int> reserving;
 
             if (teacher.contains("reserve") && teacher["reserve"].is_array()) {
-                for (int shift = 0; shift < NUMBER_OF_SHIFTS && shift < (int) teacher["reserve"].size(); shift++) {
+                for (int shift = 0; shift < NUMBER_OF_SHIFTS && shift < teacher["reserve"].size(); shift++) {
                     for (vector<int> reserveSlot : teacher["reserve"][shift]) {
                         int value = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY * shift + MAX_LESSON_IN_DAY * reserveSlot[0] + reserveSlot[1];
 
@@ -612,7 +612,7 @@ inline SubjectSet slotSubjects(int row, int slot) {
 inline bool subjectRepeatAllowed(int cls, int subjectID) {
     const Data& data = *DATA;
 
-    if (subjectID <= 0 || subjectID >= (int) data.crossing.size()) {
+    if (subjectID <= 0 || subjectID >= data.crossing.size()) {
         return true;
     }
 
@@ -620,7 +620,7 @@ inline bool subjectRepeatAllowed(int cls, int subjectID) {
         return true;
     }
 
-    if (cls > 0 && cls < (int) data.subjectHoursByClass.size() && subjectID < (int) data.subjectHoursByClass[cls].size()) {
+    if (cls > 0 && cls < data.subjectHoursByClass.size() && subjectID < data.subjectHoursByClass[cls].size()) {
         return data.subjectHoursByClass[cls][subjectID] >= SUBJECT_MULTI_DAY_THRESHOLD;
     }
 
@@ -630,7 +630,7 @@ inline bool subjectRepeatAllowed(int cls, int subjectID) {
 inline bool subjectPairAllowed(int subjectA, int subjectB) {
     const Data& data = *DATA;
 
-    if (subjectA <= 0 || subjectB <= 0 || subjectA >= (int) data.crossing.size() || subjectB >= (int) data.crossing.size()) {
+    if (subjectA <= 0 || subjectB <= 0 || subjectA >= data.crossing.size() || subjectB >= data.crossing.size()) {
         return true;
     }
 
@@ -691,7 +691,7 @@ inline bool classDayConflict(int cls, int subjectID, int slot, int excludeSlot =
 inline bool classDayHasDuplicates(int cls, int slot) {
     const Data& data = *DATA;
 
-    if (cls <= 0 || cls >= (int) data.subjectHoursByClass.size()) {
+    if (cls <= 0 || cls >= data.subjectHoursByClass.size()) {
         return false;
     }
 
@@ -710,7 +710,7 @@ inline bool classDayHasDuplicates(int cls, int slot) {
         for (int index = 0; index < subjects.size; index++) {
             int subjectID = subjects.values[index];
 
-            if (subjectID <= 0 || subjectID >= (int) bufferCounter.size()) {
+            if (subjectID <= 0 || subjectID >= bufferCounter.size()) {
                 continue;
             }
 
@@ -724,8 +724,8 @@ inline bool classDayHasDuplicates(int cls, int slot) {
     }
 
     if (!bad && data.anyCrossingForbidden) {
-        for (int first = 0; first < (int) distinct.size() && !bad; first++) {
-            for (int second = first + 1; second < (int) distinct.size(); second++) {
+        for (int first = 0; first < distinct.size() && !bad; first++) {
+            for (int second = first + 1; second < distinct.size(); second++) {
                 if (!subjectPairAllowed(distinct[first], distinct[second])) {
                     bad = true;
 
@@ -2368,7 +2368,7 @@ namespace move {
         };
 
         auto revertMove = [&]() {
-            for (int index = 0; index < (int) moving.size(); index++) {
+            for (int index = 0; index < moving.size(); index++) {
                 edge& connection = moving[index];
 
                 vector<edge>& slotBEdges = graph[cls][slotB];
@@ -2722,7 +2722,7 @@ json save() {
                 entry["classrooms"] = roomsForSubject(subjectOrder[0]);
                 entry["extra"] = json::array();
 
-                for (int index = 1; index < (int) subjectOrder.size(); index++) {
+                for (int index = 1; index < subjectOrder.size(); index++) {
                     entry["extra"].push_back(json{
                         {"subject", subjectNameByID[subjectOrder[index]]},
                         {"teachers", teachersBySubject[subjectOrder[index]]},
@@ -2765,10 +2765,10 @@ int main(int argc, char** argv) {
     int kempeWindowPercent = 50;
     int kempeSmallPercent = 20;
 
-    app.add_option("--kempe", kempePercent);
+    app.add_option("--kempe-chance", kempePercent);
     app.add_option("--kempe-window", kempeWindowPercent);
     app.add_option("--kempe-small", kempeSmallPercent);
-    app.add_option("--kempe-size", kempe::MAX_UNITS);
+    app.add_option("--kempe-units", kempe::MAX_UNITS);
 
     CLI11_PARSE(app, argc, argv);
 
@@ -2823,7 +2823,7 @@ int main(int argc, char** argv) {
     bufferEnds.assign(JOB_WEEK_LENGHT, 0);
     bufferHards.assign(JOB_WEEK_LENGHT, 0);
 
-    for (int index = 0; index < (int) data.teachers.size(); index++) {
+    for (int index = 0; index < data.teachers.size(); index++) {
         for (int slot : data.free[index]) {
             teacherIsAllowed[index + 1][slot] = true;
         }
@@ -2872,7 +2872,7 @@ int main(int argc, char** argv) {
 
         int index = -1;
 
-        for (int pos = 0; pos < (int) pending.size(); pos++) {
+        for (int pos = 0; pos < pending.size(); pos++) {
             if (pending[pos].cls == constant.cls && pending[pos].subjectID == constant.subjectID) {
                 index = pos;
 
@@ -2935,7 +2935,7 @@ int main(int argc, char** argv) {
 
         vector<int> bestCandidates;
 
-        for (int index = 0; index < (int) pending.size(); index++) {
+        for (int index = 0; index < pending.size(); index++) {
             Lesson& item = pending[index];
 
             vector<int> candidates;
@@ -2997,7 +2997,8 @@ int main(int argc, char** argv) {
     }
 
     if (unplaced > 0) {
-        cout << "[WARNING] " << unplaced << " lesson(s) could not be placed during initial construction" << "\n";
+        cout << "[HELP] " << unplaced << " lesson(s) could not be placed during initial construction" << "\n";
+        cout << "[HELP] " << "increase the maximum number of lessons per day (and the shift crossing as well) in the settings tab" << "\n";
     }
 
     if (warnings) {
@@ -3006,8 +3007,9 @@ int main(int argc, char** argv) {
 
     total = getClassTotal();
 
-    for (int teacherID = 1; teacherID <= (int) data.teachers.size(); teacherID++) {
+    for (int teacherID = 1; teacherID <= data.teachers.size(); teacherID++) {
         total += teacherCost(teacherID);
+
         total += Functions::classroomPriority(teacherID);
     }
 
@@ -3064,7 +3066,7 @@ int main(int argc, char** argv) {
             case 1: move::interClassSlotSwap(); break;
             case 2: move::subjectOfClassSwap(); break;
             case 3: move::classroomReplacing(); break;
-                
+
             case 4: move::kempeChainRandom(); break;
             case 5: move::kempeChainTeacher(); break;
             case 6: move::kempeChainTeacherSmallDay(); break;

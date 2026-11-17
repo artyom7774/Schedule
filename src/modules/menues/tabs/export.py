@@ -162,6 +162,8 @@ class TabExport(QWidget):
         if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"):
             QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.answer_is_not_created"), QMessageBox.Ok)
 
+            return
+
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json", "r", encoding="utf-8") as file:
             answer = json.load(file)
 
@@ -214,6 +216,8 @@ class TabExport(QWidget):
 
         except PermissionError:
             QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.file_permission_denied"), QMessageBox.Ok)
+
+            return
 
     def exportByTeacherPushButtonClicked(self, path: str = None):
         if path is None:
@@ -320,6 +324,12 @@ class TabExport(QWidget):
                 for day, shift, i in blocked - slots:
                     paint(day, shift, i, col, "6a6a6a")
 
+                for day in range(self.window.settings["working_days_per_week"]):
+                    for shift in range(shifts - 1):
+                        for i in range(lessons - crossing, lessons):
+                            if (day, shift, i) not in slots and (day, shift + 1, i - (lessons - crossing)) not in slots:
+                                paint(day, shift, i, col, "6a6a6a")
+
         for teacher in teachers:
             col = teachers.index(teacher) + 4
             slots = busy[teacher]
@@ -356,6 +366,8 @@ class TabExport(QWidget):
 
         if not os.path.exists(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"):
             QMessageBox.warning(self, translate("menu.main.tab.export.error"), translate("menu.main.tab.export.answer_is_not_created"), QMessageBox.Ok)
+
+            return
 
         with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json", "r", encoding="utf-8") as file:
             answer = json.load(file)
