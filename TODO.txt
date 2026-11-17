@@ -42,3 +42,4 @@
 - optimize schedule algorithm
 - fixed bug with displaying crossing lessons in exported teachers schedule
 - update visualizating warnings information
+- update AI responce

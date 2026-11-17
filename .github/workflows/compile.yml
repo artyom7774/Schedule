@@ -1,0 +1,33 @@
+name: Compile
+on: push
+jobs:
+  build-windows:
+    name: Windows
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Include python
+        uses: actions/checkout@v4
+        with:
+          repository: artyom7774/Schedule-python
+          path: python
+
+      - name: Copy python to project
+        run: |
+          Copy-Item -Path "python/windows" -Destination "src/extra/python/windows" -Recurse -Force
+        shell: pwsh
+
+      - name: Compile windows
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
+        with:
+          path: .github/compile/compile.iss
+          options: /Q /O+
+
+      - name: Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Schedule-Maker-1
+          path: .github/compile/Schedule-Maker-1-windows-installer.exe
