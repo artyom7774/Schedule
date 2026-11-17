@@ -26,8 +26,40 @@ jobs:
           path: .github/compile/compile.iss
           options: /Q /O+
 
-      - name: Artifact
+      - name: Prepare portable folder
+        run: |
+          $dst = "portable/Schedule"
+          
+          New-Item -ItemType Directory -Path $dst -Force | Out-Null
+
+          Copy-Item -Path "Schedule.exe"      -Destination $dst -Force
+          Copy-Item -Path "Schedule.py"       -Destination $dst -Force
+          Copy-Item -Path "start.py"          -Destination $dst -Force
+          Copy-Item -Path "requirements.txt"  -Destination $dst -Force
+          Copy-Item -Path "README.md"         -Destination $dst -Force
+          Copy-Item -Path "profile.bat"       -Destination $dst -Force
+          Copy-Item -Path "LICENSE"           -Destination $dst -Force
+          Copy-Item -Path "compile.bat"       -Destination $dst -Force
+
+          Copy-Item -Path "last"    -Destination "$dst/last"   -Recurse -Force
+          Copy-Item -Path "src"     -Destination "$dst/src"    -Recurse -Force
+          Copy-Item -Path "windows" -Destination "$dst/python" -Recurse -Force
+        shell: pwsh
+
+      - name: Create zip archive
+        run: |
+          New-Item -ItemType Directory -Path ".github/out" -Force | Out-Null
+          Compress-Archive -Path "portable/Schedule" -DestinationPath ".github/out/Schedule-windows-portable.zip" -Force
+        shell: pwsh
+
+      - name: Schedule-windows-installer
         uses: actions/upload-artifact@v4
         with:
           name: Schedule-windows-installer
           path: .github/out/Schedule-windows-installer.exe
+
+      - name: Schedule-windows-portable
+        uses: actions/upload-artifact@v4
+        with:
+          name: Schedule-windows-portable
+          path: .github/out/Schedule-windows-portable.zip
