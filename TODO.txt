@@ -42,6 +42,6 @@
 - optimize schedule algorithm
 - fixed bug with displaying crossing lessons in exported teachers schedule
 - update visualizating warnings information
-- update AI responce
+- update AI responce instruction
 - fixed bug with updating subjects tab
 - update constants menu: now can many lessons in one slot if it satisfies group

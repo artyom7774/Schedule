@@ -3,10 +3,12 @@ import time
 import sys
 import os
 
-URL = "https://request.tail1af8d9.ts.net"
+# URL = "https://request.tail1af8d9.ts.net"
 # URL = "http://127.0.0.1:5000"
+# MODEL = "claude-opus-5-5:free"
 
-MODEL = "free/qwen-3.8-max"
+URL = "https://ge3.pythonanywhere.com/"
+MODEL = "gemini-3.5-flash-lite"  # gemini-4-hydrogen
 
 REQUEST_ENDPOINT = f"{URL}/api/ai/request"
 STATUS_ENDPOINT = f"{URL}/api/ai/status"
