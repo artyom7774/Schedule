@@ -17,7 +17,7 @@ jobs:
 
       - name: Copy python to project
         run: |
-          Copy-Item -Path "python/windows" -Destination "src/extra/python/windows" -Recurse -Force
+          Copy-Item -Path "python/windows" -Destination ".github/compile/python/windows" -Recurse -Force
         shell: pwsh
 
       - name: Compile windows
@@ -30,4 +30,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Schedule-Maker-1
-          path: .github/compile/Schedule-Maker-1-windows-installer.exe
+          path: .github/out/Schedule-windows-installer.exe
