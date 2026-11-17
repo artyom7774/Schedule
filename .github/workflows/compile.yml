@@ -1,8 +1,8 @@
 name: Compile
 on: push
 jobs:
-  build-windows:
-    name: Windows
+  build-windows-installer:
+    name: Windows Installer
 
     runs-on: windows-latest
 
@@ -20,16 +20,41 @@ jobs:
           Copy-Item -Path "python/windows" -Destination "." -Recurse -Force
         shell: pwsh
 
-      - name: Compile windows
+      - name: Windows compile
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
           path: .github/compile/compile.iss
           options: /Q /O+
 
-      - name: Prepare portable folder
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Schedule-windows-installer
+          path: .github/out/Schedule-windows-installer.exe
+
+  build-windows-portable:
+    name: Windows Portable
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Include python
+        uses: actions/checkout@v4
+        with:
+          repository: artyom7774/Schedule-python
+          path: python
+
+      - name: Copy python to project
+        run: |
+          Copy-Item -Path "python/windows" -Destination "." -Recurse -Force
+        shell: pwsh
+
+      - name: Windows portable
         run: |
           $dst = "portable/Schedule"
-          
+
           New-Item -ItemType Directory -Path $dst -Force | Out-Null
 
           Copy-Item -Path "Schedule.exe"      -Destination $dst -Force
@@ -52,13 +77,7 @@ jobs:
           Compress-Archive -Path "portable/Schedule" -DestinationPath ".github/out/Schedule-windows-portable.zip" -Force
         shell: pwsh
 
-      - name: Schedule-windows-installer
-        uses: actions/upload-artifact@v4
-        with:
-          name: Schedule-windows-installer
-          path: .github/out/Schedule-windows-installer.exe
-
-      - name: Schedule-windows-portable
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: Schedule-windows-portable
