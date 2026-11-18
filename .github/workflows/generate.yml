@@ -75,7 +75,7 @@ jobs:
           path: tuner/pool/
 
   merge:
-    name: Merge shards
+    name: Merge processes
     needs: generate
 
     runs-on: ubuntu-latest
