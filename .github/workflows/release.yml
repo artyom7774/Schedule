@@ -1,8 +1,8 @@
-name: release.yml
+name: Release
 
 on:
   workflow_run:
-    workflows: ["compile.yml"]
+    workflows: ["Compile"]
     types:
       - completed
 
