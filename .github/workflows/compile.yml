@@ -28,6 +28,25 @@ jobs:
           if (Test-Path "windows\Lib\test") { Remove-Item "windows\Lib\test" -Recurse -Force }
         shell: pwsh
 
+      - name: Plugins
+        run: |
+          $base = "windows\Lib\site-packages\PyQt5\Qt5"
+          
+          if (Test-Path "$base\plugins\platforms") {
+            New-Item -ItemType Directory -Path "windows\platforms" -Force | Out-Null
+            Copy-Item -Path "$base\plugins\platforms\*" -Destination "windows\platforms" -Recurse -Force
+          }
+          
+          if (Test-Path "$base\plugins\styles") {
+            New-Item -ItemType Directory -Path "windows\styles" -Force | Out-Null
+            Copy-Item -Path "$base\plugins\styles\*" -Destination "windows\styles" -Recurse -Force
+          }
+          
+          if (-not (Test-Path "windows\platforms\qwindows.dll")) {
+            Write-Error "qwindows.dll not found!"
+          }
+        shell: pwsh
+
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
