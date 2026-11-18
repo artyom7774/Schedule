@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build-windows-python:
-    name: Python
+    name: Windows Python
 
     runs-on: windows-latest
 
@@ -58,7 +58,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: Schedule-windows-installer
+          name: build-windows-installer
           path: .github/out/Schedule-windows-installer.exe
 
   build-windows-portable:
@@ -105,5 +105,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: Schedule-windows-portable
+          name: build-windows-portable
           path: .github/out/Schedule-windows-portable.zip
