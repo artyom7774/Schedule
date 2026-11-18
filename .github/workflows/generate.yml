@@ -4,36 +4,40 @@ on:
   workflow_dispatch:
     inputs:
       runs:
-        default: "10"
+        default: "100"
       iterations:
-        default: "1000"
+        default: "100000000"
       seed:
         default: "0"
       shards:
-        description: "number of parallel runners"
         default: "4"
 
 jobs:
   prepare:
     name: Prepare matrix
+
     runs-on: ubuntu-latest
+
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
+
     steps:
       - id: set
         run: |
           N=${{ inputs.shards }}
-          echo "matrix=$(python3 -c "import json;print(json.dumps({'shard': list(range($N))}))")" \
-            >> $GITHUB_OUTPUT
+          echo "matrix=$(python3 -c "import json;print(json.dumps({'shard': list(range($N))}))")" >> $GITHUB_OUTPUT
 
   generate:
-    name: Shard ${{ matrix.shard }}
+    name: Process ${{ matrix.shard }}
     needs: prepare
+
     runs-on: ubuntu-latest
+
     timeout-minutes: 300
+
     strategy:
-      fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +50,9 @@ jobs:
       - name: Build solver
         run: |
           g++ -std=c++17 -O3 src/modules/solve.cpp -o src/modules/solve
+          
           chmod +x src/modules/solve
+          
           ls -la src/modules/solve
 
       - uses: actions/setup-python@v5
@@ -61,30 +67,23 @@ jobs:
 
       - name: Run worker (shard ${{ matrix.shard }}/${{ inputs.shards }})
         run: |
-          python tuner/worker.py \
-            --runs       "${{ inputs.runs }}" \
-            --iterations "${{ inputs.iterations }}" \
-            --seed       "${{ inputs.seed }}" \
-            --shard      ${{ matrix.shard }} \
-            --shards     ${{ inputs.shards }} \
-            --workers    "$(nproc)"
+          python tuner/worker.py --runs "${{ inputs.runs }}" --iterations "${{ inputs.iterations }}" --seed "${{ inputs.seed }}" --shard ${{ matrix.shard }} --shards ${{ inputs.shards }} --workers "$(nproc)"
 
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: pool-shard-${{ matrix.shard }}
+          name: process - ${{ matrix.shard }}
           path: tuner/pool/
-          retention-days: 7
 
   merge:
     name: Merge shards
     needs: generate
+
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: pool-shard-*
+          pattern: process - *
           merge-multiple: false
           path: shards
 
@@ -105,8 +104,6 @@ jobs:
               if not shard_dir.is_dir():
                   continue
 
-              # upload-artifact@v4 сохраняет структуру tuner/pool/ в артефакте.
-              # Проверяем оба варианта — если когда-то поведение изменится.
               pool = shard_dir / 'tuner' / 'pool'
               if not pool.exists():
                   pool = shard_dir
@@ -145,7 +142,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: pool-run${{ github.run_number }}
+          name: output
           path: pool/
-          retention-days: 14
-          
