@@ -30,8 +30,9 @@ jobs:
           name: "#${{ github.event.workflow_run.run_number }}"
           draft: true
           generate_release_notes: true
+          fail_on_unmatched_files: true
           files: |
-            artifacts/Schedule-windows-installer.exe
-            artifacts/Schedule-windows-portable.zip
+            artifacts/Schedule-windows-installer/Schedule-windows-installer.exe
+            artifacts/Schedule-windows-portable/Schedule-windows-portable.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
