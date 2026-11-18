@@ -2,7 +2,10 @@
 
 #include <bits/stdc++.h>
 #include <ext/random>
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #pragma GCC optimize("unroll-loops")
 
@@ -29,18 +32,17 @@ int SUBJECT_MULTI_DAY_THRESHOLD = 4;
 vector<string> CLASSES_LETTERS = {"-", "А", "Б", "В", "Г", "Д", "Е", "Ж", "З", "И", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Э", "Ю", "Я"};
 
 string input = "settings.json";
-string output = "answer.json";
+string output = "null";
+
+static unsigned long long SEED = 0;
 
 int randint(int min, int max) {
-    static __gnu_cxx::sfmt19937 rng(
-        std::random_device{}() ^
-        static_cast<unsigned>(std::chrono::high_resolution_clock::now().time_since_epoch().count())
-    );
+    static __gnu_cxx::sfmt19937 rng(SEED ? (unsigned) SEED : (std::random_device{}() ^ static_cast<unsigned>(std::chrono::high_resolution_clock::now().time_since_epoch().count())));
 
     std::uniform_int_distribution<int> dist(min, max);
-
     return dist(rng);
 }
+
 
 map<int, string> teacherNameByID;
 map<string, int> IDByTeacherName;
@@ -1882,15 +1884,15 @@ namespace kempe {
         return true;
     }
 
-    inline bool pickTeacher(int kind, int t, int sh, Start& k) {
-        bool found = (kind == 1) ? pickWindow(t, sh, k.A, k.B) : pickSmallDay(t, sh, k.A, k.B);
+    inline bool pickTeacher(int kind, int teacher, int sh, Start& k) {
+        bool found = (kind == 1) ? pickWindow(teacher, sh, k.A, k.B) : pickSmallDay(teacher, sh, k.A, k.B);
 
         if (!found) {
             return false;
         }
 
-        k.cls = graph[t][k.A][0].id;
-        k.subject = graph[t][k.A][0].value;
+        k.cls = graph[teacher][k.A][0].id;
+        k.subject = graph[teacher][k.A][0].value;
 
         return true;
     }
@@ -1932,7 +1934,6 @@ namespace kempe {
 double temperature = 100;
 double total = 0;
 
-int stagnation = 0;
 int moves = 0;
 
 vector<int> involved, teachers1, teachers2, groupCandidates, emptyCandidates, savedRooms, savedRanks;
@@ -2080,12 +2081,8 @@ namespace move {
         if (!hard && accept(delta, temperature)) {
             total = total - before + after;
 
-            stagnation = 0;
-
         } else {
             swapper();
-
-            stagnation += 1;
         }
     }
 
@@ -2222,12 +2219,8 @@ namespace move {
         if (!hard && accept(delta, temperature)) {
             total = total - before + after;
 
-            stagnation = 0;
-
         } else {
             swapper();
-
-            stagnation += 1;
         }
     }
 
@@ -2422,12 +2415,8 @@ namespace move {
         if (!hard && accept(delta, temperature)) {
             total = total - before + after;
 
-            stagnation = 0;
-
         } else {
             revertMove();
-
-            stagnation += 1;
         }
     }
 
@@ -2463,8 +2452,6 @@ namespace move {
             teacherRoom[teacherID][slot] = room;
             teacherRoomRank[teacherID][slot] = rank;
 
-            stagnation += 1;
-
             return;
         }
 
@@ -2475,8 +2462,6 @@ namespace move {
         if (delta <= 0) {
             total = total - before + after;
 
-            stagnation = (delta < 0) ? 0 : stagnation + 1;
-
         } else {
             releaseRoom(teacherID, slot);
 
@@ -2484,8 +2469,6 @@ namespace move {
 
             teacherRoom[teacherID][slot] = room;
             teacherRoomRank[teacherID][slot] = rank;
-
-            stagnation += 1;
         }
     }
 
@@ -2614,8 +2597,6 @@ namespace move {
             if (hard) {
                 flip(true);
 
-                stagnation += 1;
-
                 return;
             }
         }
@@ -2635,8 +2616,6 @@ namespace move {
         if (accept(delta, temperature)) {
             total = total - before + after;
 
-            stagnation = 0;
-
             kempe::stats.accepted[kind]++;
 
             if (delta < -0.01f) {
@@ -2647,8 +2626,6 @@ namespace move {
         }
 
         flip(true);
-
-        stagnation += 1;
     }
 
     void kempeChainRandom() {
@@ -2738,6 +2715,131 @@ json save() {
     return answer;
 }
 
+namespace metrics {
+    inline void unit() {
+        Weights::init(json{
+            {"equalLessons", 1},
+            {"notEqualsLessonsCountOnDay", 1},
+            {"lessonsEmptySlots", 1},
+            {"daysByHard", 1},
+            {"teacherFreeTime", 1},
+            {"teacherSmallDay", 1},
+            {"groupBonus", 1},
+            {"lessonShiftCrossing", 1},
+            {"profileGaps", 1},
+            {"classroomPriority", 1},
+            {"teacherLessonLimit", 1}
+        });
+    }
+
+    json collect(int unplaced) {
+        Data& data = getData();
+
+        unit();
+
+        vector<double> equalLessons;
+        vector<double> notEqualsLessonsCountOnDay;
+        vector<double> lessonsEmptySlots;
+        vector<double> daysByHard;
+        vector<double> groupBonus;
+        vector<double> profileGaps;
+
+        for (int cls = data.teachers.size() + 1; cls <= data.teachers.size() + data.classes.size(); cls++) {
+            vector<float> p = getClassPoint(cls);
+
+            equalLessons.push_back(p[0]);
+            notEqualsLessonsCountOnDay.push_back(p[1]);
+            lessonsEmptySlots.push_back(p[2]);
+            daysByHard.push_back(p[3]);
+            groupBonus.push_back(-p[4]);
+            profileGaps.push_back(p[5]);
+        }
+
+        vector<double> gapSum;
+        vector<double> teacherFreeTimeGapSq;
+        vector<double> teacherSmallDay;
+        vector<double> teacherLessonLimit;
+        vector<double> lessonShiftCrossing;
+        vector<double> classroomPriority;
+
+        for (int teacher = 1; teacher <= data.teachers.size(); teacher++) {
+            double sumGap = 0, gapSq = 0, smallDaySq = 0, overLimit = 0, cross = 0, rankSum = 0;
+
+            for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+                int gap  = teacherDayGap(teacher, day);
+                int load = teacherDayLoad(teacher, day);
+
+                sumGap += gap;
+                gapSq += gap * gap;
+
+                overLimit += max(0, load - TEACHER_MAX_LESSONS);
+
+                if (load > 0) {
+                    int diff = max(0, TEACHER_SMALL_DAY - load);
+
+                    smallDaySq += diff * diff;
+                }
+            }
+
+            if (SHIFT_CROSSING > 0) {
+                const vector<vector<edge>>& row = graph[teacher];
+
+                for (int shift = 0; shift < NUMBER_OF_SHIFTS - 1; shift++) {
+                    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+                        int base = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+                        int next = (shift + 1) * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+
+                        for (int step = 0; step < SHIFT_CROSSING; step++) {
+                            int left  = base + MAX_LESSON_IN_DAY - SHIFT_CROSSING + step;
+                            int right = next + step;
+
+                            bool lb = !row[left].empty()  || teacherReserve[teacher][left];
+                            bool rb = !row[right].empty() || teacherReserve[teacher][right];
+
+                            if (lb && rb) cross += 1;
+                        }
+                    }
+                }
+            }
+
+            for (int slot = 0; slot < SLOTS; slot++) {
+                if (teacherRoom[teacher][slot] > 0) {
+                    rankSum += teacherRoomRank[teacher][slot];
+                }
+            }
+
+            gapSum.push_back(sumGap);
+            teacherFreeTimeGapSq.push_back(gapSq);
+            teacherSmallDay.push_back(smallDaySq);
+            teacherLessonLimit.push_back(overLimit);
+            lessonShiftCrossing.push_back(cross);
+            classroomPriority.push_back(rankSum);
+        }
+
+        return json{
+            {"unplaced", unplaced},
+            {"moves", moves},
+            {"total", total},
+            {"class", {
+                {"equalLessons", equalLessons},
+                {"notEqualsLessonsCountOnDay", notEqualsLessonsCountOnDay},
+                {"lessonsEmptySlots", lessonsEmptySlots},
+                {"daysByHard", daysByHard},
+                {"groupBonus", groupBonus},
+                {"profileGaps", profileGaps}
+            }},
+            {"teacher", {
+                {"gapSum", gapSum},
+                {"teacherFreeTimeGapSq", teacherFreeTimeGapSq},
+                {"teacherSmallDay", teacherSmallDay},
+                {"teacherLessonLimit", teacherLessonLimit},
+                {"lessonShiftCrossing", lessonShiftCrossing},
+                {"classroomPriority", classroomPriority}
+            }}
+        };
+    }
+}
+
 int main(int argc, char** argv) {
     setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -2754,12 +2856,17 @@ int main(int argc, char** argv) {
     string weights = "null";
     app.add_option("--weights", weights);
 
+    string metrics = "null";
+    app.add_option("--metrics", metrics);
+
     app.add_option("--input", input);
     app.add_option("--output", output);
 
     app.add_option("--warnings", warnings);
 
     app.add_option("--fair", TEACHER_FAIR);
+
+    app.add_option("--seed", SEED);
 
     int kempePercent = 20;
     int kempeWindowPercent = 50;
@@ -2783,8 +2890,10 @@ int main(int argc, char** argv) {
         }
     }
 
-    SetConsoleOutputCP(CP_UTF8);
-    SetConsoleCP(CP_UTF8);
+    #ifdef _WIN32
+        SetConsoleOutputCP(CP_UTF8);
+        SetConsoleCP(CP_UTF8);
+    #endif
 
     Data& data = getData();
 
@@ -3016,11 +3125,11 @@ int main(int argc, char** argv) {
     for (int iteration = 0; iteration < iterations; iteration++) {
         temperature *= cooling;
 
-        if (stagnation == 10000 || (iteration + 1) % 1000000 == 0) {
+        if ((iteration + 1) % 1000000 == 0) {
             ostringstream stream;
 
-            stream << (stagnation == 10000 ? "[EQUAL]" : "[PRINT]") << " ";
-            stream << iteration + 1 << " " << temperature << " " << total << " " << stagnation;
+            stream << "[PRINT]" << " ";
+            stream << iteration + 1 << " " << temperature << " " << total;
 
             string prefix = stream.str();
 
@@ -3039,12 +3148,6 @@ int main(int argc, char** argv) {
             }
 
             cout << "\n";
-        }
-
-        if (stagnation == 10000) {
-            temperature = 20;
-
-            stagnation = 0;
         }
 
         int type;
@@ -3073,12 +3176,18 @@ int main(int argc, char** argv) {
         }
     }
 
-    std::ofstream file(output);
-
-    file << std::setw(4) << save() << std::endl;
-    file.close();
-
     cout << moves << " " << total << endl;
+
+    if (output != "null") {
+        std::ofstream file(output);
+
+        file << std::setw(4) << save() << std::endl;
+        file.close();
+    }
+
+    if (metrics != "null") {
+        ofstream(metrics) << metrics::collect(unplaced).dump();
+    }
 
     return 0;
 }

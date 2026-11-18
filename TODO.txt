@@ -37,11 +37,11 @@
 
 один из студентов написал к нашему ПО такую штуку, оказалось очень удобным как для студентов так и для педагогов, например найти свободный кабинет или найти преподавателя которому тебе надо сдать долги.
 
-- update Run menu
-- new parameters for Run menu: iterations, cooling, kempe chain chance, kempe chain units
-- optimize schedule algorithm
-- fixed bug with displaying crossing lessons in exported teachers schedule
-- update visualizating warnings information
-- update AI responce instruction
-- fixed bug with updating subjects tab
-- update constants menu: now can many lessons in one slot if it satisfies group
++. переписать код что бы он компилировался для linux
+2. (+) workflow который будет создавать много расписаний по разным значениям
+3. 5 разных размеров и нагруженности школьных расписаний
+4. (2, 3) создать 50 разных расписаний ДЛЯ КАЖДОГО ИЗ РАСПИСАНИЯ с разными коэффицентами x0.1-x10 множителями, при этом один из параметров не изменять
+5. создать функцию для сравнения LLM двух разных расписаний
+- перемешивать первое и второе расписание в вопросе ллм местами
+- около 10 запросов на 1 вопрос
+6. (4, 5) использовать LLM для сравнения
