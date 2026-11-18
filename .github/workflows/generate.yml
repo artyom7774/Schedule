@@ -5,10 +5,13 @@ on:
     inputs:
       runs:
         default: "100"
+
       iterations:
         default: "100000000"
+
       seed:
         default: "0"
+
       shards:
         default: "4"
 
