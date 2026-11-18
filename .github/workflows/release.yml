@@ -10,9 +10,12 @@ permissions:
   contents: write
 
 jobs:
-  create-draft-release:
+  draft-release:
+    name: Draft release
+
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Download artifacts
         uses: dawidd6/action-download-artifact@v6
