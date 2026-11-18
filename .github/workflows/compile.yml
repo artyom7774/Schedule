@@ -32,18 +32,17 @@ jobs:
         run: |
           $base = "windows\Lib\site-packages\PyQt5\Qt5"
           
-          if (Test-Path "$base\plugins\platforms") {
-            New-Item -ItemType Directory -Path "windows\platforms" -Force | Out-Null
-            Copy-Item -Path "$base\plugins\platforms\*" -Destination "windows\platforms" -Recurse -Force
+          foreach ($name in @("platforms", "styles", "imageformats", "iconengines")) {
+            if (Test-Path "$base\plugins\$name") {
+              New-Item -ItemType Directory -Path "windows\$name" -Force | Out-Null
+              Copy-Item -Path "$base\plugins\$name\*" -Destination "windows\$name" -Recurse -Force
+            }
           }
           
-          if (Test-Path "$base\plugins\styles") {
-            New-Item -ItemType Directory -Path "windows\styles" -Force | Out-Null
-            Copy-Item -Path "$base\plugins\styles\*" -Destination "windows\styles" -Recurse -Force
-          }
-          
-          if (-not (Test-Path "windows\platforms\qwindows.dll")) {
-            Write-Error "qwindows.dll not found!"
+          foreach ($f in @("platforms\qwindows.dll", "imageformats\qsvg.dll", "iconengines\qsvgicon.dll")) {
+            if (-not (Test-Path "windows\$f")) {
+              Write-Error "$f not found!"
+            }
           }
         shell: pwsh
 
