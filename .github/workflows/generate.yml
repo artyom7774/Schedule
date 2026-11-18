@@ -5,19 +5,35 @@ on:
     inputs:
       runs:
         default: "10"
-
       iterations:
         default: "1000"
-
       seed:
         default: "0"
+      shards:
+        description: "number of parallel runners"
+        default: "4"
 
 jobs:
-  generate:
-    name: Generate
+  prepare:
+    name: Prepare matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - id: set
+        run: |
+          N=${{ inputs.shards }}
+          echo "matrix=$(python3 -c "import json;print(json.dumps({'shard': list(range($N))}))")" \
+            >> $GITHUB_OUTPUT
 
+  generate:
+    name: Shard ${{ matrix.shard }}
+    needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -30,9 +46,7 @@ jobs:
       - name: Build solver
         run: |
           g++ -std=c++17 -O3 src/modules/solve.cpp -o src/modules/solve
-          
           chmod +x src/modules/solve
-          
           ls -la src/modules/solve
 
       - uses: actions/setup-python@v5
@@ -43,18 +57,95 @@ jobs:
         run: pip install numpy
 
       - name: Check solver
-        run: |
-          ./src/modules/solve --help | head -30 || true
+        run: ./src/modules/solve --help | head -30 || true
 
-      - name: Run worker
+      - name: Run worker (shard ${{ matrix.shard }}/${{ inputs.shards }})
         run: |
           python tuner/worker.py \
             --runs       "${{ inputs.runs }}" \
             --iterations "${{ inputs.iterations }}" \
             --seed       "${{ inputs.seed }}" \
+            --shard      ${{ matrix.shard }} \
+            --shards     ${{ inputs.shards }} \
             --workers    "$(nproc)"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pool-shard-${{ matrix.shard }}
+          path: tuner/pool/
+          retention-days: 7
+
+  merge:
+    name: Merge shards
+    needs: generate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pool-shard-*
+          merge-multiple: false
+          path: shards
+
+      - name: Combine manifests and dirs
+        run: |
+          python3 - <<'EOF'
+          import csv, pathlib, shutil, sys
+
+          shards_root = pathlib.Path('shards')
+          out = pathlib.Path('pool')
+          out.mkdir(exist_ok=True)
+
+          manifest_rows = []
+          fields = None
+          shard_count = 0
+
+          for shard_dir in sorted(shards_root.iterdir()):
+              if not shard_dir.is_dir():
+                  continue
+
+              # upload-artifact@v4 сохраняет структуру tuner/pool/ в артефакте.
+              # Проверяем оба варианта — если когда-то поведение изменится.
+              pool = shard_dir / 'tuner' / 'pool'
+              if not pool.exists():
+                  pool = shard_dir
+
+              shard_count += 1
+              print(f'{shard_dir.name}: from {pool}')
+
+              for item in pool.iterdir():
+                  if item.is_dir():
+                      target = out / item.name
+                      if target.exists():
+                          sys.exit(f'COLLISION: {item.name} already exists in another shard')
+                      shutil.copytree(item, target)
+
+              manifest = pool / 'manifest.csv'
+              if manifest.exists():
+                  with open(manifest, encoding='utf-8') as f:
+                      reader = csv.DictReader(f)
+                      if fields is None:
+                          fields = reader.fieldnames
+                      manifest_rows.extend(reader)
+
+          if not manifest_rows:
+              sys.exit('no manifest rows found')
+
+          with open(out / 'manifest.csv', 'w', newline='', encoding='utf-8') as f:
+              w = csv.DictWriter(f, fieldnames=fields)
+              w.writeheader()
+              w.writerows(manifest_rows)
+
+          print()
+          print(f'shards merged: {shard_count}')
+          print(f'total runs:    {len(manifest_rows)}')
+          print(f'manifest:      {out / "manifest.csv"}')
+          EOF
 
       - uses: actions/upload-artifact@v4
         with:
           name: pool-run${{ github.run_number }}
-          path: tuner/pool/
+          path: pool/
+          retention-days: 14
+          
