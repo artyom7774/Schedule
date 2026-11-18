@@ -3,24 +3,51 @@ name: Compile
 on: push
 
 jobs:
-  build-windows-installer:
-    name: Windows Installer
+  build-windows-python:
+    name: Python
 
     runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Include python
-        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          repository: artyom7774/Schedule-python
-          path: python
+          python-version: "3.11"
 
-      - name: Copy python to project
+      - name: Install requirements
         run: |
-          Copy-Item -Path "python/windows" -Destination "." -Recurse -Force
+          New-Item -ItemType Directory -Path "windows" -Force | Out-Null
+          Copy-Item -Path "$env:pythonLocation\*" -Destination "windows" -Recurse -Force
+
+          & "windows\python.exe" -m pip install --upgrade pip
+          & "windows\python.exe" -m pip install -r requirements.txt --no-warn-script-location
+
+          Get-ChildItem -Path "windows" -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+          if (Test-Path "windows\Lib\test") { Remove-Item "windows\Lib\test" -Recurse -Force }
         shell: pwsh
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-windows-python
+          path: windows
+
+  build-windows-installer:
+    name: Windows Installer
+
+    needs: build-windows-python
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Python
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows-python
+          path: python
 
       - name: Windows compile
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
@@ -37,21 +64,17 @@ jobs:
   build-windows-portable:
     name: Windows Portable
 
+    needs: build-windows-python
     runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Include python
-        uses: actions/checkout@v4
+      - name: Download Python
+        uses: actions/download-artifact@v4
         with:
-          repository: artyom7774/Schedule-python
+          name: build-windows-python
           path: python
-
-      - name: Copy python to project
-        run: |
-          Copy-Item -Path "python/windows" -Destination "." -Recurse -Force
-        shell: pwsh
 
       - name: Windows portable
         run: |
@@ -70,7 +93,7 @@ jobs:
 
           Copy-Item -Path "last"    -Destination "$dst/last"   -Recurse -Force
           Copy-Item -Path "src"     -Destination "$dst/src"    -Recurse -Force
-          Copy-Item -Path "windows" -Destination "$dst/python" -Recurse -Force
+          Copy-Item -Path "python"  -Destination "$dst/python" -Recurse -Force
         shell: pwsh
 
       - name: Create zip archive

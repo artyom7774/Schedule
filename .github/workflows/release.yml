@@ -29,7 +29,6 @@ jobs:
           tag_name: "#${{ github.event.workflow_run.run_number }}"
           name: "#${{ github.event.workflow_run.run_number }}"
           draft: true
-          generate_release_notes: true
           fail_on_unmatched_files: true
           files: |
             artifacts/Schedule-windows-installer/Schedule-windows-installer.exe
