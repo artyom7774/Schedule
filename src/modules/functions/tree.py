@@ -62,6 +62,23 @@ def initProject(window, project):
     if not os.path.exists(f"{path}/weights.json"):
         shutil.copy(f"src/files/settings/weights.json", f"{path}/weights.json")
 
+    with open(f"src/files/settings/weights.json", "r", encoding="utf-8") as file:
+        currect = json.load(file)
+
+    with open(f"{path}/weights.json", "r", encoding="utf-8") as file:
+        weights = json.load(file)
+
+    for name, group in currect.items():
+        if name not in weights:
+            weights[name] = group
+
+        for key, value in group.items():
+            if key not in weights[name]:
+                weights[name][key] = value
+
+    with open(f"{path}/weights.json", "w", encoding="utf-8") as file:
+        json.dump(weights, file, indent=4)
+
     parameters = {
         "working_days_per_week": 5,
         "max_lesson_count_per_day": 8,

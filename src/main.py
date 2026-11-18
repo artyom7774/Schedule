@@ -98,12 +98,12 @@ class Window(QMainWindow):
             return
 
         if response.status_code == 200:
-            newVersion = json.loads(response.text)["version"]
+            new = json.loads(response.text)["version"]
 
-            print(f"now version = {VERSION}, new version = {newVersion}")
+            print(f"now version = {VERSION}, new version = {new}")
 
-            if newVersion > VERSION:
-                self.signal.emit(VERSION, newVersion)
+            if new > VERSION:
+                self.signal.emit(VERSION, new)
 
     def showVersionDialog(self, oldVersion, newVersion):
         msg = QMessageBox(self)
