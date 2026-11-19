@@ -68,7 +68,7 @@ jobs:
       - name: Check solver
         run: ./src/modules/solve --help | head -30 || true
 
-      - name: Run worker (shard ${{ matrix.shard }}/${{ inputs.shards }})
+      - name: Run worker (shard ${{ matrix.shard + 1 }}/${{ inputs.shards }})
         run: |
           python tuner/worker.py --runs "${{ inputs.runs }}" --iterations "${{ inputs.iterations }}" --seed "${{ inputs.seed }}" --shard ${{ matrix.shard }} --shards ${{ inputs.shards }} --workers "$(nproc)"
 
