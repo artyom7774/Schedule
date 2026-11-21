@@ -1,0 +1,84 @@
+name: Linux
+
+on: push
+
+jobs:
+  build-linux-python:
+    name: Linux Python
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup python
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo astral-sh/python-build-standalone --pattern 'cpython-3.11.*-x86_64-unknown-linux-gnu-install_only.tar.gz' --dir /tmp
+          tar -xzf /tmp/cpython-3.11.*-install_only.tar.gz -C .
+          mv python linux
+
+      - name: Install requirements
+        run: |
+          linux/bin/python3 -m pip install --upgrade pip
+          linux/bin/python3 -m pip install -r requirements.txt
+
+          rm -rf linux/lib/python3.11/test
+
+      - name: Plugins
+        run: |
+          base="linux/lib/python3.11/site-packages/PyQt5/Qt5/plugins"
+          for f in platforms/libqxcb.so imageformats/libqsvg.so iconengines/libqsvgicon.so; do
+            if [ ! -f "$base/$f" ]; then
+              echo "::error::$f not found!"
+              exit 1
+            fi
+          done
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-linux-python
+          path: linux
+
+  build-linux-portable:
+    name: Linux Portable
+
+    needs: build-linux-python
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download python
+        uses: actions/download-artifact@v4
+        with:
+          name: build-linux-python
+          path: python
+
+      - name: Linux portable
+        run: |
+          dst="portable/Schedule"
+          mkdir -p "$dst"
+
+          cp Schedule.py start.py requirements.txt README.md LICENSE "$dst/"
+          cp -r last src python "$dst/"
+
+          cat > "$dst/Schedule.sh" <<'EOF'
+          #!/usr/bin/env bash
+          cd "$(dirname "$(readlink -f "$0")")"
+          exec ./python/bin/python3 start.py "$@"
+          EOF
+          chmod +x "$dst/Schedule.sh" "$dst/python/bin/"*
+
+      - name: Create archive
+        run: |
+          mkdir -p .github/out
+          tar -czf .github/out/Schedule-linux-portable.tar.gz -C portable Schedule
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-linux-portable
+          path: .github/out/Schedule-linux-portable.tar.gz

@@ -1,4 +1,4 @@
-name: Compile
+name: Windows
 
 on: push
 
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Setup python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Python
+      - name: Download python
         uses: actions/download-artifact@v4
         with:
           name: build-windows-python
@@ -112,6 +112,7 @@ jobs:
           Copy-Item -Path "last"    -Destination "$dst/last"   -Recurse -Force
           Copy-Item -Path "src"     -Destination "$dst/src"    -Recurse -Force
           Copy-Item -Path "python"  -Destination "$dst/python" -Recurse -Force
+
         shell: pwsh
 
       - name: Create zip archive

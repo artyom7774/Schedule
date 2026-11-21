@@ -2,7 +2,7 @@ name: Release
 
 on:
   workflow_run:
-    workflows: ["Compile"]
+    workflows: ["Windows", "Linux"]
     types:
       - completed
 
@@ -33,5 +33,6 @@ jobs:
           files: |
             artifacts/build-windows-installer/Schedule-windows-installer.exe
             artifacts/build-windows-portable/Schedule-windows-portable.zip
+            artifacts/build-linux-portable/Schedule-linux-portable.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
