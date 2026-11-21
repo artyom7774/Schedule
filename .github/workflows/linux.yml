@@ -75,7 +75,7 @@ jobs:
       - name: Create archive
         run: |
           mkdir -p .github/out
-          tar -czf .github/out/build-linux-portable.tar.gz -C portable Schedule
+          tar -czf .github/out/Schedule-linux-portable.tar.gz -C portable Schedule
 
       - name: Upload
         uses: actions/upload-artifact@v4
