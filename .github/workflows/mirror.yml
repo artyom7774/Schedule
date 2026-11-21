@@ -54,18 +54,21 @@ jobs:
       - name: Upload to Yandex Disk
         env:
           TAG: ${{ steps.rel.outputs.tag }}
-
+          
           RCLONE_CONFIG_SCHEDULE_TOKEN: ${{ secrets.YANDEX_TOKEN }}
           RCLONE_CONFIG_SCHEDULE_HARD_DELETE: "true"
           RCLONE_CONFIG_SCHEDULE_TYPE: yandex
         run: |
           dir="${TAG//#/}"
-
+          
           rclone copy artifacts "schedule:Schedule/$dir" --progress
           rclone ls "schedule:Schedule/$dir"
-
+          
+          # Оставляем 5 последних версий, текущая не удаляется никогда
           rclone lsf --dirs-only "schedule:Schedule" \
             | sed 's#/$##' \
+            | sort -V \
+            | head -n -5 \
             | { grep -vxF "$dir" || true; } \
             | while read -r d; do
                 [ -z "$d" ] && continue
