@@ -2,9 +2,8 @@ name: Release
 
 on:
   workflow_run:
-    workflows: ["Windows", "Linux"]
-    types:
-      - completed
+    workflows: [Windows, Linux]
+    types: [completed]
 
 permissions:
   contents: write
@@ -17,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Wait for Windows and Linux
+        uses: ahmadnassri/action-workflow-run-wait@v1
+
       - name: Download artifacts
         uses: dawidd6/action-download-artifact@v6
         with:
