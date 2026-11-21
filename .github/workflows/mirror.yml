@@ -51,14 +51,22 @@ jobs:
         run: |
           curl -fsSL https://rclone.org/install.sh | sudo bash
 
-      - name: Upload to Google Drive
+      - name: Upload to Yandex Disk
         env:
-          RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.GDRIVE_SA_JSON }}
-          RCLONE_CONFIG_GDRIVE_ROOT_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
-
-          RCLONE_CONFIG_GDRIVE_SCOPE: drive
-          RCLONE_CONFIG_GDRIVE_TYPE: drive
-
+          TAG: ${{ steps.rel.outputs.tag }}
+          RCLONE_CONFIG_YA_TYPE: yandex
+          RCLONE_CONFIG_YA_TOKEN: ${{ secrets.YANDEX_TOKEN }}
+          RCLONE_CONFIG_YA_HARD_DELETE: "true"
         run: |
-          rclone copy artifacts "gdrive:${{ steps.rel.outputs.tag }}" --progress
-          rclone ls "gdrive:${{ steps.rel.outputs.tag }}"
+          dir="${TAG//#/}"
+          
+          rclone copy artifacts "ya:releases/$dir" --progress
+          rclone ls "ya:releases/$dir"
+          
+          rclone lsf --dirs-only "ya:releases" \
+            | sed 's#/$##' \
+            | { grep -vxF "$dir" || true; } \
+            | while read -r d; do
+                [ -z "$d" ] && continue
+                rclone purge "ya:releases/$d"
+              done
