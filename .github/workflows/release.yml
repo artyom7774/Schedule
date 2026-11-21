@@ -9,33 +9,64 @@ permissions:
   contents: write
   actions: read
 
+concurrency:
+  group: release-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+
 jobs:
-  draft-release:
-    name: Draft release
+  release:
+    name: Release
 
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Wait for Windows and Linux
-        uses: ahmadnassri/action-workflow-run-wait@v1
+      - name: Get tag
+        id: tag
+        run: |
+          num="$(GH_TOKEN='${{ github.token }}' gh run list --repo "${{ github.repository }}" --workflow Windows \
+            --commit "${{ github.event.workflow_run.head_sha }}" --event push --limit 1 \
+            --json number --jq '.[0].number')"
+          
+          if [ -z "$num" ] || [ "$num" = "null" ]; then
+            num="${{ github.event.workflow_run.run_number }}"
+          fi
+          
+          echo "name=#$num" >> "$GITHUB_OUTPUT"
 
       - name: Download artifacts
         uses: dawidd6/action-download-artifact@v6
         with:
           run_id: ${{ github.event.workflow_run.id }}
+          name: build-.*-(installer|portable)
+          name_is_regexp: true
           path: artifacts
 
-      - name: Create release
+      - name: Release Windows
+        if: ${{ github.event.workflow_run.name == 'Windows' }}
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: "#${{ github.event.workflow_run.run_number }}"
-          name: "#${{ github.event.workflow_run.run_number }}"
+          tag_name: ${{ steps.tag.outputs.name }}
+          name: ${{ steps.tag.outputs.name }}
+          target_commitish: ${{ github.event.workflow_run.head_sha }}
           draft: true
           fail_on_unmatched_files: true
           files: |
             artifacts/build-windows-installer/Schedule-windows-installer.exe
             artifacts/build-windows-portable/Schedule-windows-portable.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Linux
+        if: ${{ github.event.workflow_run.name == 'Linux' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.name }}
+          name: ${{ steps.tag.outputs.name }}
+          target_commitish: ${{ github.event.workflow_run.head_sha }}
+          draft: true
+          fail_on_unmatched_files: true
+          files: |
             artifacts/build-linux-portable/Schedule-linux-portable.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
