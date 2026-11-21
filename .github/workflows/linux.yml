@@ -62,7 +62,7 @@ jobs:
           dst="portable/Schedule"
           mkdir -p "$dst"
 
-          cp Schedule.py start.py requirements.txt README.md LICENSE "$dst/"
+          cp Schedule.exe Schedule.py start.py requirements.txt README.md profile.bat LICENSE compile.bat Schedule.sh compile.sh "$dst/"
           cp -r last src python "$dst/"
 
           chmod +x "$dst/Schedule.sh" "$dst/python/bin/"*
