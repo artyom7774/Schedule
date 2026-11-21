@@ -10,7 +10,7 @@ permissions:
 
 concurrency:
   cancel-in-progress: false
-  group: gdrive-upload
+  group: yandex
 
 jobs:
   mirror:
@@ -54,19 +54,20 @@ jobs:
       - name: Upload to Yandex Disk
         env:
           TAG: ${{ steps.rel.outputs.tag }}
-          RCLONE_CONFIG_YA_TYPE: yandex
-          RCLONE_CONFIG_YA_TOKEN: ${{ secrets.YANDEX_TOKEN }}
-          RCLONE_CONFIG_YA_HARD_DELETE: "true"
+
+          RCLONE_CONFIG_SCHEDULE_TOKEN: ${{ secrets.YANDEX_TOKEN }}
+          RCLONE_CONFIG_SCHEDULE_HARD_DELETE: "true"
+          RCLONE_CONFIG_SCHEDULE_TYPE: yandex
         run: |
           dir="${TAG//#/}"
-          
-          rclone copy artifacts "ya:releases/$dir" --progress
-          rclone ls "ya:releases/$dir"
-          
-          rclone lsf --dirs-only "ya:releases" \
+
+          rclone copy artifacts "schedule:Schedule/$dir" --progress
+          rclone ls "schedule:Schedule/$dir"
+
+          rclone lsf --dirs-only "schedule:Schedule" \
             | sed 's#/$##' \
             | { grep -vxF "$dir" || true; } \
             | while read -r d; do
                 [ -z "$d" ] && continue
-                rclone purge "ya:releases/$d"
+                rclone purge "schedule:Schedule/$d"
               done
