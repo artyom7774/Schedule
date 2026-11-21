@@ -53,6 +53,6 @@ jobs:
           files: |
             artifacts/build-windows-installer/Schedule-windows-installer.exe
             artifacts/build-windows-portable/Schedule-windows-portable.zip
-            artifacts/build-linux-portable/Schedule-linux-portable.zip
+            artifacts/build-linux-portable/Schedule-linux-portable.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
