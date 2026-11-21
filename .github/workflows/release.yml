@@ -23,7 +23,7 @@ jobs:
       - name: Windows artifacts
         uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: Windows
+          workflow: windows.yml
           workflow_conclusion: success
 
           commit: ${{ github.event.workflow_run.head_sha }}
@@ -33,7 +33,7 @@ jobs:
       - name: Linux artifacts
         uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: Linux
+          workflow: linux.yml
           workflow_conclusion: success
 
           commit: ${{ github.event.workflow_run.head_sha }}
