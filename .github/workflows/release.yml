@@ -2,7 +2,7 @@ name: Release
 
 on:
   workflow_run:
-    workflows: [Windows, Linux]
+    workflows: [Windows]
     types: [completed]
 
 permissions:
@@ -20,11 +20,28 @@ jobs:
       - name: Wait for Windows and Linux
         uses: ahmadnassri/action-workflow-run-wait@v1
 
-      - name: Download artifacts
+      - name: Windows artifacts
         uses: dawidd6/action-download-artifact@v6
         with:
-          run_id: ${{ github.event.workflow_run.id }}
+          workflow: Windows
+          workflow_conclusion: success
+
+          commit: ${{ github.event.workflow_run.head_sha }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           path: artifacts
+
+      - name: Linux artifacts
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: Linux
+          workflow_conclusion: success
+
+          commit: ${{ github.event.workflow_run.head_sha }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          path: artifacts
+
+      - name: Artifacts
+        run: find artifacts -maxdepth 2 -type f | sort
 
       - name: Create release
         uses: softprops/action-gh-release@v2
