@@ -65,11 +65,6 @@ jobs:
           cp Schedule.py start.py requirements.txt README.md LICENSE "$dst/"
           cp -r last src python "$dst/"
 
-          cat > "$dst/Schedule.sh" <<'EOF'
-          #!/usr/bin/env bash
-          cd "$(dirname "$(readlink -f "$0")")"
-          exec ./python/bin/python3 start.py "$@"
-          EOF
           chmod +x "$dst/Schedule.sh" "$dst/python/bin/"*
 
       - name: Create archive

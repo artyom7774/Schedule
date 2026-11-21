@@ -108,6 +108,8 @@ jobs:
           Copy-Item -Path "profile.bat"       -Destination $dst -Force
           Copy-Item -Path "LICENSE"           -Destination $dst -Force
           Copy-Item -Path "compile.bat"       -Destination $dst -Force
+          Copy-Item -Path "Schedule.sh"       -Destination $dst -Force
+          Copy-Item -Path "compile.sh"        -Destination $dst -Force
 
           Copy-Item -Path "last"    -Destination "$dst/last"   -Recurse -Force
           Copy-Item -Path "src"     -Destination "$dst/src"    -Recurse -Force
