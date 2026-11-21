@@ -21,12 +21,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get tag
+      - name: Tag
         id: tag
         run: |
-          num="$(GH_TOKEN='${{ github.token }}' gh run list --repo "${{ github.repository }}" --workflow Windows \
-            --commit "${{ github.event.workflow_run.head_sha }}" --event push --limit 1 \
-            --json number --jq '.[0].number')"
+          num="$(GH_TOKEN='${{ github.token }}' gh run list --repo "${{ github.repository }}" --workflow Windows --commit "${{ github.event.workflow_run.head_sha }}" --event push --limit 1 --json number --jq '.[0].number')"
           
           if [ -z "$num" ] || [ "$num" = "null" ]; then
             num="${{ github.event.workflow_run.run_number }}"
@@ -42,7 +40,7 @@ jobs:
           name_is_regexp: true
           path: artifacts
 
-      - name: Release Windows
+      - name: Release windows
         if: ${{ github.event.workflow_run.name == 'Windows' }}
         uses: softprops/action-gh-release@v2
         with:
@@ -57,7 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release Linux
+      - name: Release linux
         if: ${{ github.event.workflow_run.name == 'Linux' }}
         uses: softprops/action-gh-release@v2
         with:
