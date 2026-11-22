@@ -231,10 +231,6 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github/smoke
-
       - name: Download portable
         uses: actions/download-artifact@v4
         with:
@@ -248,7 +244,7 @@ jobs:
           Expand-Archive "dist\Schedule-windows-portable.zip" -DestinationPath $dir -Force
 
           $pkg = Join-Path $dir "Schedule"
-          & "$pkg\python\python.exe" ".github\smoke\smoke.py" $pkg --seconds 15
+          & "$pkg\python\python.exe" ".github\smoke.py" $pkg --seconds 15
           if ($LASTEXITCODE) { throw "Smoke test failed (code $LASTEXITCODE)" }
 
   smoke-windows-installer:
@@ -260,10 +256,6 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github/smoke
-
       - name: Download installer
         uses: actions/download-artifact@v4
         with:
@@ -280,10 +272,6 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github/smoke
-
       - name: Download portable
         uses: actions/download-artifact@v4
         with:
@@ -302,7 +290,7 @@ jobs:
           tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
 
           pkg="$dir/Schedule"
-          xvfb-run -a "$pkg/python/bin/python3" .github/smoke/smoke.py "$pkg" --seconds 15
+          xvfb-run -a "$pkg/python/bin/python3" .github/smoke.py "$pkg" --seconds 15
 
   release:
     name: Release
