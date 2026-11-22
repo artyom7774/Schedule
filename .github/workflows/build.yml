@@ -222,13 +222,95 @@ jobs:
           name: build-linux-portable
           path: .github/out/Schedule-linux-portable.tar.gz
 
+  smoke-windows-portable:
+    name: Smoke Windows Portable
+
+    needs: build-windows-portable
+    runs-on: windows-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/smoke
+
+      - name: Download portable
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows-portable
+          path: dist
+
+      - name: Smoke test
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:RUNNER_TEMP "Тест Schedule"
+          Expand-Archive "dist\Schedule-windows-portable.zip" -DestinationPath $dir -Force
+
+          $pkg = Join-Path $dir "Schedule"
+          & "$pkg\python\python.exe" ".github\smoke\smoke.py" $pkg --seconds 15
+          if ($LASTEXITCODE) { throw "Smoke test failed (code $LASTEXITCODE)" }
+
+  smoke-windows-installer:
+    name: Smoke Windows Installer
+
+    needs: build-windows-installer
+    runs-on: windows-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/smoke
+
+      - name: Download installer
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows-installer
+          path: dist
+
+
+  smoke-linux-portable:
+    name: Smoke Linux Portable
+
+    needs: build-linux-portable
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/smoke
+
+      - name: Download portable
+        uses: actions/download-artifact@v4
+        with:
+          name: build-linux-portable
+          path: dist
+
+      - name: Install libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
+
+      - name: Smoke test
+        run: |
+          dir="$RUNNER_TEMP/Тест Schedule"
+          mkdir -p "$dir"
+          tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
+
+          pkg="$dir/Schedule"
+          xvfb-run -a "$pkg/python/bin/python3" .github/smoke/smoke.py "$pkg" --seconds 15
+
   release:
     name: Release
 
     needs:
-      - build-windows-installer
-      - build-windows-portable
-      - build-linux-portable
+      - smoke-windows-installer
+      - smoke-windows-portable
+      - smoke-linux-portable
     runs-on: ubuntu-latest
 
     steps:
