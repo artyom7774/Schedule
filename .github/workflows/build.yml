@@ -270,6 +270,65 @@ jobs:
           name: build-windows-installer
           path: dist
 
+      - name: Install
+        timeout-minutes: 5
+        shell: pwsh
+        run: |
+          $installer = (Resolve-Path "dist\Schedule-windows-installer.exe").Path
+          $dir = Join-Path $env:RUNNER_TEMP "Test"
+          $log = Join-Path $env:RUNNER_TEMP "install.log"
+
+          $p = Start-Process $installer -Wait -PassThru -ArgumentList @(
+            "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/SP-",
+            "/DIR=`"$dir`"", "/LOG=`"$log`""
+          )
+
+          if ($p.ExitCode -ne 0) {
+            Get-Content $log -Tail 50
+            throw "Installer exited with code $($p.ExitCode)"
+          }
+
+          if (-not (Test-Path "$dir\python\python.exe")) {
+            Get-Content $log -Tail 50
+            throw "python.exe not found after install: $dir\python\python.exe"
+          }
+
+      - name: Smoke test
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:RUNNER_TEMP "Test"
+
+          $env:PYTHONDONTWRITEBYTECODE = "1"
+
+          & "$dir\python\python.exe" ".github\smoke.py" $dir --seconds 15
+          if ($LASTEXITCODE) { throw "Smoke test failed (code $LASTEXITCODE)" }
+
+      - name: Uninstall
+        if: always()
+        timeout-minutes: 5
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:RUNNER_TEMP "Test"
+          $uninstaller = "$dir\unins000.exe"
+
+          if (-not (Test-Path $uninstaller)) { throw "unins000.exe not found: installation is broken" }
+
+          Start-Process $uninstaller -Wait -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART"
+
+          $tracked = @("Schedule.exe", "Schedule.py", "start.py", "unins000.exe")
+          for ($i = 0; $i -lt 60; $i++) {
+            $left = $tracked | Where-Object { Test-Path (Join-Path $dir $_) }
+            if (-not $left) { break }
+            Start-Sleep 1
+          }
+
+          if ($left) { throw "Files were not removed after uninstall: $($left -join ', ')" }
+
+          if (Test-Path $dir) {
+            $rest = @(Get-ChildItem $dir -Recurse -File -ErrorAction SilentlyContinue)
+            Write-Host "::warning::Folder still exists, $($rest.Count) untracked files left (created at runtime)"
+          }
+
 
   smoke-linux-portable:
     name: Smoke Linux Portable
