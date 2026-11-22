@@ -231,6 +231,10 @@ jobs:
     timeout-minutes: 15
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+
       - name: Download portable
         uses: actions/download-artifact@v4
         with:
@@ -256,6 +260,10 @@ jobs:
     timeout-minutes: 15
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+
       - name: Download installer
         uses: actions/download-artifact@v4
         with:
@@ -272,6 +280,10 @@ jobs:
     timeout-minutes: 15
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+
       - name: Download portable
         uses: actions/download-artifact@v4
         with:
