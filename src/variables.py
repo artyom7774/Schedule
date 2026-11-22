@@ -115,8 +115,7 @@ def getAppDataDir():
 
 PATH_TO_FOLDER = f"{getAppDataDir()}/Schedule-Maker-1"
 
-if not os.path.exists(PATH_TO_FOLDER):
-    os.mkdir(PATH_TO_FOLDER)
+os.makedirs(PATH_TO_FOLDER, exist_ok=True)
 
 if not os.path.exists(f"{PATH_TO_FOLDER}/using"):
     os.mkdir(f"{PATH_TO_FOLDER}/using")
