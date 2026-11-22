@@ -1,0 +1,380 @@
+"""
+Tests for statistical reductions of 2nd moment or higher: var, skew, kurt, ...
+"""
+
+from decimal import Decimal
+import inspect
+import warnings
+
+import numpy as np
+import pytest
+
+import pandas as pd
+import pandas._testing as tm
+
+
+class TestDatetimeLikeStatReductions:
+    def test_dt64_mean(self, tz_naive_fixture, index_or_series_or_array):
+        tz = tz_naive_fixture
+
+        dti = pd.date_range("2001-01-01", periods=11, tz=tz)
+        # shuffle so that we are not just working with monotone-increasing
+        dti = dti.take([4, 1, 3, 10, 9, 7, 8, 5, 0, 2, 6])
+        dtarr = dti._data
+
+        obj = index_or_series_or_array(dtarr)
+        assert obj.mean() == pd.Timestamp("2001-01-06", tz=tz)
+        assert obj.mean(skipna=False) == pd.Timestamp("2001-01-06", tz=tz)
+
+        # dtarr[-2] will be the first date 2001-01-1
+        dtarr[-2] = pd.NaT
+
+        obj = index_or_series_or_array(dtarr)
+        assert obj.mean() == pd.Timestamp("2001-01-06 07:12:00", tz=tz)
+        assert obj.mean(skipna=False) is pd.NaT
+
+    @pytest.mark.parametrize("freq", ["s", "h", "D", "W", "B"])
+    def test_period_mean(self, index_or_series_or_array, freq):
+        # GH#24757
+        dti = pd.date_range("2001-01-01", periods=11)
+        # shuffle so that we are not just working with monotone-increasing
+        dti = dti.take([4, 1, 3, 10, 9, 7, 8, 5, 0, 2, 6])
+
+        warn = FutureWarning if freq == "B" else None
+        msg = r"PeriodDtype\[B\] is deprecated"
+        with tm.assert_produces_warning(warn, match=msg):
+            parr = dti._data.to_period(freq)
+        obj = index_or_series_or_array(parr)
+        with pytest.raises(TypeError, match="ambiguous"):
+            obj.mean()
+        with pytest.raises(TypeError, match="ambiguous"):
+            obj.mean(skipna=True)
+
+        # parr[-2] will be the first date 2001-01-1
+        parr[-2] = pd.NaT
+
+        with pytest.raises(TypeError, match="ambiguous"):
+            obj.mean()
+        with pytest.raises(TypeError, match="ambiguous"):
+            obj.mean(skipna=True)
+
+    def test_td64_mean(self, index_or_series_or_array):
+        m8values = np.array([0, 3, -2, -7, 1, 2, -1, 3, 5, -2, 4], "m8[D]")
+        tdi = pd.TimedeltaIndex(m8values).as_unit("ns")
+
+        tdarr = tdi._data
+        obj = index_or_series_or_array(tdarr, copy=False)
+
+        result = obj.mean()
+        expected = np.array(tdarr).mean()
+        assert result == expected
+
+        tdarr[0] = pd.NaT
+        assert obj.mean(skipna=False) is pd.NaT
+
+        result2 = obj.mean(skipna=True)
+        assert result2 == tdi[1:].mean()
+
+        # exact equality fails by 1 nanosecond
+        assert result2.round("us") == (result * 11.0 / 10).round("us")
+
+
+class TestSeriesStatReductions:
+    # Note: the name TestSeriesStatReductions indicates these tests
+    #  were moved from a series-specific test file, _not_ that these tests are
+    #  intended long-term to be series-specific
+
+    def _check_stat_op(
+        self, name, alternate, string_series_, check_objects=False, check_allna=False
+    ):
+        with pd.option_context("use_bottleneck", False):
+            f = getattr(pd.Series, name)
+
+            # add some NaNs
+            string_series_[5:15] = np.nan
+
+            # mean, idxmax, idxmin, min, and max are valid for dates
+            if name not in ["max", "min", "mean", "median", "std"]:
+                ds = pd.Series(pd.date_range("1/1/2001", periods=10))
+                msg = f"does not support operation '{name}'"
+                with pytest.raises(TypeError, match=msg):
+                    f(ds)
+
+            # skipna or no
+            assert pd.notna(f(string_series_))
+            assert pd.isna(f(string_series_, skipna=False))
+
+            # check the result is correct
+            nona = string_series_.dropna()
+            tm.assert_almost_equal(f(nona), alternate(nona.values))
+            tm.assert_almost_equal(f(string_series_), alternate(nona.values))
+
+            allna = string_series_ * np.nan
+
+            if check_allna:
+                assert np.isnan(f(allna))
+
+            # dtype=object with None, it works!
+            s = pd.Series([1, 2, 3, None, 5])
+            f(s)
+
+            # GH#2888
+            items = [0]
+            items.extend(range(2**40, 2**40 + 1000))
+            s = pd.Series(items, dtype="int64")
+            tm.assert_almost_equal(float(f(s)), float(alternate(s.values)))
+
+            # check date range
+            if check_objects:
+                s = pd.Series(pd.bdate_range("1/1/2000", periods=10))
+                res = f(s)
+                exp = alternate(s)
+                assert res == exp
+
+            # check on string data
+            if name not in ["sum", "min", "max"]:
+                with pytest.raises(TypeError, match=None):
+                    f(pd.Series(list("abc")))
+
+            # Invalid axis.
+            msg = "No axis named 1 for object type Series"
+            with pytest.raises(ValueError, match=msg):
+                f(string_series_, axis=1)
+
+            if "numeric_only" in inspect.getfullargspec(f).args:
+                # only the index is string; dtype is float
+                f(string_series_, numeric_only=True)
+
+    def test_sum(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        self._check_stat_op("sum", np.sum, string_series, check_allna=False)
+
+    def test_mean(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        self._check_stat_op("mean", np.mean, string_series)
+
+    def test_median(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        self._check_stat_op("median", np.median, string_series)
+
+        # test with integers, test failure
+        int_ts = pd.Series(np.ones(10, dtype=int), index=range(10))
+        tm.assert_almost_equal(np.median(int_ts), int_ts.median())
+
+    def test_prod(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        self._check_stat_op("prod", np.prod, string_series)
+
+    def test_min(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        self._check_stat_op("min", np.min, string_series, check_objects=True)
+
+    def test_max(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        self._check_stat_op("max", np.max, string_series, check_objects=True)
+
+    def test_var_std(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        datetime_series = pd.Series(
+            np.arange(10, dtype=np.float64),
+            index=pd.date_range("2020-01-01", periods=10),
+            name="ts",
+        )
+
+        alt = lambda x: np.std(x, ddof=1)
+        self._check_stat_op("std", alt, string_series)
+
+        alt = lambda x: np.var(x, ddof=1)
+        self._check_stat_op("var", alt, string_series)
+
+        result = datetime_series.std(ddof=4)
+        expected = np.std(datetime_series.values, ddof=4)
+        tm.assert_almost_equal(result, expected)
+
+        result = datetime_series.var(ddof=4)
+        expected = np.var(datetime_series.values, ddof=4)
+        tm.assert_almost_equal(result, expected)
+
+        # 1 - element series with ddof=1
+        s = datetime_series.iloc[[0]]
+        result = s.var(ddof=1)
+        assert pd.isna(result)
+
+        result = s.std(ddof=1)
+        assert pd.isna(result)
+
+    def test_sem(self):
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+        datetime_series = pd.Series(
+            np.arange(10, dtype=np.float64),
+            index=pd.date_range("2020-01-01", periods=10),
+            name="ts",
+        )
+
+        alt = lambda x: np.std(x, ddof=1) / np.sqrt(len(x))
+        self._check_stat_op("sem", alt, string_series)
+
+        result = datetime_series.sem(ddof=4)
+        expected = np.std(datetime_series.values, ddof=4) / np.sqrt(
+            len(datetime_series.values)
+        )
+        tm.assert_almost_equal(result, expected)
+
+        # 1 - element series with ddof=1
+        s = datetime_series.iloc[[0]]
+        result = s.sem(ddof=1)
+        assert pd.isna(result)
+
+    def test_skew(self, using_python_scalars):
+        # GH 62864 - returns NaN on degenerate distribution
+        sp_stats = pytest.importorskip("scipy.stats")
+
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+
+        alt = lambda x: sp_stats.skew(x, bias=False)
+        self._check_stat_op("skew", alt, string_series)
+
+        # test corner cases, skew() returns NaN unless there's at least 3
+        # values
+        min_N = 3
+        for i in range(1, min_N + 1):
+            s = pd.Series(np.ones(i))
+            df = pd.DataFrame(np.ones((i, i)))
+            assert np.isnan(s.skew())
+            assert np.isnan(df.skew()).all()
+            if using_python_scalars:
+                assert type(s.skew()) == float
+            else:
+                assert isinstance(s.skew(), np.float64)  # GH53482
+
+    def test_kurt(self):
+        sp_stats = pytest.importorskip("scipy.stats")
+
+        string_series = pd.Series(range(20), dtype=np.float64, name="series")
+
+        alt = lambda x: sp_stats.kurtosis(x, bias=False)
+        self._check_stat_op("kurt", alt, string_series)
+
+    def test_kurt_corner(self, using_python_scalars):
+        # GH 62864 - returns NaN on degenerate distribution
+        # test corner cases, kurt() returns NaN unless there's at least 4
+        # values
+        min_N = 4
+        for i in range(1, min_N + 1):
+            s = pd.Series(np.ones(i))
+            df = pd.DataFrame(np.ones((i, i)))
+            assert np.isnan(s.kurt())
+            assert np.isnan(df.kurt()).all()
+            if using_python_scalars:
+                assert type(s.kurt()) == float
+            else:
+                assert isinstance(s.kurt(), np.float64)  # GH53482
+
+
+@pytest.mark.parametrize(
+    "opname",
+    [
+        "skew",
+        "kurt",
+    ],
+)
+@pytest.mark.parametrize(
+    "loc, scale",
+    [
+        (42.0, 0.0),  # GH 62864
+        (0.0, 1e-18),  # GH 62946
+        (0.0, 1.0),
+        (0.0, 1e18),
+    ],
+)
+def test_reduction_consistency(opname, loc, scale):
+    rng = np.random.default_rng(2)
+    values = rng.normal(loc=loc, scale=scale, size=(20,))
+    grps = [0] * 20
+    s = pd.Series(values)
+    result_series = getattr(s, opname)()
+
+    result_gb = getattr(s.groupby(grps), opname)().iloc[0]
+    tm.assert_almost_equal(result_series, result_gb)
+
+    result_window = getattr(s.rolling(20), opname)().iloc[-1]
+    tm.assert_almost_equal(result_series, result_window)
+
+    result_frame = getattr(pd.DataFrame(s), opname)().iloc[0]
+    tm.assert_almost_equal(result_series, result_frame)
+
+
+# ---------------------------------------------------------------------------
+# object dtype
+#
+# GH#34671, GH#36703, GH#44008: a statistic over object-dtype data behaves
+# exactly as it does over the numeric dtype the values represent, and rejects
+# anything that is not a number, the same way for every statistic.
+
+OBJECT_STATS = ["mean", "median", "var", "std", "sem", "skew", "kurt"]
+
+
+@pytest.mark.parametrize("opname", OBJECT_STATS)
+@pytest.mark.parametrize(
+    "data, numeric_dtype",
+    [
+        ([1, 2, 3, 5], "int64"),
+        ([1.0, 2.0, 3.0, 5.0], "float64"),
+        ([1.0, None, 3.0, 5.0], "float64"),
+        ([True, False, True, True], "float64"),
+        ([1.0, True, 3.0, 5.0], "float64"),
+        ([Decimal(1), Decimal(2), Decimal(3), Decimal(5)], "float64"),
+        ([1 + 2j, 3 + 4j, 5j, 1j], "complex128"),
+    ],
+)
+def test_object_stat_matches_numeric_dtype(opname, data, numeric_dtype):
+    obj = pd.Series(data, dtype=object)
+    expected_obj = pd.Series(np.array(data, dtype=numeric_dtype))
+
+    with warnings.catch_warnings():
+        # skew/kurt of complex data warn about the discarded imaginary part
+        warnings.simplefilter("ignore", np.exceptions.ComplexWarning)
+        expected = getattr(expected_obj, opname)()
+        result = getattr(obj, opname)()
+
+    tm.assert_almost_equal(result, expected)
+
+
+@pytest.mark.parametrize("opname", OBJECT_STATS)
+@pytest.mark.parametrize(
+    "data, match",
+    [
+        (["1", "2", "3"], "'1'"),
+        ([1.0, "2", 3.0], "'2'"),
+        (["a", "b", "c"], "'a'"),
+        ([b"1", b"2", b"3"], "b'1'"),
+        ([np.datetime64("2020-01-01"), np.datetime64("2020-01-03")], "datetime64"),
+        ([np.timedelta64(1, "D"), np.timedelta64(3, "D")], "timedelta64"),
+        ([pd.Timestamp("2020-01-01"), pd.Timestamp("2020-01-03")], "Timestamp"),
+        ([pd.Timedelta(days=1), pd.Timedelta(days=3)], "Timedelta"),
+    ],
+)
+def test_object_stat_raises_on_non_numbers(opname, data, match):
+    obj = pd.Series(data, dtype=object)
+    with pytest.raises(TypeError, match=f"Could not convert .*{match}"):
+        getattr(obj, opname)()
+
+
+@pytest.mark.parametrize("opname", OBJECT_STATS)
+def test_object_stat_matches_frame_axis(opname):
+    # the same values reduced column-wise and row-wise agree
+    df = pd.DataFrame({"a": [1.0, 2.0, 3.0, 5.0], "b": [4.0, 8.0, 1.0, 2.0]}).astype(
+        object
+    )
+    expected = getattr(df.astype("float64"), opname)(axis=1)
+    result = getattr(df, opname)(axis=1)
+    # the reduction of an object block is still wrapped as object dtype
+    tm.assert_series_equal(result, expected, check_dtype=False)
+
+
+@pytest.mark.parametrize("opname", OBJECT_STATS)
+def test_object_none_does_not_warn_complex(opname):
+    # missing values are filled with NaN rather than routed through complex128
+    obj = pd.Series([1.0, None, 2.0, 4.0], dtype=object)
+    with tm.assert_produces_warning(None):
+        getattr(obj, opname)()

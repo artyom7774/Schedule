@@ -1,0 +1,61 @@
+"""Tests for PeriodIndex behaving like a vectorized Period scalar"""
+
+import numpy as np
+import pytest
+
+from pandas.errors import Pandas4Warning
+
+import pandas as pd
+import pandas._testing as tm
+
+
+class TestPeriodIndexOps:
+    @pytest.mark.parametrize(
+        "old_attr, new_attr",
+        [
+            ("dayofweek", "day_of_week"),
+            ("dayofyear", "day_of_year"),
+            ("daysinmonth", "days_in_month"),
+        ],
+    )
+    def test_deprecated_day_attrs(self, old_attr, new_attr):
+        # GH#46768
+        pi = pd.period_range(start="2020-01-01", end="2020-03-01", freq="M")
+        msg = f"PeriodIndex.{old_attr} is deprecated"
+        with tm.assert_produces_warning(Pandas4Warning, match=msg):
+            old_val = getattr(pi, old_attr)
+        tm.assert_index_equal(old_val, getattr(pi, new_attr))
+
+    def test_start_time(self):
+        # GH#17157
+        index = pd.period_range(freq="M", start="2016-01-01", end="2016-05-31")
+        expected_index = pd.date_range("2016-01-01", end="2016-05-31", freq="MS")
+        tm.assert_index_equal(index.start_time, expected_index, check_freq=False)
+
+    def test_end_time(self):
+        # GH#17157
+        index = pd.period_range(freq="M", start="2016-01-01", end="2016-05-31")
+        expected_index = pd.date_range("2016-01-01", end="2016-05-31", freq="ME")
+        expected_index += pd.Timedelta(1, "D") - pd.Timedelta(1, "us")
+        tm.assert_index_equal(index.end_time, expected_index)
+
+    @pytest.mark.filterwarnings(r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning")
+    @pytest.mark.filterwarnings(
+        "ignore:Period with BDay freq is deprecated:FutureWarning"
+    )
+    def test_end_time_business_friday(self):
+        # GH#34449
+        pi = pd.period_range("1990-01-05", freq="B", periods=1)
+        result = pi.end_time
+
+        dti = pd.date_range("1990-01-05", freq="D", periods=1)._with_freq(None)
+        expected = dti + pd.Timedelta(1, "D") - pd.Timedelta(1, "us")
+        tm.assert_index_equal(result, expected)
+
+
+def test_is_leap_year():
+    # NaT's year sentinel of -1 must not come out as leap
+    pi = pd.PeriodIndex(["2000", "1900", "2024", "2023", pd.NaT], freq="Y")
+    result = pi.is_leap_year
+    expected = np.array([True, False, True, False, False])
+    tm.assert_numpy_array_equal(result, expected)

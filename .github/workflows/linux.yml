@@ -57,6 +57,9 @@ jobs:
           name: build-linux-python
           path: python
 
+      - name: Build solver
+        run: bash ./compile.sh
+
       - name: Linux portable
         run: |
           dst="portable/Schedule"

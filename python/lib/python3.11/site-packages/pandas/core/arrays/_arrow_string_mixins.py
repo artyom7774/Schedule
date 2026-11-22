@@ -1,0 +1,669 @@
+from __future__ import annotations
+
+from functools import partial
+import re
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Literal,
+    Self,
+)
+import unicodedata
+
+import numpy as np
+
+from pandas._libs import lib
+from pandas.compat import (
+    HAS_PYARROW,
+    pa_version_under17p0,
+    pa_version_under21p0,
+)
+
+if HAS_PYARROW:
+    import pyarrow as pa
+    import pyarrow.compute as pc
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+    from types import ModuleType
+
+    from pandas._typing import Scalar
+
+
+# Matches a `\uxxxx` (unicode escape sequence) with an odd number of preceding "\"
+# (otherwise the \\u is escaped itself). Also checks for `\U` and `\N{`.
+_escaped_unicode_char = re.compile(r"(?<!\\)(?:\\\\)*\\(?:[uU]|N{)")
+
+
+class ArrowStringArrayMixin:
+    _pa_array: pa.ChunkedArray
+
+    def __init__(self, *args, **kwargs) -> None:
+        raise NotImplementedError
+
+    def _from_pyarrow_array(self, pa_array: pa.Array | pa.ChunkedArray) -> Self:
+        raise NotImplementedError
+
+    def _convert_bool_result(self, result, na=lib.no_default, method_name=None):
+        # Convert a bool-dtype result to the appropriate result type
+        raise NotImplementedError
+
+    def _convert_int_result(self, result):
+        # Convert an integer-dtype result to the appropriate result type
+        raise NotImplementedError
+
+    def _apply_elementwise(self, func: Callable[..., Any]) -> list[list[Any]]:
+        raise NotImplementedError
+
+    @staticmethod
+    def _re_parser() -> ModuleType:
+        try:
+            # error: Module "re" has no attribute "_parser"
+            from re import _parser  # type: ignore[attr-defined]
+        except Exception as err:
+            raise type(err)(
+                "Incompatible version for regex; you will need to upgrade pandas "
+                "or downgrade Python"
+            ) from err
+        return _parser
+
+    @staticmethod
+    def _regex_nodes(pat: str) -> list[tuple[Any, Any]]:
+        """
+        Parse a regex pattern into a flat list of its (op, arg) nodes.
+
+        Nodes nested in groups, branches, repeats and character classes are
+        included.
+
+        Parameters
+        ----------
+        pat: str | re.Pattern
+            Regex pattern.
+
+        Returns
+        -------
+        list[tuple[Any, Any]]
+            The nodes of `pat`, or an empty list if Python's ``re`` cannot
+            parse it.
+        """
+        _parser = ArrowStringArrayMixin._re_parser()
+        repeats = {_parser.MAX_REPEAT, _parser.MIN_REPEAT, _parser.POSSESSIVE_REPEAT}
+
+        def walk(tokens):
+            for op_code, argument in tokens:
+                yield op_code, argument
+                if op_code == _parser.SUBPATTERN:
+                    yield from walk(argument[3])
+                elif op_code == _parser.BRANCH:
+                    for branch in argument[1]:
+                        yield from walk(branch)
+                elif op_code in repeats:
+                    yield from walk(argument[2])
+                elif op_code in (_parser.ATOMIC_GROUP, _parser.IN):
+                    yield from walk(argument)
+
+        try:
+            tokens = _parser.parse(pat)
+        except re.error:
+            # Pattern not valid for Python's re (e.g. RE2 syntax like \x{...} or \p)
+            # Let the pyarrow backend handle it.
+            return []
+        return list(walk(tokens))
+
+    def _needs_python_regex(self, pat: str | re.Pattern[str]) -> bool:
+        """
+        Whether a regex operation must use Python's ``re`` instead of pyarrow.
+
+        This is the case for features not supported by RE2 / pyarrow or with
+        different behaviour:
+        - Not supported: lookaround assertions and backreferences, unicode escape
+          sequences like ``\\u``, ``\\U`` and ``\\N{}``
+        - ``\\s`` and ``\\S``, since RE2's ``\\s`` misses whitespace such as
+          ``"\\x0b"`` even in ASCII data
+        - ``\\w``, ``\\d`` and ``\\b`` (or their negations) on non-ASCII data, since
+          RE2 only matches them against ASCII characters while Python's ``re`` is
+          Unicode-aware
+        - At-end-of-string ``$`` assertion, which Python matches at the end or just
+          before a trailing newline, while pyarrow only matches at the end
+          (only falling back if newlines are present)
+        """
+        str_pat = pat.pattern if isinstance(pat, re.Pattern) else pat
+        if re.search(_escaped_unicode_char, str_pat) is not None:
+            return True
+
+        _parser = self._re_parser()
+        unsupported_ops = {_parser.ASSERT, _parser.ASSERT_NOT, _parser.GROUPREF}
+        whitespace = {
+            # RE2's \s misses whitespace such as "\x0b", even in ASCII data
+            (_parser.CATEGORY, _parser.CATEGORY_SPACE),
+            (_parser.CATEGORY, _parser.CATEGORY_NOT_SPACE),
+        }
+        unicode_sensitive = {
+            # unicode-sensitive categories and assertions
+            (_parser.CATEGORY, _parser.CATEGORY_WORD),
+            (_parser.CATEGORY, _parser.CATEGORY_NOT_WORD),
+            (_parser.CATEGORY, _parser.CATEGORY_DIGIT),
+            (_parser.CATEGORY, _parser.CATEGORY_NOT_DIGIT),
+            (_parser.AT, _parser.AT_BOUNDARY),
+            (_parser.AT, _parser.AT_NON_BOUNDARY),
+        }
+        newline_sensitive = {
+            # newline-sensitive behaviour of $
+            (_parser.AT, _parser.AT_END),
+        }
+
+        nodes = self._regex_nodes(str_pat)
+        if any(op_code in unsupported_ops for op_code, _ in nodes):
+            return True
+        if any(
+            (op_code, argument) in whitespace
+            for op_code, argument in nodes
+            if op_code == _parser.CATEGORY
+        ):
+            return True
+        if any(
+            (op_code, argument) in unicode_sensitive
+            for op_code, argument in nodes
+            if op_code in (_parser.CATEGORY, _parser.AT)
+        ):
+            # all-ASCII data keeps the faster pyarrow path
+            if self._has_non_ascii():
+                return True
+        if any(
+            (op_code, argument) in newline_sensitive
+            for op_code, argument in nodes
+            if op_code == _parser.AT
+        ):
+            if pc.any(pc.match_substring(self._pa_array, "\n"), min_count=0).as_py():
+                return True
+
+        return False
+
+    def _has_non_ascii(self) -> bool:
+        # min_count=0 so that an empty or all-null array reports False
+        return not pc.all(pc.string_is_ascii(self._pa_array), min_count=0).as_py()
+
+    @staticmethod
+    def _is_re_pattern_with_flags(pat: str | re.Pattern[str]) -> bool:
+        # check if `pat` is a compiled regex pattern with flags that are not
+        # supported by pyarrow
+        return (
+            isinstance(pat, re.Pattern)
+            and (pat.flags & ~(re.IGNORECASE | re.UNICODE)) != 0
+        )
+
+    @staticmethod
+    def _unwrap_re_pattern(
+        pat: str | re.Pattern[str], case: bool, flags: int
+    ) -> tuple[str, bool, int]:
+        """
+        Reduce `pat` to the (pattern, case, flags) triple the pyarrow kernels take.
+
+        IGNORECASE is the only flag they support and they spell it as `case`, so
+        it is folded into `case`; whatever `flags` remain afterwards cannot be
+        honored by a kernel.
+        """
+        if isinstance(pat, re.Pattern):
+            # a compiled str pattern always carries re.UNICODE, which pyarrow
+            #  assumes for strings anyway
+            flags |= pat.flags & ~re.UNICODE
+            pattern = pat.pattern
+        else:
+            pattern = pat
+        if flags & re.IGNORECASE:
+            case = False
+            flags &= ~re.IGNORECASE
+        return pattern, case, flags
+
+    def _str_len(self):
+        result = pc.utf8_length(self._pa_array)
+        return self._convert_int_result(result)
+
+    def _str_lower(self) -> Self:
+        return self._from_pyarrow_array(pc.utf8_lower(self._pa_array))
+
+    def _str_upper(self) -> Self:
+        return self._from_pyarrow_array(pc.utf8_upper(self._pa_array))
+
+    def _str_strip(self, to_strip=None) -> Self:
+        if to_strip is None:
+            result = pc.utf8_trim_whitespace(self._pa_array)
+        else:
+            result = pc.utf8_trim(self._pa_array, characters=to_strip)
+        return self._from_pyarrow_array(result)
+
+    def _str_lstrip(self, to_strip=None) -> Self:
+        if to_strip is None:
+            result = pc.utf8_ltrim_whitespace(self._pa_array)
+        else:
+            result = pc.utf8_ltrim(self._pa_array, characters=to_strip)
+        return self._from_pyarrow_array(result)
+
+    def _str_rstrip(self, to_strip=None) -> Self:
+        if to_strip is None:
+            result = pc.utf8_rtrim_whitespace(self._pa_array)
+        else:
+            result = pc.utf8_rtrim(self._pa_array, characters=to_strip)
+        return self._from_pyarrow_array(result)
+
+    def _str_pad(
+        self,
+        width: int,
+        side: Literal["left", "right", "both"] = "left",
+        fillchar: str = " ",
+    ) -> Self:
+        if width < 0:
+            width = 0
+        if side == "left":
+            pa_pad = pc.utf8_lpad
+        elif side == "right":
+            pa_pad = pc.utf8_rpad
+        elif side == "both":
+            if pa_version_under17p0:
+                # GH#59624 fall back to object dtype
+                from pandas import array
+
+                obj_arr = self.astype(object, copy=False)  # type: ignore[attr-defined]
+                obj = array(obj_arr, dtype=object)
+                result = obj._str_pad(width, side, fillchar)  # type: ignore[attr-defined]
+                return type(self)._from_sequence(result, dtype=self.dtype)  # type: ignore[attr-defined]
+            else:
+                # GH#54792
+                # https://github.com/apache/arrow/issues/15053#issuecomment-2317032347
+                lean_left = (width % 2) == 0
+                pa_pad = partial(pc.utf8_center, lean_left_on_odd_padding=lean_left)
+        else:
+            raise ValueError(
+                f"Invalid side: {side}. Side must be one of 'left', 'right', 'both'"
+            )
+        return self._from_pyarrow_array(
+            pa_pad(self._pa_array, width=width, padding=fillchar)
+        )
+
+    def _str_zfill(self, width: int) -> Self:
+        if pa_version_under21p0:
+            predicate = lambda val: val.zfill(width)
+            result = self._apply_elementwise(predicate)
+            return self._from_pyarrow_array(
+                pa.chunked_array(result, type=self._pa_array.type)
+            )
+        # pc.utf8_zfill raises on a negative width, while str.zfill returns the
+        # string unchanged -> clamping to zero to get that behaviour (GH#69486)
+        width = max(width, 0)
+        return self._from_pyarrow_array(pc.utf8_zfill(self._pa_array, width))
+
+    def _str_normalize(self, form: Literal["NFC", "NFD", "NFKC", "NFKD"]) -> Self:
+        if form not in ("NFC", "NFD", "NFKC", "NFKD"):
+            raise ValueError("invalid normalization form")
+        if form in ("NFC", "NFKC"):
+            # GH#64359 pc.utf8_normalize only decomposes; it skips the canonical
+            #  composition step, so for the composing forms it returns decomposed
+            #  output. Fall back to unicodedata for these.
+            predicate = lambda val: unicodedata.normalize(form, val)
+            result = self._apply_elementwise(predicate)
+            return self._from_pyarrow_array(
+                pa.chunked_array(result, type=self._pa_array.type)
+            )
+        return self._from_pyarrow_array(pc.utf8_normalize(self._pa_array, form=form))
+
+    def _str_get(self, i: int) -> Self:
+        lengths = pc.utf8_length(self._pa_array)
+        if i >= 0:
+            out_of_bounds = pc.greater_equal(i, lengths)
+            start = i
+            stop = i + 1
+            step = 1
+        else:
+            out_of_bounds = pc.greater(-i, lengths)
+            start = i
+            stop = i - 1
+            step = -1
+        not_out_of_bounds = pc.invert(out_of_bounds.fill_null(True))
+        selected = pc.utf8_slice_codeunits(
+            self._pa_array, start=start, stop=stop, step=step
+        )
+        null_value = pa.scalar(None, type=self._pa_array.type)
+        result = pc.if_else(not_out_of_bounds, selected, null_value)
+        return self._from_pyarrow_array(result)
+
+    def _str_slice(
+        self, start: int | None = None, stop: int | None = None, step: int | None = None
+    ) -> Self:
+        if start is None:
+            if step is not None and step < 0:
+                # GH#59710
+                start = -1
+            else:
+                start = 0
+        if step is None:
+            step = 1
+        return self._from_pyarrow_array(
+            pc.utf8_slice_codeunits(self._pa_array, start=start, stop=stop, step=step)
+        )
+
+    def _str_getitem(self, key: slice | int) -> Self:
+        if isinstance(key, slice):
+            return self._str_slice(start=key.start, stop=key.stop, step=key.step)
+        else:
+            return self._str_get(key)
+
+    def _str_slice_replace(
+        self, start: int | None = None, stop: int | None = None, repl: str | None = None
+    ) -> Self:
+        if repl is None:
+            repl = ""
+        if start is None:
+            start = 0
+        if stop is None:
+            stop = np.iinfo(np.int64).max
+        return self._from_pyarrow_array(
+            pc.utf8_replace_slice(self._pa_array, start, stop, repl)
+        )
+
+    def _str_replace(
+        self,
+        pat: str | re.Pattern[str],
+        repl: str | Callable[..., Any],
+        n: int = -1,
+        case: bool = True,
+        flags: int = 0,
+        regex: bool = True,
+    ) -> Self:
+        if (
+            isinstance(pat, re.Pattern)
+            or callable(repl)
+            or not case
+            or flags
+            or (isinstance(repl, str) and r"\g<" in repl)
+        ):
+            raise NotImplementedError(
+                "replace is not supported with a re.Pattern, callable repl, "
+                "case=False, flags!=0, or when the replacement string contains "
+                "named group references (\\g<...>)"
+            )
+
+        if pat == "":
+            # pyarrow hangs for empty patterns
+            # (https://github.com/apache/arrow/issues/39149)
+            # use same func definition as ObjectStringArrayMixin._str_replace
+            if regex:
+                count = n if n >= 0 else 0
+                func = lambda val: re.sub(pat, repl, val, count=count)
+            else:
+                func = lambda val: val.replace(pat, repl, n)
+
+            result = self._apply_elementwise(func)
+            return self._from_pyarrow_array(
+                pa.chunked_array(result, type=self._pa_array.type)
+            )
+
+        func = pc.replace_substring_regex if regex else pc.replace_substring
+        # https://github.com/apache/arrow/issues/39149
+        # GH 56404, unexpected behavior with negative max_replacements with pyarrow.
+        pa_max_replacements = None if n < 0 else n
+        result = func(
+            self._pa_array,
+            pattern=pat,
+            replacement=repl,
+            max_replacements=pa_max_replacements,
+        )
+        return self._from_pyarrow_array(result)
+
+    def _str_capitalize(self) -> Self:
+        return self._from_pyarrow_array(pc.utf8_capitalize(self._pa_array))
+
+    def _str_title(self) -> Self:
+        return self._from_pyarrow_array(pc.utf8_title(self._pa_array))
+
+    def _str_swapcase(self) -> Self:
+        return self._from_pyarrow_array(pc.utf8_swapcase(self._pa_array))
+
+    def _str_removeprefix(self, prefix: str):
+        if prefix == "":
+            return self._from_pyarrow_array(self._pa_array)
+        starts_with = pc.starts_with(self._pa_array, pattern=prefix)
+        removed = pc.utf8_slice_codeunits(self._pa_array, len(prefix))
+        result = pc.if_else(starts_with, removed, self._pa_array)
+        return self._from_pyarrow_array(result)
+
+    def _str_removesuffix(self, suffix: str):
+        if suffix == "":
+            return self._from_pyarrow_array(self._pa_array)
+        ends_with = pc.ends_with(self._pa_array, pattern=suffix)
+        removed = pc.utf8_slice_codeunits(self._pa_array, 0, stop=-len(suffix))
+        result = pc.if_else(ends_with, removed, self._pa_array)
+        return self._from_pyarrow_array(result)
+
+    def _str_startswith(
+        self, pat: str | tuple[str, ...], na: Scalar | lib.NoDefault = lib.no_default
+    ):
+        if isinstance(pat, str):
+            result = pc.starts_with(self._pa_array, pattern=pat)
+        elif len(pat) == 0:
+            # For empty tuple we return null for missing values and False
+            #  for valid values.
+            result = pc.if_else(pc.is_null(self._pa_array), None, False)
+        else:
+            result = pc.starts_with(self._pa_array, pattern=pat[0])
+
+            for p in pat[1:]:
+                result = pc.or_(result, pc.starts_with(self._pa_array, pattern=p))
+        return self._convert_bool_result(result, na=na, method_name="startswith")
+
+    def _str_endswith(
+        self, pat: str | tuple[str, ...], na: Scalar | lib.NoDefault = lib.no_default
+    ):
+        if isinstance(pat, str):
+            result = pc.ends_with(self._pa_array, pattern=pat)
+        elif len(pat) == 0:
+            # For empty tuple we return null for missing values and False
+            #  for valid values.
+            result = pc.if_else(pc.is_null(self._pa_array), None, False)
+        else:
+            result = pc.ends_with(self._pa_array, pattern=pat[0])
+
+            for p in pat[1:]:
+                result = pc.or_(result, pc.ends_with(self._pa_array, pattern=p))
+        return self._convert_bool_result(result, na=na, method_name="endswith")
+
+    def _str_isalnum(self):
+        result = pc.utf8_is_alnum(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_isalpha(self):
+        result = pc.utf8_is_alpha(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_isascii(self):
+        result = pc.string_is_ascii(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_isdecimal(self):
+        result = pc.utf8_is_decimal(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_isdigit(self):
+        if pa_version_under21p0:
+            # https://github.com/pandas-dev/pandas/issues/61466
+            res_list = self._apply_elementwise(str.isdigit)
+            return self._convert_bool_result(
+                pa.chunked_array(res_list, type=pa.bool_())
+            )
+        result = pc.utf8_is_digit(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_islower(self):
+        result = pc.utf8_is_lower(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_isnumeric(self):
+        result = pc.utf8_is_numeric(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_isspace(self):
+        result = pc.utf8_is_space(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_istitle(self):
+        result = pc.utf8_is_title(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_isupper(self):
+        result = pc.utf8_is_upper(self._pa_array)
+        return self._convert_bool_result(result)
+
+    def _str_contains(
+        self,
+        pat,
+        case: bool = True,
+        flags: int = 0,
+        na: Scalar | lib.NoDefault = lib.no_default,
+        regex: bool = True,
+    ):
+        if regex:
+            # GH#66348 a compiled `pat` reaches us from ArrowExtensionArray, which
+            #  unlike ArrowStringArray does not unwrap it before dispatching here.
+            pat, case, flags = self._unwrap_re_pattern(pat, case, flags)
+
+        if flags:
+            raise NotImplementedError(f"contains not implemented with {flags=}")
+
+        if regex:
+            pa_contains = pc.match_substring_regex
+        else:
+            pa_contains = pc.match_substring
+        result = pa_contains(self._pa_array, pat, ignore_case=not case)
+        return self._convert_bool_result(result, na=na, method_name="contains")
+
+    def _str_match(
+        self,
+        pat: str | re.Pattern[str],
+        case: bool = True,
+        flags: int = 0,
+        na: Scalar | lib.NoDefault = lib.no_default,
+    ):
+        # GH#63108 the accessor pre-compiles `pat` whenever the user passes `flags`
+        pattern, case, flags = self._unwrap_re_pattern(pat, case, flags)
+
+        if pattern.startswith("^"):
+            pattern = pattern[1:]
+        pattern = f"^({pattern})"
+        return ArrowStringArrayMixin._str_contains(
+            self, pattern, case, flags, na, regex=True
+        )
+
+    def _str_fullmatch(
+        self,
+        pat: str | re.Pattern[str],
+        case: bool = True,
+        flags: int = 0,
+        na: Scalar | lib.NoDefault = lib.no_default,
+    ):
+        pat, case, flags = self._unwrap_re_pattern(pat, case, flags)
+
+        if (not pat.endswith("$") or pat.endswith("\\$")) and not pat.startswith("^"):
+            pat = f"^({pat})$"
+        elif not pat.endswith("$") or pat.endswith("\\$"):
+            pat = f"^({pat[1:]})$"
+        elif not pat.startswith("^"):
+            pat = f"^({pat[0:-1]})$"
+        return ArrowStringArrayMixin._str_match(self, pat, case, flags, na)
+
+    def _str_find(self, sub: str, start: int = 0, end: int | None = None):
+        if self._has_non_ascii():
+            # GH#64123 - pc.find_substring returns byte offsets instead of
+            # character offsets for multi-byte UTF-8 characters, so we fall back
+            # to Python str.find which correctly returns character offsets.
+            res_list = self._apply_elementwise(lambda val: val.find(sub, start, end))
+            return self._convert_int_result(pa.chunked_array(res_list, type=pa.int64()))
+
+        if (start == 0 or start is None) and end is None:
+            result = pc.find_substring(self._pa_array, sub)
+        else:
+            if sub == "":
+                # GH#56792
+                res_list = self._apply_elementwise(
+                    lambda val: val.find(sub, start, end)
+                )
+                return self._convert_int_result(
+                    pa.chunked_array(res_list, type=pa.int64())
+                )
+            if start is None:
+                start_offset = 0
+                start = 0
+            elif start < 0:
+                start_offset = pc.add(start, pc.utf8_length(self._pa_array))
+                start_offset = pc.if_else(pc.less(start_offset, 0), 0, start_offset)
+            else:
+                start_offset = start
+            slices = pc.utf8_slice_codeunits(self._pa_array, start, stop=end)
+            result = pc.find_substring(slices, sub)
+            found = pc.not_equal(result, pa.scalar(-1, type=result.type))
+            offset_result = pc.add(result, start_offset)
+            result = pc.if_else(found, offset_result, -1)
+        result = result.cast(pa.int64())
+        return self._convert_int_result(result)
+
+    def _str_partition_expand(self, sep: str) -> pa.ChunkedArray:
+        """
+        Split each string on the first occurrence of ``sep``.
+
+        Returns a ``list<string>`` array holding one three-element list per row
+        -- the part before the separator, the separator, and the part after --
+        which ``StringMethods._wrap_result`` expands into three columns. Rows
+        without ``sep`` get two empty strings, matching ``str.partition``.
+
+        The caller wraps this in an :class:`ArrowExtensionArray`; the rows are
+        lists, so it is not of the calling array's own type.
+        """
+        if not sep:
+            # pyarrow reports this as "Empty separator"; keep str.partition's
+            #  wording so every dtype raises the same way
+            raise ValueError("empty separator")
+
+        str_type = self._pa_array.type
+        chunks = [
+            self._partition_chunk(chunk, sep, str_type)
+            for chunk in self._pa_array.chunks
+        ]
+        return pa.chunked_array(chunks, type=pa.list_(str_type))
+
+    @staticmethod
+    def _partition_chunk(chunk: pa.Array, sep: str, str_type: pa.DataType) -> pa.Array:
+        """
+        Build the ``list<string>`` rows for one chunk of :meth:`_str_partition_expand`.
+
+        Working a chunk at a time keeps the concatenation below within the
+        offset width of ``str_type``, which matters for columns near the 2 GiB
+        limit of 32-bit ``string``.
+        """
+        # max_splits=1 gives [before] when sep is absent, else [before, after];
+        #  padding to a fixed two elements makes the tail null in the first case
+        split = pc.split_pattern(chunk, sep, max_splits=1)
+        pieces = pc.list_slice(split, 0, 2, return_fixed_size_list=True)
+
+        before = pc.list_element(pieces, 0)
+        tail = pc.list_element(pieces, 1)
+        after = pc.fill_null(tail, pa.scalar("", type=str_type))
+        middle = pc.if_else(
+            pc.is_valid(tail),
+            pa.scalar(sep, type=str_type),
+            pa.scalar("", type=str_type),
+        )
+
+        n = len(chunk)
+        # Interleave the three columns into [before[0], sep[0], after[0],
+        #  before[1], ...]. Arrow has no kernel that zips arrays into rows, so
+        #  take from their concatenation. Both ranges below are plain index
+        #  arithmetic: NumPy builds them in one strided pass, while pyarrow has
+        #  no arange at all before 21.0 and would need four kernels for the
+        #  interleave, so they stay NumPy at every supported version.
+        values = pa.concat_arrays([before, middle, after])
+        indices = np.arange(3 * n, dtype=np.int64).reshape(3, n).T.reshape(-1)
+        values = values.take(pa.array(indices))
+        # int32 rather than int64 offsets, but built wide so that a chunk with
+        #  more than 2**31 / 3 rows raises instead of wrapping around
+        offsets = pa.array(np.arange(0, 3 * n + 1, 3, dtype=np.int64), type=pa.int32())
+        # a null string partitions to a null row, not to a row of nulls
+        mask = pc.is_null(before) if before.null_count else None
+        return pa.ListArray.from_arrays(offsets, values, mask=mask)

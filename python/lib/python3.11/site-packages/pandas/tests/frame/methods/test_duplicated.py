@@ -1,0 +1,145 @@
+import re
+import sys
+
+import numpy as np
+import pytest
+
+import pandas as pd
+import pandas._testing as tm
+
+
+@pytest.mark.parametrize("subset", ["a", ["a"], ["a", "B"]])
+def test_duplicated_with_misspelled_column_name(subset):
+    # GH 19730
+    df = pd.DataFrame({"A": [0, 0, 1], "B": [0, 0, 1], "C": [0, 0, 1]})
+    msg = re.escape("Index(['a'], dtype=")
+
+    with pytest.raises(KeyError, match=msg):
+        df.duplicated(subset)
+
+
+def test_duplicated_implemented_no_recursion():
+    # gh-21524
+    # Ensure duplicated isn't implemented using recursion that
+    # can fail on wide frames
+    df = pd.DataFrame(np.random.default_rng(2).integers(0, 1000, (10, 1000)))
+    rec_limit = sys.getrecursionlimit()
+    try:
+        sys.setrecursionlimit(100)
+        result = df.duplicated()
+    finally:
+        sys.setrecursionlimit(rec_limit)
+
+    # Then duplicates produce the bool Series as a result and don't fail during
+    # calculation. Actual values doesn't matter here, though usually it's all
+    # False in this case
+    assert isinstance(result, pd.Series)
+    assert result.dtype == np.bool_
+
+
+@pytest.mark.parametrize(
+    "keep, expected",
+    [
+        ("first", pd.Series([False, False, True, False, True])),
+        ("last", pd.Series([True, True, False, False, False])),
+        (False, pd.Series([True, True, True, False, True])),
+    ],
+)
+def test_duplicated_keep(keep, expected):
+    df = pd.DataFrame({"A": [0, 1, 1, 2, 0], "B": ["a", "b", "b", "c", "a"]})
+
+    result = df.duplicated(keep=keep)
+    tm.assert_series_equal(result, expected)
+
+
+@pytest.mark.xfail(reason="GH#21720; nan/None falsely considered equal")
+@pytest.mark.parametrize(
+    "keep, expected",
+    [
+        ("first", pd.Series([False, False, True, False, True])),
+        ("last", pd.Series([True, True, False, False, False])),
+        (False, pd.Series([True, True, True, False, True])),
+    ],
+)
+def test_duplicated_nan_none(keep, expected):
+    df = pd.DataFrame({"C": [np.nan, 3, 3, None, np.nan], "x": 1}, dtype=object)
+
+    result = df.duplicated(keep=keep)
+    tm.assert_series_equal(result, expected)
+
+
+@pytest.mark.parametrize("subset", [None, ["A", "B"], "A"])
+def test_duplicated_subset(subset, keep):
+    df = pd.DataFrame(
+        {
+            "A": [0, 1, 1, 2, 0],
+            "B": ["a", "b", "b", "c", "a"],
+            "C": [np.nan, 3, 3, None, np.nan],
+        }
+    )
+
+    if subset is None:
+        subset = list(df.columns)
+    elif isinstance(subset, str):
+        # need to have a DataFrame, not a Series
+        # -> select columns with singleton list, not string
+        subset = [subset]
+
+    expected = df[subset].duplicated(keep=keep)
+    result = df.duplicated(keep=keep, subset=subset)
+    tm.assert_series_equal(result, expected)
+
+
+def test_duplicated_on_empty_frame():
+    # GH 25184
+
+    df = pd.DataFrame(columns=["a", "b"])
+    dupes = df.duplicated("a")
+
+    result = df[dupes]
+    expected = df.copy()
+    tm.assert_frame_equal(result, expected)
+
+
+def test_duplicated_on_empty_frame_with_index():
+    # GH#61191
+    df = pd.DataFrame(index=[0, 1])
+    result = df.duplicated()
+    expected = pd.Series(False, dtype=bool, index=df.index)
+    tm.assert_series_equal(result, expected)
+
+    # Boolean indexing with the result should work
+    result = df[df.duplicated()]
+    expected = df.iloc[:0]
+    tm.assert_frame_equal(result, expected)
+
+
+def test_frame_datetime64_duplicated():
+    dates = pd.date_range("2010-07-01", end="2010-08-05")
+
+    tst = pd.DataFrame({"symbol": "AAA", "date": dates})
+    result = tst.duplicated(["date", "symbol"])
+    assert (-result).all()
+
+    tst = pd.DataFrame({"date": dates})
+    result = tst.date.duplicated()
+    assert (-result).all()
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        pd.to_datetime(["2020-01-01", "2020-01-01", None]).tz_localize("UTC"),
+        pd.PeriodIndex(["2020-01-01", "2020-01-01", None], freq="D"),
+        pd.arrays.IntervalArray.from_tuples([(0.0, 1.0), (0.0, 1.0), None]),
+    ],
+)
+def test_duplicated_no_values_deprecation(values):
+    # GH#69025 the multi-column path must not self-trigger the .values deprecation
+    df = pd.DataFrame({"a": values, "b": [1, 1, 1]})
+    with tm.assert_produces_warning(None):
+        result = df.duplicated()
+        dropped = df.drop_duplicates()
+
+    tm.assert_series_equal(result, pd.Series([False, True, False]))
+    tm.assert_frame_equal(dropped, df.iloc[[0, 2]])

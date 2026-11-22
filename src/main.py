@@ -29,7 +29,7 @@ class Window(QMainWindow):
 
     signal = pyqtSignal(str, str)
 
-    def __init__(self) -> None:
+    def __init__(self, app) -> None:
         super().__init__()
 
         try:
@@ -39,6 +39,8 @@ class Window(QMainWindow):
             pass
 
         qdarktheme.setup_theme(theme=THEME, additional_qss=open(f"src/files/styles/{THEME}.qss", "r", encoding="utf-8").read())
+
+        app.setFont(QFont("Segoe UI", 9))
 
         self.setWindowTitle("СуперЗавуч")
         self.setWindowIcon(QIcon("src/files/sprites/icon.ico"))
@@ -153,7 +155,7 @@ class Window(QMainWindow):
 def run():
     app = QApplication(sys.argv)
 
-    window = Window()
+    window = Window(app)
     window.show()
 
     sys.exit(app.exec())

@@ -1,0 +1,137 @@
+import numpy as np
+import pytest
+
+import pandas as pd
+import pandas._testing as tm
+
+
+def test_isin_nan():
+    idx = pd.MultiIndex.from_arrays([["foo", "bar"], [1.0, np.nan]])
+    tm.assert_numpy_array_equal(idx.isin([("bar", np.nan)]), np.array([False, True]))
+    tm.assert_numpy_array_equal(
+        idx.isin([("bar", float("nan"))]), np.array([False, True])
+    )
+
+
+def test_isin_missing(nulls_fixture):
+    # GH48905
+    mi1 = pd.MultiIndex.from_tuples([(1, nulls_fixture)])
+    mi2 = pd.MultiIndex.from_tuples([(1, 1), (1, 2)])
+    result = mi2.isin(mi1)
+    expected = np.array([False, False])
+    tm.assert_numpy_array_equal(result, expected)
+
+
+def test_isin():
+    values = [("foo", 2), ("bar", 3), ("quux", 4)]
+
+    idx = pd.MultiIndex.from_arrays([["qux", "baz", "foo", "bar"], np.arange(4)])
+    result = idx.isin(values)
+    expected = np.array([False, False, True, True])
+    tm.assert_numpy_array_equal(result, expected)
+
+    # empty, return dtype bool
+    idx = pd.MultiIndex.from_arrays([[], []])
+    result = idx.isin(values)
+    assert len(result) == 0
+    assert result.dtype == np.bool_
+
+
+def test_isin_level_kwarg():
+    idx = pd.MultiIndex.from_arrays([["qux", "baz", "foo", "bar"], np.arange(4)])
+
+    vals_0 = ["foo", "bar", "quux"]
+    vals_1 = [2, 3, 10]
+
+    expected = np.array([False, False, True, True])
+    tm.assert_numpy_array_equal(expected, idx.isin(vals_0, level=0))
+    tm.assert_numpy_array_equal(expected, idx.isin(vals_0, level=-2))
+
+    tm.assert_numpy_array_equal(expected, idx.isin(vals_1, level=1))
+    tm.assert_numpy_array_equal(expected, idx.isin(vals_1, level=-1))
+
+    msg = "Too many levels: Index has only 2 levels, not 6"
+    with pytest.raises(IndexError, match=msg):
+        idx.isin(vals_0, level=5)
+    msg = "Too many levels: Index has only 2 levels, -5 is not a valid level number"
+    with pytest.raises(IndexError, match=msg):
+        idx.isin(vals_0, level=-5)
+
+    with pytest.raises(KeyError, match=r"'Level 1\.0 not found'"):
+        idx.isin(vals_0, level=1.0)
+    with pytest.raises(KeyError, match=r"'Level -1\.0 not found'"):
+        idx.isin(vals_1, level=-1.0)
+    with pytest.raises(KeyError, match="'Level A not found'"):
+        idx.isin(vals_1, level="A")
+
+    idx.names = ["A", "B"]
+    tm.assert_numpy_array_equal(expected, idx.isin(vals_0, level="A"))
+    tm.assert_numpy_array_equal(expected, idx.isin(vals_1, level="B"))
+
+    with pytest.raises(KeyError, match="'Level C not found'"):
+        idx.isin(vals_1, level="C")
+
+
+@pytest.mark.parametrize(
+    "labels,expected,level",
+    [
+        ([("b", np.nan)], [False, False, True], None),
+        ([np.nan, "a"], [True, True, False], 0),
+        (["d", np.nan], [False, True, True], 1),
+    ],
+)
+def test_isin_multi_index_with_missing_value(labels, expected, level):
+    # GH 19132
+    midx = pd.MultiIndex.from_arrays([[np.nan, "a", "b"], ["c", "d", np.nan]])
+    result = midx.isin(labels, level=level)
+    expected = np.array(expected)
+    tm.assert_numpy_array_equal(result, expected)
+
+
+def test_isin_empty():
+    # GH#51599
+    midx = pd.MultiIndex.from_arrays([[1, 2], [3, 4]])
+    result = midx.isin([])
+    expected = np.array([False, False])
+    tm.assert_numpy_array_equal(result, expected)
+
+
+def test_isin_generator():
+    # GH#52568
+    midx = pd.MultiIndex.from_tuples([(1, 2)])
+    result = midx.isin(x for x in [(1, 2)])
+    expected = np.array([True])
+    tm.assert_numpy_array_equal(result, expected)
+
+
+def test_isin_scalar_values_raises_gh20252():
+    # GH#20252
+    midx = pd.MultiIndex.from_arrays([[1, 2, 3], ["a", "b", "c"]])
+    msg = (
+        "MultiIndex.isin expects an iterable of tuples of length 2 "
+        r"\(the number of levels\); got a scalar \(1\) at position 0\. "
+        "To match on a single level, pass the level= argument\\."
+    )
+    with pytest.raises(ValueError, match=msg):
+        midx.isin([1, 2])
+
+
+@pytest.mark.parametrize(
+    "values, bad_len, position",
+    [
+        ([("foo", "one", "B"), ("bar",)], 1, 1),
+        ([("foo", "one")], 2, 0),
+        ([("foo", "one", "B"), ("bar", "two", "A", "x")], 4, 1),
+    ],
+)
+def test_isin_wrong_length_tuples_raises_gh26622(values, bad_len, position):
+    # GH#26622 short tuples used to silently give wrong results
+    midx = pd.MultiIndex.from_product([["foo", "bar"], ["one", "two"], ["A", "B"]])
+    msg = (
+        "MultiIndex.isin expects an iterable of tuples of length 3 "
+        rf"\(the number of levels\); got an element of length {bad_len} at "
+        rf"position {position}\. To match on a single level, pass the "
+        "level= argument\\."
+    )
+    with pytest.raises(ValueError, match=msg):
+        midx.isin(values)

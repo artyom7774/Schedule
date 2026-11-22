@@ -1,0 +1,272 @@
+import codecs
+from dataclasses import dataclass
+from typing import Union
+
+from .._codecs import _pdfdoc_encoding
+from .._utils import StreamType, logger_warning, read_non_whitespace
+from ..errors import STREAM_TRUNCATED_PREMATURELY, PdfStreamError
+from ._base import ByteStringObject, TextStringObject
+
+_PDFDOC_DECODE_MAP = dict(enumerate(_pdfdoc_encoding))
+
+
+def hex_to_rgb(value: str) -> tuple[float, float, float]:
+    return tuple(int(value.lstrip("#")[i : i + 2], 16) / 255.0 for i in (0, 2, 4))  # type: ignore[return-value]
+
+
+def read_hex_string_from_stream(
+    stream: StreamType,
+    forced_encoding: str | list[str] | dict[int, str] | None = None,
+) -> Union["TextStringObject", "ByteStringObject"]:
+    stream.read(1)
+    arr = bytearray()
+    x = b""
+    while True:
+        tok = read_non_whitespace(stream)
+        if not tok:
+            raise PdfStreamError(STREAM_TRUNCATED_PREMATURELY)
+        if tok == b">":
+            break
+        if tok not in b"0123456789abcdefABCDEF":
+            raise PdfStreamError(
+                f"Invalid hexadecimal character {tok!r} in hex string"
+            )
+        x += tok
+        if len(x) == 2:
+            arr.append(int(x, base=16))
+            x = b""
+    if len(x) == 1:
+        x += b"0"
+    if x != b"":
+        arr.append(int(x, base=16))
+    return create_string_object(bytes(arr), forced_encoding)
+
+
+__ESCAPE_DICT__ = {
+    b"n": ord(b"\n"),
+    b"r": ord(b"\r"),
+    b"t": ord(b"\t"),
+    b"b": ord(b"\b"),
+    b"f": ord(b"\f"),
+    b"(": ord(b"("),
+    b")": ord(b")"),
+    b"/": ord(b"/"),
+    b"\\": ord(b"\\"),
+    b" ": ord(b" "),
+    b"%": ord(b"%"),
+    b"<": ord(b"<"),
+    b">": ord(b">"),
+    b"[": ord(b"["),
+    b"]": ord(b"]"),
+    b"#": ord(b"#"),
+    b"_": ord(b"_"),
+    b"&": ord(b"&"),
+    b"$": ord(b"$"),
+}
+__BACKSLASH_CODE__ = 92
+
+
+def read_string_from_stream(
+    stream: StreamType,
+    forced_encoding: str | list[str] | dict[int, str] | None = None,
+) -> Union["TextStringObject", "ByteStringObject"]:
+    tok = stream.read(1)
+    parens = 1
+    txt = []
+    while True:
+        tok = stream.read(1)
+        if not tok:
+            raise PdfStreamError(STREAM_TRUNCATED_PREMATURELY)
+        if tok == b"(":
+            parens += 1
+        elif tok == b")":
+            parens -= 1
+            if parens == 0:
+                break
+        elif tok == b"\\":
+            tok = stream.read(1)
+            try:
+                txt.append(__ESCAPE_DICT__[tok])
+                continue
+            except KeyError:
+                if b"0" <= tok <= b"7":
+                    # "The number ddd may consist of one, two, or three
+                    # octal digits; high-order overflow shall be ignored.
+                    # Three octal digits shall be used, with leading zeros
+                    # as needed, if the next character of the string is also
+                    # a digit." (PDF reference 7.3.4.2, p 16)
+                    sav = stream.tell() - 1
+                    for _ in range(2):
+                        ntok = stream.read(1)
+                        if b"0" <= ntok <= b"7":
+                            tok += ntok
+                        else:
+                            stream.seek(-1, 1)  # ntok has to be analyzed
+                            break
+                    i = int(tok, base=8)
+                    if i > 255:
+                        txt.append(__BACKSLASH_CODE__)
+                        stream.seek(sav)
+                    else:
+                        txt.append(i)
+                    continue
+                if tok in b"\n\r":
+                    # This case is hit when a backslash followed by a line
+                    # break occurs. If it's a multi-char EOL, consume the
+                    # second character:
+                    tok = stream.read(1)
+                    if tok not in b"\n\r":
+                        stream.seek(-1, 1)
+                    # Then don't add anything to the actual string, since this
+                    # line break was escaped:
+                    continue
+                logger_warning(
+                    "Unexpected escaped string: %(token)s",
+                    source=__name__,
+                    token=tok.decode("utf-8", "ignore"),
+                )
+                txt.append(__BACKSLASH_CODE__)
+        txt.append(ord(tok))
+    return create_string_object(bytes(txt), forced_encoding)
+
+
+def create_string_object(
+    string: str | bytes,
+    forced_encoding: str | list[str] | dict[int, str] | None = None,
+) -> TextStringObject | ByteStringObject:
+    """
+    Create a ByteStringObject or a TextStringObject from a string to represent the string.
+
+    Args:
+        string: The data being used
+        forced_encoding: Typically None, or an encoding string
+
+    Returns:
+        A ByteStringObject
+
+    Raises:
+        TypeError: If string is not of type str or bytes.
+
+    """
+    if isinstance(string, str):
+        return TextStringObject(string)
+    if isinstance(string, bytes):
+        if isinstance(forced_encoding, (list, dict)):
+            out = []
+
+            if isinstance(forced_encoding, list):
+                list_length = len(forced_encoding)
+            else:
+                list_length = None
+
+            for x in string:
+                if (
+                        (list_length is not None and x < list_length) or
+                        (list_length is None and x in forced_encoding)
+                ):
+                    value = forced_encoding[x]
+                else:
+                    value = bytes((x,)).decode("charmap")
+                out.append(value)
+            obj = TextStringObject("".join(out))
+            obj._original_bytes = string
+            return obj
+        if isinstance(forced_encoding, str):
+            if forced_encoding == "bytes":
+                return ByteStringObject(string)
+            obj = TextStringObject(string.decode(forced_encoding))
+            obj._original_bytes = string
+            return obj
+        try:
+            unicode_string = _create_unicode_string_object(string)
+            if unicode_string is not None:
+                return unicode_string
+
+            # This is probably a big performance hit here, but we need
+            # to convert string objects into the text/unicode-aware
+            # version if possible... and the only way to check if that's
+            # possible is to try.
+            # Some strings are strings, some are just byte arrays.
+            retval = TextStringObject(decode_pdfdocencoding(string))
+        except UnicodeDecodeError:
+            return ByteStringObject(string)
+
+        retval._original_bytes = string
+        retval.autodetect_pdfdocencoding = True
+        return retval
+    raise TypeError("create_string_object should have str or unicode arg")
+
+
+def _create_unicode_string_object(data: bytes) -> TextStringObject | None:
+    """
+    Decode a text string which is marked or detected as UTF-8 or UTF-16.
+
+    Args:
+        data: The data being used
+
+    Returns:
+        A TextStringObject, or None if the data should be decoded as PDFDocEncoding.
+
+    Raises:
+        UnicodeDecodeError: If the data cannot be decoded as UTF-16.
+
+    """
+    if data.startswith(codecs.BOM_UTF8):
+        # UTF-8 text strings have been added with PDF 2.0, see ISO 32000-2:2020, 7.9.2.2.1.
+        # Data which is not valid UTF-8 is still decoded as PDFDocEncoding.
+        try:
+            retval = TextStringObject(data[len(codecs.BOM_UTF8):].decode("utf-8"))
+        except UnicodeDecodeError:
+            return None
+        retval._original_bytes = data
+        return retval
+    if data.startswith((codecs.BOM_UTF16_BE, codecs.BOM_UTF16_LE)):
+        retval = TextStringObject(data.decode("utf-16"))
+        retval._original_bytes = data
+        retval.autodetect_utf16 = True
+        retval.utf16_bom = data[:2]
+        return retval
+    if data.startswith(b"\x00"):
+        retval = TextStringObject(data.decode("utf-16be"))
+        retval._original_bytes = data
+        retval.autodetect_utf16 = True
+        retval.utf16_bom = codecs.BOM_UTF16_BE
+        return retval
+    if data[1:2] == b"\x00":
+        retval = TextStringObject(data.decode("utf-16le"))
+        retval._original_bytes = data
+        retval.autodetect_utf16 = True
+        retval.utf16_bom = codecs.BOM_UTF16_LE
+        return retval
+    return None
+
+
+def decode_pdfdocencoding(byte_array: bytes) -> str:
+    # latin1 maps each byte to the code point of the same value, so translate()
+    # applies the PDFDocEncoding table in C instead of a Python loop.
+    # Unassigned bytes map to "\u0000"; check for them afterwards.
+    # codecs.charmap_decode() would be faster (a single pass in C), but it is
+    # an undocumented implementation detail of CPython, so we do not use it.
+    retval = bytes(byte_array).decode("latin1").translate(_PDFDOC_DECODE_MAP)
+
+    idx = retval.find("\u0000")
+    if idx != -1:
+        raise UnicodeDecodeError(
+            "pdfdocencoding",
+            bytes(byte_array),
+            idx,  # start
+            idx + 1,  # end
+            "does not exist in translation table",
+        )
+    return retval
+
+
+@dataclass
+class StreamParsingBudget:
+    """
+    Shared, mutable budget for limiting parsing work.
+
+    Pass the same instance to recursive parsing calls to enforce a
+    cumulative budget across nested arrays and dictionaries.
+    """
+    remaining_budget: int

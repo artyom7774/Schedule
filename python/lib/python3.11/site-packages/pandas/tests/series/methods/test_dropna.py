@@ -1,0 +1,141 @@
+import numpy as np
+import pytest
+
+from pandas.errors import Pandas4Warning
+
+import pandas as pd
+import pandas._testing as tm
+
+
+class TestDropna:
+    @pytest.mark.filterwarnings("ignore:The inplace keyword in Series.dropna")
+    def test_dropna_empty(self):
+        ser = pd.Series([], dtype=object)
+
+        assert len(ser.dropna()) == 0
+        return_value = ser.dropna(inplace=True)
+        assert return_value is None
+        assert len(ser) == 0
+
+        # invalid axis
+        msg = "No axis named 1 for object type Series"
+        with pytest.raises(ValueError, match=msg):
+            ser.dropna(axis=1)
+
+    @pytest.mark.filterwarnings("ignore:The inplace keyword in Series.dropna")
+    def test_dropna_preserve_name(self, datetime_series):
+        datetime_series[:5] = np.nan
+        result = datetime_series.dropna()
+        assert result.name == datetime_series.name
+        name = datetime_series.name
+        ts = datetime_series.copy()
+        return_value = ts.dropna(inplace=True)
+        assert return_value is None
+        assert ts.name == name
+
+    @pytest.mark.filterwarnings("ignore:The inplace keyword in Series.dropna")
+    def test_dropna_no_nan(self):
+        for ser in [
+            pd.Series([1, 2, 3], name="x"),
+            pd.Series([False, True, False], name="x"),
+        ]:
+            result = ser.dropna()
+            tm.assert_series_equal(result, ser)
+            assert result is not ser
+
+            s2 = ser.copy()
+            return_value = s2.dropna(inplace=True)
+            assert return_value is None
+            tm.assert_series_equal(s2, ser)
+
+    def test_dropna_intervals(self):
+        ser = pd.Series(
+            [np.nan, 1, 2, 3],
+            pd.IntervalIndex.from_arrays([np.nan, 0, 1, 2], [np.nan, 1, 2, 3]),
+        )
+
+        result = ser.dropna()
+        expected = ser.iloc[1:]
+        tm.assert_series_equal(result, expected)
+
+    def test_dropna_period_dtype(self):
+        # GH#13737
+        ser = pd.Series([pd.Period("2011-01", freq="M"), pd.Period("NaT", freq="M")])
+        result = ser.dropna()
+        expected = pd.Series([pd.Period("2011-01", freq="M")])
+
+        tm.assert_series_equal(result, expected)
+
+    def test_datetime64_tz_dropna(self, unit):
+        # DatetimeLikeBlock
+        ser = pd.Series(
+            [
+                pd.Timestamp("2011-01-01 10:00"),
+                pd.NaT,
+                pd.Timestamp("2011-01-03 10:00"),
+                pd.NaT,
+            ],
+            dtype=f"M8[{unit}]",
+        )
+        result = ser.dropna()
+        expected = pd.Series(
+            [pd.Timestamp("2011-01-01 10:00"), pd.Timestamp("2011-01-03 10:00")],
+            index=[0, 2],
+            dtype=f"M8[{unit}]",
+        )
+        tm.assert_series_equal(result, expected)
+
+        # DatetimeTZBlock
+        idx = pd.DatetimeIndex(
+            ["2011-01-01 10:00", pd.NaT, "2011-01-03 10:00", pd.NaT], tz="Asia/Tokyo"
+        ).as_unit(unit)
+        ser = pd.Series(idx)
+        assert ser.dtype == f"datetime64[{unit}, Asia/Tokyo]"
+        result = ser.dropna()
+        expected = pd.Series(
+            [
+                pd.Timestamp("2011-01-01 10:00", tz="Asia/Tokyo"),
+                pd.Timestamp("2011-01-03 10:00", tz="Asia/Tokyo"),
+            ],
+            index=[0, 2],
+            dtype=f"datetime64[{unit}, Asia/Tokyo]",
+        )
+        assert result.dtype == f"datetime64[{unit}, Asia/Tokyo]"
+        tm.assert_series_equal(result, expected)
+
+    @pytest.mark.filterwarnings("ignore:The inplace keyword in Series.dropna")
+    @pytest.mark.parametrize("val", [1, 1.5])
+    def test_dropna_ignore_index(self, val):
+        # GH#31725
+        ser = pd.Series([1, 2, val], index=[3, 2, 1])
+        result = ser.dropna(ignore_index=True)
+        expected = pd.Series([1, 2, val])
+        tm.assert_series_equal(result, expected)
+
+        ser.dropna(ignore_index=True, inplace=True)
+        tm.assert_series_equal(ser, expected)
+
+
+def test_dropna_inplace_depr():
+    msg = "The inplace keyword in Series.dropna is deprecated"
+
+    ser = pd.Series([1.0, 1.5, np.nan, 2.0])
+    ser_orig = ser.copy()
+    expected = pd.Series([1.0, 1.5, 2.0], index=[0, 1, 3])
+
+    # does not use keyword, no warning
+    with tm.assert_produces_warning(False):
+        result = ser.dropna()
+    tm.assert_series_equal(result, expected)
+    tm.assert_almost_equal(ser, ser_orig)
+
+    # uses keyword, set to false, warning
+    with tm.assert_produces_warning(Pandas4Warning, match=msg):
+        result = ser.dropna(inplace=False)
+    tm.assert_series_equal(result, expected)
+    tm.assert_almost_equal(ser, ser_orig)
+
+    # uses keyword, set to true, warning
+    with tm.assert_produces_warning(Pandas4Warning, match=msg):
+        ser.dropna(inplace=True)
+    tm.assert_series_equal(ser, expected)

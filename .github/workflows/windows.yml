@@ -67,6 +67,11 @@ jobs:
           name: build-windows-python
           path: python
 
+      - name: Build solver
+        run: |
+          compile.bat
+        shell: pwsh
+
       - name: Windows compile
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
@@ -93,6 +98,11 @@ jobs:
         with:
           name: build-windows-python
           path: python
+
+      - name: Build solver
+        run: |
+          compile.bat
+        shell: pwsh
 
       - name: Windows portable
         run: |

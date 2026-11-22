@@ -108,7 +108,7 @@ def getAppDataDir():
         base = os.getenv("APPDATA")
 
     else:
-        base = os.getcwd()
+        base = os.getenv("XDG_DATA_HOME", os.path.expanduser("~/.local/share"))
 
     return base
 

@@ -1,0 +1,242 @@
+"""manage the PDF transform stack during "layout" mode text extraction"""
+
+from collections import ChainMap, Counter
+from collections import ChainMap as ChainMapType
+from collections import Counter as CounterType
+from collections.abc import MutableMapping
+from typing import Any, Literal
+
+from ...errors import PdfReadError
+from ...generic._font import Font
+from .. import mult
+from ._text_state_params import TextStateParams
+
+TextStateManagerKeyType = int | Literal["is_text", "is_render"]
+TextStateManagerChainMapType = ChainMapType[TextStateManagerKeyType, float | bool]
+TextStateManagerDictType = MutableMapping[TextStateManagerKeyType, float | bool]
+
+
+class TextStateManager:
+    """
+    Tracks the current text state including cm/tm/trm transformation matrices.
+
+    Attributes:
+        transform_stack (ChainMap): ChainMap of cm/tm transformation matrices
+        q_queue (Counter[int]): Counter of q operators
+        q_depth (List[int]): list of q operator nesting levels
+        Tc (float): character spacing
+        Tw (float): word spacing
+        Tz (int): horizontal scaling
+        TL (float): leading
+        Ts (float): text rise
+        font (Font): font object
+        font_size (int | float): font size
+
+    """
+
+    def __init__(self) -> None:
+        self.transform_stack: TextStateManagerChainMapType = ChainMap(
+            self.new_transform()
+        )
+        self.q_queue: CounterType[int] = Counter()
+        self.q_depth = [0]
+        self.Tc: float = 0.0
+        self.Tw: float = 0.0
+        self.Tz: float = 100.0
+        self.TL: float = 0.0
+        self.Ts: float = 0.0
+        self.font_stack: list[tuple[Font | None, int | float]] = []
+        self.font: Font | None = None
+        self.font_size: int | float = 0
+
+    def set_state_param(self, op: bytes, value: float | list[Any]) -> None:
+        """
+        Set a text state parameter. Supports Tc, Tz, Tw, TL, and Ts operators.
+
+        Args:
+            op: operator read from PDF stream as bytes. No action is taken
+                for unsupported operators (see supported operators above).
+            value (float | List[Any]): new parameter value. If a list,
+                value[0] is used.
+
+        """
+        if op not in [b"Tc", b"Tz", b"Tw", b"TL", b"Ts"]:
+            return
+        name = op.decode()
+        raw = (value[0] if value else None) if isinstance(value, list) else value
+        # a missing or non-numeric operand (e.g. a name from a malformed content
+        # stream) leaves the parameter unchanged, matching the ROB handling of Td/Tm/Tf
+        self.__setattr__(name, self._as_float(raw, getattr(self, name)))
+
+    def set_font(self, font: Font, size: float) -> None:
+        """
+        Set the current font and font_size.
+
+        Args:
+            font (Font): a layout mode Font
+            size (float): font size
+
+        """
+        self.font = font
+        self.font_size = size
+
+    def text_state_params(self, value: bytes | str = "") -> TextStateParams:
+        """
+        Create a TextStateParams instance to display a text string. Type[bytes] values
+        will be decoded implicitly.
+
+        Args:
+            value (str | bytes): text to associate with the captured state.
+
+        Raises:
+            PdfReadError: if font not set (no Tf operator in incoming pdf content stream)
+
+        Returns:
+            TextStateParams: current text state parameters
+
+        """
+        if not isinstance(self.font, Font):
+            raise PdfReadError(
+                "font not set: is PDF missing a Tf operator?"
+            )  # pragma: no cover
+        return TextStateParams(
+            value,
+            self.font,
+            self.font_size,
+            self.Tc,
+            self.Tw,
+            self.Tz,
+            self.TL,
+            self.Ts,
+            self.effective_transform,
+        )
+
+    @staticmethod
+    def _as_float(value: Any, default: float = 0.0) -> float:
+        """An operand as a float, or default if it is not a number
+        (e.g. a name from a malformed content stream).
+        """
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return default
+
+    @staticmethod
+    def raw_transform(
+        _a: float = 1.0,
+        _b: float = 0.0,
+        _c: float = 0.0,
+        _d: float = 1.0,
+        _e: float = 0.0,
+        _f: float = 0.0,
+    ) -> TextStateManagerDictType:
+        """Only a/b/c/d/e/f matrix params"""
+        defaults = (1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+        values = (_a, _b, _c, _d, _e, _f)
+        return dict(zip(range(6), (TextStateManager._as_float(v, d) for v, d in zip(values, defaults))))
+
+    @staticmethod
+    def new_transform(
+        _a: float = 1.0,
+        _b: float = 0.0,
+        _c: float = 0.0,
+        _d: float = 1.0,
+        _e: float = 0.0,
+        _f: float = 0.0,
+        *,
+        is_text: bool = False,
+        is_render: bool = False,
+    ) -> TextStateManagerDictType:
+        """Standard a/b/c/d/e/f matrix params + 'is_text' and 'is_render' keys"""
+        result = TextStateManager.raw_transform(_a, _b, _c, _d, _e, _f)
+        result.update({"is_text": is_text, "is_render": is_render})
+        return result
+
+    def reset_tm(self) -> TextStateManagerChainMapType:
+        """Clear all transforms from chainmap having is_text==True or is_render==True"""
+        while (
+            self.transform_stack.maps[0]["is_text"]
+            or self.transform_stack.maps[0]["is_render"]
+        ):
+            self.transform_stack = self.transform_stack.parents
+        return self.transform_stack
+
+    def reset_trm(self) -> TextStateManagerChainMapType:
+        """Clear all transforms from chainmap having is_render==True"""
+        while self.transform_stack.maps[0]["is_render"]:
+            self.transform_stack = self.transform_stack.parents
+        return self.transform_stack
+
+    def remove_q(self) -> TextStateManagerChainMapType:
+        """Rewind to stack prior state after closing a 'q' with internal 'cm' ops"""
+        self.font, self.font_size = self.font_stack.pop(-1)
+        self.transform_stack = self.reset_tm()
+        self.transform_stack.maps = self.transform_stack.maps[
+            self.q_queue.pop(self.q_depth.pop(), 0) :
+        ]
+        return self.transform_stack
+
+    def add_q(self) -> None:
+        """Add another level to q_queue"""
+        self.font_stack.append((self.font, self.font_size))
+        self.q_depth.append(len(self.q_depth))
+
+    def add_cm(self, *args: Any) -> TextStateManagerChainMapType:
+        """Concatenate an additional transform matrix"""
+        self.transform_stack = self.reset_tm()
+        self.q_queue.update(self.q_depth[-1:])
+        # A matrix operator consumes the 6 operands nearest to it; extra values
+        # from a malformed content stream must not overflow the transform.
+        self.transform_stack = self.transform_stack.new_child(
+            self.new_transform(*args[-6:])
+        )
+        return self.transform_stack
+
+    def _complete_matrix(self, operands: list[float]) -> list[float]:
+        """Adds a, b, c, and d to an "e/f only" operand set (e.g Td)"""
+        if len(operands) == 2:  # this is a Td operator or equivalent
+            operands = [1.0, 0.0, 0.0, 1.0, *operands]
+        # Tm consumes the 6 operands nearest to it; extra values from a
+        # malformed content stream must not overflow the transform.
+        return operands[-6:]
+
+    def add_tm(self, operands: list[float]) -> TextStateManagerChainMapType:
+        """Append a text transform matrix"""
+        # Build a new text transformation matrix from the supplied operands.
+        new_child = self.new_transform(*self._complete_matrix(operands), is_text=True)
+        # Get the most recently added transformation from the stack.
+        top = self.transform_stack.maps[0]
+
+        # If the current transformation is a text matrix and is not a rendering
+        # transformation, combine the matrices instead of adding another stack
+        # entry. This prevents unnecessary growth of the transform stack.
+        # Non-rendering transformations do not emit anything and thus can be merged.
+        if top.get("is_text") and not top.get("is_render"):
+            # Multiply the new matrix by the current top matrix, preserving the
+            # transformation order used when a new stack entry would be pushed.
+            combined = mult(list(new_child.values()), top)
+            # Replace the current top entry with the combined transformation.
+            # The existing stack structure is preserved rather than extended.
+            self.transform_stack.maps[0] = self.new_transform(*combined, is_text=True)
+        else:
+            # If the current transformation is not a suitable text matrix to
+            # combine with, push the new transformation onto the stack as before.
+            self.transform_stack = self.transform_stack.new_child(new_child)
+        return self.transform_stack
+
+    def add_trm(self, operands: list[float]) -> TextStateManagerChainMapType:
+        """Append a text rendering transform matrix"""
+        self.transform_stack = self.transform_stack.new_child(
+            self.new_transform(
+                *self._complete_matrix(operands), is_text=True, is_render=True
+            )
+        )
+        return self.transform_stack
+
+    @property
+    def effective_transform(self) -> list[float]:
+        """Current effective transform accounting for cm, tm, and trm transforms"""
+        eff_transform = [*self.transform_stack.maps[0].values()]
+        for transform in self.transform_stack.maps[1:]:
+            eff_transform = mult(eff_transform, transform)
+        return eff_transform
