@@ -1,0 +1,311 @@
+name: Build
+
+on: push
+
+permissions:
+  contents: write
+
+env:
+  TAG: "#${{ github.run_number }}"
+
+jobs:
+  # ------------------------- WINDOWS -------------------------
+  build-windows-python:
+    name: Windows Python
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install requirements
+        run: |
+          New-Item -ItemType Directory -Path "windows" -Force | Out-Null
+          Copy-Item -Path "$env:pythonLocation\*" -Destination "windows" -Recurse -Force
+
+          & "windows\python.exe" -m pip install --upgrade pip
+          & "windows\python.exe" -m pip install -r requirements.txt --no-warn-script-location
+
+          Get-ChildItem -Path "windows" -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+          if (Test-Path "windows\Lib\test") { Remove-Item "windows\Lib\test" -Recurse -Force }
+        shell: pwsh
+
+      - name: Plugins
+        run: |
+          $base = "windows\Lib\site-packages\PyQt5\Qt5"
+
+          foreach ($name in @("platforms", "styles", "imageformats", "iconengines")) {
+            if (Test-Path "$base\plugins\$name") {
+              New-Item -ItemType Directory -Path "windows\$name" -Force | Out-Null
+              Copy-Item -Path "$base\plugins\$name\*" -Destination "windows\$name" -Recurse -Force
+            }
+          }
+
+          foreach ($f in @("platforms\qwindows.dll", "imageformats\qsvg.dll", "iconengines\qsvgicon.dll")) {
+            if (-not (Test-Path "windows\$f")) {
+              Write-Error "$f not found!"
+            }
+          }
+        shell: pwsh
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-windows-python
+          path: windows
+
+  build-windows-installer:
+    name: Windows Installer
+    needs: build-windows-python
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download python
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows-python
+          path: python
+
+      - name: Build solver
+        run: |
+          ./compile.bat
+        shell: pwsh
+
+      - name: Windows compile
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
+        with:
+          path: .github/compile/compile.iss
+          options: /Q /O+
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-windows-installer
+          path: .github/out/Schedule-windows-installer.exe
+
+  build-windows-portable:
+    name: Windows Portable
+    needs: build-windows-python
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Python
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows-python
+          path: python
+
+      - name: Build solver
+        run: |
+          ./compile.bat
+        shell: pwsh
+
+      - name: Windows portable
+        run: |
+          $dst = "portable/Schedule"
+
+          New-Item -ItemType Directory -Path $dst -Force | Out-Null
+
+          Copy-Item -Path "Schedule.exe"      -Destination $dst -Force
+          Copy-Item -Path "Schedule.py"       -Destination $dst -Force
+          Copy-Item -Path "start.py"          -Destination $dst -Force
+          Copy-Item -Path "requirements.txt"  -Destination $dst -Force
+          Copy-Item -Path "README.md"         -Destination $dst -Force
+          Copy-Item -Path "profile.bat"       -Destination $dst -Force
+          Copy-Item -Path "LICENSE"           -Destination $dst -Force
+          Copy-Item -Path "compile.bat"       -Destination $dst -Force
+          Copy-Item -Path "Schedule.sh"       -Destination $dst -Force
+          Copy-Item -Path "compile.sh"        -Destination $dst -Force
+
+          Copy-Item -Path "last"    -Destination "$dst/last"   -Recurse -Force
+          Copy-Item -Path "src"     -Destination "$dst/src"    -Recurse -Force
+          Copy-Item -Path "python"  -Destination "$dst/python" -Recurse -Force
+        shell: pwsh
+
+      - name: Create zip archive
+        run: |
+          New-Item -ItemType Directory -Path ".github/out" -Force | Out-Null
+          Compress-Archive -Path "portable/Schedule" -DestinationPath ".github/out/Schedule-windows-portable.zip" -Force
+        shell: pwsh
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-windows-portable
+          path: .github/out/Schedule-windows-portable.zip
+
+  # ------------------------- LINUX -------------------------
+  build-linux-python:
+    name: Linux Python
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup python
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo astral-sh/python-build-standalone --pattern 'cpython-3.11.*-x86_64-unknown-linux-gnu-install_only.tar.gz' --dir /tmp
+          tar -xzf /tmp/cpython-3.11.*-install_only.tar.gz -C .
+          mv python linux
+
+      - name: Install requirements
+        run: |
+          linux/bin/python3 -m pip install --upgrade pip
+          linux/bin/python3 -m pip install -r requirements.txt
+
+          rm -rf linux/lib/python3.11/test
+
+      - name: Plugins
+        run: |
+          base="linux/lib/python3.11/site-packages/PyQt5/Qt5/plugins"
+          for f in platforms/libqxcb.so imageformats/libqsvg.so iconengines/libqsvgicon.so; do
+            if [ ! -f "$base/$f" ]; then
+              echo "::error::$f not found!"
+              exit 1
+            fi
+          done
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-linux-python
+          path: linux
+
+  build-linux-portable:
+    name: Linux Portable
+    needs: build-linux-python
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download python
+        uses: actions/download-artifact@v4
+        with:
+          name: build-linux-python
+          path: python
+
+      - name: Build solver
+        run: bash ./compile.sh
+
+      - name: Linux portable
+        run: |
+          dst="portable/Schedule"
+          mkdir -p "$dst"
+
+          cp Schedule.exe Schedule.py start.py requirements.txt README.md profile.bat LICENSE compile.bat Schedule.sh compile.sh "$dst/"
+          cp -r last src python "$dst/"
+
+          chmod +x "$dst/Schedule.sh" "$dst/python/bin/"*
+
+      - name: Create archive
+        run: |
+          mkdir -p .github/out
+          tar -czf .github/out/Schedule-linux-portable.tar.gz -C portable Schedule
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-linux-portable
+          path: .github/out/Schedule-linux-portable.tar.gz
+
+  # ------------------------- RELEASE -------------------------
+  release:
+    name: Release
+    needs:
+      - build-windows-installer
+      - build-windows-portable
+      - build-linux-portable
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download installer
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows-installer
+          path: artifacts/build-windows-installer
+
+      - name: Download portable
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-*-portable
+          path: artifacts
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          name: ${{ env.TAG }}
+          target_commitish: ${{ github.sha }}
+          draft: true
+          fail_on_unmatched_files: true
+          files: |
+            artifacts/build-windows-installer/Schedule-windows-installer.exe
+            artifacts/build-windows-portable/Schedule-windows-portable.zip
+            artifacts/build-linux-portable/Schedule-linux-portable.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ------------------------- MIRROR -------------------------
+  mirror:
+    name: Mirror
+    needs: release
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: yandex
+      cancel-in-progress: false
+
+    steps:
+      - name: Download installer
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows-installer
+          path: artifacts
+
+      - name: Download portable
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-*-portable
+          path: artifacts
+          merge-multiple: true
+
+      - name: Check artifacts
+        run: |
+          ls -lh artifacts
+          test -n "$(ls -A artifacts)"
+
+      - name: Install rclone
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+
+      - name: Upload to Yandex Disk
+        env:
+          RCLONE_CONFIG_SCHEDULE_TOKEN: ${{ secrets.YANDEX_TOKEN }}
+          RCLONE_CONFIG_SCHEDULE_HARD_DELETE: "true"
+          RCLONE_CONFIG_SCHEDULE_TYPE: yandex
+        run: |
+          dir="${TAG//#/}"
+
+          rclone copy artifacts "schedule:Schedule/$dir" --progress
+          rclone ls "schedule:Schedule/$dir"
+
+          rclone lsf --dirs-only "schedule:Schedule" \
+            | sed 's#/$##' \
+            | sort -V \
+            | head -n -5 \
+            | { grep -vxF "$dir" || true; } \
+            | while read -r d; do
+                [ -z "$d" ] && continue
+                rclone purge "schedule:Schedule/$d"
+              done

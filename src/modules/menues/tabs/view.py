@@ -297,7 +297,6 @@ class TabView(QWidget):
 
             for day in range(days):
                 for lesson in range(lessons):
-                    tooltip = ""
                     text = "-"
 
                     for cls in classesInShift:
