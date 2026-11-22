@@ -221,19 +221,6 @@ def app_command(pkg: Path):
     return [str(exe), "-OO", "Schedule.py"]
 
 
-def clean_home(env: dict, home: str):
-    if os.name == "nt":
-        env["USERPROFILE"] = home
-        env["APPDATA"] = str(Path(home) / "AppData" / "Roaming")
-        env["LOCALAPPDATA"] = str(Path(home) / "AppData" / "Local")
-
-    else:
-        env["HOME"] = home
-        env.pop("XDG_DATA_HOME", None)
-        env.pop("XDG_CONFIG_HOME", None)
-        env.pop("XDG_CACHE_HOME", None)
-
-
 def launch_app(pkg: Path, seconds: int):
     print("> Checking running Schedule.py", flush=True)
 
@@ -245,8 +232,6 @@ def launch_app(pkg: Path, seconds: int):
 
     env = os.environ.copy()
     env["PYTHONUNBUFFERED"] = "1"
-
-    clean_home(env, home)
 
     try:
         with open(obj, "wb") as log:
