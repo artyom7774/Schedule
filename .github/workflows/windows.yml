@@ -69,7 +69,7 @@ jobs:
 
       - name: Build solver
         run: |
-          compile.bat
+          ./compile.bat
         shell: pwsh
 
       - name: Windows compile
@@ -101,7 +101,7 @@ jobs:
 
       - name: Build solver
         run: |
-          compile.bat
+          ./compile.bat
         shell: pwsh
 
       - name: Windows portable
