@@ -298,7 +298,7 @@ def resize(window) -> None:
         try:
             tab.modeComboBox.setGeometry(1, 1, x(20) - 2, 30 - 4)
             tab.info.setGeometry(x(20) + 1, 0, x(80) - 1, y(100))
-            tab.items.setGeometry(0, 30 - 2, x(20), y(100) - 30 + 2)
+            tab.items.setGeometry(0, 30 - 2 + 2 * (os.name != "nt"), x(20), y(100) - 30 + 2 - 2 * (os.name != "nt"))
             tab.tabs.setGeometry(x(20) + 1, 0, x(80) - 1, y(100) - 1)
 
         except AttributeError:

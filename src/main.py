@@ -40,7 +40,11 @@ class Window(QMainWindow):
 
         qdarktheme.setup_theme(theme=THEME, additional_qss=open(f"src/files/styles/{THEME}.qss", "r", encoding="utf-8").read())
 
-        app.setFont(QFont("Segoe UI", 9))
+        try:
+            app.setStyle("Fusion")
+
+        except BaseException:
+            pass
 
         self.setWindowTitle("СуперЗавуч")
         self.setWindowIcon(QIcon("src/files/sprites/icon.ico"))

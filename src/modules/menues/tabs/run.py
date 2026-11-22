@@ -8,6 +8,7 @@ from src.modules.widgets import NoFocusPushButton
 from src.variables import *
 
 import shutil
+import stat
 import json
 import time
 
@@ -279,9 +280,15 @@ class TabRun(QWidget):
             "--warnings",      f"{warnings}"
         ]
 
-        print("src/modules/solve.exe", " ".join(args))
+        executable = "src/modules/solve.exe" if os.name == "nt" else "./src/modules/solve"
 
-        self.process.start("src/modules/solve.exe", args)
+        if os.name != "nt":
+            mode = os.stat(executable).st_mode
+            os.chmod(executable, mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+
+        print(executable, " ".join(args))
+
+        self.process.start(executable, args)
 
     def counter(self):
         self.number += 1

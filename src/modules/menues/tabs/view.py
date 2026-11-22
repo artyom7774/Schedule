@@ -25,11 +25,11 @@ class TabView(QWidget):
 
         self.answer = None
 
-        answerPath = f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"
+        answer = f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.json"
 
-        if os.path.exists(answerPath):
+        if os.path.exists(answer):
             try:
-                with open(answerPath, "r", encoding="utf-8") as file:
+                with open(answer, "r", encoding="utf-8") as file:
                     self.answer = json.load(file)
 
             except BaseException:
