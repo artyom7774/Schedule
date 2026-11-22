@@ -9,9 +9,9 @@ env:
   TAG: "#${{ github.run_number }}"
 
 jobs:
-  # ------------------------- WINDOWS -------------------------
   build-windows-python:
     name: Windows Python
+
     runs-on: windows-latest
 
     steps:
@@ -60,6 +60,7 @@ jobs:
 
   build-windows-installer:
     name: Windows Installer
+
     needs: build-windows-python
     runs-on: windows-latest
 
@@ -91,6 +92,7 @@ jobs:
 
   build-windows-portable:
     name: Windows Portable
+
     needs: build-windows-python
     runs-on: windows-latest
 
@@ -142,9 +144,9 @@ jobs:
           name: build-windows-portable
           path: .github/out/Schedule-windows-portable.zip
 
-  # ------------------------- LINUX -------------------------
   build-linux-python:
     name: Linux Python
+
     runs-on: ubuntu-latest
 
     steps:
@@ -183,6 +185,7 @@ jobs:
 
   build-linux-portable:
     name: Linux Portable
+
     needs: build-linux-python
     runs-on: ubuntu-latest
 
@@ -219,9 +222,9 @@ jobs:
           name: build-linux-portable
           path: .github/out/Schedule-linux-portable.tar.gz
 
-  # ------------------------- RELEASE -------------------------
   release:
     name: Release
+
     needs:
       - build-windows-installer
       - build-windows-portable
@@ -256,15 +259,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # ------------------------- MIRROR -------------------------
   mirror:
     name: Mirror
+
     needs: release
     runs-on: ubuntu-latest
-
-    concurrency:
-      group: yandex
-      cancel-in-progress: false
 
     steps:
       - name: Download installer
