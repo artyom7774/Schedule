@@ -25,18 +25,30 @@ BAD_LOG = (
 )
 
 
+def error(message):
+    print(f"[ERROR] {message}", flush=True)
+
+
 def check_files(pkg):
-    print("> Checking for files")
+    print("> Checking for files", flush=True)
+
+    ok = True
 
     required = ["Schedule.exe", "Schedule.py", "start.py", "requirements.txt", "LICENSE", "src", "python"]
     missing = [element for element in required if not (pkg / element).exists()]
 
     if missing:
-        print(f"[ERROR] Package haven't: {', '.join(missing)}")
+        error(f"Package haven't: {', '.join(missing)}")
+
+        ok = False
+
+    return ok
 
 
 def check_isolation(pkg):
     print("> Checking python isolation", flush=True)
+
+    ok = True
 
     pkg = Path(pkg).resolve()
     script = Path(__file__).resolve().parent
@@ -44,7 +56,9 @@ def check_isolation(pkg):
     prefix = Path(sys.prefix).resolve()
 
     if not prefix.is_relative_to(pkg):
-        print(f"[ERROR] sys.prefix {prefix} not in package", flush=True)
+        error(f"sys.prefix {prefix} not in package")
+
+        ok = False
 
     outside = []
 
@@ -61,11 +75,17 @@ def check_isolation(pkg):
             outside.append(str(resolved))
 
     if outside:
-        print(f"[ERROR] Paths not in package: {outside}", flush=True)
+        error(f"Paths not in package: {outside}")
+
+        ok = False
+
+    return ok
 
 
 def check_requirements(pkg: Path):
-    print("> Checking requirements")
+    print("> Checking requirements", flush=True)
+
+    ok = True
 
     for line in (pkg / "requirements.txt").read_text(encoding="utf-8").splitlines():
         line = line.split("#")[0].strip()
@@ -79,74 +99,101 @@ def check_requirements(pkg: Path):
             _ = metadata.version(name)
 
         except metadata.PackageNotFoundError:
-            print(f"Package {name} not installed")
+            error(f"Package {name} not installed")
+
+            ok = False
 
     for module in ("PyQt5.QtCore", "PyQt5.QtGui", "PyQt5.QtWidgets", "PyQt5.QtSvg"):
         try:
             importlib.import_module(module)
 
         except Exception as e:
-            print(f"Import of {module} failed: {e!r}")
+            error(f"Import of {module} failed: {e!r}")
+
+            ok = False
+
+    return ok
+
 
 def check_qt():
-    print("> checking having Qt DLLs")
+    print("> checking having Qt DLLs", flush=True)
 
-    from PyQt5.QtCore import QCoreApplication
-    from PyQt5.QtGui import QIcon, QImageReader
-    from PyQt5.QtWidgets import QApplication
+    ok = True
+
+    try:
+        from PyQt5.QtCore import QCoreApplication
+        from PyQt5.QtGui import QIcon, QImageReader
+        from PyQt5.QtWidgets import QApplication
+
+    except Exception as e:
+        error(f"Qt import failed: {e!r}")
+
+        return False
 
     app = QApplication(["smoke"])
 
     expected = os.environ.get("QT_QPA_PLATFORM") or ("windows" if os.name == "nt" else "xcb")
 
     if app.platformName() != expected:
-        print(f"[ERROR] Platform Qt {app.platformName()!r}, required {expected!r}")
+        error(f"Platform Qt {app.platformName()!r}, required {expected!r}")
+
+        ok = False
 
     formats = {bytes(f).decode() for f in QImageReader.supportedImageFormats()}
 
     if "svg" not in formats:
-        print("[ERROR] Qt not supported SVG")
+        error("Qt not supported SVG")
+
+        ok = False
 
     paths = [Path(path) for path in QCoreApplication.libraryPaths()]
 
     for sub, stem in (("imageformats", "qsvg"), ("iconengines", "qsvgicon")):
         if not any(list((path / sub).glob(f"*{stem}*")) for path in paths):
-            print(f"[ERROR] Plugin {sub}/{stem} not found")
+            error(f"Plugin {sub}/{stem} not found")
+
+            ok = False
 
     svg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="red"/></svg>'
 
     with tempfile.TemporaryDirectory() as directory:
         file = Path(directory) / "temp.svg"
-        
+
         file.write_text(svg)
-        
+
         if QIcon(str(file)).pixmap(16, 16).isNull():
-            print("[ERROR] Qt not displayed SVG icon")
+            error("Qt not displayed SVG icon")
+
+            ok = False
+
+    return ok
 
 
 def run(process: subprocess.Popen):
     if process.poll() is not None:
         return
-    
+
     if os.name == "nt":
         subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], capture_output=True)
-        
+
     else:
         os.killpg(process.pid, signal.SIGTERM)
-        
+
     try:
         process.wait(10)
-        
+
     except subprocess.TimeoutExpired:
         if os.name == "nt":
             process.kill()
-            
+
         else:
             os.killpg(process.pid, signal.SIGKILL)
 
 
 def launch_app(pkg: Path, seconds: int):
-    print(f"> Checking running start.py")
+    print("> Checking running start.py", flush=True)
+
+    ok = True
 
     obj = Path(tempfile.gettempdir()) / "schedule-smoke.log"
 
@@ -167,15 +214,21 @@ def launch_app(pkg: Path, seconds: int):
     text = obj.read_text(encoding="utf-8", errors="replace")
 
     if text:
-        print(text)
+        print(text, flush=True)
 
     if code is not None:
-        print(f"[ERROR] Application return {code}")
+        error(f"Application return {code}")
 
-    bad = [error for error in BAD_LOG if error in text]
+        ok = False
+
+    bad = [message for message in BAD_LOG if message in text]
 
     if bad:
-        print(f"[ERROR] Log have errors: {bad}")
+        error(f"Log have errors: {bad}")
+
+        ok = False
+
+    return ok
 
 
 def main():
@@ -189,14 +242,19 @@ def main():
 
     pkg = args.pkg.resolve()
 
-    check_files(pkg)
-    check_isolation(pkg)
-    check_requirements(pkg)
+    results = {}
 
-    check_qt()
+    results["files"] = check_files(pkg)
+    results["isolation"] = check_isolation(pkg)
+    results["requirements"] = check_requirements(pkg)
+
+    results["qt"] = check_qt()
 
     if not args.no_launch:
-        launch_app(pkg, args.seconds)
+        results["launch"] = launch_app(pkg, args.seconds)
+
+    if not all(results.values()):
+        sys.exit(1)
 
 
 if __name__ == "__main__":
