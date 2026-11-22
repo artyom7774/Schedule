@@ -244,7 +244,7 @@ jobs:
       - name: Smoke test
         shell: pwsh
         run: |
-          $dir = Join-Path $env:RUNNER_TEMP "Тест Schedule"
+          $dir = Join-Path $env:RUNNER_TEMP "Test"
           Expand-Archive "dist\Schedule-windows-portable.zip" -DestinationPath $dir -Force
 
           $pkg = Join-Path $dir "Schedule"
@@ -297,7 +297,7 @@ jobs:
 
       - name: Smoke test
         run: |
-          dir="$RUNNER_TEMP/Тест Schedule"
+          dir="$RUNNER_TEMP/Test"
           mkdir -p "$dir"
           tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
 

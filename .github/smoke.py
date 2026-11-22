@@ -36,17 +36,32 @@ def check_files(pkg):
 
 
 def check_isolation(pkg):
-    print("> Checking python isolation")
+    print("> Checking python isolation", flush=True)
+
+    pkg = Path(pkg).resolve()
+    script = Path(__file__).resolve().parent
 
     prefix = Path(sys.prefix).resolve()
 
     if not prefix.is_relative_to(pkg):
-        print(f"[ERROR] {prefix} not in package")
+        print(f"[ERROR] sys.prefix {prefix} not in package", flush=True)
 
-    outside = [path for path in sys.path if path and not Path(path).resolve().is_relative_to(pkg)]
+    outside = []
+
+    for path in sys.path:
+        if not path:
+            continue
+
+        resolved = Path(path).resolve()
+
+        if resolved == script:
+            continue
+
+        if not resolved.is_relative_to(pkg):
+            outside.append(str(resolved))
 
     if outside:
-        print(f"[ERROR] Paths not in package: {outside}")
+        print(f"[ERROR] Paths not in package: {outside}", flush=True)
 
 
 def check_requirements(pkg: Path):
@@ -133,11 +148,11 @@ def run(process: subprocess.Popen):
 def launch_app(pkg: Path, seconds: int):
     print(f"> Checking running start.py")
 
-    log = Path(tempfile.gettempdir()) / "schedule-smoke.log"
+    obj = Path(tempfile.gettempdir()) / "schedule-smoke.log"
 
     kwargs = {} if os.name == "nt" else {"start_new_session": True}
 
-    with open(log, "wb") as log:
+    with open(obj, "wb") as log:
         path = subprocess.Popen([sys.executable, "start.py"], cwd=pkg, stdout=log, stderr=subprocess.STDOUT, **kwargs)
 
         dead = time.time() + seconds
@@ -149,10 +164,10 @@ def launch_app(pkg: Path, seconds: int):
 
         run(path)
 
-    text = log.read_text(encoding="utf-8", errors="replace")
+    text = obj.read_text(encoding="utf-8", errors="replace")
 
     if text:
-        print(log)
+        print(text)
 
     if code is not None:
         print(f"[ERROR] Application return {code}")
