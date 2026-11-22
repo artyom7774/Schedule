@@ -329,7 +329,6 @@ jobs:
             Write-Host "::warning::Folder still exists, $($rest.Count) untracked files left (created at runtime)"
           }
 
-
   smoke-linux-portable:
     name: Smoke Linux Portable
 

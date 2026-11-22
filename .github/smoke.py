@@ -34,11 +34,25 @@ def check_files(pkg):
 
     ok = True
 
-    required = ["Schedule.exe", "Schedule.py", "start.py", "requirements.txt", "LICENSE", "src", "python"]
+    required = ["Schedule.py", "start.py", "requirements.txt", "LICENSE", "src", "python"]
+
+    if os.name == "nt":
+        required.append("Schedule.exe")
+
+    else:
+        required.append("src/modules/solve")
+
     missing = [element for element in required if not (pkg / element).exists()]
 
     if missing:
         error(f"Package haven't: {', '.join(missing)}")
+
+        ok = False
+
+    solver = pkg / "src" / "modules" / "solve"
+
+    if os.name != "nt" and solver.exists() and not os.access(solver, os.X_OK):
+        error(f"{solver} is not executable")
 
         ok = False
 
@@ -116,7 +130,7 @@ def check_requirements(pkg: Path):
 
 
 def check_qt():
-    print("> checking having Qt DLLs", flush=True)
+    print("> Checking Qt", flush=True)
 
     ok = True
 
@@ -190,8 +204,25 @@ def run(process: subprocess.Popen):
             os.killpg(process.pid, signal.SIGKILL)
 
 
+def app_command(pkg: Path):
+    if os.name == "nt":
+        exe = pkg / "python" / "Scripts" / "python.exe"
+
+        if not exe.exists():
+            exe = pkg / "python" / "python.exe"
+
+        return [str(exe), "-OO", "-s", "Schedule.py"]
+
+    exe = pkg / "python" / "bin" / "python3"
+
+    if not exe.exists():
+        exe = pkg / "linux" / "bin" / "python3"
+
+    return [str(exe), "-OO", "Schedule.py"]
+
+
 def launch_app(pkg: Path, seconds: int):
-    print("> Checking running start.py", flush=True)
+    print("> Checking running Schedule.py", flush=True)
 
     ok = True
 
@@ -199,17 +230,26 @@ def launch_app(pkg: Path, seconds: int):
 
     kwargs = {} if os.name == "nt" else {"start_new_session": True}
 
-    with open(obj, "wb") as log:
-        path = subprocess.Popen([sys.executable, "start.py"], cwd=pkg, stdout=log, stderr=subprocess.STDOUT, **kwargs)
+    env = os.environ.copy()
+    env["PYTHONUNBUFFERED"] = "1"
 
-        dead = time.time() + seconds
+    try:
+        with open(obj, "wb") as log:
+            path = subprocess.Popen(app_command(pkg), cwd=pkg, env=env, stdout=log, stderr=subprocess.STDOUT, **kwargs)
 
-        while time.time() < dead and path.poll() is None:
-            time.sleep(0.25)
+            dead = time.time() + seconds
 
-        code = path.poll()
+            while time.time() < dead and path.poll() is None:
+                time.sleep(0.25)
 
-        run(path)
+            code = path.poll()
+
+            run(path)
+
+    except OSError as e:
+        error(f"Cannot start application: {e!r}")
+
+        return False
 
     text = obj.read_text(encoding="utf-8", errors="replace")
 
@@ -217,7 +257,7 @@ def launch_app(pkg: Path, seconds: int):
         print(text, flush=True)
 
     if code is not None:
-        error(f"Application return {code}")
+        error(f"Application exited with code {code} before {seconds} s")
 
         ok = False
 
