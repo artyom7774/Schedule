@@ -43,7 +43,6 @@ int randint(int min, int max) {
     return dist(rng);
 }
 
-
 map<int, string> teacherNameByID;
 map<string, int> IDByTeacherName;
 

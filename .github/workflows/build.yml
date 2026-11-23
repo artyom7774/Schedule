@@ -272,7 +272,6 @@ jobs:
 
       - name: Install
         timeout-minutes: 5
-        shell: pwsh
         run: |
           $installer = (Resolve-Path "dist\Schedule-windows-installer.exe").Path
           $dir = Join-Path $env:RUNNER_TEMP "Test"
@@ -292,9 +291,9 @@ jobs:
             Get-Content $log -Tail 50
             throw "python.exe not found after install: $dir\python\python.exe"
           }
+        shell: pwsh
 
       - name: Smoke test
-        shell: pwsh
         run: |
           $dir = Join-Path $env:RUNNER_TEMP "Test"
 
@@ -302,11 +301,11 @@ jobs:
 
           & "$dir\python\python.exe" ".github\smoke.py" $dir --seconds 15
           if ($LASTEXITCODE) { throw "Smoke test failed (code $LASTEXITCODE)" }
+        shell: pwsh
 
       - name: Uninstall
         if: always()
         timeout-minutes: 5
-        shell: pwsh
         run: |
           $dir = Join-Path $env:RUNNER_TEMP "Test"
           $uninstaller = "$dir\unins000.exe"
@@ -328,6 +327,7 @@ jobs:
             $rest = @(Get-ChildItem $dir -Recurse -File -ErrorAction SilentlyContinue)
             Write-Host "::warning::Folder still exists, $($rest.Count) untracked files left (created at runtime)"
           }
+        shell: pwsh
 
   smoke-linux-portable:
     name: Smoke Linux Portable
@@ -361,6 +361,35 @@ jobs:
 
           pkg="$dir/Schedule"
           xvfb-run -a "$pkg/python/bin/python3" .github/smoke.py "$pkg" --seconds 15
+
+  solve-linux-portable:
+    name: Solve Linux Portable
+
+    needs: smoke-linux-portable
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - name: Download portable
+        uses: actions/download-artifact@v4
+        with:
+          name: build-linux-portable
+          path: dist
+
+      - name: Install libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
+
+      - name: Solve
+        run: |
+          dir="$RUNNER_TEMP/Test"
+          mkdir -p "$dir"
+          tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
+
+          pkg="$dir/Schedule"
+          xvfb-run "./$pkg/src/modules/solve"
 
   release:
     name: Release
