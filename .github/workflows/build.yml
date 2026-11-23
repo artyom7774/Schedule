@@ -15,9 +15,9 @@ defaults:
 jobs:
   build-windows-python:
     name: Windows Python
-    
+
     runs-on: windows-latest
-    
+
     defaults:
       run:
         shell: pwsh
@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Setup Python
+      - name: Setup python
         uses: actions/setup-python@v6
         with:
           python-version: "3.11"
@@ -42,7 +42,7 @@ jobs:
           Get-ChildItem -Path "windows" -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
           if (Test-Path "windows\Lib\test") { Remove-Item "windows\Lib\test" -Recurse -Force }
 
-      - name: Copy Qt plugins
+      - name: Copy qt plugins
         run: |
           $base = "windows\Lib\site-packages\PyQt5\Qt5\plugins"
 
@@ -67,10 +67,10 @@ jobs:
 
   build-windows-installer:
     name: Windows Installer
-    
+
     needs: build-windows-python
     runs-on: windows-latest
-    
+
     defaults:
       run:
         shell: pwsh
@@ -79,7 +79,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Download Python
+      - name: Download python
         uses: actions/download-artifact@v7
         with:
           name: python-windows
@@ -102,7 +102,7 @@ jobs:
 
   build-windows-portable:
     name: Windows Portable
-    
+
     needs: build-windows-python
     runs-on: windows-latest
 
@@ -114,7 +114,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Download Python
+      - name: Download python
         uses: actions/download-artifact@v7
         with:
           name: python-windows
@@ -160,7 +160,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Setup Python
+      - name: Setup python
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -176,7 +176,7 @@ jobs:
 
           rm -rf linux/lib/python3.11/test
 
-      - name: Check Qt plugins
+      - name: Check qt plugins
         run: |
           base="linux/lib/python3.11/site-packages/PyQt5/Qt5/plugins"
           for f in platforms/libqxcb.so imageformats/libqsvg.so iconengines/libqsvgicon.so; do
@@ -202,7 +202,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Download Python
+      - name: Download python
         uses: actions/download-artifact@v7
         with:
           name: python-linux
@@ -235,21 +235,35 @@ jobs:
   build-linux-executable:
     name: Linux Executable
 
-    needs: build-linux-portable
+    needs: build-linux-python
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download portable
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Download python
         uses: actions/download-artifact@v7
         with:
-          name: build-linux-portable
-          path: dist
+          name: python-linux
+          path: python
 
-      - name: Prepare AppDir
+      - name: Build solver
+        run: bash ./compile.sh
+
+      - name: Assemble dir
         run: |
-          dst="AppDir/opt"
+          dst="AppDir/opt/Schedule"
           mkdir -p "$dst"
-          tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dst"
+
+          cp Schedule.exe Schedule.py start.py requirements.txt README.md profile.bat LICENSE compile.bat Schedule.sh compile.sh "$dst/"
+          cp -r last src python "$dst/"
+
+          chmod +x "$dst/Schedule.sh" "$dst/python/bin/"* "$dst/src/modules/solve"
+
+      - name: Prepare dir
+        run: |
+          dst="AppDir/opt/Schedule"
 
           echo "$GITHUB_RUN_NUMBER" > AppDir/version
 
@@ -289,11 +303,11 @@ jobs:
           Terminal=false
           EOF
 
-          cp "$dst/Schedule/src/files/sprites/icon.ico" AppDir/schedule.png
+          cp "$dst/src/files/sprites/icon.ico" AppDir/schedule.png
 
-          chmod +x AppDir/AppRun "$dst/Schedule/python/bin/"* "$dst/Schedule/src/modules/solve"
+          chmod +x AppDir/AppRun
 
-      - name: Build AppImage
+      - name: Build executable
         run: |
           wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
@@ -599,7 +613,7 @@ jobs:
       - name: Install rclone
         run: curl -fsSL https://rclone.org/install.sh | sudo bash
 
-      - name: Upload to Yandex Disk
+      - name: Upload to yandex disk
         env:
           RCLONE_CONFIG_SCHEDULE_TOKEN: ${{ secrets.YANDEX_TOKEN }}
           RCLONE_CONFIG_SCHEDULE_HARD_DELETE: "true"
