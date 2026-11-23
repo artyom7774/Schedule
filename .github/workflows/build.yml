@@ -235,19 +235,38 @@ jobs:
           name: build-linux-portable
           path: dist
 
-      - name: Prepare AppDir
+      - name: Prepare
         run: |
           dst="AppDir/opt"
           mkdir -p "$dst"
           tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dst"
           
+          echo "${{ github.run_number }}" > AppDir/version
+          
           cat > AppDir/AppRun <<'EOF'
           #!/bin/sh
           HERE="$(dirname "$(readlink -f "$0")")"
-          APP="$HERE/opt/Schedule"
-          cd "$APP"
+          SRC="$HERE/opt/Schedule"
+          DATA="${XDG_DATA_HOME:-$HOME/.local/share}/Schedule"
+          VER="$(cat "$HERE/version")"
+          
+          if [ "$(cat "$DATA/.version" 2>/dev/null)" != "$VER" ]; then
+            mkdir -p "$DATA"
+            for item in "$SRC"/*; do
+              name="$(basename "$item")"
+              [ "$name" = python ] && continue
+              [ "$name" = last ] && [ -d "$DATA/last" ] && continue
+              rm -rf "$DATA/$name"
+              cp -a "$item" "$DATA/$name"
+            done
+            echo "$VER" > "$DATA/.version"
+          fi
+          
+          ln -sfn "$SRC/python" "$DATA/python"
+          
+          cd "$DATA"
           export PYTHONDONTWRITEBYTECODE=1
-          exec "$APP/python/bin/python3" "$APP/start.py" "$@"
+          exec "$DATA/python/bin/python3" "$DATA/start.py" "$@"
           EOF
           
           cat > AppDir/schedule.desktop <<'EOF'
@@ -418,10 +437,10 @@ jobs:
           pkg="$dir/Schedule"
           xvfb-run -a "$pkg/python/bin/python3" .github/smoke.py "$pkg" --seconds 15
 
-  solve-linux-portable:
+  solve-linux:
     name: Solve Linux Portable
 
-    needs: build-linux-portable
+    needs: build-linux-executable
     runs-on: ubuntu-latest
 
     timeout-minutes: 15
