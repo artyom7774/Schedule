@@ -389,7 +389,9 @@ jobs:
           tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
 
           pkg="$dir/Schedule"
-          xvfb-run "./$pkg/src/modules/solve"
+          
+          chmod +x "$pkg/src/modules/solve"
+          xvfb-run "$pkg/src/modules/solve"
 
   release:
     name: Release
