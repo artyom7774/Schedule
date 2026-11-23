@@ -16,7 +16,7 @@ using namespace std;
 
 using json = nlohmann::json;
 
-int JOB_WEEK_LENGHT     = 5;
+int JOB_WEEK_LENGTH     = 5;
 int MAX_LESSON_IN_DAY   = 8;
 int NUMBER_OF_SHIFTS    = 1;
 int SHIFT_CROSSING      = 0;
@@ -110,13 +110,13 @@ public:
             throw runtime_error("Can not open input file: " + input);
         }
 
-        JOB_WEEK_LENGHT     = settings["working_days_per_week"];
+        JOB_WEEK_LENGTH     = settings["working_days_per_week"];
         MAX_LESSON_IN_DAY   = settings["max_lesson_count_per_day"];
         NUMBER_OF_SHIFTS    = settings["number_of_shifts"];
         SHIFT_CROSSING      = settings["shift_crossing"];
         TEACHER_MAX_LESSONS = settings["max_lesson_for_teacher"];
 
-        SLOTS = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY * NUMBER_OF_SHIFTS;
+        SLOTS = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY * NUMBER_OF_SHIFTS;
 
         for (auto entry : settings["subjects"]) {
             hards[entry[0]] = entry[1];
@@ -187,7 +187,7 @@ public:
 
             for (int shift = 0; shift < NUMBER_OF_SHIFTS; shift++) {
                 for (vector<int> freeSlot : teacher["free"][shift]) {
-                    exclude.push_back(JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY * shift + MAX_LESSON_IN_DAY * freeSlot[0] + freeSlot[1]);
+                    exclude.push_back(JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY * shift + MAX_LESSON_IN_DAY * freeSlot[0] + freeSlot[1]);
                 }
             }
 
@@ -196,7 +196,7 @@ public:
             if (teacher.contains("reserve") && teacher["reserve"].is_array()) {
                 for (int shift = 0; shift < NUMBER_OF_SHIFTS && shift < teacher["reserve"].size(); shift++) {
                     for (vector<int> reserveSlot : teacher["reserve"][shift]) {
-                        int value = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY * shift + MAX_LESSON_IN_DAY * reserveSlot[0] + reserveSlot[1];
+                        int value = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY * shift + MAX_LESSON_IN_DAY * reserveSlot[0] + reserveSlot[1];
 
                         if (value < 0 || value >= SLOTS) {
                             continue;
@@ -377,7 +377,7 @@ public:
         if (settings.contains("capacityDaysByHard")) {
             auto values = settings["capacityDaysByHard"];
 
-            for (int day = 0; day < min(int(values.size()), JOB_WEEK_LENGHT); day++) {
+            for (int day = 0; day < min(int(values.size()), JOB_WEEK_LENGTH); day++) {
                 capacityDaysByHard[day] = values[day];
             }
         }
@@ -385,7 +385,7 @@ public:
         classShiftOffset.assign(teachers.size() + classes.size() + 1, 0);
 
         for (int index = 0; index < classes.size(); index++) {
-            classShiftOffset[teachers.size() + index + 1] = classShifts[index] * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+            classShiftOffset[teachers.size() + index + 1] = classShifts[index] * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
         }
 
         classesByShift.assign(NUMBER_OF_SHIFTS, vector<int>());
@@ -430,7 +430,7 @@ public:
                     continue;
                 }
 
-                if (day < 0 || day >= JOB_WEEK_LENGHT || lesson < 0 || lesson >= MAX_LESSON_IN_DAY) {
+                if (day < 0 || day >= JOB_WEEK_LENGTH || lesson < 0 || lesson >= MAX_LESSON_IN_DAY) {
                     cout << "[WARNING] constants: key \"" << key << "\" out of range for " << cls << "\n";
 
                     continue;
@@ -1012,12 +1012,12 @@ void placeLesson(const Lesson& item, int slot) {
 }
 
 struct Weights {
-    inline static float equalLessons = 5;
-    inline static float notEqualsLessonsCountOnDay = 25;
-    inline static float lessonsEmptySlots = 200;
+    inline static float equalLessons = 100;
+    inline static float notEqualsLessonsCountOnDay = 50;
+    inline static float lessonsEmptySlots = 250;
     inline static float daysByHard = 2;
-    inline static float teacherFreeTime = 5;
-    inline static float teacherSmallDay = 5;
+    inline static float teacherFreeTime = 50;
+    inline static float teacherSmallDay = 25;
     inline static float groupBonus = 10;
     inline static float lessonShiftCrossing = 250;
     inline static float profileGaps = 200;
@@ -1043,7 +1043,7 @@ inline int teacherDayGap(int teacherID, int day, int* out = nullptr) {
     const vector<vector<edge>>& row = graph[teacherID];
 
     const int step = MAX_LESSON_IN_DAY - max(0, SHIFT_CROSSING);
-    const int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+    const int week = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
     uint64_t used = 0;
 
@@ -1057,7 +1057,7 @@ inline int teacherDayGap(int teacherID, int day, int* out = nullptr) {
         }
     }
 
-    used |= teacherReserveMask[(size_t) teacherID * JOB_WEEK_LENGHT + day];
+    used |= teacherReserveMask[(size_t) teacherID * JOB_WEEK_LENGTH + day];
 
     if (out) {
         *out = __builtin_popcountll(used);
@@ -1079,7 +1079,7 @@ inline int teacherDayLessons(const vector<vector<edge>>& row, int day) {
     int count = 0;
 
     for (int shift = 0; shift < NUMBER_OF_SHIFTS; shift++) {
-        int base = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+        int base = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
 
         for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
             if (!row[base + lesson].empty()) {
@@ -1097,7 +1097,7 @@ inline int teacherDayLoad(int teacherID, int day) {
     int count = 0;
 
     for (int shift = 0; shift < NUMBER_OF_SHIFTS; shift++) {
-        int base = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+        int base = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
 
         for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
             if (!row[base + lesson].empty() || teacherReserve[teacherID][base + lesson]) {
@@ -1141,11 +1141,11 @@ public:
 
         int offset = data.classShiftOffset[cls];
 
-        vector<int> lengths(JOB_WEEK_LENGHT, 0);
+        vector<int> lengths(JOB_WEEK_LENGTH, 0);
 
         float sum = 0;
 
-        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
             int base = offset + day * MAX_LESSON_IN_DAY;
             int last = 0;
 
@@ -1159,7 +1159,7 @@ public:
             sum += last;
         }
 
-        float avr = sum / JOB_WEEK_LENGHT;
+        float avr = sum / JOB_WEEK_LENGTH;
 
         float value = 0;
 
@@ -1245,11 +1245,11 @@ public:
 
         int offset = data.classShiftOffset[cls];
 
-        vector<float> hardByDay(JOB_WEEK_LENGHT, 0);
+        vector<float> hardByDay(JOB_WEEK_LENGTH, 0);
 
         float sum = 0;
 
-        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
             int base = offset + day * MAX_LESSON_IN_DAY;
 
             for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
@@ -1269,7 +1269,7 @@ public:
             sum += hardByDay[day];
         }
 
-        float avr = sum / JOB_WEEK_LENGHT;
+        float avr = sum / JOB_WEEK_LENGTH;
 
         float value = 0;
 
@@ -1305,7 +1305,7 @@ public:
 
         fill(bufferTeacherLengths.begin(), bufferTeacherLengths.end(), 0);
 
-        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
             int gap = teacherDayGap(teacherID, day);
 
             bufferTeacherLengths[day] = teacherDayLoad(teacherID, day);
@@ -1317,9 +1317,9 @@ public:
 
         if (SHIFT_CROSSING > 0) {
             for (int shift = 0; shift < NUMBER_OF_SHIFTS - 1; shift++) {
-                for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
-                    int base = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
-                    int next = (shift + 1) * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+                for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
+                    int base = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+                    int next = (shift + 1) * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
 
                     for (int step = 0; step < SHIFT_CROSSING; step++) {
                         int left = base + MAX_LESSON_IN_DAY - SHIFT_CROSSING + step;
@@ -1336,7 +1336,7 @@ public:
             }
         }
 
-        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
             value += Weights::teacherLessonLimit * max(0, bufferTeacherLengths[day] - TEACHER_MAX_LESSONS);
 
             if (bufferTeacherLengths[day] > 0) {
@@ -1367,7 +1367,7 @@ const int FUNCTIONS_ARGUMENTS_COUNT = 6;
 vector<float> getClassPoint(int cls) {
     vector<float> answer(FUNCTIONS_ARGUMENTS_COUNT, 0);
 
-    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+    for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
         answer[0] += Functions::equalLessons(cls, day);
         answer[2] += Functions::lessonsEmptySlots(cls, day);
         answer[4] += Functions::groupBonus(cls, day);
@@ -1410,7 +1410,7 @@ float getClassTotal(int cls) {
     float sumEnd = 0;
     float sumHard = 0;
 
-    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+    for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
         const int base = offset + day * MAX_LESSON_IN_DAY;
 
         float equal = 0;
@@ -1508,11 +1508,11 @@ float getClassTotal(int cls) {
         sumEnd += last;
     }
 
-    float avr = sumEnd / JOB_WEEK_LENGHT;
+    float avr = sumEnd / JOB_WEEK_LENGTH;
 
     float value = 0;
 
-    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+    for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
         float diff = bufferEnds[day] - avr;
 
         value += diff * diff;
@@ -1520,11 +1520,11 @@ float getClassTotal(int cls) {
 
     answer += Weights::notEqualsLessonsCountOnDay * value;
 
-    float averageHard = sumHard / JOB_WEEK_LENGHT;
+    float averageHard = sumHard / JOB_WEEK_LENGTH;
 
     value = 0;
 
-    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+    for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
         value += abs(averageHard - bufferHards[day]);
     }
 
@@ -1564,7 +1564,7 @@ float TEACHER_FAIR = 100;
 float teacherGaps(int teacherID) {
     float value = 0;
 
-    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+    for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
         int gap = teacherDayGap(teacherID, day);
 
         value += Weights::teacherFreeTime * static_cast<float>(gap * gap);
@@ -1686,7 +1686,7 @@ namespace kempe {
     }
 
     inline int shiftForDay(int teacherID, int shift, int day) {
-        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int week = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
         int bestShift = -1, bestCount = INT_MAX;
 
@@ -1716,12 +1716,12 @@ namespace kempe {
     }
 
     bool pickSmallDay(int teacherID, int shift, int& slotA, int& slotB) {
-        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int week = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
-        vector<int> dailyLessons(JOB_WEEK_LENGHT, 0);
+        vector<int> dailyLessons(JOB_WEEK_LENGTH, 0);
         vector<int> smallDays;
 
-        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
             dailyLessons[day] = teacherDayLessons(graph[teacherID], day);
 
             if (dailyLessons[day] == 0) {
@@ -1763,7 +1763,7 @@ namespace kempe {
 
         vector<int> candidates;
 
-        for (int secondDay = 0; secondDay < JOB_WEEK_LENGHT; secondDay++) {
+        for (int secondDay = 0; secondDay < JOB_WEEK_LENGTH; secondDay++) {
             if (secondDay == firstDay || dailyLessons[secondDay] == 0) {
                 continue;
             }
@@ -1811,9 +1811,9 @@ namespace kempe {
     }
 
     bool pickWindow(int teacherID, int shift, int& slotA, int& slotB) {
-        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int week = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
-        int day = randint(0, JOB_WEEK_LENGHT - 1);
+        int day = randint(0, JOB_WEEK_LENGTH - 1);
         int base = shift * week + day * MAX_LESSON_IN_DAY;
 
         int first = -1, last = -1, count = 0;
@@ -1903,7 +1903,7 @@ namespace kempe {
             return false;
         }
 
-        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int week = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
         int offset = sh * week;
 
         int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
@@ -1955,10 +1955,10 @@ namespace move {
         auto& shiftClasses = data.classesByShift[shift];
 
         int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
-        int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int off = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
-        int slotA = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-        int slotB = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+        int slotA = off + randint(0, JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY - 1);
+        int slotB = off + randint(0, JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY - 1);
 
         if (slotA == slotB) {
             return;
@@ -2103,10 +2103,10 @@ namespace move {
             return;
         }
 
-        int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int off = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
-        int color1 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
-        int color2 = off + randint(0, JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY - 1);
+        int color1 = off + randint(0, JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY - 1);
+        int color2 = off + randint(0, JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY - 1);
 
         if (color1 == color2) {
             return;
@@ -2236,8 +2236,8 @@ namespace move {
 
         int cls = shiftClasses[randint(0, shiftClasses.size() - 1)];
 
-        int off = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
-        int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+        int off = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
+        int week = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
         int slotA = off + randint(0, week - 1);
 
@@ -2650,7 +2650,7 @@ json save() {
 
         answer[name] = json::array();
 
-        for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+        for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
             answer[name].push_back(json::array());
 
             for (int lesson = 0; lesson < MAX_LESSON_IN_DAY; lesson++) {
@@ -2764,7 +2764,7 @@ namespace metrics {
         for (int teacher = 1; teacher <= data.teachers.size(); teacher++) {
             double sumGap = 0, gapSq = 0, smallDaySq = 0, overLimit = 0, cross = 0, rankSum = 0;
 
-            for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
+            for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
                 int gap  = teacherDayGap(teacher, day);
                 int load = teacherDayLoad(teacher, day);
 
@@ -2784,9 +2784,9 @@ namespace metrics {
                 const vector<vector<edge>>& row = graph[teacher];
 
                 for (int shift = 0; shift < NUMBER_OF_SHIFTS - 1; shift++) {
-                    for (int day = 0; day < JOB_WEEK_LENGHT; day++) {
-                        int base = shift * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
-                        int next = (shift + 1) * JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+                    for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
+                        int base = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+                        int next = (shift + 1) * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
 
                         for (int step = 0; step < SHIFT_CROSSING; step++) {
                             int left  = base + MAX_LESSON_IN_DAY - SHIFT_CROSSING + step;
@@ -2898,7 +2898,7 @@ int main(int argc, char** argv) {
 
     DATA = &data;
 
-    SUBJECT_MULTI_DAY_THRESHOLD = JOB_WEEK_LENGHT + 1;
+    SUBJECT_MULTI_DAY_THRESHOLD = JOB_WEEK_LENGTH + 1;
 
     int size = data.teachers.size() + data.classes.size() + 3;
 
@@ -2913,7 +2913,7 @@ int main(int argc, char** argv) {
         throw runtime_error("too many shift positions for 64-bit mask");
     }
 
-    teacherReserveMask.assign((size_t) size * JOB_WEEK_LENGHT, 0);
+    teacherReserveMask.assign((size_t) size * JOB_WEEK_LENGTH, 0);
 
     locked.assign(size, vector<SubjectSet>(SLOTS));
 
@@ -2927,9 +2927,9 @@ int main(int argc, char** argv) {
 
     bufferCounter.assign(subjectNameByID.size() + 2, 0);
 
-    bufferTeacherLengths.assign(JOB_WEEK_LENGHT, 0);
-    bufferEnds.assign(JOB_WEEK_LENGHT, 0);
-    bufferHards.assign(JOB_WEEK_LENGHT, 0);
+    bufferTeacherLengths.assign(JOB_WEEK_LENGTH, 0);
+    bufferEnds.assign(JOB_WEEK_LENGTH, 0);
+    bufferHards.assign(JOB_WEEK_LENGTH, 0);
 
     for (int index = 0; index < data.teachers.size(); index++) {
         for (int slot : data.free[index]) {
@@ -2939,13 +2939,13 @@ int main(int argc, char** argv) {
         for (int slot : data.reserve[index]) {
             teacherReserve[index + 1][slot] = 1;
 
-            const int week = JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY;
+            const int week = JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY;
 
             int shift = slot / week;
             int day = (slot % week) / MAX_LESSON_IN_DAY;
             int lesson = slot % MAX_LESSON_IN_DAY;
 
-            teacherReserveMask[(size_t) (index + 1) * JOB_WEEK_LENGHT + day] |= 1ULL << (shift * positionStep + lesson);
+            teacherReserveMask[(size_t) (index + 1) * JOB_WEEK_LENGTH + day] |= 1ULL << (shift * positionStep + lesson);
         }
     }
 
@@ -3048,7 +3048,7 @@ int main(int argc, char** argv) {
 
             vector<int> candidates;
 
-            for (int slot = item.base; slot < item.base + JOB_WEEK_LENGHT * MAX_LESSON_IN_DAY; slot++) {
+            for (int slot = item.base; slot < item.base + JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY; slot++) {
                 if (!canPlaceLesson(item.cls, slot, item.subjectID)) {
                     continue;
                 }

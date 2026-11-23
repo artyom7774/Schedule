@@ -382,6 +382,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
 
+      - name: Create dir
+        run: |
+          mkdir -p .github/out
+
       - name: Solve
         run: |
           dir="$RUNNER_TEMP/Test"
@@ -391,7 +395,13 @@ jobs:
           pkg="$dir/Schedule"
           
           chmod +x "$pkg/src/modules/solve"
-          xvfb-run "$pkg/src/modules/solve"
+          xvfb-run "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/scr/files/test/test.json" --output ".github/out/answer.json" --seed 0
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: solve-linux-portable
+          path: .github/out/answer.json
 
   release:
     name: Release
