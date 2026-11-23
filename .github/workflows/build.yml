@@ -466,6 +466,7 @@ jobs:
       - smoke-windows-installer
       - smoke-windows-portable
       - smoke-linux-portable
+      - build-linux-executable
     runs-on: ubuntu-latest
 
     steps:
