@@ -365,7 +365,7 @@ jobs:
   solve-linux-portable:
     name: Solve Linux Portable
 
-    needs: smoke-linux-portable
+    needs: build-linux-portable
     runs-on: ubuntu-latest
 
     timeout-minutes: 15
