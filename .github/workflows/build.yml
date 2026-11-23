@@ -397,12 +397,6 @@ jobs:
           chmod +x "$pkg/src/modules/solve"
           xvfb-run "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/src/files/test/test.json" --output ".github/out/answer.json" --seed 1  2>&1 | tee solve.log
 
-      - name: Summary
-        run: |
-          {
-            cat solve.log
-          } >> "$GITHUB_STEP_SUMMARY"
-
       - name: Upload
         uses: actions/upload-artifact@v6
         with:
@@ -448,6 +442,8 @@ jobs:
 
   mirror:
     name: Mirror
+
+    if: false
 
     needs: release
     runs-on: ubuntu-latest
