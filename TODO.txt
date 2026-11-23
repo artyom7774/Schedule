@@ -45,3 +45,8 @@
 - перемешивать первое и второе расписание в вопросе ллм местами
 - около 10 запросов на 1 вопрос
 6. (4, 5) использовать LLM для сравнения
+
+- portable and appimage version for linux
+- add smoke test for workflow build
+- fixed bug with classroom enable stat saving
+- fixed bug with some constants in one slot

@@ -79,6 +79,9 @@ class TabClassrooms(QWidget):
     def enablePushButtonClickedConnect(self):
         self.window.settings["classrooms"]["enable"] = 1 - self.window.settings["classrooms"]["enable"]
 
+        with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
+            json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
+
         TabClassrooms.init(self.window, ignore=[TAB_CLASSROOMS, TAB_TEACHERS], reverse=True)
 
     def roomGroupsItemClicked(self, item):

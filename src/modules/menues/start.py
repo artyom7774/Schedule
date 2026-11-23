@@ -123,16 +123,11 @@ def theme(window):
     with open(f"{PATH_TO_FOLDER}/settings.json", "w", encoding="utf-8") as file:
         json.dump(settings, file, indent=4)
 
-    thr = threading.Thread(target=lambda: subprocess.run(
-        ["./python/Scripts/python.exe", "-OO", "-s", "Schedule.py"] if os.path.exists("python/Scripts/python.exe") else ["./python/python.exe", "-OO", "-s", "Schedule.py"],
-        capture_output=True,
-        text=True,
-        creationflags=subprocess.CREATE_NO_WINDOW
-    ))
-
-    thr.start()
-
     window.close()
+
+    from start import run
+
+    run()
 
 
 def resize(window) -> None:

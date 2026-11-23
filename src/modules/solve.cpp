@@ -436,25 +436,45 @@ public:
                     continue;
                 }
 
-                if (!value.is_string()) {
-                    continue;
-                }
+                vector<string> subjectNames;
 
-                string subject = value;
+                if (value.is_string()) {
+                    subjectNames.push_back(value.get<string>());
 
-                if (subject.empty() || subject == "-") {
-                    continue;
-                }
+                } else if (value.is_array()) {
+                    for (auto& element : value) {
+                        if (element.is_string()) {
+                            subjectNames.push_back(element.get<string>());
+                        }
+                    }
 
-                if (!IDBySubjectName.count(subject)) {
-                    cout << "[WARNING] constants: unknown subject \"" << subject << "\" for " << cls << "\n";
-
+                } else {
                     continue;
                 }
 
                 int slot = classShiftOffset[IDByClassName[cls]] + day * MAX_LESSON_IN_DAY + lesson;
 
-                constants.push_back(Constant{IDByClassName[cls], slot, IDBySubjectName[subject]});
+                set<string> seen;
+
+                for (const string& subject : subjectNames) {
+                    if (subject.empty() || subject == "-") {
+                        continue;
+                    }
+
+                    if (!IDBySubjectName.count(subject)) {
+                        cout << "[WARNING] constants: unknown subject \"" << subject << "\" for " << cls << "\n";
+
+                        continue;
+                    }
+
+                    if (!seen.insert(subject).second) {
+                        cout << "[WARNING] constants: duplicate subject \"" << subject << "\" in " << key << " for " << cls << "\n";
+
+                        continue;
+                    }
+
+                    constants.push_back(Constant{IDByClassName[cls], slot, IDBySubjectName[subject]});
+                }
             }
         }
 

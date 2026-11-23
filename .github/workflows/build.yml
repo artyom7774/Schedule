@@ -8,16 +8,25 @@ permissions:
 env:
   TAG: "#${{ github.run_number }}"
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build-windows-python:
     name: Windows Python
-
+    
     runs-on: windows-latest
+    
+    defaults:
+      run:
+        shell: pwsh
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - name: Setup python
+      - name: Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.11"
@@ -32,59 +41,60 @@ jobs:
 
           Get-ChildItem -Path "windows" -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
           if (Test-Path "windows\Lib\test") { Remove-Item "windows\Lib\test" -Recurse -Force }
-        shell: pwsh
 
-      - name: Plugins
+      - name: Copy Qt plugins
         run: |
-          $base = "windows\Lib\site-packages\PyQt5\Qt5"
+          $base = "windows\Lib\site-packages\PyQt5\Qt5\plugins"
 
           foreach ($name in @("platforms", "styles", "imageformats", "iconengines")) {
-            if (Test-Path "$base\plugins\$name") {
+            if (Test-Path "$base\$name") {
               New-Item -ItemType Directory -Path "windows\$name" -Force | Out-Null
-              Copy-Item -Path "$base\plugins\$name\*" -Destination "windows\$name" -Recurse -Force
+              Copy-Item -Path "$base\$name\*" -Destination "windows\$name" -Recurse -Force
             }
           }
 
           foreach ($f in @("platforms\qwindows.dll", "imageformats\qsvg.dll", "iconengines\qsvgicon.dll")) {
             if (-not (Test-Path "windows\$f")) {
-              Write-Error "$f not found!"
+              throw "$f not found!"
             }
           }
-        shell: pwsh
 
-      - name: Upload
+      - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: build-windows-python
+          name: python-windows
           path: windows
 
   build-windows-installer:
     name: Windows Installer
-
+    
     needs: build-windows-python
     runs-on: windows-latest
+    
+    defaults:
+      run:
+        shell: pwsh
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - name: Download python
+      - name: Download Python
         uses: actions/download-artifact@v7
         with:
-          name: build-windows-python
+          name: python-windows
           path: python
 
       - name: Build solver
-        run: |
-          ./compile.bat
-        shell: pwsh
+        run: ./compile.bat
 
-      - name: Windows compile
+      - name: Compile installer
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
           path: .github/compile/compile.iss
           options: /Q /O+
 
-      - name: Upload
+      - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: build-windows-installer
@@ -92,53 +102,50 @@ jobs:
 
   build-windows-portable:
     name: Windows Portable
-
+    
     needs: build-windows-python
     runs-on: windows-latest
 
+    defaults:
+      run:
+        shell: pwsh
+
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
       - name: Download Python
         uses: actions/download-artifact@v7
         with:
-          name: build-windows-python
+          name: python-windows
           path: python
 
       - name: Build solver
-        run: |
-          ./compile.bat
-        shell: pwsh
+        run: ./compile.bat
 
-      - name: Windows portable
+      - name: Assemble portable
         run: |
           $dst = "portable/Schedule"
-
           New-Item -ItemType Directory -Path $dst -Force | Out-Null
 
-          Copy-Item -Path "Schedule.exe"      -Destination $dst -Force
-          Copy-Item -Path "Schedule.py"       -Destination $dst -Force
-          Copy-Item -Path "start.py"          -Destination $dst -Force
-          Copy-Item -Path "requirements.txt"  -Destination $dst -Force
-          Copy-Item -Path "README.md"         -Destination $dst -Force
-          Copy-Item -Path "profile.bat"       -Destination $dst -Force
-          Copy-Item -Path "LICENSE"           -Destination $dst -Force
-          Copy-Item -Path "compile.bat"       -Destination $dst -Force
-          Copy-Item -Path "Schedule.sh"       -Destination $dst -Force
-          Copy-Item -Path "compile.sh"        -Destination $dst -Force
+          $files = @(
+            "Schedule.exe", "Schedule.py", "start.py", "requirements.txt", "README.md",
+            "profile.bat", "LICENSE", "compile.bat", "Schedule.sh", "compile.sh"
+          )
+          foreach ($f in $files) {
+            Copy-Item -Path $f -Destination $dst -Force
+          }
 
-          Copy-Item -Path "last"    -Destination "$dst/last"   -Recurse -Force
-          Copy-Item -Path "src"     -Destination "$dst/src"    -Recurse -Force
-          Copy-Item -Path "python"  -Destination "$dst/python" -Recurse -Force
-        shell: pwsh
+          foreach ($d in @("last", "src", "python")) {
+            Copy-Item -Path $d -Destination "$dst/$d" -Recurse -Force
+          }
 
-      - name: Create zip archive
+      - name: Create archive
         run: |
           New-Item -ItemType Directory -Path ".github/out" -Force | Out-Null
           Compress-Archive -Path "portable/Schedule" -DestinationPath ".github/out/Schedule-windows-portable.zip" -Force
-        shell: pwsh
 
-      - name: Upload
+      - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: build-windows-portable
@@ -150,13 +157,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - name: Setup python
+      - name: Setup Python
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download --repo astral-sh/python-build-standalone --pattern 'cpython-3.11.*-x86_64-unknown-linux-gnu-install_only.tar.gz' --dir /tmp
+          gh release download --repo astral-sh/python-build-standalone \
+            --pattern 'cpython-3.11.*-x86_64-unknown-linux-gnu-install_only.tar.gz' --dir /tmp
           tar -xzf /tmp/cpython-3.11.*-install_only.tar.gz -C .
           mv python linux
 
@@ -167,7 +176,7 @@ jobs:
 
           rm -rf linux/lib/python3.11/test
 
-      - name: Plugins
+      - name: Check Qt plugins
         run: |
           base="linux/lib/python3.11/site-packages/PyQt5/Qt5/plugins"
           for f in platforms/libqxcb.so imageformats/libqsvg.so iconengines/libqsvgicon.so; do
@@ -177,10 +186,10 @@ jobs:
             fi
           done
 
-      - name: Upload
+      - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: build-linux-python
+          name: python-linux
           path: linux
 
   build-linux-portable:
@@ -190,18 +199,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - name: Download python
+      - name: Download Python
         uses: actions/download-artifact@v7
         with:
-          name: build-linux-python
+          name: python-linux
           path: python
 
       - name: Build solver
         run: bash ./compile.sh
 
-      - name: Linux portable
+      - name: Assemble portable
         run: |
           dst="portable/Schedule"
           mkdir -p "$dst"
@@ -216,7 +226,7 @@ jobs:
           mkdir -p .github/out
           tar -czf .github/out/Schedule-linux-portable.tar.gz -C portable Schedule
 
-      - name: Upload
+      - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: build-linux-portable
@@ -235,21 +245,21 @@ jobs:
           name: build-linux-portable
           path: dist
 
-      - name: Prepare
+      - name: Prepare AppDir
         run: |
           dst="AppDir/opt"
           mkdir -p "$dst"
           tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dst"
-          
-          echo "${{ github.run_number }}" > AppDir/version
-          
+
+          echo "$GITHUB_RUN_NUMBER" > AppDir/version
+
           cat > AppDir/AppRun <<'EOF'
           #!/bin/sh
           HERE="$(dirname "$(readlink -f "$0")")"
           SRC="$HERE/opt/Schedule"
           DATA="${XDG_DATA_HOME:-$HOME/.local/share}/Schedule"
           VER="$(cat "$HERE/version")"
-          
+
           if [ "$(cat "$DATA/.version" 2>/dev/null)" != "$VER" ]; then
             mkdir -p "$DATA"
             for item in "$SRC"/*; do
@@ -261,14 +271,14 @@ jobs:
             done
             echo "$VER" > "$DATA/.version"
           fi
-          
+
           ln -sfn "$SRC/python" "$DATA/python"
-          
+
           cd "$DATA"
           export PYTHONDONTWRITEBYTECODE=1
           exec "$DATA/python/bin/python3" "$DATA/start.py" "$@"
           EOF
-          
+
           cat > AppDir/schedule.desktop <<'EOF'
           [Desktop Entry]
           Type=Application
@@ -278,20 +288,21 @@ jobs:
           Categories=Office;
           Terminal=false
           EOF
-          
+
           cp "$dst/Schedule/src/files/sprites/icon.ico" AppDir/schedule.png
-          
+
           chmod +x AppDir/AppRun "$dst/Schedule/python/bin/"* "$dst/Schedule/src/modules/solve"
 
       - name: Build AppImage
         run: |
           wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
-          
-          mkdir -p .github/out
-          ARCH=x86_64 ./appimagetool-x86_64.AppImage --appimage-extract-and-run AppDir .github/out/Schedule-linux-executable.AppImage
 
-      - name: Upload
+          mkdir -p .github/out
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage --appimage-extract-and-run \
+            AppDir .github/out/Schedule-linux-executable.AppImage
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: build-linux-executable
@@ -305,8 +316,13 @@ jobs:
 
     timeout-minutes: 15
 
+    defaults:
+      run:
+        shell: pwsh
+
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout .github
+        uses: actions/checkout@v5
         with:
           sparse-checkout: .github
 
@@ -317,7 +333,6 @@ jobs:
           path: dist
 
       - name: Smoke test
-        shell: pwsh
         run: |
           $dir = Join-Path $env:RUNNER_TEMP "Test"
           Expand-Archive "dist\Schedule-windows-portable.zip" -DestinationPath $dir -Force
@@ -334,8 +349,13 @@ jobs:
 
     timeout-minutes: 15
 
+    defaults:
+      run:
+        shell: pwsh
+
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout .github
+        uses: actions/checkout@v5
         with:
           sparse-checkout: .github
 
@@ -366,17 +386,14 @@ jobs:
             Get-Content $log -Tail 50
             throw "python.exe not found after install: $dir\python\python.exe"
           }
-        shell: pwsh
 
       - name: Smoke test
         run: |
           $dir = Join-Path $env:RUNNER_TEMP "Test"
-
           $env:PYTHONDONTWRITEBYTECODE = "1"
 
           & "$dir\python\python.exe" ".github\smoke.py" $dir --seconds 15
           if ($LASTEXITCODE) { throw "Smoke test failed (code $LASTEXITCODE)" }
-        shell: pwsh
 
       - name: Uninstall
         if: always()
@@ -402,7 +419,6 @@ jobs:
             $rest = @(Get-ChildItem $dir -Recurse -File -ErrorAction SilentlyContinue)
             Write-Host "::warning::Folder still exists, $($rest.Count) untracked files left (created at runtime)"
           }
-        shell: pwsh
 
   smoke-linux-portable:
     name: Smoke Linux Portable
@@ -413,7 +429,8 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout .github
+        uses: actions/checkout@v5
         with:
           sparse-checkout: .github
 
@@ -457,26 +474,72 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
 
-      - name: Create dir
-        run: |
-          mkdir -p .github/out
-
       - name: Solve
         run: |
           dir="$RUNNER_TEMP/Test"
-          mkdir -p "$dir"
+          mkdir -p "$dir" .github/out
           tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
 
           pkg="$dir/Schedule"
-          
           chmod +x "$pkg/src/modules/solve"
-          xvfb-run "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/src/files/test/test.json" --output ".github/out/answer.json" --seed 1  2>&1 | tee solve.log
 
-      - name: Upload
+          xvfb-run -a "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/src/files/test/test.json" --output ".github/out/answer.json" --seed 1 2>&1 | tee solve.log
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: solve-linux-portable
           path: .github/out/answer.json
+
+  smoke-linux-executable:
+    name: Smoke Linux Executable
+
+    needs: build-linux-executable
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - name: Download executable
+        uses: actions/download-artifact@v7
+        with:
+          name: build-linux-executable
+          path: dist
+
+      - name: Install libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
+
+      - name: Smoke test
+        run: |
+          export XDG_DATA_HOME="$RUNNER_TEMP/Data"
+          export APPIMAGE_EXTRACT_AND_RUN=1
+          
+          app="$PWD/dist/Schedule-linux-executable.AppImage"
+          data="$XDG_DATA_HOME/Schedule"
+          
+          chmod +x "$app"
+          
+          code=0
+          timeout 20 xvfb-run -a "$app" || code=$?
+          
+          if [ "$code" -ne 124 ]; then
+            echo "::error::AppImage exited before the timeout (code $code)"
+            exit 1
+          fi
+          
+          for f in start.py Schedule.py src .version; do
+            if [ ! -e "$data/$f" ]; then
+              echo "::error::$f not found in $data"
+              exit 1
+            fi
+          done
+          
+          if [ "$(cat "$data/.version")" != "$GITHUB_RUN_NUMBER" ]; then
+            echo "::error::Wrong version in $data/.version: $(cat "$data/.version")"
+            exit 1
+          fi
 
   release:
     name: Release
@@ -485,21 +548,16 @@ jobs:
       - smoke-windows-installer
       - smoke-windows-portable
       - smoke-linux-portable
-      - build-linux-executable
+      - smoke-linux-executable
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download installer
+      - name: Download artifacts
         uses: actions/download-artifact@v7
         with:
-          name: build-windows-installer
-          path: artifacts/build-windows-installer
-
-      - name: Download portable
-        uses: actions/download-artifact@v7
-        with:
-          pattern: build-*-portable
+          pattern: build-*
           path: artifacts
+          merge-multiple: true
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -510,9 +568,10 @@ jobs:
           draft: true
           fail_on_unmatched_files: true
           files: |
-            artifacts/build-windows-installer/Schedule-windows-installer.exe
-            artifacts/build-windows-portable/Schedule-windows-portable.zip
-            artifacts/build-linux-portable/Schedule-linux-portable.tar.gz
+            artifacts/Schedule-windows-installer.exe
+            artifacts/Schedule-windows-portable.zip
+            artifacts/Schedule-linux-portable.tar.gz
+            artifacts/Schedule-linux-executable.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -525,16 +584,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download installer
+      - name: Download artifacts
         uses: actions/download-artifact@v7
         with:
-          name: build-windows-installer
-          path: artifacts
-
-      - name: Download portable
-        uses: actions/download-artifact@v7
-        with:
-          pattern: build-*-portable
+          pattern: build-*
           path: artifacts
           merge-multiple: true
 
@@ -544,8 +597,7 @@ jobs:
           test -n "$(ls -A artifacts)"
 
       - name: Install rclone
-        run: |
-          curl -fsSL https://rclone.org/install.sh | sudo bash
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash
 
       - name: Upload to Yandex Disk
         env:
