@@ -222,6 +222,62 @@ jobs:
           name: build-linux-portable
           path: .github/out/Schedule-linux-portable.tar.gz
 
+  build-linux-executable:
+    name: Linux Executable
+
+    needs: build-linux-portable
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download portable
+        uses: actions/download-artifact@v7
+        with:
+          name: build-linux-portable
+          path: dist
+
+      - name: Prepare AppDir
+        run: |
+          dst="AppDir/opt"
+          mkdir -p "$dst"
+          tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dst"
+          
+          cat > AppDir/AppRun <<'EOF'
+          #!/bin/sh
+          HERE="$(dirname "$(readlink -f "$0")")"
+          APP="$HERE/opt/Schedule"
+          cd "$APP"
+          export PYTHONDONTWRITEBYTECODE=1
+          exec "$APP/python/bin/python3" "$APP/start.py" "$@"
+          EOF
+          
+          cat > AppDir/schedule.desktop <<'EOF'
+          [Desktop Entry]
+          Type=Application
+          Name=Schedule
+          Exec=AppRun
+          Icon=schedule
+          Categories=Office;
+          Terminal=false
+          EOF
+          
+          cp "$dst/Schedule/src/files/sprites/icon.ico" AppDir/schedule.png
+          
+          chmod +x AppDir/AppRun "$dst/Schedule/python/bin/"* "$dst/Schedule/src/modules/solve"
+
+      - name: Build AppImage
+        run: |
+          wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          
+          mkdir -p .github/out
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage --appimage-extract-and-run AppDir .github/out/Schedule-linux-executable.AppImage
+
+      - name: Upload
+        uses: actions/upload-artifact@v6
+        with:
+          name: build-linux-executable
+          path: .github/out/Schedule-linux-executable.AppImage
+
   smoke-windows-portable:
     name: Smoke Windows Portable
 
