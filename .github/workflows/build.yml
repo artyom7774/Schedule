@@ -15,10 +15,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
@@ -53,7 +53,7 @@ jobs:
         shell: pwsh
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: build-windows-python
           path: windows
@@ -65,10 +65,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Download python
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-windows-python
           path: python
@@ -85,7 +85,7 @@ jobs:
           options: /Q /O+
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: build-windows-installer
           path: .github/out/Schedule-windows-installer.exe
@@ -97,10 +97,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Download Python
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-windows-python
           path: python
@@ -139,7 +139,7 @@ jobs:
         shell: pwsh
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: build-windows-portable
           path: .github/out/Schedule-windows-portable.zip
@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup python
         env:
@@ -178,7 +178,7 @@ jobs:
           done
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: build-linux-python
           path: linux
@@ -190,10 +190,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Download python
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-linux-python
           path: python
@@ -217,7 +217,7 @@ jobs:
           tar -czf .github/out/Schedule-linux-portable.tar.gz -C portable Schedule
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: build-linux-portable
           path: .github/out/Schedule-linux-portable.tar.gz
@@ -231,12 +231,12 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           sparse-checkout: .github
 
       - name: Download portable
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-windows-portable
           path: dist
@@ -260,12 +260,12 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           sparse-checkout: .github
 
       - name: Download installer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-windows-installer
           path: dist
@@ -338,12 +338,12 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           sparse-checkout: .github
 
       - name: Download portable
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-linux-portable
           path: dist
@@ -372,7 +372,7 @@ jobs:
 
     steps:
       - name: Download portable
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-linux-portable
           path: dist
@@ -395,10 +395,16 @@ jobs:
           pkg="$dir/Schedule"
           
           chmod +x "$pkg/src/modules/solve"
-          xvfb-run "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/src/files/test/test.json" --output ".github/out/answer.json" --seed 1
+          xvfb-run "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/src/files/test/test.json" --output ".github/out/answer.json" --seed 1  2>&1 | tee solve.log
+
+      - name: Summary
+        run: |
+          {
+            cat solve.log
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: solve-linux-portable
           path: .github/out/answer.json
@@ -414,13 +420,13 @@ jobs:
 
     steps:
       - name: Download installer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-windows-installer
           path: artifacts/build-windows-installer
 
       - name: Download portable
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: build-*-portable
           path: artifacts
@@ -448,13 +454,13 @@ jobs:
 
     steps:
       - name: Download installer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: build-windows-installer
           path: artifacts
 
       - name: Download portable
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: build-*-portable
           path: artifacts
