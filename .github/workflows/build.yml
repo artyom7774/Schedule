@@ -437,10 +437,10 @@ jobs:
           pkg="$dir/Schedule"
           xvfb-run -a "$pkg/python/bin/python3" .github/smoke.py "$pkg" --seconds 15
 
-  solve-linux:
+  solve-linux-portable:
     name: Solve Linux Portable
 
-    needs: build-linux-executable
+    needs: build-linux-portable
     runs-on: ubuntu-latest
 
     timeout-minutes: 15
