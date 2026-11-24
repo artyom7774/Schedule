@@ -468,43 +468,6 @@ jobs:
           pkg="$dir/Schedule"
           xvfb-run -a "$pkg/python/bin/python3" .github/smoke.py "$pkg" --seconds 15
 
-  solve-linux-portable:
-    name: Solve Linux Portable
-
-    needs: build-linux-portable
-    runs-on: ubuntu-latest
-
-    timeout-minutes: 15
-
-    steps:
-      - name: Download portable
-        uses: actions/download-artifact@v7
-        with:
-          name: build-linux-portable
-          path: dist
-
-      - name: Install libraries
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
-
-      - name: Solve
-        run: |
-          dir="$RUNNER_TEMP/Test"
-          mkdir -p "$dir" .github/out
-          tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
-
-          pkg="$dir/Schedule"
-          chmod +x "$pkg/src/modules/solve"
-
-          xvfb-run -a "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/src/files/test/test.json" --output ".github/out/answer.json" --seed 1 2>&1 | tee solve.log
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v6
-        with:
-          name: solve-linux-portable
-          path: .github/out/answer.json
-
   smoke-linux-executable:
     name: Smoke Linux Executable
 
@@ -589,13 +552,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  mirror:
-    name: Mirror
-
-    if: false
+  server:
+    name: Server
 
     needs: release
     runs-on: ubuntu-latest
+
+    env:
+      URL: ${{ secrets.UPLOAD_SITE_URL }}
 
     steps:
       - name: Download artifacts
@@ -603,33 +567,41 @@ jobs:
         with:
           pattern: build-*
           path: artifacts
+
           merge-multiple: true
 
       - name: Check artifacts
         run: |
           ls -lh artifacts
+          
           test -n "$(ls -A artifacts)"
 
-      - name: Install rclone
-        run: curl -fsSL https://rclone.org/install.sh | sudo bash
-
-      - name: Upload to yandex disk
-        env:
-          RCLONE_CONFIG_SCHEDULE_TOKEN: ${{ secrets.YANDEX_TOKEN }}
-          RCLONE_CONFIG_SCHEDULE_HARD_DELETE: "true"
-          RCLONE_CONFIG_SCHEDULE_TYPE: yandex
+      - name: Upload to server
         run: |
           dir="${TAG//#/}"
+          api() { curl -fsS "$@"; }
+          post() { jq -nc --arg p "$2" '{path: $p}' | api -H 'Content-Type: application/json' -d @- "$URL/api/$1"; }
 
-          rclone copy artifacts "schedule:Schedule/$dir" --progress
-          rclone ls "schedule:Schedule/$dir"
+          api -H 'Content-Type: application/json' -d '{"path":"","name":"Schedule"}' "$URL/api/mkdir" || true
+          post delete "Schedule/$dir" || true
+          api -H 'Content-Type: application/json' \
+            -d "$(jq -nc --arg n "$dir" '{path: "Schedule", name: $n}')" "$URL/api/mkdir"
 
-          rclone lsf --dirs-only "schedule:Schedule" \
-            | sed 's#/$##' \
+          for f in artifacts/*; do
+            echo "Uploading $f"
+            api -F "path=Schedule/$dir" -F "files=@$f" "$URL/api/upload"
+            echo
+          done
+
+          api "$URL/api/list?path=Schedule/$dir" | jq -r '.items[] | "\(.size)\t\(.name)"'
+
+          api --get --data-urlencode "path=Schedule" "$URL/api/list" \
+            | jq -r '.items[] | select(.is_dir) | .name' \
             | sort -V \
-            | head -n -5 \
+            | head -n -99 \
             | { grep -vxF "$dir" || true; } \
             | while read -r d; do
                 [ -z "$d" ] && continue
-                rclone purge "schedule:Schedule/$d"
+                post delete "Schedule/$d"
+                echo
               done
