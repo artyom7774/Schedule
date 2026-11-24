@@ -552,8 +552,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  mirror:
-    name: Mirror
+  yandex:
+    name: Yandex
 
     if: false
 
@@ -595,4 +595,57 @@ jobs:
             | while read -r d; do
                 [ -z "$d" ] && continue
                 rclone purge "schedule:Schedule/$d"
+              done
+
+  server:
+    name: Server
+
+    needs: release
+    runs-on: ubuntu-latest
+
+    env:
+      URL: ${{ secrets.UPLOAD_SITE_URL }}
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v7
+        with:
+          pattern: build-*
+          path: artifacts
+
+          merge-multiple: true
+
+      - name: Check artifacts
+        run: |
+          ls -lh artifacts
+          test -n "$(ls -A artifacts)"
+
+      - name: Upload to server
+        run: |
+          dir="${TAG//#/}"
+          api() { curl -fsS "$@"; }
+          post() { jq -nc --arg p "$2" '{path: $p}' | api -H 'Content-Type: application/json' -d @- "$URL/api/$1"; }
+
+          api -H 'Content-Type: application/json' -d '{"path":"","name":"Schedule"}' "$URL/api/mkdir" || true
+          post delete "Schedule/$dir" || true
+          api -H 'Content-Type: application/json' \
+            -d "$(jq -nc --arg n "$dir" '{path: "Schedule", name: $n}')" "$URL/api/mkdir"
+
+          for f in artifacts/*; do
+            echo "Uploading $f"
+            api -F "path=Schedule/$dir" -F "files=@$f" "$URL/api/upload"
+            echo
+          done
+
+          api "$URL/api/list?path=Schedule/$dir" | jq -r '.items[] | "\(.size)\t\(.name)"'
+
+          api --get --data-urlencode "path=Schedule" "$URL/api/list" \
+            | jq -r '.items[] | select(.is_dir) | .name' \
+            | sort -V \
+            | head -n -5 \
+            | { grep -vxF "$dir" || true; } \
+            | while read -r d; do
+                [ -z "$d" ] && continue
+                post delete "Schedule/$d"
+                echo
               done
