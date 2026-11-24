@@ -468,43 +468,6 @@ jobs:
           pkg="$dir/Schedule"
           xvfb-run -a "$pkg/python/bin/python3" .github/smoke.py "$pkg" --seconds 15
 
-  solve-linux-portable:
-    name: Solve Linux Portable
-
-    needs: build-linux-portable
-    runs-on: ubuntu-latest
-
-    timeout-minutes: 15
-
-    steps:
-      - name: Download portable
-        uses: actions/download-artifact@v7
-        with:
-          name: build-linux-portable
-          path: dist
-
-      - name: Install libraries
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
-
-      - name: Solve
-        run: |
-          dir="$RUNNER_TEMP/Test"
-          mkdir -p "$dir" .github/out
-          tar -xzf dist/Schedule-linux-portable.tar.gz -C "$dir"
-
-          pkg="$dir/Schedule"
-          chmod +x "$pkg/src/modules/solve"
-
-          xvfb-run -a "$pkg/src/modules/solve" --iterations 100000000 --input "$pkg/src/files/test/test.json" --output ".github/out/answer.json" --seed 1 2>&1 | tee solve.log
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v6
-        with:
-          name: solve-linux-portable
-          path: .github/out/answer.json
-
   smoke-linux-executable:
     name: Smoke Linux Executable
 
