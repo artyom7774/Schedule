@@ -618,6 +618,7 @@ jobs:
       - name: Check artifacts
         run: |
           ls -lh artifacts
+          
           test -n "$(ls -A artifacts)"
 
       - name: Upload to server
