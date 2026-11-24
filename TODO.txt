@@ -46,7 +46,8 @@
 - около 10 запросов на 1 вопрос
 6. (4, 5) использовать LLM для сравнения
 
-- portable and appimage version for linux
+- portable and executable version for linux
 - add smoke test for workflow build
 - fixed bug with classroom enable stat saving
 - fixed bug with some constants in one slot
+- update logging for solve in run menu

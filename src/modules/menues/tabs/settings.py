@@ -243,10 +243,23 @@ class TabSettings(QWidget):
 
                 return
 
+            if int(text) < 0:
+                object.setText(str(window.settings[parameter]))
+
+                return
+
             if int(text) == window.settings[parameter]:
                 return
 
             window.settings[parameter] = int(text)
+
+        if parameter in ("number_of_shifts", ):
+            for teacher in self.window.settings["teachers"].values():
+                while len(teacher["reserve"]) < self.window.settings["number_of_shifts"]:
+                    teacher["reserve"].append([])
+
+                while len(teacher["free"]) < self.window.settings["number_of_shifts"]:
+                    teacher["free"].append([])
 
         elif parameter in ("subjects", ):
             row, col = another

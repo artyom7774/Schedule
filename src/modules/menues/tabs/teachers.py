@@ -268,8 +268,6 @@ class TabTeachers(QWidget):
             with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
                 json.dump(self.window.settings, file, indent=4, ensure_ascii=False)
 
-        shifts = ["I", "II", "III"][:self.window.settings["number_of_shifts"] + 1] + list([f"{element}" for element in range(4, self.window.settings["number_of_shifts"] + 1)])
-
         for i in range(self.window.settings["number_of_shifts"]):
             teacherFreeTable = QTableWidget(self.window.settings["max_lesson_count_per_day"], self.window.settings["working_days_per_week"], parent=self)
             teacherFreeTable.cellClicked.connect(lambda row, col: self.teacherFreeTableCellClicked(row, col))
@@ -296,7 +294,7 @@ class TabTeachers(QWidget):
 
                     teacherFreeTable.setItem(row, col, item)
 
-            self.teacherFree.addTab(teacherFreeTable, shifts[i])
+            self.teacherFree.addTab(teacherFreeTable, shiftName(i))
 
         if 0 <= self.window.objects.get("shift_selected", -1) < self.window.settings["number_of_shifts"]:
             self.teacherFree.setCurrentIndex(self.window.objects.get("shift_selected"))

@@ -438,12 +438,12 @@ public:
 
                 vector<string> subjectNames;
 
-                if (value.is_string()) {
+                if (value.is_string() && value.size()) {
                     subjectNames.push_back(value.get<string>());
 
                 } else if (value.is_array()) {
                     for (auto& element : value) {
-                        if (element.is_string()) {
+                        if (element.is_string() && element.size()) {
                             subjectNames.push_back(element.get<string>());
                         }
                     }
@@ -1416,6 +1416,88 @@ vector<float> getClassPoint() {
     return answer;
 }
 
+float TEACHER_FAIR = 100;
+
+const int PRINT_ARGUMENTS_COUNT = 11;
+
+vector<float> getTeacherPoint(int teacherID) {
+    vector<float> answer(5, 0);
+
+    for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
+        int gap = teacherDayGap(teacherID, day);
+        int load = teacherDayLoad(teacherID, day);
+
+        answer[0] += Weights::teacherFreeTime * static_cast<float>(gap * gap);
+
+        if (load > 0) {
+            int difference = max(0, TEACHER_SMALL_DAY - load);
+
+            answer[1] += Weights::teacherSmallDay * static_cast<float>(difference * difference);
+        }
+
+        answer[3] += Weights::teacherLessonLimit * max(0, load - TEACHER_MAX_LESSONS);
+    }
+
+    if (SHIFT_CROSSING > 0) {
+        const vector<vector<edge>>& row = graph[teacherID];
+
+        for (int shift = 0; shift < NUMBER_OF_SHIFTS - 1; shift++) {
+            for (int day = 0; day < JOB_WEEK_LENGTH; day++) {
+                int base = shift * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+                int next = (shift + 1) * JOB_WEEK_LENGTH * MAX_LESSON_IN_DAY + day * MAX_LESSON_IN_DAY;
+
+                for (int step = 0; step < SHIFT_CROSSING; step++) {
+                    int left = base + MAX_LESSON_IN_DAY - SHIFT_CROSSING + step;
+                    int right = next + step;
+
+                    bool leftBusy = !row[left].empty() || teacherReserve[teacherID][left];
+                    bool rightBusy = !row[right].empty() || teacherReserve[teacherID][right];
+
+                    if (leftBusy && rightBusy) {
+                        answer[2] += Weights::lessonShiftCrossing;
+                    }
+                }
+            }
+        }
+    }
+
+    answer[4] = Functions::classroomPriority(teacherID);
+
+    return answer;
+}
+
+vector<float> getPrintPoint() {
+    const Data& data = *DATA;
+
+    vector<float> classPoint = getClassPoint();
+
+    vector<float> teacherPoint(5, 0);
+
+    for (int teacherID = 1; teacherID <= (int) data.teachers.size(); teacherID++) {
+        vector<float> temp = getTeacherPoint(teacherID);
+
+        for (int index = 0; index < 5; index++) {
+            teacherPoint[index] += temp[index];
+        }
+    }
+
+    vector<float> answer(PRINT_ARGUMENTS_COUNT, 0);
+
+    answer[0]  = classPoint[0];    // equalLessons
+    answer[1]  = classPoint[1];    // notEqualsLessonsCountOnDay
+    answer[2]  = classPoint[2];    // lessonsEmptySlots
+    answer[3]  = classPoint[3];    // daysByHard
+    answer[4]  = teacherPoint[0];  // teacherFreeTime
+    answer[5]  = teacherPoint[1];  // teacherSmallDay
+    answer[6]  = classPoint[4];    // groupBonus
+    answer[7]  = teacherPoint[2];  // lessonShiftCrossing
+    answer[8]  = classPoint[5];    // profileGaps
+    answer[9]  = teacherPoint[4];  // classroomPriority
+    answer[10] = teacherPoint[3];  // teacherLessonLimit
+
+    return answer;
+}
+
 float getClassTotal(int cls) {
     const Data& data = *DATA;
 
@@ -1578,8 +1660,6 @@ inline bool accept(float delta, float temperature) {
 
     return static_cast<float>(randint(1, 10000000)) / 1e7 < exp(-ratio);
 }
-
-float TEACHER_FAIR = 100;
 
 float teacherGaps(int teacherID) {
     float value = 0;
@@ -3162,11 +3242,15 @@ int main(int argc, char** argv) {
 
             cout << "| ";
 
-            for (auto point : getClassPoint()) {
-                cout << point << " ";
+            ostringstream points;
+
+            points << std::fixed << std::setprecision(0);
+
+            for (float point : getPrintPoint()) {
+                points << point << " ";
             }
 
-            cout << "\n";
+            cout << points.str() << "\n";
         }
 
         int type;

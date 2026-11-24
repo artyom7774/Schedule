@@ -18,12 +18,11 @@ def run():
 
     else:
         subprocess.run(
-            ["./python/bin/python3", "-OO", "Schedule.py"] if os.path.exists("python/bin/python3") else [
-                "./linux/bin/python3", "-OO", "Schedule.py"],
+            ["./python/bin/python3", "-OO", "Schedule.py"] if os.path.exists("python/bin/python3") else ["./linux/bin/python3", "-OO", "Schedule.py"],
             capture_output=True,
             text=True,
             start_new_session=True
         )
 
-
-run()
+if __name__ == "__main__":
+    run()

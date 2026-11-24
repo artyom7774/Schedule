@@ -8,6 +8,11 @@ import os
 def createProject(window):
     name = window.dialog.edit.text()
 
+    if "../" in name:
+        window.dialog.log.setText(translate("log.text.impossible_project_name"))
+
+        return
+
     try:
         with open(f"{PATH_TO_FOLDER}/using/{name}", "w") as file:
             pass
