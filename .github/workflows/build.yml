@@ -552,51 +552,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  yandex:
-    name: Yandex
-
-    if: false
-
-    needs: release
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v7
-        with:
-          pattern: build-*
-          path: artifacts
-          merge-multiple: true
-
-      - name: Check artifacts
-        run: |
-          ls -lh artifacts
-          test -n "$(ls -A artifacts)"
-
-      - name: Install rclone
-        run: curl -fsSL https://rclone.org/install.sh | sudo bash
-
-      - name: Upload to yandex disk
-        env:
-          RCLONE_CONFIG_SCHEDULE_TOKEN: ${{ secrets.YANDEX_TOKEN }}
-          RCLONE_CONFIG_SCHEDULE_HARD_DELETE: "true"
-          RCLONE_CONFIG_SCHEDULE_TYPE: yandex
-        run: |
-          dir="${TAG//#/}"
-
-          rclone copy artifacts "schedule:Schedule/$dir" --progress
-          rclone ls "schedule:Schedule/$dir"
-
-          rclone lsf --dirs-only "schedule:Schedule" \
-            | sed 's#/$##' \
-            | sort -V \
-            | head -n -5 \
-            | { grep -vxF "$dir" || true; } \
-            | while read -r d; do
-                [ -z "$d" ] && continue
-                rclone purge "schedule:Schedule/$d"
-              done
-
   server:
     name: Server
 
@@ -643,7 +598,7 @@ jobs:
           api --get --data-urlencode "path=Schedule" "$URL/api/list" \
             | jq -r '.items[] | select(.is_dir) | .name' \
             | sort -V \
-            | head -n -5 \
+            | head -n -99 \
             | { grep -vxF "$dir" || true; } \
             | while read -r d; do
                 [ -z "$d" ] && continue
