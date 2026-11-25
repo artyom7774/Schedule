@@ -46,7 +46,7 @@
 - около 10 запросов на 1 вопрос
 6. (4, 5) использовать LLM для сравнения
 
-- new menu: Edit - targeted changes to a generated schedule
+- new menu: edit - targeted changes to a generated schedule
 - portable and executable version for linux
 - add smoke test for workflow build
 - fixed bug with classroom enable stat saving
