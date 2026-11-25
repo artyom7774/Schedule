@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Schedule"
-#define MyAppVersion "1.6.0"
+#define MyAppVersion "1.7.0"
 #define MyAppPublisher "Schedule"
 #define MyAppURL "https://superzavych.pythonanywhere.com/"
 #define MyAppExeName "Schedule.exe"

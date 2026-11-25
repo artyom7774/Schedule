@@ -44,7 +44,7 @@ jobs:
 
       - name: Copy qt plugins
         run: |
-          $base = "windows\Lib\site-packages\PyQt5\Qt5\plugins"
+          $base = "windows\Lib\site-packages\PySide6\plugins"
 
           foreach ($name in @("platforms", "styles", "imageformats", "iconengines")) {
             if (Test-Path "$base\$name") {
@@ -178,7 +178,7 @@ jobs:
 
       - name: Check qt plugins
         run: |
-          base="linux/lib/python3.11/site-packages/PyQt5/Qt5/plugins"
+          base="linux/lib/python3.11/site-packages/PySide6/Qt/plugins"
           for f in platforms/libqxcb.so imageformats/libqsvg.so iconengines/libqsvgicon.so; do
             if [ ! -f "$base/$f" ]; then
               echo "::error::$f not found!"
@@ -457,7 +457,7 @@ jobs:
       - name: Install libraries
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
+          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
 
       - name: Smoke test
         run: |
@@ -486,7 +486,7 @@ jobs:
       - name: Install libraries
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
+          sudo apt-get install -y xvfb libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 libxcb-shape0
 
       - name: Smoke test
         run: |

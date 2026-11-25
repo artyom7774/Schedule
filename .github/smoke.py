@@ -117,7 +117,7 @@ def check_requirements(pkg: Path):
 
             ok = False
 
-    for module in ("PyQt5.QtCore", "PyQt5.QtGui", "PyQt5.QtWidgets", "PyQt5.QtSvg"):
+    for module in ("PySide6.QtCore", "PySide6.QtGui", "PySide6.QtWidgets", "PySide6.QtSvg"):
         try:
             importlib.import_module(module)
 
