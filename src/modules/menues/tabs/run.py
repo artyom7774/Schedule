@@ -189,6 +189,9 @@ class TabRun(QWidget):
             section.setParent(self.settingsContent)
 
             for name, value in data.items():
+                if (type, name) == ("parameters", "edit"):
+                    continue
+
                 label = QLabel(translate(f"{type}.{name}") + ":")
                 label.setFont(FONT)
 
@@ -213,6 +216,9 @@ class TabRun(QWidget):
         self.sectionsLayout.addStretch(1)
 
     def valueLineEditEditingFinished(self, type: str, name: str):
+        if f"edit_{type}_{name}" not in self.objects:
+            return
+
         edit = self.objects[f"edit_{type}_{name}"]
         text = edit.text()
 
@@ -232,6 +238,15 @@ class TabRun(QWidget):
     def runPushButtonClicked(self, warnings: int = 0):
         try:
             if self.process and self.process.state() != QProcess.NotRunning:
+                return
+
+        except RuntimeError:
+            pass
+
+        try:
+            edit = self.window.objects.get("edit_process")
+
+            if edit is not None and edit.state() != QProcess.NotRunning:
                 return
 
         except RuntimeError:
@@ -321,6 +336,13 @@ class TabRun(QWidget):
         self.update()
         self.stdTextEdit.insertPlainText(f"\n=== Process finished with exit code {code} ===\n")
         self.update()
+
+        backup = f"{PATH_TO_FOLDER}/projects/{self.window.project}/answer.backup.json"
+
+        if os.path.exists(backup):
+            os.remove(backup)
+
+        self.window.objects.pop("history", None)
 
         TabRun.init(self.window, ignore=[TAB_RUN])
 

@@ -25,7 +25,8 @@ TAB_CONSTANTS  = 8
 TAB_GROUPS     = 9
 TAB_RUN        = 11
 TAB_VIEW       = 13
-TAB_EXPORT     = 15
+TAB_EDIT       = 15
+TAB_EXPORT     = 17
 
 
 def shiftName(index: int) -> str:

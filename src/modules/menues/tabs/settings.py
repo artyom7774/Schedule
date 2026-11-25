@@ -313,7 +313,7 @@ class TabSettings(QWidget):
             if window.objects["tabs"].widget(TAB_SETTINGS):
                 window.objects["tabs"].widget(TAB_SETTINGS).initShiftButton(grade, letter)
 
-            TabSettings.init(window, ignore=[TAB_VIEW, TAB_EXPORT], reverse=True)
+            TabSettings.init(window, ignore=[TAB_VIEW, TAB_EDIT, TAB_EXPORT], reverse=True)
 
             return
 

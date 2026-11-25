@@ -86,6 +86,7 @@ public:
     vector<vector<int>> groupMaskBySubject;
 
     vector<Constant> constants;
+    vector<Constant> blocked;
 
     bool classroomsEnable = false;
 
@@ -478,6 +479,34 @@ public:
             }
         }
 
+        if (settings.contains("blocked") && settings["blocked"].is_object()) {
+            for (auto& [cls, items] : settings["blocked"].items()) {
+                if (!IDByClassName.count(cls) || !items.is_array()) {
+                    continue;
+                }
+
+                for (auto& value : items) {
+                    int day = -1, lesson = -1;
+
+                    if (!value.is_string() || sscanf(value.get<string>().c_str(), "%d-%d", &day, &lesson) != 2) {
+                        cout << "[WARNING] blocked: bad key for " << cls << "\n";
+
+                        continue;
+                    }
+
+                    if (day < 0 || day >= JOB_WEEK_LENGTH || lesson < 0 || lesson >= MAX_LESSON_IN_DAY) {
+                        cout << "[WARNING] blocked: key \"" << value.get<string>() << "\" out of range for " << cls << "\n";
+
+                        continue;
+                    }
+
+                    int slot = classShiftOffset[IDByClassName[cls]] + day * MAX_LESSON_IN_DAY + lesson;
+
+                    blocked.push_back(Constant{IDByClassName[cls], slot, 0});
+                }
+            }
+        }
+
         groups.assign(teachers.size() + classes.size() + 1, vector<vector<int>>());
 
         for (auto& [cls, group] : settings["groups"].items()) {
@@ -612,8 +641,14 @@ vector<float> bufferHards;
 
 vector<int> bufferTeacherLengths;
 
+vector<vector<char>> blockedSlots;
+
+inline bool slotBlocked(int cls, int slot) {
+    return !blockedSlots.empty() && blockedSlots[cls][slot];
+}
+
 inline bool slotLocked(int cls, int slot) {
-    return locked[cls][slot].size > 0;
+    return locked[cls][slot].size > 0 || slotBlocked(cls, slot);
 }
 
 inline bool subjectLocked(int cls, int slot, int subjectID) {
@@ -764,6 +799,10 @@ inline bool classDayHasDuplicates(int cls, int slot) {
 }
 
 inline bool canPlaceLesson(int cls, int slot, int subjectID, int excludeSlot = -1) {
+    if (slotBlocked(cls, slot)) {
+        return false;
+    }
+
     if (classDayConflict(cls, subjectID, slot, excludeSlot)) {
         return false;
     }
@@ -1753,6 +1792,10 @@ namespace kempe {
             int oppositeSlot = (chainUnit.from == A) ? B : A;
 
             if (subjectLocked(chainUnit.cls, chainUnit.from, chainUnit.subject)) {
+                return false;
+            }
+
+            if (slotBlocked(chainUnit.cls, oppositeSlot)) {
                 return false;
             }
 
@@ -3016,6 +3059,16 @@ int main(int argc, char** argv) {
     teacherReserveMask.assign((size_t) size * JOB_WEEK_LENGTH, 0);
 
     locked.assign(size, vector<SubjectSet>(SLOTS));
+
+    blockedSlots.assign(size, vector<char>(SLOTS, 0));
+
+    for (const Constant& blockedSlot : data.blocked) {
+        blockedSlots[blockedSlot.cls][blockedSlot.slot] = 1;
+    }
+
+    if (!data.blocked.empty()) {
+        cout << "[INFO] blocked empty slots: " << data.blocked.size() << "\n";
+    }
 
     teacherRoom.assign(size, vector<int>(SLOTS, 0));
     teacherRoomRank.assign(size, vector<int>(SLOTS, 0));

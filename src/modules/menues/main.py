@@ -20,6 +20,8 @@ TABS = [
     (QWidget, "->", True),
     (TabView, "menu.main.tab.view", False),
     (QWidget, "->", True),
+    (TabEdit, "menu.main.tab.edit", False),
+    (QWidget, "->", True),
     (TabExport, "menu.main.tab.export", False)
 ]
 
@@ -43,7 +45,7 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
     if ignore is None:
         ignore = []
 
-    tabs = [TabSettings, TabClasses, TabClassrooms, TabSubjects, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabExport]
+    tabs = [TabSettings, TabClasses, TabClassrooms, TabSubjects, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabEdit, TabExport]
 
     for tab in tabs:
         tab.resize = Import.resize
@@ -125,6 +127,9 @@ def update(window, idx):
 
     if idx == TAB_CONSTANTS:
         init(window, ignore=[TAB_CONSTANTS], reverse=True)
+
+    if idx == TAB_EDIT:
+        init(window, ignore=[TAB_EDIT], reverse=True)
 
 
 def resize(window) -> None:
@@ -300,6 +305,33 @@ def resize(window) -> None:
             tab.info.setGeometry(x(20) + 1, 0, x(80) - 1, y(100))
             tab.items.setGeometry(0, 30 - 2 + 2 * (os.name != "nt"), x(20), y(100) - 30 + 2 - 2 * (os.name != "nt"))
             tab.tabs.setGeometry(x(20) + 1, 0, x(80) - 1, y(100) - 1)
+
+        except AttributeError:
+            pass
+
+    tab = tabs.widget(TAB_EDIT)
+
+    if tab and isinstance(tab, TabEdit):
+        try:
+            tab.modeComboBox.setGeometry(1, 1, x(20) - 2, 30 - 4)
+            tab.info.setGeometry(x(20) + 1, 0, x(80) - 1, y(100))
+            tab.items.setGeometry(0, 30 - 2 + 2 * (os.name != "nt"), x(20), y(100) - 30 + 2 - 2 * (os.name != "nt"))
+            tab.tabs.setGeometry(x(20) + 1, 0, x(55) - 1, y(100) - 30)
+
+            rightHeight = y(100) - 30
+            poolArea = max((rightHeight - 28 - 28) * 4 // 10, 40)
+            statsHeight = 28
+
+            tab.poolList.setGeometry(x(75), 33, x(25), poolArea - 3)
+            tab.logTextEdit.setGeometry(x(75), 28 + poolArea + 2, x(25), rightHeight - 28 - poolArea - 2 - statsHeight)
+            tab.statsLabel.setGeometry(x(75) + 1, rightHeight - statsHeight, x(25) - 1, statsHeight)
+
+            width = x(80) - 1
+
+            tab.deletePushButton.setGeometry(x(20) + 1, y(100) - 30 + 1, width // 4 - 2, 28)
+            tab.addPushButton.setGeometry(x(20) + 1 + width // 4, y(100) - 30 + 1, width // 4 - 2, 28)
+            tab.undoPushButton.setGeometry(x(20) + 1 + 2 * (width // 4), y(100) - 30 + 1, width // 4 - 2, 28)
+            tab.revertPushButton.setGeometry(x(20) + 1 + 3 * (width // 4), y(100) - 30 + 1, width - 3 * (width // 4) - 2, 28)
 
         except AttributeError:
             pass
