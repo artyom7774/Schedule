@@ -6,12 +6,12 @@ hjson==3.1.0
 idna==3.20
 natsort==8.4.0
 openpyxl==3.1.5
-PySide6==6.6.1
+PySide6-Essentials==6.6.1
 pyqtdarktheme==2.1.0
 requests==2.34.2
 urllib3==2.8.0
+numpy<2
 pandas
-openpyxl
 xlrd
 pypdf
 python-docx
