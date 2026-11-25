@@ -151,6 +151,7 @@ def initProject(window, project):
             settings[key] = value
 
     shiftNormalize(settings)
+    teachersNormalize(settings)
 
     window.settings = settings
 

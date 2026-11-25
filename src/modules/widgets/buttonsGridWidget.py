@@ -122,7 +122,7 @@ class ButtonGridWidget(QWidget):
         btn = QPushButton(label)
         btn.setFixedSize(self.btn_width, self.btn_height)
         btn.setFont(FONT)
-        btn.clicked.connect(lambda _, l=label, i=index: self._on_click(l, i))
+        btn.clicked.connect(lambda *_, l=label, i=index: self._on_click(l, i))
 
         return btn
 

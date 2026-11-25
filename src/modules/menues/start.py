@@ -92,7 +92,7 @@ def init(window) -> None:
         btn.setIcon(QIcon(icon))
         btn.setIconSize(QSize(50, 25))
         btn.setFixedSize(50, 25)
-        btn.clicked.connect(lambda _, lang=type: language(window, lang))
+        btn.clicked.connect(lambda *_, lang=type: language(window, lang))
         btn.show()
 
         window.objects[type] = btn

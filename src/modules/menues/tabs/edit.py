@@ -71,6 +71,10 @@ class TabEdit(QWidget):
 
         settings = self.window.settings
 
+        if teachersNormalize(settings):
+            with open(f"{PATH_TO_FOLDER}/projects/{self.window.project}/settings.json", "w", encoding="utf-8") as file:
+                json.dump(settings, file, indent=4, ensure_ascii=False)
+
         self.days = settings["working_days_per_week"]
         self.lessons = settings["max_lesson_count_per_day"]
         self.shiftsCount = settings["number_of_shifts"]
@@ -87,11 +91,6 @@ class TabEdit(QWidget):
         self.defaultBrush = QBrush()
 
         self.dirtyShifts = set()
-        self.viewDirty = False
-
-        self.syncTimer = QTimer(self)
-        self.syncTimer.setSingleShot(True)
-        self.syncTimer.timeout.connect(self.syncView)
 
         self.answer = self.solve()
 
@@ -110,7 +109,7 @@ class TabEdit(QWidget):
         self.selectedKey = "edit_selected" if mode == 0 else "edit_teacher_selected"
 
         self.modeComboBox = QComboBox(parent=self)
-        self.modeComboBox.addItems([translate("menu.main.tab.view.classes"), translate("menu.main.tab.view.teachers")])
+        self.modeComboBox.addItems([translate("menu.main.tab.edit.classes"), translate("menu.main.tab.edit.teachers")])
         self.modeComboBox.setFont(FONT)
 
         self.modeComboBox.blockSignals(True)
@@ -147,7 +146,7 @@ class TabEdit(QWidget):
         self.info.setAlignment(Qt.AlignCenter)
         self.info.setWordWrap(True)
         self.info.setFont(FONT)
-        self.info.setText(translate("menu.main.tab.view.schedule_not_created"))
+        self.info.setText(translate("menu.main.tab.edit.schedule_not_created"))
 
         self.tabs = QTabWidget(parent=self)
         self.tabs.tabBar().setFont(FONT)
@@ -216,7 +215,7 @@ class TabEdit(QWidget):
             for button in self.buttons():
                 button.hide()
 
-            self.info.setText(translate("menu.main.tab.view.schedule_not_created") if self.answer is None else "")
+            self.info.setText(translate("menu.main.tab.edit.schedule_not_created") if self.answer is None else "")
             self.info.show()
 
             return
@@ -665,34 +664,7 @@ class TabEdit(QWidget):
 
         return tab if isinstance(tab, TabEdit) else None
 
-    def scheduleViewSync(self) -> None:
-        self.viewDirty = True
-        self.syncTimer.start(250)
-
-    def syncView(self) -> None:
-        if not self.viewDirty:
-            return
-
-        self.viewDirty = False
-        self.syncTimer.stop()
-
-        TabEdit.init(self.window, ignore=[TAB_VIEW], reverse=True)
-
-    def hideEvent(self, event) -> None:
-        super().hideEvent(event)
-
-        if self.viewDirty and not event.spontaneous():
-            self.viewDirty = False
-            self.syncTimer.stop()
-
-            window = self.window
-
-            QTimer.singleShot(0, lambda: TabEdit.init(window, ignore=[TAB_VIEW], reverse=True) if window.isVisible() else None)
-
     def modeChanged(self, idx: int) -> None:
-        if self.viewDirty:
-            self.syncView()
-
         self.window.objects["edit_mode"] = idx
 
         TabEdit.init(self.window, ignore=[TAB_EDIT], reverse=True)
@@ -746,8 +718,6 @@ class TabEdit(QWidget):
         self.refresh()
 
         self.log(f"{text}")
-
-        self.scheduleViewSync()
 
     def deleteCells(self, cells: list) -> None:
         if not cells:
@@ -844,7 +814,7 @@ class TabEdit(QWidget):
 
         for text, cls, subject in available:
             action = QAction(text, menu)
-            action.triggered.connect(lambda _, c=cls, s=subject: QTimer.singleShot(0, lambda: self.addLessonTo(c, day, lesson, s)))
+            action.triggered.connect(lambda *_, c=cls, s=subject: QTimer.singleShot(0, lambda: self.addLessonTo(c, day, lesson, s)))
 
             menu.addAction(action)
 

@@ -201,7 +201,7 @@ class TabConstants(QWidget):
             action = QAction(subject if subject != "-" else translate("menu.main.tab.constants.none"), self)
             action.setCheckable(True)
             action.setChecked(subject in current if subject != "-" else not current)
-            action.triggered.connect(lambda _, s=subject: self.toggleSubject(day, lesson, s))
+            action.triggered.connect(lambda *_, s=subject: self.toggleSubject(day, lesson, s))
 
             menu.addAction(action)
 

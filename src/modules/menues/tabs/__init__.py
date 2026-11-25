@@ -7,6 +7,5 @@ from src.modules.menues.tabs.groups import TabGroups
 from src.modules.menues.tabs.ai import TabAI
 from src.modules.menues.tabs.constants import TabConstants
 from src.modules.menues.tabs.run import TabRun
-from src.modules.menues.tabs.view import TabView
 from src.modules.menues.tabs.edit import TabEdit
 from src.modules.menues.tabs.export import TabExport

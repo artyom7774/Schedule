@@ -24,9 +24,8 @@ TAB_AI         = 6
 TAB_CONSTANTS  = 8
 TAB_GROUPS     = 9
 TAB_RUN        = 11
-TAB_VIEW       = 13
-TAB_EDIT       = 15
-TAB_EXPORT     = 17
+TAB_EDIT       = 13
+TAB_EXPORT     = 15
 
 
 def shiftName(index: int) -> str:
@@ -88,6 +87,48 @@ def shiftNormalize(settings: dict) -> bool:
                 changed = True
 
         shifts[grade] = row
+
+    return changed
+
+
+def teachersNormalize(settings: dict) -> bool:
+    teachers = settings.setdefault("teachers", {})
+    shifts = max(int(settings.get("number_of_shifts", 1)), 1)
+
+    changed = False
+
+    for name, teacher in teachers.items():
+        if not isinstance(teacher, dict):
+            teacher = teachers[name] = {}
+
+            changed = True
+
+        if not isinstance(teacher.get("subjects"), list):
+            teacher["subjects"] = []
+
+            changed = True
+
+        for element in teacher["subjects"]:
+            if not isinstance(element.get("classes"), list):
+                element["classes"] = []
+
+                changed = True
+
+            if not isinstance(element.get("classrooms"), list):
+                element["classrooms"] = []
+
+                changed = True
+
+        for key in ("free", "reserve"):
+            if not isinstance(teacher.get(key), list):
+                teacher[key] = []
+
+                changed = True
+
+            while len(teacher[key]) < shifts:
+                teacher[key].append([])
+
+                changed = True
 
     return changed
 

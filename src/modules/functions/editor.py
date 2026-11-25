@@ -73,6 +73,48 @@ def setCell(answer: dict, cls: str, day: int, lesson: int, cell: dict) -> None:
     answer[cls][day][lesson] = cell
 
 
+def upgradeCell(settings: dict, cls: str, day: list, lesson: int) -> bool:
+    cell = day[lesson]
+
+    if not isinstance(cell, dict):
+        day[lesson] = emptyCell()
+
+        return True
+
+    changed = False
+
+    for name, default in (("subject", EMPTY), ("teachers", []), ("classrooms", []), ("extra", [])):
+        if name not in cell or cell[name] is None:
+            cell[name] = default
+
+            changed = True
+
+    if cell["subject"] != EMPTY and not cell["teachers"]:
+        teachers = teachersFor(settings, cls, cell["subject"])
+
+        if teachers:
+            cell["teachers"] = teachers
+
+            changed = True
+
+    for extra in cell["extra"]:
+        for name in ("teachers", "classrooms"):
+            if name not in extra or extra[name] is None:
+                extra[name] = []
+
+                changed = True
+
+        if extra.get("subject", EMPTY) != EMPTY and not extra["teachers"]:
+            teachers = teachersFor(settings, cls, extra["subject"])
+
+            if teachers:
+                extra["teachers"] = teachers
+
+                changed = True
+
+    return changed
+
+
 def normalize(settings: dict, answer: dict) -> bool:
     days = settings["working_days_per_week"]
     lessons = settings["max_lesson_count_per_day"]
@@ -103,6 +145,10 @@ def normalize(settings: dict, answer: dict) -> bool:
 
                 changed = True
 
+            for lesson in range(len(data[day])):
+                if upgradeCell(settings, cls, data[day], lesson):
+                    changed = True
+
         answer[cls] = data
 
     return changed
@@ -112,8 +158,8 @@ def teachersFor(settings: dict, cls: str, subject: str) -> list:
     result = []
 
     for name, teacher in settings["teachers"].items():
-        for element in teacher["subjects"]:
-            if element["subject"] == subject and cls in element["classes"]:
+        for element in teacher.get("subjects", []):
+            if element.get("subject") == subject and cls in element.get("classes", []):
                 result.append(name)
 
                 break

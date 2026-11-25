@@ -53,7 +53,7 @@ class TeacherSubjectWidget(QTableWidget):
         self.classrooms.show()
 
         if changed is not None:
-            self.subject.currentIndexChanged.connect(lambda _, idx=self.index: changed(idx))
+            self.subject.currentIndexChanged.connect(lambda *_, idx=self.index: changed(idx))
 
         self.subject.setFont(FONT)
 
@@ -421,8 +421,13 @@ class TabTeachers(QWidget):
             ],
             "free": [
 
+            ],
+            "reserve": [
+
             ]
         }
+
+        teachersNormalize(self.window.settings)
 
         self.window.dialog.close()
 

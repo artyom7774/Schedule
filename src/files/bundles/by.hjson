@@ -13,7 +13,6 @@
 "menu.main.tab.AI": "ШІ"
 "menu.main.tab.constants": "Канстанты"
 "menu.main.tab.run": "Запуск"
-"menu.main.tab.view": "Прагляд"
 "menu.main.tab.edit": "Праўкі"
 "menu.main.tab.export": "Экспарт"
 
@@ -62,9 +61,9 @@
 "menu.main.tab.run.parameters": "Параметры"
 "menu.main.tab.run.weights": "Вагі"
 
-"menu.main.tab.view.classes": "Класы"
-"menu.main.tab.view.teachers": "Настаўнікі"
-"menu.main.tab.view.schedule_not_created": "Разклад не створаны"
+"menu.main.tab.edit.classes": "Класы"
+"menu.main.tab.edit.teachers": "Настаўнікі"
+"menu.main.tab.edit.schedule_not_created": "Разклад не створаны"
 
 "menu.main.tab.edit.delete": "Выдаліць урок"
 "menu.main.tab.edit.conflicts": "Канфлікты"

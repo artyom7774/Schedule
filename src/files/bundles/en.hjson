@@ -13,7 +13,6 @@
 "menu.main.tab.AI": "AI"
 "menu.main.tab.constants": "Constants"
 "menu.main.tab.run": "Run"
-"menu.main.tab.view": "View"
 "menu.main.tab.edit": "Edit"
 "menu.main.tab.export": "Export"
 
@@ -62,9 +61,9 @@
 "menu.main.tab.run.parameters": "Parameters"
 "menu.main.tab.run.weights": "Weights"
 
-"menu.main.tab.view.classes": "Classes"
-"menu.main.tab.view.teachers": "Teachers"
-"menu.main.tab.view.schedule_not_created": "Schedule not created"
+"menu.main.tab.edit.classes": "Classes"
+"menu.main.tab.edit.teachers": "Teachers"
+"menu.main.tab.edit.schedule_not_created": "Schedule not created"
 
 "menu.main.tab.edit.delete": "Delete lesson"
 "menu.main.tab.edit.conflicts": "Conflicts"

@@ -18,8 +18,6 @@ TABS = [
     (QWidget, "->", True),
     (TabRun, "menu.main.tab.run", False),
     (QWidget, "->", True),
-    (TabView, "menu.main.tab.view", False),
-    (QWidget, "->", True),
     (TabEdit, "menu.main.tab.edit", False),
     (QWidget, "->", True),
     (TabExport, "menu.main.tab.export", False)
@@ -45,7 +43,7 @@ def init(window, ignore: list = None, reverse: bool = False) -> None:
     if ignore is None:
         ignore = []
 
-    tabs = [TabSettings, TabClasses, TabClassrooms, TabSubjects, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabView, TabEdit, TabExport]
+    tabs = [TabSettings, TabClasses, TabClassrooms, TabSubjects, TabTeachers, TabGroups, TabAI, TabConstants, TabRun, TabEdit, TabExport]
 
     for tab in tabs:
         tab.resize = Import.resize
@@ -266,7 +264,7 @@ def resize(window) -> None:
     if tab and isinstance(tab, TabAI):
         try:
             tab.chatTextEdit.setGeometry(0, 0, x(100), y(100) - 60)
-            tab.messageLineEdit.setGeometry(x(0) + 1, y(100) - 60 + 1, x(80) - 1, 28 - 2)
+            tab.messageLineEdit.setGeometry(x(0) + 1, y(100) - 60 + 1 + (os.name != "nt"), x(80) - 1, 28 - 2)
             tab.sendPushButton.setGeometry(x(80) + 2, y(100) - 60 + 1, x(20) - 2, 28)
             tab.loadPushButton.setGeometry(x(0) + 1, y(100) - 30 + 1, x(80) - 1, 28)
             tab.removePushButton.setGeometry(x(80) + 2, y(100) - 30 + 1, x(20) - 2, 28)
@@ -297,18 +295,6 @@ def resize(window) -> None:
         except AttributeError:
             pass
 
-    tab = tabs.widget(TAB_VIEW)
-
-    if tab and isinstance(tab, TabView):
-        try:
-            tab.modeComboBox.setGeometry(1, 1, x(20) - 2, 30 - 4)
-            tab.info.setGeometry(x(20) + 1, 0, x(80) - 1, y(100))
-            tab.items.setGeometry(0, 30 - 2 + 2, x(20), y(100) - 30)
-            tab.tabs.setGeometry(x(20) + 1, 0, x(80) - 1, y(100) - 1)
-
-        except AttributeError:
-            pass
-
     tab = tabs.widget(TAB_EDIT)
 
     if tab and isinstance(tab, TabEdit):
@@ -322,7 +308,7 @@ def resize(window) -> None:
             poolArea = max((rightHeight - 28 - 28) * 4 // 10, 40)
             statsHeight = 28
 
-            tab.poolList.setGeometry(x(75), 33, x(25), poolArea - 3)
+            tab.poolList.setGeometry(x(75), 32, x(25), poolArea - 2)
             tab.logTextEdit.setGeometry(x(75), 28 + poolArea + 2, x(25), rightHeight - 28 - poolArea - 2 - statsHeight)
             tab.statsLabel.setGeometry(x(75) + 1, rightHeight - statsHeight, x(25) - 1, statsHeight)
 

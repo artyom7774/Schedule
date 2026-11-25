@@ -23,8 +23,8 @@ SuperZavych supports the full scheduling workflow, from entering school data to 
 - **Fixed lessons** — reserve specific class and time slots before generation.
 - **AI assistant** — ask questions, process uploaded files, and import data into the project.
 - **Automatic generation** — generate a timetable using simulated annealing on a graph.
-- **Manual editing** — add, remove, move, and swap lessons in a generated timetable; rerun the algorithm on selected cells.
-- **Viewing and export** — review schedules by class or teacher and export them to `.xlsx` or `.html`.
+- **Viewing and editing** — review the generated timetable by class or teacher in one menu; add, remove, move, and swap lessons; rerun the algorithm on selected cells.
+- **Export** — export schedules by class or teacher to `.xlsx` or `.html`.
 
 ## Installation
 
@@ -33,7 +33,7 @@ SuperZavych supports the full scheduling workflow, from entering school data to 
 3. Enter the initial data in the recommended order: **Settings** > **Classes** > **Classrooms** > **Subjects** > **Teachers**.
 4. If needed, use **AI** to import data, then configure **Constants** and **Groups**.
 5. Open **Run**, check the warnings, and start generation.
-6. Review the result in **View** or **Edit**, then export it.
+6. Review and refine the result in **Edit**, then export it.
 
 > Detailed documentation is available at [https://superzavych.pythonanywhere.com/](https://superzavych.pythonanywhere.com/).
 
@@ -43,17 +43,17 @@ SuperZavych supports the full scheduling workflow, from entering school data to 
 2. Configure the school week, classes, classrooms, subjects, and teachers.
 3. Add fixed lessons or groups if your school needs them.
 4. Click **Run** and wait for the timetable to be generated.
-5. Review, edit, and export the result.
+5. Review and edit the result, then export it.
 
 ## Program Structure
 
-The interface is organized into **12 menus**. Work proceeds from initial configuration to timetable generation and export.
+The interface is organized into **11 menus**. Work proceeds from initial configuration to timetable generation and export.
 
 | Stage                | Menus                                                      | Purpose                                                                        |
 |----------------------|------------------------------------------------------------|--------------------------------------------------------------------------------|
 | **Setup**            | Settings > Classes > Classrooms > Subjects > Teachers > AI | Configure the project, enter data, and optionally import it with AI assistance |
 | **Scheduling rules** | Constants > Groups                                         | Set fixed lessons and define class groups or profiles                          |
-| **Results**          | Run > View > Edit > Export                                 | Generate, review, modify, and export the timetable                             |
+| **Results**          | Run > Edit > Export                                        | Generate, review, modify, and export the timetable                             |
 
 ### Settings
 
@@ -100,13 +100,10 @@ Start timetable generation and configure the scoring multipliers used by the alg
 
 The algorithm then searches for a timetable with a lower weighted score. You can adjust criterion multipliers to prioritize different scheduling preferences.
 
-### View
-
-Review the generated timetable by class or by teacher. These views make it easier to inspect the result from the perspective of both students and staff.
-
 ### Edit
 
-Make targeted changes to a generated timetable: add or remove lessons, move or swap them, and rerun the algorithm only for selected cells. This allows you to refine part of the schedule without regenerating the entire timetable.
+Review and refine the generated timetable. Switch between viewing it by class or by teacher to inspect the result from the perspective of both students and staff. Cells with conflicts are highlighted, and the pool of lessons still to be placed is shown next to the timetable.
+You can make targeted changes: add or remove lessons, move or swap them, and rerun the algorithm only for selected cells. This allows you to refine part of the schedule without regenerating the entire timetable.
 
 ### Export
 

@@ -254,12 +254,7 @@ class TabSettings(QWidget):
             window.settings[parameter] = int(text)
 
         if parameter in ("number_of_shifts", ):
-            for teacher in self.window.settings["teachers"].values():
-                while len(teacher["reserve"]) < self.window.settings["number_of_shifts"]:
-                    teacher["reserve"].append([])
-
-                while len(teacher["free"]) < self.window.settings["number_of_shifts"]:
-                    teacher["free"].append([])
+            teachersNormalize(self.window.settings)
 
         elif parameter in ("subjects", ):
             row, col = another
@@ -313,7 +308,7 @@ class TabSettings(QWidget):
             if window.objects["tabs"].widget(TAB_SETTINGS):
                 window.objects["tabs"].widget(TAB_SETTINGS).initShiftButton(grade, letter)
 
-            TabSettings.init(window, ignore=[TAB_VIEW, TAB_EDIT, TAB_EXPORT], reverse=True)
+            TabSettings.init(window, ignore=[TAB_EDIT, TAB_EXPORT], reverse=True)
 
             return
 
