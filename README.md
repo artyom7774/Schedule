@@ -4,7 +4,7 @@
 
 <img src="src/files/sprites/background.png" width="100%">
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 - **Repository**: https://github.com/artyom7774/Schedule
 - **Site**: https://superzavych.pythonanywhere.com/
@@ -49,11 +49,11 @@ SuperZavych supports the full scheduling workflow, from entering school data to 
 
 The interface is organized into **12 menus**. Work proceeds from initial configuration to timetable generation and export.
 
-| Stage | Menus | Purpose |
+| Stage                | Menus                                                      | Purpose                                                                        |
 |----------------------|------------------------------------------------------------|--------------------------------------------------------------------------------|
-| **Setup** | Settings > Classes > Classrooms > Subjects > Teachers > AI | Configure the project, enter data, and optionally import it with AI assistance |
-| **Scheduling rules** | Constants > Groups | Set fixed lessons and define class groups or profiles |
-| **Results** | Run > View > Edit > Export | Generate, review, modify, and export the timetable |
+| **Setup**            | Settings > Classes > Classrooms > Subjects > Teachers > AI | Configure the project, enter data, and optionally import it with AI assistance |
+| **Scheduling rules** | Constants > Groups                                         | Set fixed lessons and define class groups or profiles                          |
+| **Results**          | Run > View > Edit > Export                                 | Generate, review, modify, and export the timetable                             |
 
 ### Settings
 
@@ -118,20 +118,20 @@ The generation algorithm is based on **simulated annealing on a graph**. Each ca
 
 ### Scoring criteria
 
-| Criterion | Description |
+| Criterion                      | Description                                                                                                                |
 |--------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| **Repeated lessons** | Penalty for scheduling the same subject two or more times for a class on the same day. |
-| **Uneven daily class load** | Penalty when the number of lessons in a class varies unevenly across days, taking the configured daily limit into account. |
-| **Gaps in class schedule** | Penalty for each empty period between lessons in a class's daily schedule. |
-| **Difficulty distribution** | Penalty for distributing subject difficulty unevenly across the school week. |
-| **Teacher free time** | Penalty for each gap between a teacher's lessons. |
-| **Short teacher day** | Penalty for a teacher's day with fewer than five lessons. |
-| **Group bonus** | Score reduction for scheduling lessons for multiple groups in the same time slot. |
-| **Shift lesson overlaps** | Penalty for overlapping lessons in a teacher's schedule across shifts. |
-| **Classroom priority** | Penalty for assigning a classroom group below the teacher's preferred priority. |
-| **Gaps in groups** | Penalty when a group has no lesson in a period but has another lesson later that day. |
-| **Teacher daily lesson limit** | Penalty for lessons scheduled above the teacher's configured daily lesson limit. |
+| **Repeated lessons**           | Penalty for scheduling the same subject two or more times for a class on the same day.                                     |
+| **Uneven daily class load**    | Penalty when the number of lessons in a class varies unevenly across days, taking the configured daily limit into account. |
+| **Gaps in class schedule**     | Penalty for each empty period between lessons in a class's daily schedule.                                                 |
+| **Difficulty distribution**    | Penalty for distributing subject difficulty unevenly across the school week.                                               |
+| **Teacher free time**          | Penalty for each gap between a teacher's lessons.                                                                          |
+| **Short teacher day**          | Penalty for a teacher's day with fewer than five lessons.                                                                  |
+| **Group bonus**                | Score reduction for scheduling lessons for multiple groups in the same time slot.                                          |
+| **Shift lesson overlaps**      | Penalty for overlapping lessons in a teacher's schedule across shifts.                                                     |
+| **Classroom priority**         | Penalty for assigning a classroom group below the teacher's preferred priority.                                            |
+| **Gaps in groups**             | Penalty when a group has no lesson in a period but has another lesson later that day.                                      |
+| **Teacher daily lesson limit** | Penalty for lessons scheduled above the teacher's configured daily lesson limit.                                           |
 
 ## License
 
-This project is licensed under the **Apache License 2.0**.
+This project is licensed under the **GPLv3**.
