@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QComboBox, QListWidget, QListWidgetItem, QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QLabel, QTextEdit, QMenu, QAction, QMessageBox, QAbstractItemView
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtGui import QColor, QCursor, QBrush, QTextCursor
 
 from src.modules.functions import editor
@@ -12,6 +12,55 @@ import copy
 import os
 
 HISTORY = 100
+
+
+class EditTable(QTableWidget):
+    leftClicked = pyqtSignal(int, int)
+    rightClicked = pyqtSignal(int, int)
+
+    def __init__(self, rows: int, columns: int, parent=None):
+        super().__init__(rows, columns, parent)
+
+        self.pressedCell = None
+        self.pressedModifiers = Qt.NoModifier
+
+    def cellAt(self, event):
+        index = self.indexAt(event.pos())
+
+        return (index.column(), index.row()) if index.isValid() else None
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.RightButton:
+            cell = self.cellAt(event)
+
+            if cell is not None:
+                self.rightClicked.emit(*cell)
+
+            event.accept()
+
+            return
+
+        if event.button() == Qt.LeftButton:
+            self.pressedCell = self.cellAt(event)
+            self.pressedModifiers = event.modifiers()
+
+        super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        super().mouseReleaseEvent(event)
+
+        if event.button() != Qt.LeftButton:
+            return
+
+        cell = self.cellAt(event)
+        pressed = self.pressedCell
+
+        self.pressedCell = None
+
+        multi = bool(self.pressedModifiers & (Qt.ControlModifier | Qt.ShiftModifier))
+
+        if cell is not None and cell == pressed and not multi:
+            QTimer.singleShot(0, lambda c=cell: self.leftClicked.emit(*c))
 
 
 class TabEdit(QWidget):
@@ -29,8 +78,20 @@ class TabEdit(QWidget):
         self.classes = editor.classNames(settings)
         self.teachers = editor.teacherNames(settings)
         self.shifts = {cls: shiftGetClass(settings, cls) for cls in self.classes}
+        self.classesByShift = {shift: [cls for cls in self.classes if self.shifts.get(cls, 0) == shift] for shift in range(self.shiftsCount)}
 
         self.classroomsEnabled = bool(settings.get("classrooms", {}).get("enable", 0))
+
+        self.redBrush = QBrush(QColor(f"#{COLORS['red']}"))
+        self.yellowBrush = QBrush(QColor(f"#{COLORS['yellow']}"))
+        self.defaultBrush = QBrush()
+
+        self.dirtyShifts = set()
+        self.viewDirty = False
+
+        self.syncTimer = QTimer(self)
+        self.syncTimer.setSingleShot(True)
+        self.syncTimer.timeout.connect(self.syncView)
 
         self.answer = self.solve()
 
@@ -190,7 +251,10 @@ class TabEdit(QWidget):
             json.dump(self.answer, file, indent=4, ensure_ascii=False)
 
     def createTable(self) -> QTableWidget:
-        table = QTableWidget(self.lessons, self.days, parent=self)
+        table = EditTable(self.lessons, self.days, parent=self)
+
+        table.leftClicked.connect(lambda day, lesson: self.cellLeftClicked(day, lesson))
+        table.rightClicked.connect(lambda day, lesson: self.cellRightClicked(day, lesson))
 
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table.setSelectionMode(QAbstractItemView.ExtendedSelection)
@@ -224,7 +288,7 @@ class TabEdit(QWidget):
         return self.tables[self.currentShift()]
 
     def shiftClasses(self) -> list:
-        return [cls for cls in self.classes if self.shifts.get(cls, 0) == self.currentShift()]
+        return self.classesByShift.get(self.currentShift(), [])
 
     def selectTabs(self) -> None:
         self.tabs.blockSignals(True)
@@ -258,46 +322,73 @@ class TabEdit(QWidget):
     def statsText(windows: int, conflicts: int) -> str:
         return f"{translate('menu.main.tab.edit.windows')}: {windows}  /  {translate('menu.main.tab.edit.conflicts')}: {conflicts}"
 
-    def countTeacherWindows(self, teacher: str) -> int:
+    def calculateWindows(self) -> int:
         settings = self.window.settings
+
+        days = self.days
+        lessons = self.lessons
+        shiftsCount = self.shiftsCount
+        step = lessons - settings.get("shift_crossing", 0)
+
+        busy = {}
+
+        for cls in self.classes:
+            shift = self.shifts.get(cls, 0)
+
+            if not (0 <= shift < shiftsCount):
+                continue
+
+            offset = shift * step
+            data = self.answer.get(cls, [])
+
+            for day in range(min(days, len(data))):
+                dayData = data[day]
+
+                for lesson in range(min(lessons, len(dayData))):
+                    pos = offset + lesson
+
+                    for _, teachers, _ in editor.entries(dayData[lesson]):
+                        for teacher in teachers:
+                            busy.setdefault(teacher, {}).setdefault(day, set()).add(pos)
 
         total = 0
 
-        lessons = settings["max_lesson_count_per_day"]
-        crossing = settings.get("shift_crossing", 0)
+        teachersSettings = settings.get("teachers", {})
 
-        reserve = settings["teachers"].get(teacher, {}).get("reserve", [])
+        for teacher in self.teachers:
+            teacherBusy = busy.get(teacher, {})
+            reserve = teachersSettings.get(teacher, {}).get("reserve", [])
 
-        classesByShift = {shift: [cls for cls in self.classes if self.shifts.get(cls, 0) == shift] for shift in range(settings["number_of_shifts"])}
+            reserveByDay = {}
 
-        for day in range(settings["working_days_per_week"]):
-            elements = set()
+            for shift in range(min(shiftsCount, len(reserve))):
+                offset = shift * step
 
-            for shift in range(settings["number_of_shifts"]):
-                for lesson in range(lessons):
-                    has = shift < len(reserve) and [day, lesson] in reserve[shift]
+                for item in reserve[shift]:
+                    if isinstance(item, (list, tuple)) and len(item) == 2:
+                        day, lesson = item
 
-                    if not has:
-                        for cls in classesByShift[shift]:
-                            data = self.answer.get(cls, [])
+                        if 0 <= day < days and 0 <= lesson < lessons:
+                            reserveByDay.setdefault(day, set()).add(offset + lesson)
 
-                            if day >= len(data) or lesson >= len(data[day]):
-                                continue
+            for day in range(days):
+                b = teacherBusy.get(day)
+                r = reserveByDay.get(day)
 
-                            for _, teachers, _ in editor.entries(data[day][lesson]):
-                                if teacher in teachers:
-                                    has = True
+                if b and r:
+                    elements = b | r
 
-                                    break
+                elif b:
+                    elements = b
 
-                            if has:
-                                break
+                elif r:
+                    elements = r
 
-                    if has:
-                        elements.add(shift * (lessons - crossing) + lesson)
+                else:
+                    continue
 
-            if len(elements) >= 2:
-                total += (max(elements) - min(elements) + 1) - len(elements)
+                if len(elements) >= 2:
+                    total += (max(elements) - min(elements) + 1) - len(elements)
 
         return total
 
@@ -306,7 +397,7 @@ class TabEdit(QWidget):
 
         self.conflicts = editor.conflicts(settings, self.answer, self.shifts)
 
-        windows = sum(self.countTeacherWindows(teacher) for teacher in self.teachers)
+        windows = self.calculateWindows()
 
         self.pools = {cls: editor.pool(settings, self.answer, cls) for cls in self.classes}
         self.teachersPools = editor.teacherPools(settings, self.pools)
@@ -324,21 +415,31 @@ class TabEdit(QWidget):
         self.statsLabel.setToolTip("\n".join(f"{translate('menu.main.tab.edit.conflict.' + name)}: {count}" for name, count in sorted(summary.items())))
 
     def fillTables(self) -> None:
-        if self.mode == 0:
-            shift = self.shifts.get(self.selected, 0)
+        shift = self.shifts.get(self.selected, 0) if self.mode == 0 else self.currentShift()
 
-            for day in range(self.days):
-                for lesson in range(self.lessons):
-                    self.updateClassCell(self.tables[shift], day, lesson)
-
+        if shift not in self.tables:
             return
 
-        for shift in range(self.shiftsCount):
-            classes = [cls for cls in self.classes if self.shifts.get(cls, 0) == shift]
+        table = self.tables[shift]
+        classes = self.classesByShift.get(shift, [])
 
+        table.setUpdatesEnabled(False)
+        table.blockSignals(True)
+
+        try:
             for day in range(self.days):
                 for lesson in range(self.lessons):
-                    self.updateTeacherCell(self.tables[shift], classes, shift, day, lesson)
+                    if self.mode == 0:
+                        self.updateClassCell(table, day, lesson)
+
+                    else:
+                        self.updateTeacherCell(table, classes, shift, day, lesson)
+
+        finally:
+            table.blockSignals(False)
+            table.setUpdatesEnabled(True)
+
+        self.dirtyShifts.discard(shift)
 
     def updateClassCell(self, table: QTableWidget, day: int, lesson: int) -> None:
         item = table.item(lesson, day)
@@ -363,10 +464,18 @@ class TabEdit(QWidget):
 
         problems = self.conflicts.get((self.selected, day, lesson), [])
 
-        item.setText("\n".join(text) if text else "-")
-        item.setToolTip("\n".join(tooltip + [self.reason(problem) for problem in problems]))
+        newText = "\n".join(text) if text else "-"
+        newTooltip = "\n".join(tooltip + [self.reason(problem) for problem in problems])
+        newBrush = self.redBrush if problems else self.defaultBrush
 
-        item.setBackground(QBrush(QColor(f"#{COLORS['red']}")) if problems else QBrush())
+        if item.text() != newText:
+            item.setText(newText)
+
+        if item.toolTip() != newTooltip:
+            item.setToolTip(newTooltip)
+
+        if item.background() != newBrush:
+            item.setBackground(newBrush)
 
     def updateTeacherCell(self, table: QTableWidget, classes: list, shift: int, day: int, lesson: int) -> None:
         item = table.item(lesson, day)
@@ -390,17 +499,26 @@ class TabEdit(QWidget):
 
         slot = editor.teacherSlot(self.window.settings, self.selected, shift, day, lesson)
 
-        item.setText("\n".join(text) if text else "-")
-        item.setToolTip("\n".join(tooltip + [self.reason(problem) for problem in problems] + ([translate("menu.main.tab.edit.reserve")] if slot == "reserve" else [])))
+        newText = "\n".join(text) if text else "-"
+        newTooltip = "\n".join(tooltip + [self.reason(problem) for problem in problems] + ([translate("menu.main.tab.edit.reserve")] if slot == "reserve" else []))
 
         if problems:
-            item.setBackground(QBrush(QColor(f"#{COLORS['red']}")))
+            newBrush = self.redBrush
 
         elif not text and slot == "reserve":
-            item.setBackground(QBrush(QColor(f"#{COLORS['yellow']}")))
+            newBrush = self.yellowBrush
 
         else:
-            item.setBackground(QBrush())
+            newBrush = self.defaultBrush
+
+        if item.text() != newText:
+            item.setText(newText)
+
+        if item.toolTip() != newTooltip:
+            item.setToolTip(newTooltip)
+
+        if item.background() != newBrush:
+            item.setBackground(newBrush)
 
     def addPoolItem(self, text: str, cls: str, subject: str) -> None:
         item = QListWidgetItem(text)
@@ -411,53 +529,74 @@ class TabEdit(QWidget):
         self.poolList.addItem(item)
 
     def fillPool(self) -> None:
-        self.poolList.clear()
+        self.poolList.setUpdatesEnabled(False)
 
-        if self.mode == 0:
-            for subject, left in self.pools.get(self.selected, {}).items():
-                self.addPoolItem(f"{subject} - {left}", self.selected, subject)
+        try:
+            self.poolList.clear()
 
-            return
+            if self.mode == 0:
+                for subject, left in self.pools.get(self.selected, {}).items():
+                    self.addPoolItem(f"{subject} - {left}", self.selected, subject)
 
-        for cls, subject, left in self.teachersPools.get(self.selected, []):
-            self.addPoolItem(f"{subject} - {cls} - {left}", cls, subject)
+                return
+
+            for cls, subject, left in self.teachersPools.get(self.selected, []):
+                self.addPoolItem(f"{subject} - {cls} - {left}", cls, subject)
+
+        finally:
+            self.poolList.setUpdatesEnabled(True)
 
     def fillItems(self) -> None:
+        conflictClasses = set()
         problems = set()
 
-        if self.mode == 1:
+        if self.mode == 0:
+            conflictClasses = {key[0] for key in self.conflicts}
+
+        else:
             for (cls, day, lesson), reasons in self.conflicts.items():
+                subjects = set()
+
                 for name, value in reasons:
                     if name in ("unavailable", "busy"):
                         problems.add(value)
 
-                        continue
+                    else:
+                        subjects.update(value.split(" / "))
 
-                    subjects = set(value.split(" / "))
-
+                if subjects:
                     for subject, teachers, _ in editor.entries(editor.getCell(self.answer, cls, day, lesson)):
                         if subject in subjects:
                             problems.update(teachers)
 
-        for index, name in enumerate(self.classes if self.mode == 0 else self.teachers):
-            item = self.items.item(index)
+        self.items.setUpdatesEnabled(False)
 
-            if self.mode == 0:
-                red = any(key[0] == name for key in self.conflicts)
-                yellow = bool(self.pools.get(name))
+        try:
+            for index, name in enumerate(self.classes if self.mode == 0 else self.teachers):
+                item = self.items.item(index)
 
-            else:
-                red = name in problems
-                yellow = bool(self.teachersPools.get(name))
+                if self.mode == 0:
+                    red = name in conflictClasses
+                    yellow = bool(self.pools.get(name))
 
-            if red:
-                item.setBackground(QBrush(QColor(f"#{COLORS['red']}")))
+                else:
+                    red = name in problems
+                    yellow = bool(self.teachersPools.get(name))
 
-            elif yellow:
-                item.setBackground(QBrush(QColor(f"#{COLORS['yellow']}")))
+                if red:
+                    brush = self.redBrush
 
-            else:
-                item.setBackground(QBrush())
+                elif yellow:
+                    brush = self.yellowBrush
+
+                else:
+                    brush = self.defaultBrush
+
+                if item.background() != brush:
+                    item.setBackground(brush)
+
+        finally:
+            self.items.setUpdatesEnabled(True)
 
     def refresh(self) -> None:
         if self.answer is None or self.selected is None:
@@ -467,16 +606,25 @@ class TabEdit(QWidget):
 
         self.calculate()
 
+        self.dirtyShifts = set(range(self.shiftsCount))
+
         self.fillTables()
         self.fillPool()
         self.fillItems()
 
-        table = self.currentTable()
+        if self.selectedCells() != selected:
+            table = self.currentTable()
 
-        table.clearSelection()
+            table.setUpdatesEnabled(False)
 
-        for day, lesson in selected:
-            table.item(lesson, day).setSelected(True)
+            try:
+                table.clearSelection()
+
+                for day, lesson in selected:
+                    table.item(lesson, day).setSelected(True)
+
+            finally:
+                table.setUpdatesEnabled(True)
 
     def selectedCells(self) -> list:
         table = self.currentTable()
@@ -517,7 +665,34 @@ class TabEdit(QWidget):
 
         return tab if isinstance(tab, TabEdit) else None
 
+    def scheduleViewSync(self) -> None:
+        self.viewDirty = True
+        self.syncTimer.start(250)
+
+    def syncView(self) -> None:
+        if not self.viewDirty:
+            return
+
+        self.viewDirty = False
+        self.syncTimer.stop()
+
+        TabEdit.init(self.window, ignore=[TAB_VIEW], reverse=True)
+
+    def hideEvent(self, event) -> None:
+        super().hideEvent(event)
+
+        if self.viewDirty and not event.spontaneous():
+            self.viewDirty = False
+            self.syncTimer.stop()
+
+            window = self.window
+
+            QTimer.singleShot(0, lambda: TabEdit.init(window, ignore=[TAB_VIEW], reverse=True) if window.isVisible() else None)
+
     def modeChanged(self, idx: int) -> None:
+        if self.viewDirty:
+            self.syncView()
+
         self.window.objects["edit_mode"] = idx
 
         TabEdit.init(self.window, ignore=[TAB_EDIT], reverse=True)
@@ -537,11 +712,20 @@ class TabEdit(QWidget):
 
         self.selectTabs()
 
-        self.refresh()
+        if self.answer is None or self.selected is None:
+            return
+
+        self.dirtyShifts = set(range(self.shiftsCount))
+
+        self.fillTables()
+        self.fillPool()
 
     def tabsCurrentChanged(self, idx: int) -> None:
         if self.mode == 1:
             self.window.objects["edit_shift_selected"] = idx
+
+            if self.answer is not None and self.selected is not None and idx in self.dirtyShifts:
+                self.fillTables()
 
         self.clearSelection()
 
@@ -563,7 +747,7 @@ class TabEdit(QWidget):
 
         self.log(f"{text}")
 
-        TabEdit.init(self.window, ignore=[TAB_VIEW], reverse=True)
+        self.scheduleViewSync()
 
     def deleteCells(self, cells: list) -> None:
         if not cells:
@@ -592,6 +776,27 @@ class TabEdit(QWidget):
 
     def deletePushButtonClicked(self) -> None:
         self.deleteCells(self.selectedCells())
+
+    def openMenu(self, day: int, lesson: int) -> None:
+        menu = QMenu(self)
+        menu.setAttribute(Qt.WA_DeleteOnClose)
+        menu.setFont(FONT)
+
+        self.addMenu(day, lesson, menu)
+
+        menu.exec_(QCursor.pos())
+
+    def cellLeftClicked(self, day: int, lesson: int) -> None:
+        self.openMenu(day, lesson)
+
+    def cellRightClicked(self, day: int, lesson: int) -> None:
+        cells = self.selectedCells()
+
+        if len(cells) > 1 and (day, lesson) in cells:
+            self.deleteCells(cells)
+
+        else:
+            self.deleteCells([(day, lesson)])
 
     def addLessonTo(self, cls: str, day: int, lesson: int, subject: str) -> None:
         if self.shifts.get(cls, 0) != self.currentShift():
@@ -630,7 +835,7 @@ class TabEdit(QWidget):
                     available.append((f"{subject} - {cls} - {left}", cls, subject))
 
         if not available:
-            action = QAction(translate("menu.main.tab.edit.pool_empty"), self)
+            action = QAction(translate("menu.main.tab.edit.pool_empty"), menu)
             action.setEnabled(False)
 
             menu.addAction(action)
@@ -638,8 +843,8 @@ class TabEdit(QWidget):
             return
 
         for text, cls, subject in available:
-            action = QAction(text, self)
-            action.triggered.connect(lambda _, c=cls, s=subject: self.addLessonTo(c, day, lesson, s))
+            action = QAction(text, menu)
+            action.triggered.connect(lambda _, c=cls, s=subject: QTimer.singleShot(0, lambda: self.addLessonTo(c, day, lesson, s)))
 
             menu.addAction(action)
 
@@ -651,12 +856,7 @@ class TabEdit(QWidget):
 
             return
 
-        menu = QMenu(self)
-        menu.setFont(FONT)
-
-        self.addMenu(cells[0][0], cells[0][1], menu)
-
-        menu.exec_(QCursor.pos())
+        self.openMenu(cells[0][0], cells[0][1])
 
     def poolListItemDoubleClicked(self, item) -> None:
         cells = self.selectedCells()
