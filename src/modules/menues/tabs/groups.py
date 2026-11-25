@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QComboBox, QPushButton, QInputDialog, QMenu, QMessageBox
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor
+from PySide6.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QComboBox, QPushButton, QInputDialog, QMenu, QMessageBox
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 
 from src.variables import *
 

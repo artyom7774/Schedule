@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QScrollArea, QMenu, QAction, QVBoxLayout, QTabWidget, QWidget, QComboBox, QListWidget, QTableWidget, QPushButton, QHeaderView, QTableWidgetItem
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QColor
+from PySide6.QtWidgets import QScrollArea, QMenu, QVBoxLayout, QTabWidget, QWidget, QComboBox, QListWidget, QTableWidget, QPushButton, QHeaderView, QTableWidgetItem
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QColor, QAction
 
 from src.modules.widgets import ButtonGridWidget, NoWhellComboBox
 

@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QSlider, QWidget, QTableWidget, QHeaderView, QLabel, QLineEdit, QTableWidgetItem, QAbstractItemView
-from PyQt5.QtCore import Qt
+from PySide6.QtWidgets import QSlider, QWidget, QTableWidget, QHeaderView, QLabel, QLineEdit, QTableWidgetItem, QAbstractItemView
+from PySide6.QtCore import Qt
 
 from src.variables import *
 

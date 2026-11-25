@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QPushButton
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtGui import QIcon
+from PySide6.QtWidgets import QMainWindow, QApplication, QMessageBox, QPushButton
+from PySide6.QtCore import Signal, Qt
+from PySide6.QtGui import QIcon, QGuiApplication
 
 from src.modules import menues
 
@@ -27,23 +27,17 @@ except AttributeError:
 class Window(QMainWindow):
     versionWasChecked = False
 
-    signal = pyqtSignal(str, str)
+    signal = Signal(str, str)
 
     def __init__(self, app) -> None:
         super().__init__()
 
-        try:
-            ctypes.windll.shcore.SetProcessDpiAwareness(True)
-
-        except AttributeError:
-            pass
-
         qdarktheme.setup_theme(theme=THEME, additional_qss=open(f"src/files/styles/{THEME}.qss", "r", encoding="utf-8").read())
 
         try:
-            app.setStyle("Fusion")
+            QApplication.setStyle("WindowsVista")
 
-        except BaseException:
+        except Exception:
             pass
 
         self.setWindowTitle("СуперЗавуч")
@@ -66,7 +60,7 @@ class Window(QMainWindow):
 
         self.resize(800, 450)
 
-        desktop = QApplication.desktop()
+        desktop = QGuiApplication.primaryScreen().availableGeometry()
         self.move((desktop.width() - self.geometry().width()) // 2, (desktop.height() - self.geometry().height()) // 2)
 
         self.show()
@@ -125,7 +119,7 @@ class Window(QMainWindow):
 
         okButton = msg.addButton(QMessageBox.Ok)
 
-        msg.exec_()
+        msg.exec()
 
     def showMaximized(self) -> None:
         super().showMaximized()
@@ -157,6 +151,8 @@ class Window(QMainWindow):
 
 
 def run():
+    QGuiApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.Round)
+
     app = QApplication(sys.argv)
 
     window = Window(app)

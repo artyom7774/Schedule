@@ -135,9 +135,9 @@ def check_qt():
     ok = True
 
     try:
-        from PyQt5.QtCore import QCoreApplication
-        from PyQt5.QtGui import QIcon, QImageReader
-        from PyQt5.QtWidgets import QApplication
+        from PySide6.QtCore import QCoreApplication
+        from PySide6.QtGui import QIcon, QImageReader
+        from PySide6.QtWidgets import QApplication
 
     except Exception as e:
         error(f"Qt import failed: {e!r}")

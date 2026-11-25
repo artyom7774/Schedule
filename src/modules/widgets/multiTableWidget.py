@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLineEdit, QHeaderView
-from PyQt5.QtCore import Qt
+from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QLineEdit, QHeaderView
+from PySide6.QtCore import Qt
 
 
 class MultiTableWidget(QTableWidget):

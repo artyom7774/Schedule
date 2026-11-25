@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem, QAbstractItemView
-from PyQt5.QtGui import QColor
-from PyQt5.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QTableWidgetItem, QAbstractItemView, QAbstractItemView
+from PySide6.QtGui import QColor
+from PySide6.QtCore import Qt
 
 from src.modules.widgets import MultiTableWidget
 
@@ -27,7 +27,7 @@ class TabSubjects(QWidget):
         self.subjectsTable.setHeaderLabelsWithTooltip([element[0] for element in self.window.settings["subjects"]])
         self.subjectsTable.show()
 
-        self.subjectsTable.setEditTriggers(self.subjectsTable.NoEditTriggers)
+        self.subjectsTable.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
         self.subjectsTable.blockSignals(True)
 

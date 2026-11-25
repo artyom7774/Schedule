@@ -1,4 +1,4 @@
-from PyQt5.QtGui import QFont
+from PySide6.QtGui import QFont
 
 from src.modules.translate import translate, language as setLanguage, LANGUAGE, BUNDLES
 
@@ -13,7 +13,7 @@ NAME = "Schedule Maker 1"
 CLASSES_ALPHABET = "-АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ"
 
 SIZE = {}
-PLUS = 64 + 8 - 1
+PLUS = 0
 
 TAB_SETTINGS   = 0
 TAB_CLASSES    = 1

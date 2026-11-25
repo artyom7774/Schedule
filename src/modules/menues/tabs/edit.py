@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QComboBox, QListWidget, QListWidgetItem, QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QLabel, QTextEdit, QMenu, QAction, QMessageBox, QAbstractItemView
-from PyQt5.QtCore import Qt, pyqtSignal, QTimer
-from PyQt5.QtGui import QColor, QCursor, QBrush, QTextCursor
+from PySide6.QtWidgets import QWidget, QComboBox, QListWidget, QListWidgetItem, QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QLabel, QTextEdit, QMenu, QMessageBox, QAbstractItemView
+from PySide6.QtCore import Qt, Signal, QTimer
+from PySide6.QtGui import QColor, QCursor, QBrush, QTextCursor, QAction
 
 from src.modules.functions import editor
 
@@ -15,8 +15,8 @@ HISTORY = 100
 
 
 class EditTable(QTableWidget):
-    leftClicked = pyqtSignal(int, int)
-    rightClicked = pyqtSignal(int, int)
+    leftClicked = Signal(int, int)
+    rightClicked = Signal(int, int)
 
     def __init__(self, rows: int, columns: int, parent=None):
         super().__init__(rows, columns, parent)

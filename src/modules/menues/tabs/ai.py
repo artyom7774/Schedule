@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QFileDialog, QWidget, QPushButton, QLineEdit
-from PyQt5.QtCore import QObject, QThread, pyqtSignal
+from PySide6.QtWidgets import QFileDialog, QWidget, QPushButton, QLineEdit
+from PySide6.QtCore import QObject, QThread, Signal
 
 from src.modules.widgets import ChatAITextEdit
 from src.modules.assistant import sendChatRequestWithFiles, decoder as decodeAIMessage
@@ -13,8 +13,8 @@ import os
 
 
 class AIWorker(QObject):
-    finished = pyqtSignal(str, str)
-    error = pyqtSignal(str)
+    finished = Signal(str, str)
+    error = Signal(str)
 
     def __init__(self, prompt, paths):
         super().__init__()

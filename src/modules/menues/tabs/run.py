@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QTextEdit, QWidget, QPushButton, QLabel, QLineEdit, QScrollArea, QVBoxLayout, QGridLayout, QStyle, QStyleOptionButton, QStylePainter
+from PySide6.QtWidgets import QTextEdit, QWidget, QPushButton, QLabel, QLineEdit, QScrollArea, QVBoxLayout, QGridLayout, QStyle, QStyleOptionButton, QStylePainter
 
-from PyQt5.QtCore import QProcess, QTimer, Qt
-from PyQt5.QtGui import QTextCursor
+from PySide6.QtCore import QProcess, QTimer, Qt
+from PySide6.QtGui import QTextCursor
 
 from src.modules.widgets import NoFocusPushButton
 

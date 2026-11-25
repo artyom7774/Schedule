@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QComboBox
-from PyQt5.QtCore import Qt
+from PySide6.QtWidgets import QComboBox
+from PySide6.QtCore import Qt
 
 
 class NoWhellComboBox(QComboBox):

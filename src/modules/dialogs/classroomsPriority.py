@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QLabel, QPushButton, QDialog, QLineEdit, QListWidget, QListWidgetItem, QMenu, QAction
-from PyQt5.QtCore import Qt
+from PySide6.QtWidgets import QLabel, QPushButton, QDialog, QLineEdit, QListWidget, QListWidgetItem, QMenu
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QAction
 
 from src.variables import *
 

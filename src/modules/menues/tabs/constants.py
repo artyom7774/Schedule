@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QListWidget, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QLabel, QMenu, QAction, QAbstractItemView
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QCursor
+from PySide6.QtWidgets import QWidget, QListWidget, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QLabel, QMenu, QAbstractItemView
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QCursor, QAction
 
 from src.variables import *
 

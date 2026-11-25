@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog, QTableWidget, QLabel, QLineEdit, QMessageBox
+from PySide6.QtWidgets import QWidget, QPushButton, QFileDialog, QTableWidget, QLabel, QLineEdit, QMessageBox
 
 from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.utils import get_column_letter as letter

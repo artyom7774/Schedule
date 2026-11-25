@@ -1,3 +1,11 @@
+QComboBox {
+    min-height: 26px;
+}
+
+QTabBar::tab {
+    font-size: 10pt;
+}
+
 QPushButton {
     color: white;
 }

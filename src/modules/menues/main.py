@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QTabWidget, QWidget, QPushButton
+from PySide6.QtWidgets import QTabWidget, QWidget, QPushButton
 
 from src.modules.menues.tabs import *
 from src.variables import *
@@ -266,7 +266,7 @@ def resize(window) -> None:
     if tab and isinstance(tab, TabAI):
         try:
             tab.chatTextEdit.setGeometry(0, 0, x(100), y(100) - 60)
-            tab.messageLineEdit.setGeometry(x(0), y(100) - 60 + 1, x(80), 28)
+            tab.messageLineEdit.setGeometry(x(0) + 1, y(100) - 60 + 1, x(80) - 1, 28 - 2)
             tab.sendPushButton.setGeometry(x(80) + 2, y(100) - 60 + 1, x(20) - 2, 28)
             tab.loadPushButton.setGeometry(x(0) + 1, y(100) - 30 + 1, x(80) - 1, 28)
             tab.removePushButton.setGeometry(x(80) + 2, y(100) - 30 + 1, x(20) - 2, 28)
@@ -303,7 +303,7 @@ def resize(window) -> None:
         try:
             tab.modeComboBox.setGeometry(1, 1, x(20) - 2, 30 - 4)
             tab.info.setGeometry(x(20) + 1, 0, x(80) - 1, y(100))
-            tab.items.setGeometry(0, 30 - 2 + 2 * (os.name != "nt"), x(20), y(100) - 30 + 2 - 2 * (os.name != "nt"))
+            tab.items.setGeometry(0, 30 - 2 + 2, x(20), y(100) - 30)
             tab.tabs.setGeometry(x(20) + 1, 0, x(80) - 1, y(100) - 1)
 
         except AttributeError:
@@ -315,7 +315,7 @@ def resize(window) -> None:
         try:
             tab.modeComboBox.setGeometry(1, 1, x(20) - 2, 30 - 4)
             tab.info.setGeometry(x(20) + 1, 0, x(80) - 1, y(100))
-            tab.items.setGeometry(0, 30 - 2 + 2 * (os.name != "nt"), x(20), y(100) - 30 + 2 - 2 * (os.name != "nt"))
+            tab.items.setGeometry(0, 30, x(20), y(100) - 30)
             tab.tabs.setGeometry(x(20) + 1, 0, x(55) - 1, y(100) - 30)
 
             rightHeight = y(100) - 30

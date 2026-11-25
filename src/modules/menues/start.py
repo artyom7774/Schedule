@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QLabel, QToolButton, QFrame, QPushButton
-from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtCore import Qt, QSize, QTimer
+from PySide6.QtWidgets import QLabel, QToolButton, QFrame, QPushButton
+from PySide6.QtGui import QIcon, QColor
+from PySide6.QtCore import Qt, QSize, QTimer
 
 from src.modules.functions.tree import createProject, openProject
 from src.modules import dialogs, widgets

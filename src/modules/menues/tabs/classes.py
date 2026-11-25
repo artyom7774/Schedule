@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QColor
+from PySide6.QtWidgets import QWidget
+from PySide6.QtGui import QColor
 
 from src.modules.widgets import MultiTableWidget
 

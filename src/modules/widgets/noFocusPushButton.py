@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QPushButton, QStyleOptionButton, QStylePainter, QStyle
+from PySide6.QtWidgets import QPushButton, QStyleOptionButton, QStylePainter, QStyle
 
-from PyQt5.QtCore import QProcess, QTimer, Qt
-from PyQt5.QtGui import QTextCursor
+from PySide6.QtCore import QProcess, QTimer, Qt
+from PySide6.QtGui import QTextCursor
 
 
 class NoFocusPushButton(QPushButton):

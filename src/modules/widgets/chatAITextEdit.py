@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QTextEdit
-from PyQt5.QtGui import QTextCursor, QTextBlockFormat
+from PySide6.QtWidgets import QTextEdit
+from PySide6.QtGui import QTextCursor, QTextBlockFormat
 
 from src.variables import *
 

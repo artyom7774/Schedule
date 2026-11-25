@@ -1,13 +1,13 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QScrollArea, QVBoxLayout, QSizePolicy
-from PyQt5.QtGui import QFontMetrics
-from PyQt5.QtCore import pyqtSignal, QEvent, Qt
+from PySide6.QtWidgets import QWidget, QGridLayout, QPushButton, QScrollArea, QVBoxLayout, QSizePolicy
+from PySide6.QtGui import QFontMetrics
+from PySide6.QtCore import Signal, QEvent, Qt
 
 from src.variables import *
 
 
 class ButtonGridWidget(QWidget):
-    buttonClicked = pyqtSignal(str)
-    buttonClickedIndex = pyqtSignal(int)
+    buttonClicked = Signal(str)
+    buttonClickedIndex = Signal(int)
 
     def __init__(self, labels=None, min_cols=1, padding=(16, 10), parent=None, onClick=None, on_click_with_index=False):
         super().__init__(parent)
