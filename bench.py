@@ -625,6 +625,8 @@ def main():
     parser.add_argument("--iter-fractions", dest="iterFractions", type=float, nargs="+", default=[0.1, 0.25, 0.5, 1.0], help="fractions of --iterations for the iters experiment")
     parser.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) // 2), help="parallel runs (timings in the iterations plot are then approximate)")
     parser.add_argument("--langs", nargs="+", default=LANGS, choices=LANGS, help="languages of the generated PNGs (ru, en, by)")
+    parser.add_argument("--shard", help="run only a part of the runs, format i/N (1-based); plots are skipped")
+    parser.add_argument("--tag", help="override cache tag (so different machines share the same cache keys)")
     parser.add_argument("--out", default="bench")
     parser.add_argument("--force", action="store_true", help="ignore the cache")
     parser.add_argument("--show", action="store_true", help="show matplotlib windows")
@@ -655,7 +657,7 @@ def main():
 
     exps.add("baseline")
 
-    tag = makeTag(inp, weights, solver)
+    tag = args.tag or makeTag(inp, weights, solver)
     seeds = list(range(1, args.seeds + 1))
 
     plan = {"baseline": makeCfgs(seeds, args.iterations, args.kempe, args.tEnd, tag, args.printEvery)}
@@ -671,6 +673,11 @@ def main():
             plan[f"{iters / 1e6:g}M iterations"] = makeCfgs(seeds, iters, args.kempe, args.tEnd, tag, args.printEvery)
 
     unique = {cfg.key: cfg for cfgs in plan.values() for cfg in cfgs}
+
+    if args.shard:
+        index, count = map(int, args.shard.split("/"))
+        ordered = sorted(unique.values(), key=lambda cfg: (-cfg.iters, cfg.kempe, cfg.seed))
+        unique = {cfg.key: cfg for i, cfg in enumerate(ordered) if i % count == index - 1}
 
     print(f"solver : {solver}\ninput  : {inp}\nunique runs: {len(unique)}, workers: {args.workers}, t_end: {args.tEnd:.4g}\n")
 
@@ -701,6 +708,11 @@ def main():
             executor.shutdown(wait=False, cancel_futures=True)
 
             sys.exit(f"\nRun failed: {error}")
+
+    if args.shard:
+        print(f"\nShard {args.shard} done, plots are built in the merge job.")
+
+        return
 
     groups = {label: [results[cfg.key] for cfg in cfgs] for label, cfgs in plan.items()}
 

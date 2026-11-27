@@ -11,10 +11,6 @@ on:
         description: "Experiments (baseline kempe iters all)"
         default: "all"
 
-      workers:
-        description: "Parallel runs"
-        default: "4"
-
       iterations:
         description: "Iterations in the baseline run"
         default: "100000000"
@@ -29,19 +25,22 @@ permissions:
 env:
   PYTHONUTF8: "1"
   PYTHONIOENCODING: "utf-8"
-  QT_QPA_PLATFORM: offscreen
+  SHARDS: "16"
+  BENCH_TAG: "r${{ github.run_id }}"
+  BENCH_INPUT: ${{ inputs.input }}
+  BENCH_EXP: ${{ inputs.exp }}
+  BENCH_ITERATIONS: ${{ inputs.iterations }}
+  BENCH_PRINT: ${{ inputs.print_every }}
 
 defaults:
   run:
     shell: pwsh
 
 jobs:
-  bench-windows:
-    name: Bench Windows
+  build-solver:
+    name: Build
 
     runs-on: windows-latest
-
-    timeout-minutes: 360
 
     steps:
       - name: Checkout
@@ -59,7 +58,6 @@ jobs:
 
           & "python\python.exe" -m pip install --upgrade pip
           & "python\python.exe" -m pip install -r requirements.txt --no-warn-script-location
-          & "python\python.exe" -m pip install matplotlib numpy --no-warn-script-location
 
       - name: Build solver
         run: |
@@ -69,20 +67,110 @@ jobs:
             throw "src\modules\solve.exe not found after build!"
           }
 
-      - name: Run bench
-        env:
-          BENCH_INPUT: ${{ inputs.input }}
-          BENCH_EXP: ${{ inputs.exp }}
-          BENCH_WORKERS: ${{ inputs.workers }}
-          BENCH_ITERATIONS: ${{ inputs.iterations }}
-          BENCH_PRINT: ${{ inputs.print_every }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: solver-windows
+          path: src/modules/solve.exe
+
+  bench:
+    name: Bench ${{ matrix.shard }}
+
+    needs: build-solver
+    runs-on: windows-latest
+
+    timeout-minutes: 360
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install requirements
+        run: python -m pip install matplotlib numpy
+
+      - name: Download solver
+        uses: actions/download-artifact@v7
+        with:
+          name: solver-windows
+          path: src/modules
+
+      - name: Run
         run: |
-          & "python\python.exe" bench.py `
+          $exp = $env:BENCH_EXP -split " "
+
+          python bench.py `
             --input $env:BENCH_INPUT `
-            --exp $env:BENCH_EXP.Split(" ") `
-            --workers $env:BENCH_WORKERS `
+            --exp $exp `
+            --workers 1 `
             --iterations $env:BENCH_ITERATIONS `
-            --print-every $env:BENCH_PRINT
+            --print-every $env:BENCH_PRINT `
+            --tag $env:BENCH_TAG `
+            --shard "${{ matrix.shard }}/$env:SHARDS"
+
+          if ($LASTEXITCODE) { throw "Bench failed (code $LASTEXITCODE)" }
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: bench-shard-${{ matrix.shard }}
+          path: bench/logs
+          if-no-files-found: warn
+
+  merge:
+    name: Merge
+
+    needs: bench
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install requirements
+        run: python -m pip install matplotlib numpy
+
+      - name: Download solver
+        uses: actions/download-artifact@v7
+        with:
+          name: solver-windows
+          path: src/modules
+
+      - name: Download shards
+        uses: actions/download-artifact@v7
+        with:
+          pattern: bench-shard-*
+          path: bench/logs
+          merge-multiple: true
+
+      - name: Build plots
+        run: |
+          $exp = $env:BENCH_EXP -split " "
+
+          python bench.py `
+            --input $env:BENCH_INPUT `
+            --exp $exp `
+            --workers 1 `
+            --iterations $env:BENCH_ITERATIONS `
+            --print-every $env:BENCH_PRINT `
+            --tag $env:BENCH_TAG
 
           if ($LASTEXITCODE) { throw "Bench failed (code $LASTEXITCODE)" }
 
