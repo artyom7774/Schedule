@@ -46,4 +46,9 @@
 - около 10 запросов на 1 вопрос
 6. (4, 5) использовать LLM для сравнения
 
+- сделать что бы в меню обработки была поддержка кабинетов если они включены
+
 - fixed bug with set number of shifts in settings menu
+- update AI responce
+- update edit menu
+

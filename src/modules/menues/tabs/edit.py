@@ -317,17 +317,17 @@ class TabEdit(QWidget):
     def relevant(self, problem: tuple) -> bool:
         return problem[0] not in ("unavailable", "busy") or problem[1] == self.selected
 
-    @staticmethod
-    def statsText(windows: int, conflicts: int) -> str:
-        return f"{translate('menu.main.tab.edit.windows')}: {windows}  /  {translate('menu.main.tab.edit.conflicts')}: {conflicts}"
+    def statsText(self, windows: int, conflicts: int, teacher: str = None) -> str:
+        if not teacher:
+            return f"{translate('menu.main.tab.edit.windows')}: {windows}  /  {translate('menu.main.tab.edit.conflicts')}: {conflicts}"
 
-    def calculateWindows(self) -> int:
-        settings = self.window.settings
+        return f"{translate('menu.main.tab.edit.windows')}: {self.calculateWindow(teacher)} ({windows})  /  {translate('menu.main.tab.edit.conflicts')}: {conflicts}"
 
+    def calculateWindow(self, teacher) -> int:
         days = self.days
         lessons = self.lessons
         shiftsCount = self.shiftsCount
-        step = lessons - settings.get("shift_crossing", 0)
+        step = lessons - self.window.settings.get("shift_crossing", 0)
 
         busy = {}
 
@@ -347,47 +347,51 @@ class TabEdit(QWidget):
                     pos = offset + lesson
 
                     for _, teachers, _ in editor.entries(dayData[lesson]):
-                        for teacher in teachers:
-                            busy.setdefault(teacher, {}).setdefault(day, set()).add(pos)
+                        for var in teachers:
+                            busy.setdefault(var, {}).setdefault(day, set()).add(pos)
+
+        teachersSettings = self.window.settings.get("teachers", {})
+
+        teacherBusy = busy.get(teacher, {})
+        reserve = teachersSettings.get(teacher, {}).get("reserve", [])
+
+        reserveByDay = {}
+
+        for shift in range(min(shiftsCount, len(reserve))):
+            offset = shift * step
+
+            for item in reserve[shift]:
+                if isinstance(item, (list, tuple)) and len(item) == 2:
+                    day, lesson = item
+
+                    if 0 <= day < days and 0 <= lesson < lessons:
+                        reserveByDay.setdefault(day, set()).add(offset + lesson)
 
         total = 0
 
-        teachersSettings = settings.get("teachers", {})
+        for day in range(days):
+            if teacherBusy.get(day) and reserveByDay.get(day):
+                elements = teacherBusy.get(day) | reserveByDay.get(day)
+
+            elif teacherBusy.get(day):
+                elements = teacherBusy.get(day)
+
+            elif reserveByDay.get(day):
+                elements = reserveByDay.get(day)
+
+            else:
+                continue
+
+            if len(elements) >= 2:
+                total += (max(elements) - min(elements) + 1) - len(elements)
+
+        return total
+
+    def calculateWindows(self) -> int:
+        total = 0
 
         for teacher in self.teachers:
-            teacherBusy = busy.get(teacher, {})
-            reserve = teachersSettings.get(teacher, {}).get("reserve", [])
-
-            reserveByDay = {}
-
-            for shift in range(min(shiftsCount, len(reserve))):
-                offset = shift * step
-
-                for item in reserve[shift]:
-                    if isinstance(item, (list, tuple)) and len(item) == 2:
-                        day, lesson = item
-
-                        if 0 <= day < days and 0 <= lesson < lessons:
-                            reserveByDay.setdefault(day, set()).add(offset + lesson)
-
-            for day in range(days):
-                b = teacherBusy.get(day)
-                r = reserveByDay.get(day)
-
-                if b and r:
-                    elements = b | r
-
-                elif b:
-                    elements = b
-
-                elif r:
-                    elements = r
-
-                else:
-                    continue
-
-                if len(elements) >= 2:
-                    total += (max(elements) - min(elements) + 1) - len(elements)
+            total += self.calculateWindow(teacher)
 
         return total
 
@@ -403,7 +407,9 @@ class TabEdit(QWidget):
 
         conflictsCount = sum(len(items) for items in self.conflicts.values())
 
-        self.statsLabel.setText(self.statsText(windows, conflictsCount))
+        teacher = self.items.currentItem().text() if self.items.currentItem().text() in self.teachers else None
+
+        self.statsLabel.setText(self.statsText(windows, conflictsCount, teacher))
 
         summary = {}
 
@@ -692,6 +698,8 @@ class TabEdit(QWidget):
         self.fillTables()
         self.fillPool()
 
+        self.calculate()
+
     def tabsCurrentChanged(self, idx: int) -> None:
         if self.mode == 1:
             self.window.objects["edit_shift_selected"] = idx
@@ -748,6 +756,9 @@ class TabEdit(QWidget):
         self.deleteCells(self.selectedCells())
 
     def openMenu(self, day: int, lesson: int) -> None:
+        if not self.addMenu(day, lesson):
+            return
+
         menu = QMenu(self)
         menu.setAttribute(Qt.WA_DeleteOnClose)
         menu.setFont(FONT)
@@ -792,7 +803,7 @@ class TabEdit(QWidget):
 
         self.commit(text)
 
-    def addMenu(self, day: int, lesson: int, menu: QMenu) -> None:
+    def addMenu(self, day: int, lesson: int, menu: QMenu = None) -> list:
         available = []
 
         if self.mode == 0:
@@ -804,19 +815,22 @@ class TabEdit(QWidget):
                 if self.shifts.get(cls, 0) == self.currentShift():
                     available.append((f"{subject} - {cls} - {left}", cls, subject))
 
-        if not available:
-            action = QAction(translate("menu.main.tab.edit.pool_empty"), menu)
-            action.setEnabled(False)
+        if menu:
+            if not available:
+                action = QAction(translate("menu.main.tab.edit.pool_empty"), menu)
+                action.setEnabled(False)
 
-            menu.addAction(action)
+                menu.addAction(action)
 
-            return
+                return []
 
-        for text, cls, subject in available:
-            action = QAction(text, menu)
-            action.triggered.connect(lambda *_, c=cls, s=subject: QTimer.singleShot(0, lambda: self.addLessonTo(c, day, lesson, s)))
+            for text, cls, subject in available:
+                action = QAction(text, menu)
+                action.triggered.connect(lambda *_, c=cls, s=subject: QTimer.singleShot(0, lambda: self.addLessonTo(c, day, lesson, s)))
 
-            menu.addAction(action)
+                menu.addAction(action)
+
+        return available
 
     def addPushButtonClicked(self) -> None:
         cells = self.selectedCells()
