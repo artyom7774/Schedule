@@ -1,0 +1,105 @@
+name: Bench
+
+on:
+  workflow_dispatch:
+    inputs:
+      input:
+        description: "settings.json"
+        default: "src/files/test/test.json"
+
+      exp:
+        description: "Experiments (baseline kempe iters all)"
+        default: "all"
+
+      workers:
+        description: "Parallel runs"
+        default: "4"
+
+      iterations:
+        description: "Iterations in the baseline run"
+        default: "100000000"
+
+      print_every:
+        description: "How often the solver prints a [PRINT] line"
+        default: "1000000"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUTF8: "1"
+  PYTHONIOENCODING: "utf-8"
+  QT_QPA_PLATFORM: offscreen
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  bench-windows:
+    name: Bench Windows
+
+    runs-on: windows-latest
+
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install requirements
+        run: |
+          New-Item -ItemType Directory -Path "python" -Force | Out-Null
+          Copy-Item -Path "$env:pythonLocation\*" -Destination "python" -Recurse -Force
+
+          & "python\python.exe" -m pip install --upgrade pip
+          & "python\python.exe" -m pip install -r requirements.txt --no-warn-script-location
+          & "python\python.exe" -m pip install matplotlib numpy --no-warn-script-location
+
+      - name: Build solver
+        run: |
+          ./compile.bat
+
+          if (-not (Test-Path "src\modules\solve.exe")) {
+            throw "src\modules\solve.exe not found after build!"
+          }
+
+      - name: Run bench
+        env:
+          BENCH_INPUT: ${{ inputs.input }}
+          BENCH_EXP: ${{ inputs.exp }}
+          BENCH_WORKERS: ${{ inputs.workers }}
+          BENCH_ITERATIONS: ${{ inputs.iterations }}
+          BENCH_PRINT: ${{ inputs.print_every }}
+        run: |
+          & "python\python.exe" bench.py `
+            --input $env:BENCH_INPUT `
+            --exp $env:BENCH_EXP.Split(" ") `
+            --workers $env:BENCH_WORKERS `
+            --iterations $env:BENCH_ITERATIONS `
+            --print-every $env:BENCH_PRINT
+
+          if ($LASTEXITCODE) { throw "Bench failed (code $LASTEXITCODE)" }
+
+      - name: Summary
+        if: always()
+        run: |
+          if (Test-Path "bench\summary.csv") {
+            "### Bench summary" | Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+            '```' | Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+            Get-Content "bench\summary.csv" | Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+            '```' | Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          }
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: bench-results
+          path: bench
+          if-no-files-found: warn

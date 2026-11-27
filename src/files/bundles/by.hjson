@@ -188,3 +188,61 @@
 "abbreviate.day.6": "Нд"
 
 "abbreviate.room": "каб."
+
+"bench.describe": "{runs} запускаў, {iters} млн ітэрацый, kempe={kempe}%"
+"bench.iterations_m": "Ітэрацыі, млн"
+"bench.final_total": "выніковы total"
+
+"bench.comp.equalLessons": "Паўторы прадмета ў дзень"
+"bench.comp.notEqualsLessonsCountOnDay": "Нераўнамернасць даўжыні дня"
+"bench.comp.lessonsEmptySlots": "Вокны ў класаў"
+"bench.comp.daysByHard": "Размеркаванне складанасці"
+"bench.comp.teacherFreeTime": "Вокны ў настаўнікаў"
+"bench.comp.teacherSmallDay": "Кароткія дні настаўнікаў"
+"bench.comp.groupBonus": "Бонус груп (адымаецца)"
+"bench.comp.lessonShiftCrossing": "Стыкі змен"
+"bench.comp.profileGaps": "Вокны ў групах"
+"bench.comp.classroomPriority": "Прыярытэт кабінетаў"
+"bench.comp.teacherLessonLimit": "Перавышэнне ліміту ўрокаў"
+
+"bench.spec.class_gaps": "Вокны ў класаў\n(акон на клас)"
+"bench.spec.class_repeats": "Паўторы прадмета ў дзень\n(на клас)"
+"bench.spec.class_variance": "Нераўнамернасць даўжыні дня\n(дысперсія, на клас)"
+"bench.spec.teacher_gaps": "Вокны ў настаўнікаў\n(акон на тыдзень на настаўніка)"
+"bench.spec.teacher_small_day": "Кароткія дні настаўнікаў\n(на настаўніка)"
+"bench.spec.teacher_limit": "Перавышэнне дзённага ліміту\n(урокаў на настаўніка)"
+
+"bench.conv.median_band": "медыяна (паласа = min..max)"
+"bench.conv.objective": "Мэтавая функцыя (total), менш = лепш"
+"bench.conv.title": "Збежнасць"
+"bench.conv.temperature_legend": "тэмпература"
+"bench.conv.temperature_log": "Тэмпература (лог.)"
+"bench.conv.suptitle": "Збежнасць імітацыі адпалу: {desc}"
+
+"bench.comp.info": "{desc}\n\nвыніковы total:\n  медыяна  {med}\n  min..max {low} .. {high}\n\nЗначэнні ўжо памножаны на вагі\nз Weights (як у [PRINT]).\nПаласа = min..max па seed."
+"bench.comp.suptitle": "З чаго складаецца штраф і як кожны кампанент змяншаецца"
+
+"bench.temp.xlabel": "Тэмпература (лог., астуджэнне злева направа)"
+"bench.temp.title": "Крывая адпалу: дзе рашэнне «замярзае»"
+"bench.temp.suptitle": "Дынаміка адпалу: {desc}"
+
+"bench.seeds.title": "Разброс па seed\nстд/сярэдняе = {cv}%"
+"bench.seeds.xlabel2": "Укладанне ў выніковы total (сярэдняе ± стд па seed)"
+"bench.seeds.title2": "Структура выніковага штрафу (зялёны = бонус)"
+"bench.seeds.suptitle": "Стабільнасць алгарытму: {desc}"
+
+"bench.kempe.title": "Збежнасць пры розняй долі ходаў Кемпе"
+"bench.kempe.suptitle": "Абляцыя: уклад ланцугоў Кемпе ў якасць раскладу"
+
+"bench.iters.point": "{n} млн"
+"bench.iters.xlabel": "Час аднаго запуску, с (медыяна)"
+"bench.iters.ylabel": "выніковы total (медыяна, паласа = min..max)"
+"bench.iters.title": "Якасць супраць часу"
+"bench.iters.xlabel2": "Колькасць ітэрацый, млн (лог.)"
+"bench.iters.title2": "Якасць супраць колькасці ітэрацый\n(тэмпература фінішу аднолькавая)"
+"bench.iters.suptitle": "Колькі ітэрацый рэальна патрэбна"
+
+"bench.best.no_data": "няма даных"
+"bench.best.stats": "сярэдняе {mean}\nсума {sum}\nнулявых {zeros}%"
+"bench.best.ylabel": "колькасць класаў / настаўнікаў"
+"bench.best.suptitle": "Якасць лепшага раскладу (seed {seed}, total = {total}, не размешчана ўрокаў: {unplaced})"

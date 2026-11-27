@@ -3004,6 +3004,9 @@ int main(int argc, char** argv) {
     app.add_option("--input", input);
     app.add_option("--output", output);
 
+    int print = 1000000;
+    app.add_option("--print", print);
+
     app.add_option("--warnings", warnings);
 
     app.add_option("--fair", TEACHER_FAIR);
@@ -3258,8 +3261,8 @@ int main(int argc, char** argv) {
     }
 
     if (unplaced > 0) {
-        cout << "[HELP] " << unplaced << " lesson(s) could not be placed during initial construction" << "\n";
-        cout << "[HELP] " << "increase the maximum number of lessons per day (and the shift crossing as well) in the settings tab" << "\n";
+        cout << "[HINT] " << unplaced << " lesson(s) could not be placed during initial construction" << "\n";
+        cout << "[HINT] " << "increase the maximum number of lessons per day (and the shift crossing as well) in the settings tab" << "\n";
     }
 
     if (warnings) {
@@ -3277,7 +3280,7 @@ int main(int argc, char** argv) {
     for (int iteration = 0; iteration < iterations; iteration++) {
         temperature *= cooling;
 
-        if ((iteration + 1) % 1000000 == 0) {
+        if ((iteration + 1) % print == 0) {
             ostringstream stream;
 
             stream << "[PRINT]" << " ";

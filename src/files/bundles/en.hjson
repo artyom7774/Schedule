@@ -188,3 +188,61 @@
 "abbreviate.day.6": "Sun"
 
 "abbreviate.room": "room"
+
+"bench.describe": "{runs} runs, {iters}M iterations, kempe={kempe}%"
+"bench.iterations_m": "Iterations, millions"
+"bench.final_total": "final total"
+
+"bench.comp.equalLessons": "Subject repeats per day"
+"bench.comp.notEqualsLessonsCountOnDay": "Uneven day length"
+"bench.comp.lessonsEmptySlots": "Class gaps"
+"bench.comp.daysByHard": "Difficulty distribution"
+"bench.comp.teacherFreeTime": "Teacher gaps"
+"bench.comp.teacherSmallDay": "Short teacher days"
+"bench.comp.groupBonus": "Group bonus (subtracted)"
+"bench.comp.lessonShiftCrossing": "Shift junctions"
+"bench.comp.profileGaps": "Gaps in groups"
+"bench.comp.classroomPriority": "Classroom priority"
+"bench.comp.teacherLessonLimit": "Lesson limit exceeded"
+
+"bench.spec.class_gaps": "Class gaps\n(gaps per class)"
+"bench.spec.class_repeats": "Subject repeats per day\n(per class)"
+"bench.spec.class_variance": "Uneven day length\n(variance, per class)"
+"bench.spec.teacher_gaps": "Teacher gaps\n(gaps per week per teacher)"
+"bench.spec.teacher_small_day": "Short teacher days\n(per teacher)"
+"bench.spec.teacher_limit": "Daily limit exceeded\n(lessons per teacher)"
+
+"bench.conv.median_band": "median (band = min..max)"
+"bench.conv.objective": "Objective function (total), lower = better"
+"bench.conv.title": "Convergence"
+"bench.conv.temperature_legend": "temperature"
+"bench.conv.temperature_log": "Temperature (log)"
+"bench.conv.suptitle": "Simulated annealing convergence: {desc}"
+
+"bench.comp.info": "{desc}\n\nfinal total:\n  median   {med}\n  min..max {low} .. {high}\n\nValues are already multiplied by the\nweights from Weights (as in [PRINT]).\nBand = min..max across seeds."
+"bench.comp.suptitle": "What the penalty consists of and how each component decreases"
+
+"bench.temp.xlabel": "Temperature (log, cooling left to right)"
+"bench.temp.title": "Annealing curve: where the solution \"freezes\""
+"bench.temp.suptitle": "Annealing dynamics: {desc}"
+
+"bench.seeds.title": "Spread across seeds\nstd/mean = {cv}%"
+"bench.seeds.xlabel2": "Contribution to final total (mean ± std across seeds)"
+"bench.seeds.title2": "Final penalty structure (green = bonus)"
+"bench.seeds.suptitle": "Algorithm stability: {desc}"
+
+"bench.kempe.title": "Convergence with different Kempe move shares"
+"bench.kempe.suptitle": "Ablation: contribution of Kempe chains to schedule quality"
+
+"bench.iters.point": "{n}M"
+"bench.iters.xlabel": "Single run time, s (median)"
+"bench.iters.ylabel": "final total (median, band = min..max)"
+"bench.iters.title": "Quality vs time"
+"bench.iters.xlabel2": "Number of iterations, millions (log)"
+"bench.iters.title2": "Quality vs number of iterations\n(final temperature is the same)"
+"bench.iters.suptitle": "How many iterations are really needed"
+
+"bench.best.no_data": "no data"
+"bench.best.stats": "mean {mean}\nsum {sum}\nzeros {zeros}%"
+"bench.best.ylabel": "number of classes / teachers"
+"bench.best.suptitle": "Best schedule quality (seed {seed}, total = {total}, unplaced lessons: {unplaced})"
