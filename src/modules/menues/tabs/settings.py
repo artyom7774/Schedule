@@ -254,7 +254,7 @@ class TabSettings(QWidget):
             window.settings[parameter] = int(text)
 
         if parameter in ("number_of_shifts", ):
-            teachersNormalize(self.window.settings)
+            teachersNormalize(window.settings)
 
         elif parameter in ("subjects", ):
             row, col = another
