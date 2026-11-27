@@ -1072,7 +1072,7 @@ void placeLesson(const Lesson& item, int slot) {
 
 struct Weights {
     inline static float equalLessons = 100;
-    inline static float notEqualsLessonsCountOnDay = 50;
+    inline static float notEqualsLessonsCountOnDay = 100;
     inline static float lessonsEmptySlots = 250;
     inline static float daysByHard = 2;
     inline static float teacherFreeTime = 50;
