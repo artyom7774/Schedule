@@ -26,8 +26,6 @@ DEFAULT_ITERS = 100_000_000
 DEFAULT_T_END = T_START * DEFAULT_COOLING ** DEFAULT_ITERS
 DEFAULT_KEMPE = 20
 LANGS = ["ru", "en", "by"]
-SMOOTH = 20
-BAND = "std"
 
 COMPONENTS = [
     "equalLessons",
@@ -285,38 +283,12 @@ def stack(runs):
     return x, temp, total, comps
 
 
-def smooth(arr, window):
-    if window <= 1 or arr.shape[-1] < window:
-        return arr
+def band(ax, x, arr, label=None, color=None, lw=2.0, alpha=0.18):
+    med = np.nanmedian(arr, axis=0)
+    low = np.nanmin(arr, axis=0)
+    high = np.nanmax(arr, axis=0)
 
-    kernel = np.ones(window) / window
-    pad = window // 2
-    padded = np.pad(arr, ((0, 0), (pad, window - 1 - pad)), mode="edge")
-
-    return np.stack([np.convolve(row, kernel, mode="valid") for row in padded])
-
-
-def band(ax, x, arr, label=None, color=None, lw=2.0, alpha=0.18, mode=None, window=None):
-    mode = mode or BAND
-    arr = smooth(arr, SMOOTH if window is None else window)
-
-    if mode == "minmax":
-        center = np.nanmedian(arr, axis=0)
-        low = np.nanmin(arr, axis=0)
-        high = np.nanmax(arr, axis=0)
-
-    elif mode == "iqr":
-        center = np.nanmedian(arr, axis=0)
-        low = np.nanpercentile(arr, 25, axis=0)
-        high = np.nanpercentile(arr, 75, axis=0)
-
-    else:
-        center = np.nanmean(arr, axis=0)
-        spread = np.nanstd(arr, axis=0)
-        low = center - spread
-        high = center + spread
-
-    line, = ax.plot(x, center, lw=lw, label=label, color=color)
+    line, = ax.plot(x, med, lw=lw, label=label, color=color)
     ax.fill_between(x, low, high, alpha=alpha, color=line.get_color())
 
     return line
@@ -353,7 +325,7 @@ def figConvergence(runs, out, show):
 
     fig, ax1 = plt.subplots(figsize=(9, 5))
 
-    for row in smooth(total, SMOOTH):
+    for row in total:
         ax1.plot(xMil, row, lw=0.8, alpha=0.35, color="tab:blue")
 
     band(ax1, xMil, total, label=t("bench.conv.median_band"), color="tab:blue")
@@ -638,8 +610,6 @@ def summarize(groups, out):
 
 
 def main():
-    global SMOOTH, BAND
-
     parser = argparse.ArgumentParser(description="Convergence plots and benchmarks for solve.exe")
 
     parser.add_argument("--input", help="settings.json (searched automatically if omitted)")
@@ -657,16 +627,11 @@ def main():
     parser.add_argument("--langs", nargs="+", default=LANGS, choices=LANGS, help="languages of the generated PNGs (ru, en, by)")
     parser.add_argument("--shard", help="run only a part of the runs, format i/N (1-based); plots are skipped")
     parser.add_argument("--tag", help="override cache tag (so different machines share the same cache keys)")
-    parser.add_argument("--band", choices=["std", "iqr", "minmax"], default="std", help="spread shown around the center line: mean±std, median+IQR or median+min/max")
-    parser.add_argument("--smooth", type=int, default=SMOOTH, help="moving average window in [PRINT] points, 1 disables smoothing")
     parser.add_argument("--out", default="bench")
     parser.add_argument("--force", action="store_true", help="ignore the cache")
     parser.add_argument("--show", action="store_true", help="show matplotlib windows")
 
     args = parser.parse_args()
-
-    SMOOTH = max(1, args.smooth)
-    BAND = args.band
 
     if not args.show:
         matplotlib.use("Agg")
